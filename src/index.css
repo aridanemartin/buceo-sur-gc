@@ -1,0 +1,79 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-ocean-900: #012a4a;
+  --color-ocean-800: #013a63;
+  --color-ocean-700: #023e8a;
+  --color-ocean-500: #0466c8;
+  --color-ocean-400: #0096c7;
+  --color-ocean-300: #00b4d8;
+  --color-ocean-200: #48cae4;
+  --color-ocean-100: #90e0ef;
+  --color-ocean-50: #caf0f8;
+
+  --color-sand: #fdf8f0;
+  --color-white: #ffffff;
+  --color-dark: #0d1b2a;
+  --color-text: #1b2a3b;
+  --color-text-muted: #5a6a7a;
+
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --container-max: 1160px;
+  --section-py: 96px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+
+  --shadow-sm: 0 2px 8px rgba(2, 62, 138, 0.08);
+  --shadow-md: 0 8px 32px rgba(2, 62, 138, 0.14);
+  --shadow-lg: 0 20px 60px rgba(2, 62, 138, 0.2);
+
+  --transition: 0.25s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-white);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
