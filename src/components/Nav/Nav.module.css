@@ -204,6 +204,9 @@
   .links {
     position: fixed;
     inset: 0;
+    width: 100%;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
     flex-direction: column;
     justify-content: center;
     align-items: center;
