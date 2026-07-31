@@ -1,0 +1,126 @@
+---
+// src/views/BaptismsView.astro
+// Bautizos page — intro prose from baptismsPageContent plus the beginner
+// experiences as cards with their YouTube video, per docs/3. Bautizos.docx.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import CtaBanner from '../components/CtaBanner.astro'
+import styles from '../styles/viewCommon.module.css'
+import { SITE } from '../lib/constants'
+import { ui } from '../i18n/strings'
+import type { Locale } from '../i18n/locales'
+import { t } from '../sanity/localize'
+import { getExperiences } from '../sanity/queries'
+import { baptismsPageContent } from '../content/data/pageContent'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const u = ui[lang]
+
+const experiences = await getExperiences('beginner')
+
+const labels: Record<Locale, { includes: string; supplements: string; conditions: string; depth: string; gridTitle: string }> = {
+  es: { includes: 'Incluye', supplements: 'Suplementos / opciones', conditions: 'Condiciones', depth: 'máx.', gridTitle: 'Nuestros bautizos' },
+  en: { includes: 'Includes', supplements: 'Supplements / options', conditions: 'Conditions', depth: 'max', gridTitle: 'Our discover dives' },
+  fr: { includes: 'Inclut', supplements: 'Suppléments / options', conditions: 'Conditions', depth: 'max', gridTitle: 'Nos baptêmes' },
+  de: { includes: 'Inklusive', supplements: 'Zuschläge / Optionen', conditions: 'Bedingungen', depth: 'max.', gridTitle: 'Unser Schnuppertauchen' },
+}
+const l = labels[lang]
+
+const descriptions: Record<Locale, string> = {
+  es: 'Bautizos de buceo para principiantes sin certificación en Gran Canaria: dos tipos de iniciación con instructor.',
+  en: 'Discover scuba diving for beginners without certification in Gran Canaria: two initiation options with an instructor.',
+  fr: 'Baptêmes de plongée pour débutants sans certification à Grande Canarie : deux types d’initiation avec instructeur.',
+  de: 'Schnuppertauchen für Anfänger ohne Zertifizierung auf Gran Canaria: zwei Einführungsoptionen mit Ausbilder.',
+}
+
+const ctaTitle: Record<Locale, string> = {
+  es: '¿Listo para descubrir el mundo submarino?',
+  en: 'Ready to discover the underwater world?',
+  fr: 'Prêt à découvrir le monde sous-marin ?',
+  de: 'Bereit, die Unterwasserwelt zu entdecken?',
+}
+
+const ctaText: Record<Locale, string> = {
+  es: 'Reserva tu bautizo y vive tu primera inmersión con nosotros.',
+  en: 'Book your discover dive and live your first immersion with us.',
+  fr: 'Réservez votre baptême et vivez votre première plongée avec nous.',
+  de: 'Buche dein Schnuppertauchen und erlebe deinen ersten Tauchgang bei uns.',
+}
+
+// Converts youtu.be / youtube.com watch or embed links into privacy-enhanced
+// youtube-nocookie embeds: https://www.youtube-nocookie.com/embed/VIDEO_ID
+const youtubeEmbedUrl = (url: string | null | undefined): string | null => {
+  if (!url) return null
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([A-Za-z0-9_-]{11})/)
+  return m ? `https://www.youtube-nocookie.com/embed/${m[1]}` : null
+}
+
+const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
+const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price} €` : '')
+---
+
+<BaseLayout lang={lang} path="baptisms" title={`${u.nav.baptisms} — ${SITE.fullName}`} description={descriptions[lang]}>
+  <main>
+    <header class={styles.pageHeader}>
+      <div class={styles.pageHeaderInner}>
+        <p class={styles.pageEyebrow}>{SITE.fullName}</p>
+        <h1 class={styles.pageTitle}>{t(baptismsPageContent.introTitle, lang)}</h1>
+        <p class={styles.pageSubtitle}>{t(baptismsPageContent.intro, lang)}</p>
+      </div>
+    </header>
+
+    <!-- Beginner experiences -->
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <p class={styles.sectionEyebrow}>{u.nav.baptisms}</p>
+        <div class={styles.grid}>
+          {experiences.map((x: any) => (
+            <article class={styles.card}>
+              {youtubeEmbedUrl(x.videoUrl) ? (
+                <div class={styles.videoWrapper}>
+                  <iframe
+                    src={youtubeEmbedUrl(x.videoUrl)!}
+                    title={t(x.title, lang)}
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : null}
+              <h3 class={styles.cardTitle}>{t(x.title, lang)}</h3>
+              <ul class={styles.cardMeta}>
+                {t(x.duration, lang) ? <li>{t(x.duration, lang)}</li> : null}
+                {depthBadge(x.depthLimit) ? <li>{depthBadge(x.depthLimit)}</li> : null}
+              </ul>
+              <p class={styles.cardBody}>{t(x.description, lang)}</p>
+              {t(x.includes, lang) ? (
+                <p class={styles.cardBody}>
+                  <strong>{l.includes}: </strong>
+                  {t(x.includes, lang)}
+                </p>
+              ) : null}
+              {t(x.supplements, lang) ? (
+                <p class={styles.cardBody}>
+                  <strong>{l.supplements}: </strong>
+                  {t(x.supplements, lang)}
+                </p>
+              ) : null}
+              {t(x.groupDiscount, lang) ? (
+                <p class={styles.cardBody}>
+                  <strong>{l.conditions}: </strong>
+                  {t(x.groupDiscount, lang)}
+                </p>
+              ) : null}
+              {priceOf(x) ? <p class={styles.cardPrice}>{priceOf(x)}</p> : null}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner href={SITE.bookingUrl} title={ctaTitle[lang]} text={ctaText[lang]} />
+  </main>
+</BaseLayout>
