@@ -13,10 +13,22 @@ const client = createClient({
 
 const assetsDir = new URL('../assets/', import.meta.url).pathname
 
+// NOTE: `client.assets.upload` fails with "Unprocessable Entity - Invalid image" for this
+// Sanity project, but the raw POST to /assets/images works. Use the raw request instead.
 async function uploadImage(filePath, label) {
   try {
-    const asset = await client.assets.upload('image', filePath, { filename: label })
-    return asset._id
+    const { readFileSync } = await import('node:fs')
+    const data = readFileSync(filePath)
+    const asset = await client.request({
+      uri: `/assets/images/${process.env.SANITY_DATASET ?? 'production'}`,
+      method: 'POST',
+      headers: { 'Content-Type': 'image/jpeg' },
+      body: data,
+    })
+    const id = asset.document?._id ?? asset._id
+    if (!id) throw new Error('upload returned no asset id')
+    // Return a proper Sanity image object so `photo.asset->url` projections resolve.
+    return { _type: 'image', asset: { _ref: id } }
   } catch (err) {
     console.warn(`[skip] image ${label}: ${err.message}`)
     return null
