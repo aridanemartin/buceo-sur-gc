@@ -1,0 +1,275 @@
+---
+// src/views/RatesView.astro
+// Tarifas page — aggregates every price source (courses, experiences, tariff
+// extras) into one consolidated pricing page, per docs/5. Tarifas.docx:
+// "todos los tarifas en la misma página con opciones y suplemento posible".
+import BaseLayout from '../layouts/BaseLayout.astro'
+import CtaBanner from '../components/CtaBanner.astro'
+import styles from '../styles/viewCommon.module.css'
+import { SITE } from '../lib/constants'
+import { ui } from '../i18n/strings'
+import type { Locale } from '../i18n/locales'
+import { t } from '../sanity/localize'
+import { getCourses, getExperiences, getTariffExtras } from '../sanity/queries'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const u = ui[lang]
+
+const [bautizos, inmersiones, cursos, extras] = await Promise.all([
+  getExperiences('beginner'),
+  getExperiences('certified'),
+  getCourses(),
+  getTariffExtras(),
+])
+
+const title = `${u.nav.rates} — ${SITE.fullName}`
+
+const descriptions: Record<Locale, string> = {
+  es: 'Todos los precios de bautizos, cursos, inmersiones y extras en un solo lugar.',
+  en: 'All prices for discover dives, courses, guided dives and extras in one place.',
+  fr: 'Tous les prix des baptêmes, formations, plongées et suppléments au même endroit.',
+  de: 'Alle Preise für Schnuppertauchen, Kurse, Tauchgänge und Extras an einem Ort.',
+}
+
+const subtitles: Record<Locale, string> = {
+  es: 'Consulta la tarifa completa de nuestras actividades: bautizos, inmersiones guiadas, cursos y suplementos.',
+  en: 'Browse the full rate card for our activities: discover dives, guided dives, courses and extras.',
+  fr: 'Consultez l’ensemble de nos tarifs : baptêmes, plongées encadrées, formations et suppléments.',
+  de: 'Alle Tarife im Überblick: Schnuppertauchen, begleitete Tauchgänge, Kurse und Zusatzleistungen.',
+}
+
+// No shared i18n key exists for this section label, so it is kept local to the view.
+const extrasTitle: Record<Locale, string> = {
+  es: 'Extras',
+  en: 'Extras',
+  fr: 'Suppléments',
+  de: 'Extras',
+}
+
+const ctaTitle: Record<Locale, string> = {
+  es: '¿Listo para tu próxima inmersión?',
+  en: 'Ready for your next dive?',
+  fr: 'Prêt pour votre prochaine plongée ?',
+  de: 'Bereit für deinen nächsten Tauchgang?',
+}
+
+const ctaText: Record<Locale, string> = {
+  es: 'Reserva tu bautizo, inmersión o curso directamente con nosotros.',
+  en: 'Book your discover dive, guided dive or course directly with us.',
+  fr: 'Réservez votre baptême, plongée ou formation directement chez nous.',
+  de: 'Buche dein Schnuppertauchen, deinen Tauchgang oder Kurs direkt bei uns.',
+}
+
+const cols: Record<Locale, { product: string; price: string; includes: string; supplements: string; unit: string }> = {
+  es: { product: 'Producto', price: 'Precio', includes: 'Incluye', supplements: 'Suplemento / Opción', unit: 'Unidad' },
+  en: { product: 'Product', price: 'Price', includes: 'Includes', supplements: 'Supplement / Option', unit: 'Unit' },
+  fr: { product: 'Produit', price: 'Prix', includes: 'Inclut', supplements: 'Supplément / Option', unit: 'Unité' },
+  de: { product: 'Produkt', price: 'Preis', includes: 'Inklusive', supplements: 'Zuschlag / Option', unit: 'Einheit' },
+}
+const col = cols[lang]
+
+const emDash = '—'
+
+const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : '')
+---
+
+<BaseLayout lang={lang} path="rates" title={title} description={descriptions[lang]}>
+  <main>
+    <header class={styles.pageHeader}>
+      <div class={styles.pageHeaderInner}>
+        <p class={styles.pageEyebrow}>{SITE.fullName}</p>
+        <h1 class={styles.pageTitle}>{u.nav.rates}</h1>
+        <p class={styles.pageSubtitle}>{subtitles[lang]}</p>
+      </div>
+    </header>
+
+    <!-- Bautizos -->
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{u.nav.baptisms}</h2>
+        <div class={`${styles.card} pricingCard`}>
+          <table class="ratesTable">
+            <thead>
+              <tr>
+                <th scope="col">{col.product}</th>
+                <th scope="col">{col.price}</th>
+                <th scope="col">{col.includes}</th>
+                <th scope="col">{col.supplements}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bautizos.map((x) => (
+                <tr>
+                  <td class={styles.cardTitle}>
+                    {t(x.title, lang)}
+                    {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
+                  </td>
+                  <td class={styles.cardPrice}>{priceOf(x)}</td>
+                  <td class={styles.cardBody}>{t(x.includes, lang) || emDash}</td>
+                  <td class={styles.cardBody}>{t(x.supplements, lang) || emDash}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inmersiones -->
+    <section class={styles.sectionAlt}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{u.nav.dives}</h2>
+        <div class={`${styles.card} pricingCard`}>
+          <table class="ratesTable">
+            <thead>
+              <tr>
+                <th scope="col">{col.product}</th>
+                <th scope="col">{col.price}</th>
+                <th scope="col">{col.includes}</th>
+                <th scope="col">{col.supplements}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {inmersiones.map((x) => (
+                <tr>
+                  <td class={styles.cardTitle}>
+                    {t(x.title, lang)}
+                    {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
+                  </td>
+                  <td class={styles.cardPrice}>{priceOf(x)}</td>
+                  <td class={styles.cardBody}>{t(x.includes, lang) || emDash}</td>
+                  <td class={styles.cardBody}>{t(x.supplements, lang) || emDash}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cursos -->
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{u.nav.courses}</h2>
+        <div class={`${styles.card} pricingCard`}>
+          <table class="ratesTable">
+            <thead>
+              <tr>
+                <th scope="col">{col.product}</th>
+                <th scope="col">{col.price}</th>
+                <th scope="col">{col.includes}</th>
+                <th scope="col">{col.supplements}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cursos.map((x) => (
+                <tr>
+                  <td class={styles.cardTitle}>
+                    {t(x.title, lang)}
+                    {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
+                  </td>
+                  <td class={styles.cardPrice}>{priceOf(x)}</td>
+                  <td class={styles.cardBody}>{t(x.includes, lang) || emDash}</td>
+                  <td class={styles.cardBody}>{t(x.supplements, lang) || emDash}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Extras -->
+    <section class={styles.sectionAlt}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{extrasTitle[lang]}</h2>
+        <div class={`${styles.card} pricingCard`}>
+          <table class="ratesTable">
+            <thead>
+              <tr>
+                <th scope="col">{col.product}</th>
+                <th scope="col">{col.price}</th>
+                <th scope="col">{col.unit}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {extras.map((x) => (
+                <tr>
+                  <td class={styles.cardTitle}>{t(x.title, lang)}</td>
+                  <td class={styles.cardPrice}>{priceOf(x)}</td>
+                  <td class={styles.cardBody}>{t(x.unit, lang) || emDash}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
+  </main>
+</BaseLayout>
+
+<style>
+  .pricingCard {
+    padding: 20px 8px;
+    overflow-x: auto;
+  }
+
+  .ratesTable {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+  }
+
+  .ratesTable th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-ocean-400);
+    padding: 10px 16px;
+    border-bottom: 2px solid var(--color-ocean-100);
+    white-space: nowrap;
+  }
+
+  .ratesTable td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(2, 62, 138, 0.08);
+    vertical-align: top;
+  }
+
+  .ratesTable tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .ratesTable td:nth-child(2) {
+    white-space: nowrap;
+  }
+
+  .duration {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .pricingCard {
+      padding: 16px 4px;
+    }
+
+    .ratesTable th,
+    .ratesTable td {
+      padding: 12px;
+    }
+  }
+</style>

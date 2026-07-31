@@ -1,0 +1,13 @@
+---
+// src/pages/fr/contact.astro
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ContactView from '../../views/ContactView.astro'
+
+const lang = 'fr'
+const title = 'Contact — Buceo Sur Gran Canaria'
+const description =
+  'Contactez Buceo Sur Gran Canaria : e-mail, numéros de téléphone, adresse et formulaire de contact.'
+---
+<BaseLayout lang={lang} path="contact" title={title} description={description}>
+  <ContactView lang={lang} />
+</BaseLayout>

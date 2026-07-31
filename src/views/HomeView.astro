@@ -1,0 +1,117 @@
+---
+// src/views/HomeView.astro
+import BaseLayout from '../layouts/BaseLayout.astro'
+import type { Locale } from '../i18n/locales'
+import { t } from '../sanity/localize'
+import { getCentroInfo } from '../sanity/queries'
+import { SITE } from '../lib/constants'
+import heroStyles from '../components/Hero.module.css'
+import aboutStyles from '../styles/HomeAbout.module.css'
+import commonStyles from '../styles/viewCommon.module.css'
+import CtaBanner from '../components/CtaBanner.astro'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const info = await getCentroInfo()
+const l = (f: any) => t(f, lang)
+---
+<BaseLayout lang={lang} path="" title="Buceo Sur Gran Canaria — Inmersiones en toda la isla" description={l(info?.intro)}>
+  <main>
+    <section id="inicio" class={heroStyles.hero} aria-label="Portada">
+      <div class={heroStyles.vignette} />
+      <img
+        src="/logo.png"
+        alt="Buceo Sur Gran Canaria"
+        class={heroStyles.logo}
+        width={480}
+        height={186}
+      />
+      <a href="#nosotros" class={heroStyles.scroll} aria-label="Ir a la siguiente sección">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </a>
+    </section>
+
+    <section id="nosotros" class={aboutStyles.section}>
+      <div class={aboutStyles.container}>
+        <div class={aboutStyles.text}>
+          <p class={aboutStyles.eyebrow}>Quiénes somos</p>
+          <h2 class={aboutStyles.title}>Buceo Sur Gran Canaria</h2>
+          <p class={aboutStyles.body}>{l(info?.intro)}</p>
+          <p class={aboutStyles.body}>{l(info?.history)}</p>
+
+          <ul class={aboutStyles.certifications} aria-label="Certificaciones">
+            {(info?.certifications ?? []).map((cert: any) => (
+              <li class={aboutStyles.cert}>
+                {cert.logo ? (
+                  <img src={cert.logo} alt={cert.name} width={24} height={24} style="vertical-align:middle; margin-right:6px; border-radius:4px;" />
+                ) : null}
+                {cert.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class={aboutStyles.video}>
+          <div class={aboutStyles.videoWrapper}>
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/3ZaJwr3My3Y?wmode=transparent&vq=hd1080"
+              title="Inmersión en alta definición — Gran Canaria"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+          <p class={aboutStyles.videoCaption}>Inmersión en alta definición · Gran Canaria</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="instalaciones" class={commonStyles.sectionAlt}>
+      <div class={commonStyles.container}>
+        <p class={commonStyles.sectionEyebrow}>Instalaciones</p>
+        <h2 class={commonStyles.sectionTitle}>Nuestro centro en Playa de Arinaga</h2>
+        <p class={commonStyles.bodyText}>{l(info?.installations)}</p>
+      </div>
+    </section>
+
+    <section id="equipo" class={commonStyles.section}>
+      <div class={commonStyles.container}>
+        <p class={commonStyles.sectionEyebrow}>Sobre nosotros</p>
+        <h2 class={commonStyles.sectionTitle}>El equipo</h2>
+        <div class={commonStyles.grid}>
+          {(info?.staff ?? []).map((member: any) => (
+            <article class={commonStyles.card}>
+              {member.photo && (
+                <img src={member.photo} alt={member.name} width={96} height={96} style="border-radius:50%; object-fit:cover; width:96px; height:96px;" />
+              )}
+              <h3 class={commonStyles.cardTitle}>{member.name}</h3>
+              <ul class={commonStyles.cardMeta}>
+                <li>{l(member.role)}</li>
+                <li>{l(member.languages)}</li>
+              </ul>
+              <p class={commonStyles.cardBody}>{l(member.bio)}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class={aboutStyles.section} aria-label="Estadísticas">
+      <div class={aboutStyles.stats}>
+        {(info?.stats ?? []).map((stat: any) => (
+          <div class={aboutStyles.stat}>
+            <span class={aboutStyles.statValue}>{stat.value}</span>
+            <span class={aboutStyles.statLabel}>{l(stat.label)}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <CtaBanner href={SITE.bookingUrl} title="Reserva tu inmersión" text="Sistema de reservas automatizado — reserva con antelación para garantizar tu plaza." />
+  </main>
+</BaseLayout>

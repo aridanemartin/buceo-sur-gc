@@ -1,0 +1,285 @@
+---
+// src/views/ContactView.astro
+// Contacto page: contact details from SITE constants, social links, and the
+// ContactForm React island (client-side submitted-state only, no backend).
+import type { Locale } from '../i18n/locales'
+import { SITE } from '../lib/constants'
+import ContactForm from '../components/ContactForm'
+import styles from '../styles/viewCommon.module.css'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+
+const t = {
+  es: {
+    eyebrow: 'Contacto',
+    title: 'Ponte en contacto con nosotros',
+    subtitle:
+      '¿Tienes alguna duda sobre inmersiones, bautizos o cursos? Escríbenos o llámanos, estaremos encantados de ayudarte.',
+    contactTitle: 'Información de contacto',
+    emailLabel: 'Email',
+    phonesLabel: 'Teléfonos',
+    addressLabel: 'Dirección',
+    socialTitle: 'Síguenos',
+    formTitle: 'Envíanos un mensaje',
+    formNote: `También puedes escribirnos directamente a ${SITE.email}.`,
+    form: {
+      name: 'Nombre',
+      email: 'Tu email',
+      message: 'Mensaje',
+      submit: 'Enviar',
+      successTitle: '¡Gracias por tu mensaje!',
+      successText:
+        'Hemos recibido tu mensaje y te responderemos lo antes posible. Para reservas, puedes escribirnos directamente por email o teléfono.',
+    },
+  },
+  en: {
+    eyebrow: 'Contact',
+    title: 'Get in touch with us',
+    subtitle:
+      'Any questions about dives, discover scuba diving or courses? Write to us or call us — we will be happy to help.',
+    contactTitle: 'Contact information',
+    emailLabel: 'Email',
+    phonesLabel: 'Phones',
+    addressLabel: 'Address',
+    socialTitle: 'Follow us',
+    formTitle: 'Send us a message',
+    formNote: `You can also write to us directly at ${SITE.email}.`,
+    form: {
+      name: 'Name',
+      email: 'Your email',
+      message: 'Message',
+      submit: 'Send',
+      successTitle: 'Thank you for your message!',
+      successText:
+        'We have received your message and will get back to you as soon as possible. For bookings, feel free to contact us directly by email or phone.',
+    },
+  },
+  fr: {
+    eyebrow: 'Contact',
+    title: 'Contactez-nous',
+    subtitle:
+      'Une question sur les plongées, les baptêmes ou les formations ? Écrivez-nous ou appelez-nous, nous serons ravis de vous aider.',
+    contactTitle: 'Coordonnées',
+    emailLabel: 'E-mail',
+    phonesLabel: 'Téléphones',
+    addressLabel: 'Adresse',
+    socialTitle: 'Suivez-nous',
+    formTitle: 'Envoyez-nous un message',
+    formNote: `Vous pouvez également nous écrire directement à ${SITE.email}.`,
+    form: {
+      name: 'Nom',
+      email: 'Votre e-mail',
+      message: 'Message',
+      submit: 'Envoyer',
+      successTitle: 'Merci pour votre message !',
+      successText:
+        'Nous avons bien reçu votre message et vous répondrons dès que possible. Pour les réservations, n’hésitez pas à nous contacter directement par e-mail ou par téléphone.',
+    },
+  },
+  de: {
+    eyebrow: 'Kontakt',
+    title: 'Kontaktieren Sie uns',
+    subtitle:
+      'Fragen zu Tauchgängen, Schnuppertauchen oder Kursen? Schreiben Sie uns oder rufen Sie uns an – wir helfen Ihnen gerne.',
+    contactTitle: 'Kontaktinformationen',
+    emailLabel: 'E-Mail',
+    phonesLabel: 'Telefon',
+    addressLabel: 'Adresse',
+    socialTitle: 'Folgen Sie uns',
+    formTitle: 'Schreiben Sie uns',
+    formNote: `Sie können uns auch direkt schreiben an ${SITE.email}.`,
+    form: {
+      name: 'Name',
+      email: 'Ihre E-Mail',
+      message: 'Nachricht',
+      submit: 'Senden',
+      successTitle: 'Vielen Dank für Ihre Nachricht!',
+      successText:
+        'Wir haben Ihre Nachricht erhalten und melden uns schnellstmöglich. Für Buchungen kontaktieren Sie uns gerne direkt per E-Mail oder Telefon.',
+    },
+  },
+}[lang]
+
+const socials = [
+  { label: 'Facebook', href: SITE.social.facebook },
+  { label: 'Instagram', href: SITE.social.instagram },
+  { label: 'YouTube', href: SITE.social.youtube },
+  { label: 'Google Review', href: SITE.social.googleReview },
+]
+---
+<div class={styles.pageHeader}>
+  <div class={styles.pageHeaderInner}>
+    <p class={styles.pageEyebrow}>{t.eyebrow}</p>
+    <h1 class={styles.pageTitle}>{t.title}</h1>
+    <p class={styles.pageSubtitle}>{t.subtitle}</p>
+  </div>
+</div>
+
+<section class={styles.section}>
+  <div class={styles.container}>
+    <div class={styles.grid}>
+      <div class="info">
+        <h2 class={styles.sectionTitle}>{t.contactTitle}</h2>
+
+        <div class="infoBlock">
+          <h3 class="infoLabel">{t.emailLabel}</h3>
+          <a class="infoValue" href={`mailto:${SITE.email}`}>
+            {SITE.email}
+          </a>
+        </div>
+
+        <div class="infoBlock">
+          <h3 class="infoLabel">{t.phonesLabel}</h3>
+          <ul class="infoList">
+            {SITE.phones.map((phone) => (
+              <li key={phone.href}>
+                <a class="infoValue" href={phone.href}>
+                  {phone.display}
+                </a>
+                <span class="infoNote">{phone.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="infoBlock">
+          <h3 class="infoLabel">{t.addressLabel}</h3>
+          <address class="address">
+            <span>{SITE.address.line1}</span>
+            <span>{SITE.address.line2}</span>
+            <span>{SITE.address.line3}</span>
+          </address>
+        </div>
+
+        <div class="infoBlock">
+          <h3 class="infoLabel">{t.socialTitle}</h3>
+          <ul class="socialRow">
+            {socials.map((social) => (
+              <li key={social.label}>
+                <a
+                  class="socialLink"
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                >
+                  {social.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="form">
+        <h2 class={styles.sectionTitle}>{t.formTitle}</h2>
+        <p class={styles.bodyText}>{t.formNote}</p>
+        <ContactForm labels={t.form} client:load />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .infoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .infoLabel {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-ocean-400);
+  }
+
+  .infoList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .infoList li {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .infoValue {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-ocean-800);
+    transition: color var(--transition);
+  }
+
+  .infoValue:hover {
+    color: var(--color-ocean-500);
+  }
+
+  .infoNote {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .address {
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  .socialRow {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .socialLink {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 100px;
+    background: var(--color-ocean-50);
+    color: var(--color-ocean-800);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background var(--transition), color var(--transition);
+  }
+
+  .socialLink:hover {
+    background: var(--color-ocean-800);
+    color: var(--color-white);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .info {
+      order: 2;
+    }
+
+    .form {
+      order: 1;
+    }
+  }
+</style>

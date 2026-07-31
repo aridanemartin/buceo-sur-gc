@@ -1,0 +1,75 @@
+---
+// src/views/GalleryView.astro
+// Galería page: intro copy, then one section per dive site with meta pills
+// (depth range + level), localized description, optional YouTube video and a
+// Lightbox gallery of the site's images.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import CtaBanner from '../components/CtaBanner.astro'
+import Lightbox from '../components/Lightbox.tsx'
+import { galleryPageContent } from '../content/data/pageContent'
+import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
+import { SITE } from '../lib/constants'
+import { t } from '../sanity/localize'
+import { getDiveSites } from '../sanity/queries'
+import styles from '../styles/viewCommon.module.css'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const strings = ui[lang]
+const sites = await getDiveSites()
+const introTitle = t(galleryPageContent.introTitle, lang)
+const intro = t(galleryPageContent.intro, lang)
+---
+
+<BaseLayout lang={lang} path="gallery" title={introTitle} description={intro}>
+  <header class={styles.pageHeader}>
+    <div class={styles.pageHeaderInner}>
+      <p class={styles.pageEyebrow}>{strings.nav.gallery}</p>
+      <h1 class={styles.pageTitle}>{introTitle}</h1>
+      <p class={styles.pageSubtitle}>{intro}</p>
+    </div>
+  </header>
+
+  <main>
+    {
+      sites.map((site) => {
+        const siteName = t(site.name, lang)
+        return (
+          <section class={styles.section} id={`site-${site.order}`}>
+            <div class={styles.container}>
+              <h2 class={styles.sectionTitle}>{siteName}</h2>
+              <ul class={styles.cardMeta}>
+                <li>{site.depthRange}</li>
+                <li>{t(site.levelTag, lang)}</li>
+              </ul>
+              <p class={styles.bodyText}>{t(site.description, lang)}</p>
+              {
+                site.youtubeUrl && (
+                  <div class={styles.videoWrapper}>
+                    <iframe
+                      src={site.youtubeUrl}
+                      title={siteName}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                )
+              }
+              <Lightbox
+                images={(site.images ?? []).map((url) => ({ url, alt: siteName }))}
+                client:visible
+              />
+            </div>
+          </section>
+        )
+      })
+    }
+  </main>
+
+  <CtaBanner href={SITE.bookingUrlDives} title={strings.book} />
+</BaseLayout>
