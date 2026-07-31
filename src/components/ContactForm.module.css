@@ -1,0 +1,90 @@
+/* Contact form styles, consistent with the ported SPA design tokens. */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(2, 62, 138, 0.18);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  font-size: 1rem;
+  color: var(--color-text);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-ocean-400);
+  box-shadow: 0 0 0 3px rgba(0, 150, 199, 0.16);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(90, 106, 122, 0.6);
+}
+
+.textarea {
+  min-height: 170px;
+  resize: vertical;
+}
+
+.submit {
+  align-self: flex-start;
+  background: var(--color-ocean-700);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 14px 44px;
+  border-radius: 100px;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.submit:hover {
+  background: var(--color-ocean-800);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.submit:active {
+  transform: translateY(0);
+}
+
+.success {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 24px;
+  border-radius: var(--radius-md);
+  background: var(--color-ocean-50);
+  border: 1px solid var(--color-ocean-200);
+  color: var(--color-ocean-900);
+}
+
+.success h3 {
+  font-size: 1.2rem;
+  color: var(--color-ocean-800);
+}
+
+.success p {
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
