@@ -1,0 +1,110 @@
+---
+// src/views/CoursesView.astro
+// Renders all course documents from getCourses(), grouped by agency (SSI / CMAS)
+// and category (recreational / specialty / technical).
+import BaseLayout from '../layouts/BaseLayout.astro'
+import type { Locale } from '../i18n/locales'
+import { t } from '../sanity/localize'
+import { getCourses } from '../sanity/queries'
+import { SITE } from '../lib/constants'
+import CtaBanner from '../components/CtaBanner.astro'
+import styles from '../styles/viewCommon.module.css'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const courses = await getCourses()
+
+const l = (f: any) => t(f, lang)
+
+const page = {
+  es: {
+    title: 'Cursos de buceo — Buceo Sur',
+    description: 'Cursos SSI y CMAS para todos los niveles en Gran Canaria.',
+  },
+  en: {
+    title: 'Diving courses — Buceo Sur',
+    description: 'SSI and CMAS courses for all levels in Gran Canaria.',
+  },
+  fr: {
+    title: 'Formations de plongée — Buceo Sur',
+    description: 'Formations SSI et CMAS pour tous les niveaux à Grande Canarie.',
+  },
+  de: {
+    title: 'Tauchkurse — Buceo Sur',
+    description: 'SSI- und CMAS-Kurse für alle Level auf Gran Canaria.',
+  },
+}[lang]
+
+const categoryLabels: Record<string, string> = {
+  es: { recreational: 'Recreativo', specialty: 'Especialidad', technical: 'Técnico' },
+  en: { recreational: 'Recreational', specialty: 'Specialty', technical: 'Technical' },
+  fr: { recreational: 'Loisirs', specialty: 'Spécialité', technical: 'Technique' },
+  de: { recreational: 'Freizeit', specialty: 'Spezialkurs', technical: 'Technisch' },
+}[lang]
+
+const cta = {
+  es: { title: 'Reserva tu curso de buceo', text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.' },
+  en: { title: 'Book your diving course', text: 'Book in advance to guarantee your spot. Automated booking system.' },
+  fr: { title: 'Réservez votre formation de plongée', text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.' },
+  de: { title: 'Buchen Sie Ihren Tauchkurs', text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.' },
+}[lang]
+
+const agencies = [...new Set(courses.map((c: any) => c.agency))]
+const grouped = agencies.map((agency) => ({
+  agency,
+  categories: [...new Set(courses.filter((c: any) => c.agency === agency).map((c: any) => c.category))],
+  items: courses.filter((c: any) => c.agency === agency),
+}))
+---
+<BaseLayout lang={lang} path="courses" title={page.title} description={page.description}>
+  <main>
+    <header class={styles.pageHeader}>
+      <div class={styles.pageHeaderInner}>
+        <p class={styles.pageEyebrow}>SSI · CMAS</p>
+        <h1 class={styles.pageTitle}>{page.title}</h1>
+        <p class={styles.pageSubtitle}>{page.description}</p>
+      </div>
+    </header>
+
+    {grouped.map((group) => (
+      <section class={styles.sectionAlt} id={group.agency.toLowerCase()}>
+        <div class={styles.container}>
+          <p class={styles.sectionEyebrow}>Agencia</p>
+          <h2 class={styles.sectionTitle}>{group.agency}</h2>
+
+          {group.categories.map((category) => (
+            <div>
+              <h3 class={styles.sectionEyebrow}>{categoryLabels[category]}</h3>
+              <div class={styles.grid}>
+                {group.items
+                  .filter((c: any) => c.category === category)
+                  .map((c: any) => (
+                    <article class={styles.card}>
+                      <h4 class={styles.cardTitle}>{l(c.title)}</h4>
+                      <ul class={styles.cardMeta}>
+                        <li>{c.agency}</li>
+                        <li>{categoryLabels[category]}</li>
+                        {c.depthLimit ? <li>{c.depthLimit} m</li> : null}
+                        <li>{l(c.duration)}</li>
+                        {c.minAge ? <li>{c.minAge}+</li> : null}
+                      </ul>
+                      <p class={styles.cardBody}>{l(c.summary)}</p>
+                      <p class={styles.cardBody}>{l(c.includes)}</p>
+                      {l(c.supplements) && <p class={styles.cardBody}>{l(c.supplements)}</p>}
+                      <p class={styles.cardBody}>{l(c.prerequisites)}</p>
+                      {c.price ? <p class={styles.cardPrice}>{c.price} €</p> : null}
+                    </article>
+                  ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <CtaBanner href={SITE.bookingUrlDives} title={cta.title} text={cta.text} />
+  </main>
+</BaseLayout>
