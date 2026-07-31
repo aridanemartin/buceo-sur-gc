@@ -1,0 +1,109 @@
+---
+// src/views/SidemountView.astro
+// Sidemount intro (canonical copy from src/content/data/pageContent.ts),
+// the promo video, and the sidemount courses filtered by tag.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import type { Locale } from '../i18n/locales'
+import { t } from '../sanity/localize'
+import { getCoursesByTag } from '../sanity/queries'
+import { SITE } from '../lib/constants'
+import { sidemountPageContent } from '../content/data/pageContent'
+import CtaBanner from '../components/CtaBanner.astro'
+import styles from '../styles/viewCommon.module.css'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const courses = await getCoursesByTag('sidemount')
+
+const l = (f: any) => t(f, lang)
+
+// Converts https://youtu.be/<id> or https://www.youtube.com/watch?v=<id>
+// into a privacy-enhanced youtube-nocookie embed URL.
+function toEmbedUrl(url: string): string {
+  const match = url.match(/(?:youtu\.be\/|watch\?v=)([\w-]{6,})/)
+  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : url
+}
+
+const videoEmbedUrl = toEmbedUrl(sidemountPageContent.videoUrl)
+
+const cta = {
+  es: { title: 'Reserva tu bautismo Sidemount', text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.' },
+  en: { title: 'Book your Sidemount discover dive', text: 'Book in advance to guarantee your spot. Automated booking system.' },
+  fr: { title: 'Réservez votre baptême Sidemount', text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.' },
+  de: { title: 'Buchen Sie Ihr Sidemount-Schnuppertauchen', text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.' },
+}[lang]
+---
+<BaseLayout
+  lang={lang}
+  path="sidemount"
+  title={l(sidemountPageContent.introTitle)}
+  description={l(sidemountPageContent.intro)}
+>
+  <main>
+    <header class={styles.pageHeader}>
+      <div class={styles.pageHeaderInner}>
+        <p class={styles.pageEyebrow}>Sidemount</p>
+        <h1 class={styles.pageTitle}>{l(sidemountPageContent.introTitle)}</h1>
+        <p class={styles.pageSubtitle}>{l(sidemountPageContent.motto)}</p>
+      </div>
+    </header>
+
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <p class={styles.bodyText}>{l(sidemountPageContent.intro)}</p>
+        <div class={styles.videoWrapper}>
+          <iframe
+            src={videoEmbedUrl}
+            title={l(sidemountPageContent.introTitle)}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class={styles.sectionAlt}>
+      <div class={styles.container}>
+        <p class={styles.sectionEyebrow}>Sidemount</p>
+        <h2 class={styles.sectionTitle}>{l(sidemountPageContent.terrainTitle)}</h2>
+        <p class={styles.bodyText}>{l(sidemountPageContent.terrain)}</p>
+      </div>
+    </section>
+
+    <section class={styles.section} id="cursos">
+      <div class={styles.container}>
+        <p class={styles.sectionEyebrow}>Cursos</p>
+        <h2 class={styles.sectionTitle}>{l(sidemountPageContent.courseTitle)}</h2>
+        <ul class={styles.list}>
+          <li>{l(sidemountPageContent.courseRequirementsTitle)}: {l(sidemountPageContent.courseRequirements)}</li>
+          <li>{l(sidemountPageContent.courseIncludesTitle)}: {l(sidemountPageContent.courseIncludes)}</li>
+        </ul>
+
+        <div class={styles.grid}>
+          {courses.map((c: any) => (
+            <article class={styles.card}>
+              <h3 class={styles.cardTitle}>{l(c.title)}</h3>
+              <ul class={styles.cardMeta}>
+                <li>{c.agency}</li>
+                {c.depthLimit ? <li>{c.depthLimit} m</li> : null}
+                <li>{l(c.duration)}</li>
+                {c.minAge ? <li>{c.minAge}+</li> : null}
+              </ul>
+              <p class={styles.cardBody}>{l(c.summary)}</p>
+              <p class={styles.cardBody}>{l(c.includes)}</p>
+              {l(c.supplements) && <p class={styles.cardBody}>{l(c.supplements)}</p>}
+              <p class={styles.cardBody}>{l(c.prerequisites)}</p>
+              {c.price ? <p class={styles.cardPrice}>{c.price} €</p> : null}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner href={SITE.bookingUrl} title={cta.title} text={cta.text} />
+  </main>
+</BaseLayout>
