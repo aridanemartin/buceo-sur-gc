@@ -1,0 +1,155 @@
+---
+// src/views/DivesView.astro
+// Inmersiones page — organisation prose from divesPageContent plus the certified
+// experiences as cards, per docs/2. inmersiones.docx.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import CtaBanner from '../components/CtaBanner.astro'
+import styles from '../styles/viewCommon.module.css'
+import { SITE } from '../lib/constants'
+import { ui } from '../i18n/strings'
+import type { Locale } from '../i18n/locales'
+import { t } from '../sanity/localize'
+import { getExperiences } from '../sanity/queries'
+import { divesPageContent } from '../content/data/pageContent'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const u = ui[lang]
+
+const experiences = await getExperiences('certified')
+
+const labels: Record<Locale, { includes: string; supplements: string; conditions: string; depth: string; gridTitle: string }> = {
+  es: { includes: 'Incluye', supplements: 'Suplementos / opciones', conditions: 'Condiciones', depth: 'máx.', gridTitle: 'Inmersiones guiadas' },
+  en: { includes: 'Includes', supplements: 'Supplements / options', conditions: 'Conditions', depth: 'max', gridTitle: 'Guided dives' },
+  fr: { includes: 'Inclut', supplements: 'Suppléments / options', conditions: 'Conditions', depth: 'max', gridTitle: 'Plongées encadrées' },
+  de: { includes: 'Inklusive', supplements: 'Zuschläge / Optionen', conditions: 'Bedingungen', depth: 'max.', gridTitle: 'Begleitete Tauchgänge' },
+}
+const l = labels[lang]
+
+const descriptions: Record<Locale, string> = {
+  es: 'Inmersiones guiadas para buceadores certificados en Gran Canaria: organización, horarios, requisitos y tarifas.',
+  en: 'Guided dives for certified divers in Gran Canaria: organisation, schedules, requirements and prices.',
+  fr: 'Plongées encadrées pour plongeurs certifiés à Grande Canarie : organisation, horaires, conditions et tarifs.',
+  de: 'Begleitete Tauchgänge für zertifizierte Taucher auf Gran Canaria: Organisation, Zeiten, Voraussetzungen und Preise.',
+}
+
+const ctaTitle: Record<Locale, string> = {
+  es: '¿Listo para tu próxima inmersión?',
+  en: 'Ready for your next dive?',
+  fr: 'Prêt pour votre prochaine plongée ?',
+  de: 'Bereit für deinen nächsten Tauchgang?',
+}
+
+const ctaText: Record<Locale, string> = {
+  es: 'Reserva tu inmersión guiada directamente con nosotros.',
+  en: 'Book your guided dive directly with us.',
+  fr: 'Réservez votre plongée encadrée directement chez nous.',
+  de: 'Buche deinen begleiteten Tauchgang direkt bei uns.',
+}
+
+const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
+const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price} €` : '')
+---
+
+<BaseLayout lang={lang} path="dives" title={`${u.nav.dives} — ${SITE.fullName}`} description={descriptions[lang]}>
+  <main>
+    <header class={styles.pageHeader}>
+      <div class={styles.pageHeaderInner}>
+        <p class={styles.pageEyebrow}>{SITE.fullName}</p>
+        <h1 class={styles.pageTitle}>{t(divesPageContent.introTitle, lang)}</h1>
+        <p class={styles.pageSubtitle}>{t(divesPageContent.introSubtitle, lang)}</p>
+      </div>
+    </header>
+
+    <!-- Intro -->
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <p class={styles.sectionEyebrow}>{u.nav.dives}</p>
+        <p class={styles.bodyText}>{t(divesPageContent.intro, lang)}</p>
+      </div>
+    </section>
+
+    <!-- Site choice -->
+    <section class={styles.sectionAlt}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{t(divesPageContent.siteChoiceTitle, lang)}</h2>
+        <p class={styles.bodyText}>{t(divesPageContent.siteChoice, lang)}</p>
+      </div>
+    </section>
+
+    <!-- Refresher -->
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
+        <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section class={styles.sectionAlt}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{t(divesPageContent.scheduleTitle, lang)}</h2>
+        <p class={styles.bodyText}>{t(divesPageContent.schedule, lang)}</p>
+      </div>
+    </section>
+
+    <!-- Booking -->
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{t(divesPageContent.bookingTitle, lang)}</h2>
+        <p class={styles.bodyText}>{t(divesPageContent.booking, lang)}</p>
+      </div>
+    </section>
+
+    <!-- Documentation -->
+    <section class={styles.sectionAlt}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{t(divesPageContent.docsTitle, lang)}</h2>
+        <p class={styles.bodyText}>{t(divesPageContent.docs, lang)}</p>
+      </div>
+    </section>
+
+    <!-- Certified experiences -->
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <h2 class={styles.sectionTitle}>{l.gridTitle}</h2>
+        <div class={styles.grid}>
+          {experiences.map((x: any) => (
+            <article class={styles.card}>
+              <h3 class={styles.cardTitle}>{t(x.title, lang)}</h3>
+              <ul class={styles.cardMeta}>
+                {t(x.duration, lang) ? <li>{t(x.duration, lang)}</li> : null}
+                {depthBadge(x.depthLimit) ? <li>{depthBadge(x.depthLimit)}</li> : null}
+              </ul>
+              <p class={styles.cardBody}>{t(x.description, lang)}</p>
+              {t(x.includes, lang) ? (
+                <p class={styles.cardBody}>
+                  <strong>{l.includes}: </strong>
+                  {t(x.includes, lang)}
+                </p>
+              ) : null}
+              {t(x.supplements, lang) ? (
+                <p class={styles.cardBody}>
+                  <strong>{l.supplements}: </strong>
+                  {t(x.supplements, lang)}
+                </p>
+              ) : null}
+              {t(x.groupDiscount, lang) ? (
+                <p class={styles.cardBody}>
+                  <strong>{l.conditions}: </strong>
+                  {t(x.groupDiscount, lang)}
+                </p>
+              ) : null}
+              {priceOf(x) ? <p class={styles.cardPrice}>{priceOf(x)}</p> : null}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
+  </main>
+</BaseLayout>
