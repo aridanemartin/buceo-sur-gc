@@ -1,0 +1,111 @@
+---
+// src/views/LegalView.astro
+// Renders a legal document from the `legal` content collection, wrapped in
+// BaseLayout with the localized path `legal/<slug>`.
+import type { Locale } from '../i18n/locales'
+import { getEntry, render } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import styles from '../styles/viewCommon.module.css'
+
+type LegalSlug = 'privacy' | 'cancellation' | 'terms'
+
+interface Props {
+  lang: Locale
+  slug: LegalSlug
+}
+
+const { lang, slug } = Astro.props
+
+const entry = await getEntry('legal', `${slug}.${lang}`)
+if (!entry) {
+  throw new Error(`Legal content entry not found: ${slug}.${lang}`)
+}
+const { Content } = await render(entry)
+
+const labels = {
+  es: {
+    eyebrow: 'Avisos legales',
+    description: `Avisos legales de ${'Buceo Sur Gran Canaria'} — ${entry.data.title}.`,
+  },
+  en: {
+    eyebrow: 'Legal notices',
+    description: `Legal notices of ${'Buceo Sur Gran Canaria'} — ${entry.data.title}.`,
+  },
+  fr: {
+    eyebrow: 'Mentions légales',
+    description: `Mentions légales de ${'Buceo Sur Gran Canaria'} — ${entry.data.title}.`,
+  },
+  de: {
+    eyebrow: 'Rechtliches',
+    description: `Rechtliche Hinweise von ${'Buceo Sur Gran Canaria'} — ${entry.data.title}.`,
+  },
+}[lang]
+---
+<BaseLayout lang={lang} path={`legal/${slug}`} title={entry.data.title} description={labels.description}>
+  <div class={styles.pageHeader}>
+    <div class={styles.pageHeaderInner}>
+      <p class={styles.pageEyebrow}>{labels.eyebrow}</p>
+      <h1 class={styles.pageTitle}>{entry.data.title}</h1>
+    </div>
+  </div>
+
+  <section class={styles.section}>
+    <div class={styles.container}>
+      <article class="legalBody">
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legalBody {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  :global(.legalBody h2) {
+    font-size: 1.35rem;
+    color: var(--color-dark);
+    margin: 36px 0 12px;
+  }
+
+  :global(.legalBody h3) {
+    font-size: 1.1rem;
+    color: var(--color-ocean-800);
+    margin: 26px 0 10px;
+  }
+
+  :global(.legalBody p) {
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+
+  :global(.legalBody ul) {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0 18px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  :global(.legalBody ul li) {
+    padding-left: 22px;
+    position: relative;
+  }
+
+  :global(.legalBody ul li::before) {
+    content: '•';
+    position: absolute;
+    left: 4px;
+    color: var(--color-ocean-400);
+    font-weight: 700;
+  }
+
+  :global(.legalBody strong) {
+    color: var(--color-dark);
+  }
+</style>
