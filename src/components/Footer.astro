@@ -1,0 +1,72 @@
+---
+// src/components/Footer.astro
+import styles from './Footer.module.css'
+import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
+import { localePath } from '../i18n/paths'
+import { SITE } from '../lib/constants'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const t = ui[lang]
+---
+<footer class={styles.footer}>
+  <div class={styles.container}>
+    <div class={styles.brand}>
+      <span class={styles.logo}>Buceo Sur</span>
+      <span class={styles.sub}>Gran Canaria · España</span>
+      <p class={styles.tagline}>Inmersiones en toda la isla — todo el año</p>
+    </div>
+
+    <nav class={styles.links} aria-label="Navegación del pie de página">
+      <div>
+        <h4>{t.footer.servicesTitle}</h4>
+        <ul>
+          <li><a href={localePath(lang, 'baptisms')}>{t.nav.baptisms}</a></li>
+          <li><a href={localePath(lang, 'courses')}>{t.nav.courses}</a></li>
+          <li><a href={localePath(lang, 'dives')}>{t.nav.dives}</a></li>
+          <li><a href={localePath(lang, 'sidemount')}>{t.nav.sidemount}</a></li>
+          <li><a href={localePath(lang, 'rates')}>{t.nav.rates}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>{t.footer.companyTitle}</h4>
+        <ul>
+          <li><a href={localePath(lang, '')}>{t.nav.home}</a></li>
+          <li><a href={localePath(lang, 'gallery')}>{t.nav.gallery}</a></li>
+          <li><a href={localePath(lang, 'contact')}>{t.nav.contact}</a></li>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>{t.footer.legalTitle}</h4>
+        <ul>
+          <li><a href={localePath(lang, 'legal/privacy')}>Privacidad</a></li>
+          <li><a href={localePath(lang, 'legal/cancellation')}>Cancelación</a></li>
+          <li><a href={localePath(lang, 'legal/terms')}>Condiciones</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class={styles.certs}>
+    {SITE.certifications.map((c) => (
+      <img src={c.logo} alt={c.name} class={styles.certLogo} width={48} height={48} loading="lazy" />
+    ))}
+  </div>
+
+  <div class={styles.social}>
+    <a href={SITE.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+    <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+    <a href={SITE.social.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a>
+    <a href={SITE.social.googleReview} target="_blank" rel="noopener noreferrer" aria-label="Google review">Google Review</a>
+  </div>
+
+  <div class={styles.bottom}>
+    <p>© {new Date().getFullYear()} {SITE.fullName}. {t.footer.rightsReserved}</p>
+    <p>{t.footer.textsCredit}</p>
+  </div>
+</footer>

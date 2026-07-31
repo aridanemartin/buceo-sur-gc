@@ -1,0 +1,52 @@
+import type { Locale } from '../i18n/locales'
+import { alternateLinks, localePath } from '../i18n/paths'
+import { ui } from '../i18n/strings'
+import { SITE } from '../lib/constants'
+import Nav from '../components/Nav'
+import Footer from '../components/Footer.astro'
+import '../styles/global.css'
+
+interface Props {
+  lang: Locale
+  path: string
+  title: string
+  description: string
+}
+
+const { lang, path, title, description } = Astro.props
+const alternates = alternateLinks(path)
+const t = ui[lang]
+
+const navItems = [
+  { label: t.nav.home, href: localePath(lang, '') },
+  { label: t.nav.dives, href: localePath(lang, 'dives') },
+  { label: t.nav.baptisms, href: localePath(lang, 'baptisms') },
+  { label: t.nav.courses, href: localePath(lang, 'courses') },
+  { label: t.nav.rates, href: localePath(lang, 'rates') },
+  { label: t.nav.gallery, href: localePath(lang, 'gallery') },
+  { label: t.nav.sidemount, href: localePath(lang, 'sidemount') },
+  { label: t.nav.contact, href: localePath(lang, 'contact') },
+]
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {alternates.map((a) => (
+      <link rel="alternate" hreflang={a.locale} href={a.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={alternates.find((a) => a.locale === 'es')?.href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <Nav lang={lang} items={navItems} localeLinks={alternates} bookHref={SITE.bookingUrl} bookLabel={t.book} client:load />
+    <slot />
+    <Footer lang={lang} />
+  </body>
+</html>
