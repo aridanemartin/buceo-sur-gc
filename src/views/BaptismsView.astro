@@ -11,6 +11,7 @@ import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getExperiences } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
+import rowStyles from '../styles/rowLayout.module.css'
 
 interface Props {
   lang: Locale
@@ -116,52 +117,63 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
     <section class={styles.section}>
       <div class={styles.container}>
         <p class={styles.sectionEyebrow}>{u.nav.baptisms}</p>
-        <div class={styles.grid}>
+        <div class={rowStyles.list}>
           {
-            experiences.map((x: any) => (
-              <article class={styles.card}>
-                {youtubeEmbedUrl(x.videoUrl) ? (
-                  <div class={styles.videoWrapper}>
-                    <iframe
-                      src={youtubeEmbedUrl(x.videoUrl)!}
-                      title={t(x.title, lang)}
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+            experiences.map((x: any) => {
+              const embedUrl = youtubeEmbedUrl(x.videoUrl)
+              return (
+                <article class={rowStyles.row}>
+                  <div class={rowStyles.rowBody}>
+                    <h3 class={rowStyles.cardTitle}>{t(x.title, lang)}</h3>
+                    <ul class={rowStyles.cardMeta}>
+                      {t(x.duration, lang) ? <li>{t(x.duration, lang)}</li> : null}
+                      {depthBadge(x.depthLimit) ? (
+                        <li>{depthBadge(x.depthLimit)}</li>
+                      ) : null}
+                    </ul>
+                    <p class={rowStyles.cardBody}>{t(x.description, lang)}</p>
+                    {t(x.includes, lang) ? (
+                      <p class={rowStyles.cardBody}>
+                        <strong>{l.includes}: </strong>
+                        {t(x.includes, lang)}
+                      </p>
+                    ) : null}
+                    {t(x.supplements, lang) ? (
+                      <p class={rowStyles.cardBody}>
+                        <strong>{l.supplements}: </strong>
+                        {t(x.supplements, lang)}
+                      </p>
+                    ) : null}
+                    {t(x.groupDiscount, lang) ? (
+                      <p class={rowStyles.cardBody}>
+                        <strong>{l.conditions}: </strong>
+                        {t(x.groupDiscount, lang)}
+                      </p>
+                    ) : null}
+                    {priceOf(x) ? (
+                      <p class={rowStyles.cardPrice}>{priceOf(x)}</p>
+                    ) : null}
                   </div>
-                ) : null}
-                <h3 class={styles.cardTitle}>{t(x.title, lang)}</h3>
-                <ul class={styles.cardMeta}>
-                  {t(x.duration, lang) ? <li>{t(x.duration, lang)}</li> : null}
-                  {depthBadge(x.depthLimit) ? (
-                    <li>{depthBadge(x.depthLimit)}</li>
+                  {embedUrl ? (
+                    <div class={rowStyles.rowMedia}>
+                      <div class={rowStyles.rowVideo}>
+                        <iframe
+                          src={embedUrl}
+                          title={t(x.title, lang)}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  ) : x.image ? (
+                    <div class={rowStyles.rowMedia}>
+                      <img class={rowStyles.rowImage} src={x.image} alt={t(x.title, lang)} loading="lazy" />
+                    </div>
                   ) : null}
-                </ul>
-                <p class={styles.cardBody}>{t(x.description, lang)}</p>
-                {t(x.includes, lang) ? (
-                  <p class={styles.cardBody}>
-                    <strong>{l.includes}: </strong>
-                    {t(x.includes, lang)}
-                  </p>
-                ) : null}
-                {t(x.supplements, lang) ? (
-                  <p class={styles.cardBody}>
-                    <strong>{l.supplements}: </strong>
-                    {t(x.supplements, lang)}
-                  </p>
-                ) : null}
-                {t(x.groupDiscount, lang) ? (
-                  <p class={styles.cardBody}>
-                    <strong>{l.conditions}: </strong>
-                    {t(x.groupDiscount, lang)}
-                  </p>
-                ) : null}
-                {priceOf(x) ? (
-                  <p class={styles.cardPrice}>{priceOf(x)}</p>
-                ) : null}
-              </article>
-            ))
+                </article>
+              )
+            })
           }
         </div>
       </div>
