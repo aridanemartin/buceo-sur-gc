@@ -16,13 +16,40 @@ export interface UiStrings {
     cancellation: string
     terms: string
   }
+  home: {
+    dondeEstamos: string
+    metaTitle: string
+    heroLabel: string
+    scrollLabel: string
+    whoWeAreEyebrow: string
+    certificationsLabel: string
+    videoTitle: string
+    videoCaption: string
+    facilitiesEyebrow: string
+    facilitiesTitle: string
+    facilitiesAlt: string
+    aboutEyebrow: string
+    teamTitle: string
+    statsLabel: string
+    ctaTitle: string
+    ctaText: string
+  }
   book: string
+  ctaButton: string
   footer: {
+    country: string
+    tagline: string
     servicesTitle: string
     companyTitle: string
     legalTitle: string
     rightsReserved: string
     textsCredit: string
+  }
+  a11y: {
+    mainNav: string
+    footerNav: string
+    openMenu: string
+    closeMenu: string
   }
 }
 
@@ -43,13 +70,41 @@ export const ui: Record<Locale, UiStrings> = {
       cancellation: 'Cancelación',
       terms: 'Condiciones',
     },
+    home: {
+      dondeEstamos: 'Donde estamos',
+      metaTitle: 'Buceo Sur Gran Canaria — Inmersiones en toda la isla',
+      heroLabel: 'Portada',
+      scrollLabel: 'Ir a la siguiente sección',
+      whoWeAreEyebrow: 'Quiénes somos',
+      certificationsLabel: 'Certificaciones',
+      videoTitle: 'Inmersión en alta definición — Gran Canaria',
+      videoCaption: 'Inmersión en alta definición · Gran Canaria',
+      facilitiesEyebrow: 'Instalaciones',
+      facilitiesTitle: 'Nuestro centro en Playa de Arinaga',
+      facilitiesAlt: 'Nuestras instalaciones en Playa de Arinaga',
+      aboutEyebrow: 'Sobre nosotros',
+      teamTitle: 'El equipo',
+      statsLabel: 'Estadísticas',
+      ctaTitle: 'Reserva tu inmersión',
+      ctaText:
+        'Sistema de reservas automatizado — reserva con antelación para garantizar tu plaza.',
+    },
     book: 'Reservar',
+    ctaButton: 'RESERVA YA',
     footer: {
+      country: 'España',
+      tagline: 'Inmersiones en toda la isla — todo el año',
       servicesTitle: 'Servicios',
       companyTitle: 'Empresa',
       legalTitle: 'Avisos legales',
       rightsReserved: 'Todos los derechos reservados.',
       textsCredit: 'Textos: Anne Debroise · Fotos: Juan Antonio / DR',
+    },
+    a11y: {
+      mainNav: 'Navegación principal',
+      footerNav: 'Navegación del pie de página',
+      openMenu: 'Abrir menú',
+      closeMenu: 'Cerrar menú',
     },
   },
   en: {
@@ -68,13 +123,40 @@ export const ui: Record<Locale, UiStrings> = {
       cancellation: 'Cancellation',
       terms: 'Terms',
     },
+    home: {
+      dondeEstamos: 'Where we are',
+      metaTitle: 'Buceo Sur Gran Canaria — Dives all over the island',
+      heroLabel: 'Hero',
+      scrollLabel: 'Go to the next section',
+      whoWeAreEyebrow: 'Who we are',
+      certificationsLabel: 'Certifications',
+      videoTitle: 'High-definition dive — Gran Canaria',
+      videoCaption: 'High-definition dive · Gran Canaria',
+      facilitiesEyebrow: 'Facilities',
+      facilitiesTitle: 'Our center in Playa de Arinaga',
+      facilitiesAlt: 'Our facilities in Playa de Arinaga',
+      aboutEyebrow: 'About us',
+      teamTitle: 'The team',
+      statsLabel: 'Statistics',
+      ctaTitle: 'Book your dive',
+      ctaText: 'Automated booking system — book in advance to guarantee your spot.',
+    },
     book: 'Book now',
+    ctaButton: 'BOOK NOW',
     footer: {
+      country: 'Spain',
+      tagline: 'Dives all over the island — all year round',
       servicesTitle: 'Services',
       companyTitle: 'Company',
       legalTitle: 'Legal',
       rightsReserved: 'All rights reserved.',
       textsCredit: 'Texts: Anne Debroise · Photos: Juan Antonio / DR',
+    },
+    a11y: {
+      mainNav: 'Main navigation',
+      footerNav: 'Footer navigation',
+      openMenu: 'Open menu',
+      closeMenu: 'Close menu',
     },
   },
   fr: {
@@ -93,13 +175,40 @@ export const ui: Record<Locale, UiStrings> = {
       cancellation: 'Annulation',
       terms: 'Conditions',
     },
+    home: {
+      dondeEstamos: 'Où nous sommes',
+      metaTitle: 'Buceo Sur Gran Canaria — Plongées sur toute l’île',
+      heroLabel: 'Accueil',
+      scrollLabel: 'Aller à la section suivante',
+      whoWeAreEyebrow: 'Qui sommes-nous',
+      certificationsLabel: 'Certifications',
+      videoTitle: 'Plongée en haute définition — Gran Canaria',
+      videoCaption: 'Plongée en haute définition · Gran Canaria',
+      facilitiesEyebrow: 'Installations',
+      facilitiesTitle: 'Notre centre à Playa de Arinaga',
+      facilitiesAlt: 'Nos installations à Playa de Arinaga',
+      aboutEyebrow: 'À propos de nous',
+      teamTitle: 'L’équipe',
+      statsLabel: 'Statistiques',
+      ctaTitle: 'Réservez votre plongée',
+      ctaText: 'Système de réservation automatisé — réservez à l’avance pour garantir votre place.',
+    },
     book: 'Réserver',
+    ctaButton: 'RÉSERVEZ MAINTENANT',
     footer: {
+      country: 'Espagne',
+      tagline: 'Plongées sur toute l’île — toute l’année',
       servicesTitle: 'Services',
       companyTitle: 'Le centre',
       legalTitle: 'Mentions légales',
       rightsReserved: 'Tous droits réservés.',
       textsCredit: 'Textes : Anne Debroise · Photos : Juan Antonio / DR',
+    },
+    a11y: {
+      mainNav: 'Navigation principale',
+      footerNav: 'Navigation du pied de page',
+      openMenu: 'Ouvrir le menu',
+      closeMenu: 'Fermer le menu',
     },
   },
   de: {
@@ -118,13 +227,40 @@ export const ui: Record<Locale, UiStrings> = {
       cancellation: 'Stornierung',
       terms: 'Bedingungen',
     },
+    home: {
+      dondeEstamos: 'Wo wir sind',
+      metaTitle: 'Buceo Sur Gran Canaria — Tauchgänge auf der ganzen Insel',
+      heroLabel: 'Startbereich',
+      scrollLabel: 'Zum nächsten Abschnitt',
+      whoWeAreEyebrow: 'Über uns',
+      certificationsLabel: 'Zertifizierungen',
+      videoTitle: 'Tauchgang in HD — Gran Canaria',
+      videoCaption: 'Tauchgang in HD · Gran Canaria',
+      facilitiesEyebrow: 'Einrichtungen',
+      facilitiesTitle: 'Unser Center in Playa de Arinaga',
+      facilitiesAlt: 'Unsere Einrichtungen in Playa de Arinaga',
+      aboutEyebrow: 'Über das Team',
+      teamTitle: 'Das Team',
+      statsLabel: 'Statistiken',
+      ctaTitle: 'Buche deinen Tauchgang',
+      ctaText: 'Automatisiertes Buchungssystem — buche rechtzeitig, um deinen Platz zu sichern.',
+    },
     book: 'Jetzt buchen',
+    ctaButton: 'JETZT BUCHEN',
     footer: {
+      country: 'Spanien',
+      tagline: 'Tauchgänge auf der ganzen Insel — das ganze Jahr über',
       servicesTitle: 'Leistungen',
       companyTitle: 'Unternehmen',
       legalTitle: 'Rechtliches',
       rightsReserved: 'Alle Rechte vorbehalten.',
       textsCredit: 'Texte: Anne Debroise · Fotos: Juan Antonio / DR',
+    },
+    a11y: {
+      mainNav: 'Hauptnavigation',
+      footerNav: 'Fußzeilen-Navigation',
+      openMenu: 'Menü öffnen',
+      closeMenu: 'Menü schließen',
     },
   },
 }
