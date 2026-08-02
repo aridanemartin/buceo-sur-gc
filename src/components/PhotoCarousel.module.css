@@ -1,5 +1,5 @@
-/* Instalaciones carousel on the home page — Swiper crossfades between facility
-   photos. The Swiper absolutely fills the root so it never contributes its own
+/* Generic fading photo carousel — Swiper crossfades between photos. The
+   Swiper absolutely fills the root so it never contributes its own
    intrinsic (4:3) height to the grid row: on desktop the carousel is sized to
    the text column, on mobile the 4/3 aspect ratio sizes it. */
 

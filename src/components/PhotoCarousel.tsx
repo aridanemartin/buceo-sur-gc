@@ -1,7 +1,8 @@
-// src/components/InstalacionesCarousel.tsx
-// Facilities photo carousel for the home page "Instalaciones" section, hydrated
-// as an Astro island. Uses Swiper (fade effect) like every other slider in the
-// app. Renders nothing when `images` is empty.
+// src/components/PhotoCarousel.tsx
+// Generic fading photo carousel, hydrated as an Astro island. Uses Swiper
+// (fade effect) like every other slider in the app. Renders nothing when
+// `images` is empty. Used by the Home "Instalaciones" section and the
+// Sidemount "terreno de juego" section.
 import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -10,24 +11,24 @@ import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-import styles from './InstalacionesCarousel.module.css'
+import styles from './PhotoCarousel.module.css'
 
 export interface CarouselImage {
   url: string
   alt: string
 }
 
-interface InstalacionesCarouselProps {
+interface PhotoCarouselProps {
   images: CarouselImage[]
   prevLabel?: string
   nextLabel?: string
 }
 
-export default function InstalacionesCarousel({
+export default function PhotoCarousel({
   images,
   prevLabel = 'Previous image',
   nextLabel = 'Next image',
-}: InstalacionesCarouselProps) {
+}: PhotoCarouselProps) {
   if (images.length === 0) return null
 
   const multiSlide = images.length > 1
