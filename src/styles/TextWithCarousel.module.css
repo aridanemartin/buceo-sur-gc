@@ -1,5 +1,6 @@
-/* Instalaciones section on the home page — text beside a photo carousel of the
-   dive centre. The carousel component provides its own fill/aspect-ratio. */
+/* Text-beside-photo-carousel layout, shared by the Home "Instalaciones"
+   section and the Sidemount "terreno de juego" section. The carousel
+   component provides its own fill/aspect-ratio. */
 
 .grid {
   display: grid;

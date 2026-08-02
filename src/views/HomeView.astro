@@ -11,7 +11,7 @@ import { t } from "../sanity/localize";
 import { getCentroInfo } from "../sanity/queries";
 import aboutStyles from "../styles/HomeAbout.module.css";
 import dondeEstamos from "../styles/HomeDondeEstamos.module.css";
-import instalaciones from "../styles/HomeInstalaciones.module.css";
+import textWithCarousel from "../styles/TextWithCarousel.module.css";
 import commonStyles from "../styles/viewCommon.module.css";
 
 interface Props {
@@ -128,8 +128,8 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
           {uiStrings.home.facilitiesEyebrow}
         </p>
 
-        <div class={instalaciones.grid}>
-          <div class={instalaciones.text}>
+        <div class={textWithCarousel.grid}>
+          <div class={textWithCarousel.text}>
             <h2 class={commonStyles.sectionTitle}>
               {uiStrings.home.facilitiesTitle}
             </h2>
