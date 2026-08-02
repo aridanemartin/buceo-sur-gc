@@ -1,13 +1,13 @@
 ---
 import CtaBanner from '../components/CtaBanner.astro'
-import Lightbox from '../components/Lightbox.tsx'
+import GallerySwiper from '../components/GallerySwiper.tsx'
 import { galleryPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
 // src/views/GalleryView.astro
 // Galería page: intro copy, then one section per dive site with meta pills
-// (depth range + level), localized description, optional YouTube video and a
-// Lightbox gallery of the site's images.
+// (depth range + level), localized description and an autoplaying, one-image-
+// at-a-time swiper of the site's photos — the optional YouTube video is its own slide.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
@@ -40,28 +40,17 @@ const intro = t(galleryPageContent.intro, lang)
         const siteName = t(site.name, lang)
         return (
           <section class={styles.section} id={`site-${site.order}`}>
-            <div class={styles.container}>
+            <div class={`${styles.container} gallery-body`}>
               <h2 class={styles.sectionTitle}>{siteName}</h2>
               <ul class={styles.cardMeta}>
                 <li>{site.depthRange}</li>
                 <li>{t(site.levelTag, lang)}</li>
               </ul>
               <p class={styles.bodyText}>{t(site.description, lang)}</p>
-              {
-                site.youtubeUrl && (
-                  <div class={styles.videoWrapper}>
-                    <iframe
-                      src={site.youtubeUrl}
-                      title={siteName}
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                )
-              }
-              <Lightbox
+              <GallerySwiper
                 images={(site.images ?? []).map((url) => ({ url, alt: siteName }))}
+                videoUrl={site.youtubeUrl}
+                videoAlt={siteName}
                 client:visible
               />
             </div>
@@ -73,3 +62,10 @@ const intro = t(galleryPageContent.intro, lang)
 
   <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={strings.book} />
 </BaseLayout>
+
+<style>
+  .gallery-body {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+</style>

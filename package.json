@@ -18,7 +18,8 @@
     "astro": "^7.1.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "sanity": "^6.8.0"
+    "sanity": "^6.8.0",
+    "swiper": "^14.0.7"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",
