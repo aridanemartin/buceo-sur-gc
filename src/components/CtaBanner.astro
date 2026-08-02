@@ -1,6 +1,10 @@
 ---
 // src/components/CtaBanner.astro
 // Big booking banner, per the docx documents' "INSERTAR BOTON en grande RESERVA YA".
+// The entire banner band is a single clickable link to the booking system —
+// the "RESERVA YA" pill is visual affordance, not a separate link.
+// Kept deliberately minimal: CTA title + button + one brief note explaining the
+// user will be redirected to the reservation page, over a photo background.
 import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
 import styles from '../styles/viewCommon.module.css'
@@ -9,16 +13,15 @@ interface Props {
   lang: Locale
   href: string
   title: string
-  text?: string
 }
 
-const { lang, href, title, text } = Astro.props
+const { lang, href, title } = Astro.props
 const u = ui[lang]
 ---
-<section class={styles.ctaBanner}>
+<a class={styles.ctaBanner} href={href} target="_blank" rel="noopener noreferrer">
   <div class={styles.ctaBannerInner}>
     <h2 class={styles.ctaTitle}>{title}</h2>
-    {text && <p class={styles.ctaText}>{text}</p>}
-    <a class={styles.ctaButton} href={href} target="_blank" rel="noopener noreferrer">{u.ctaButton}</a>
+    <span class={styles.ctaButton}>{u.ctaButton}</span>
+    <p class={styles.ctaNote}>{u.ctaNote}</p>
   </div>
-</section>
+</a>

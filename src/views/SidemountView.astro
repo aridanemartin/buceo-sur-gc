@@ -1,4 +1,5 @@
 ---
+import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import PhotoCarousel from '../components/PhotoCarousel.tsx'
 import { sidemountPageContent } from '../content/data/pageContent'
@@ -22,17 +23,24 @@ interface Props {
 
 const { lang } = Astro.props
 const u = ui[lang]
-const courses = await getCoursesByTag('sidemount')
+const courses = (await getCoursesByTag('sidemount')).map((c, i) => ({
+  ...c,
+  // Reuse sidemount photos from the terrain carousel for the course cards
+  // (index 4 = sidemount-05.webp, index 11 = sidemount-12.webp).
+  image: sidemountGalleryImages[i % 2 === 0 ? 4 : 11],
+}))
 
 const l = (f: any) => t(f, lang)
 
 const terrainImages = sidemountGalleryImages.map((url) => ({ url, alt: u.sidemount.alt }))
 
 // Converts https://youtu.be/<id> or https://www.youtube.com/watch?v=<id>
-// into a privacy-enhanced youtube-nocookie embed URL.
+// into a privacy-enhanced youtube-nocookie embed URL that autoplays once
+// ready. `mute=1` is required for browsers to allow autoplay at all, and
+// `controls=0` hides the player chrome for a clean, silent background video.
 function toEmbedUrl(url: string): string {
   const match = url.match(/(?:youtu\.be\/|watch\?v=)([\w-]{6,})/)
-  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : url
+  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}?autoplay=1&mute=1&controls=0` : url
 }
 
 const videoEmbedUrl = toEmbedUrl(sidemountPageContent.videoUrl)
@@ -40,19 +48,15 @@ const videoEmbedUrl = toEmbedUrl(sidemountPageContent.videoUrl)
 const cta = {
   es: {
     title: 'Reserva tu bautismo Sidemount',
-    text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.',
   },
   en: {
     title: 'Book your Sidemount discover dive',
-    text: 'Book in advance to guarantee your spot. Automated booking system.',
   },
   fr: {
     title: 'Réservez votre baptême Sidemount',
-    text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.',
   },
   de: {
     title: 'Buchen Sie Ihr Sidemount-Schnuppertauchen',
-    text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.',
   },
 }[lang]
 ---
@@ -73,15 +77,20 @@ const cta = {
 
     <section class={styles.section}>
       <div class={`${styles.container} sidemount-body`}>
-        <p class={styles.bodyText}>{l(sidemountPageContent.intro)}</p>
-        <div class={styles.videoWrapper}>
-          <iframe
-            src={videoEmbedUrl}
-            title={l(sidemountPageContent.introTitle)}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            loading="lazy"
-          />
+        <div class={textWithCarousel.grid}>
+          <div class={textWithCarousel.text}>
+            <h2 class={styles.sectionTitle}>{u.nav.sidemount}</h2>
+            <p class={styles.bodyText}>{l(sidemountPageContent.intro)}</p>
+          </div>
+          <div class={styles.videoWrapper}>
+            <iframe
+              src={videoEmbedUrl}
+              title={l(sidemountPageContent.introTitle)}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -115,39 +124,35 @@ const cta = {
 
         <div class={rowStyles.list}>
           {courses.map((c: any) => (
-            <article class={rowStyles.row}>
-              <div class={rowStyles.rowBody}>
-                <h3 class={rowStyles.cardTitle}>{l(c.title)}</h3>
-                <ul class={rowStyles.cardMeta}>
-                  <li>{c.agency}</li>
-                  {c.depthLimit ? <li>{c.depthLimit} m</li> : null}
-                  <li>{l(c.duration)}</li>
-                  {c.minAge ? <li>{c.minAge}+</li> : null}
-                </ul>
-                <p class={rowStyles.cardBody}>{l(c.summary)}</p>
-                <p class={rowStyles.cardBody}>{l(c.includes)}</p>
-                {l(c.supplements) && <p class={rowStyles.cardBody}>{l(c.supplements)}</p>}
-                <p class={rowStyles.cardBody}>{l(c.prerequisites)}</p>
-                {c.price ? <p class={rowStyles.cardPrice}>{c.price} €</p> : null}
-              </div>
-              {c.image ? (
-                <div class={rowStyles.rowMedia}>
-                  <img class={rowStyles.rowImage} src={c.image} alt={l(c.title)} loading="lazy" />
-                </div>
-              ) : null}
-            </article>
+            <CourseCard
+              title={l(c.title)}
+              meta={[
+                c.agency,
+                c.depthLimit ? `${c.depthLimit} m` : '',
+                l(c.duration),
+                c.minAge ? `${c.minAge}+` : '',
+              ].filter((v) => v)}
+              paragraphs={[
+                { text: l(c.summary) },
+                { text: l(c.includes) },
+                ...(l(c.supplements) ? [{ text: l(c.supplements) }] : []),
+                { text: l(c.prerequisites) },
+              ]}
+              price={c.price ? `${c.price} €` : null}
+              image={c.image || null}
+            />
           ))}
         </div>
       </div>
     </section>
 
-    <CtaBanner lang={lang} href={SITE.bookingUrl} title={cta.title} text={cta.text} />
+    <CtaBanner lang={lang} href={SITE.bookingUrl} title={cta.title} />
   </main>
 </BaseLayout>
 
 <style>
   .sidemount-body {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 </style>

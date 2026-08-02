@@ -1,0 +1,77 @@
+---
+// src/components/CourseCard.astro
+// Shared row-style card used by the Inmersiones, Bautizos, Sidemount and
+// Cursos views. Renders a title, meta badges, body paragraphs (each with an
+// optional label), a price and an optional media block. When both videoUrl and
+// image are present the video wins, matching the Bautizos behaviour.
+import rowStyles from '../styles/rowLayout.module.css'
+
+interface Props {
+  title: string
+  meta?: string[]
+  paragraphs?: Array<{ label?: string; text: string }>
+  price?: string | null
+  image?: string | null
+  videoUrl?: string | null
+  headingLevel?: 2 | 3 | 4
+}
+
+const {
+  title,
+  meta = [],
+  paragraphs = [],
+  price,
+  image,
+  videoUrl,
+  headingLevel = 3,
+} = Astro.props
+
+// Converts youtu.be / youtube.com watch or embed links into privacy-enhanced
+// youtube-nocookie embeds with the player chrome hidden. Deliberately NOT
+// autoplayed: pages that list several videos would load them all at once —
+// the user clicks the placeholder to play each one.
+// https://www.youtube-nocookie.com/embed/VIDEO_ID?controls=0
+const m = videoUrl
+  ? videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([A-Za-z0-9_-]{11})/)
+  : null
+const embedUrl = m ? `https://www.youtube-nocookie.com/embed/${m[1]}?controls=0` : null
+
+const Tag = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
+---
+
+<article class={rowStyles.row}>
+  <div class={rowStyles.rowBody}>
+    <Tag class={rowStyles.cardTitle}>{title}</Tag>
+    {meta.length > 0 ? (
+      <ul class={rowStyles.cardMeta}>
+        {meta.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    ) : null}
+    {paragraphs.map((p) => (
+      <p class={rowStyles.cardBody}>
+        {p.label ? <strong>{p.label}: </strong> : null}
+        {p.text}
+      </p>
+    ))}
+    {price ? <p class={rowStyles.cardPrice}>{price}</p> : null}
+  </div>
+  {embedUrl ? (
+    <div class={rowStyles.rowMedia}>
+      <div class={rowStyles.rowVideo}>
+        <iframe
+          src={embedUrl}
+          title={title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    </div>
+  ) : image ? (
+    <div class={rowStyles.rowMedia}>
+      <img class={rowStyles.rowImage} src={image} alt={title} loading="lazy" />
+    </div>
+  ) : null}
+</article>

@@ -31,12 +31,14 @@
   display: block;
 }
 
-/* Circular semi-transparent arrows, matching the previous custom buttons. */
+/* Circular semi-transparent arrows: the circle is bigger than the chevron
+   inside it — the Swiper icon stays at 20px (--swiper-navigation-size)
+   while the button it sits in grows to 40px. */
 .swiper :global(.swiper-button-prev),
 .swiper :global(.swiper-button-next) {
-  width: 44px;
-  height: 44px;
-  margin-top: -22px;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
   border-radius: 50%;
   background: rgba(1, 14, 30, 0.45);
   transition:

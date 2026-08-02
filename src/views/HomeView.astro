@@ -107,7 +107,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
         <div class={aboutStyles.video}>
           <div class={aboutStyles.videoWrapper}>
             <iframe
-              src="https://www.youtube-nocookie.com/embed/3ZaJwr3My3Y?wmode=transparent&vq=hd1080"
+              src="https://www.youtube-nocookie.com/embed/3ZaJwr3My3Y?wmode=transparent&vq=hd1080&autoplay=1&mute=1&controls=0"
               title={uiStrings.home.videoTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allow-fullScreen
@@ -179,7 +179,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
       </div>
     </section>
 
-    <section class={aboutStyles.section} aria-label={uiStrings.home.statsLabel}>
+    <section class={`${aboutStyles.section} ${aboutStyles.sectionFlush}`} aria-label={uiStrings.home.statsLabel}>
       <div class={aboutStyles.stats}>
         {
           (info?.stats ?? []).map((stat: any) => (
@@ -196,7 +196,6 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
       lang={lang}
       href={SITE.bookingUrl}
       title={uiStrings.home.ctaTitle}
-      text={uiStrings.home.ctaText}
     />
 
     <section id="donde-estamos" class={commonStyles.section}>

@@ -1,4 +1,5 @@
 ---
+import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import type { Locale } from '../i18n/locales'
 // src/views/CoursesView.astro
@@ -49,19 +50,15 @@ const categoryLabels: Record<string, string> = {
 const cta = {
   es: {
     title: 'Reserva tu curso de buceo',
-    text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.',
   },
   en: {
     title: 'Book your diving course',
-    text: 'Book in advance to guarantee your spot. Automated booking system.',
   },
   fr: {
     title: 'Réservez votre formation de plongée',
-    text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.',
   },
   de: {
     title: 'Buchen Sie Ihren Tauchkurs',
-    text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.',
   },
 }[lang]
 
@@ -104,28 +101,25 @@ const grouped = agencies.map((agency) => ({
                 {group.items
                   .filter((c: any) => c.category === category)
                   .map((c: any) => (
-                    <article class={rowStyles.row}>
-                      <div class={rowStyles.rowBody}>
-                        <h4 class={rowStyles.cardTitle}>{l(c.title)}</h4>
-                        <ul class={rowStyles.cardMeta}>
-                          <li>{c.agency}</li>
-                          <li>{categoryLabels[category]}</li>
-                          {c.depthLimit ? <li>{c.depthLimit} m</li> : null}
-                          <li>{l(c.duration)}</li>
-                          {c.minAge ? <li>{c.minAge}+</li> : null}
-                        </ul>
-                        <p class={rowStyles.cardBody}>{l(c.summary)}</p>
-                        <p class={rowStyles.cardBody}>{l(c.includes)}</p>
-                        {l(c.supplements) && <p class={rowStyles.cardBody}>{l(c.supplements)}</p>}
-                        <p class={rowStyles.cardBody}>{l(c.prerequisites)}</p>
-                        {c.price ? <p class={rowStyles.cardPrice}>{c.price} €</p> : null}
-                      </div>
-                      {c.image ? (
-                        <div class={rowStyles.rowMedia}>
-                          <img class={rowStyles.rowImage} src={c.image} alt={l(c.title)} loading="lazy" />
-                        </div>
-                      ) : null}
-                    </article>
+                    <CourseCard
+                      title={l(c.title)}
+                      meta={[
+                        c.agency,
+                        categoryLabels[category],
+                        c.depthLimit ? `${c.depthLimit} m` : '',
+                        l(c.duration),
+                        c.minAge ? `${c.minAge}+` : '',
+                      ].filter((v) => v)}
+                      paragraphs={[
+                        { text: l(c.summary) },
+                        { text: l(c.includes) },
+                        ...(l(c.supplements) ? [{ text: l(c.supplements) }] : []),
+                        { text: l(c.prerequisites) },
+                      ]}
+                      price={c.price ? `${c.price} €` : null}
+                      image={c.image || null}
+                      headingLevel={4}
+                    />
                   ))}
               </div>
             </div>
@@ -134,6 +128,6 @@ const grouped = agencies.map((agency) => ({
       </section>
     ))}
 
-    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={cta.title} text={cta.text} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={cta.title} />
   </main>
 </BaseLayout>

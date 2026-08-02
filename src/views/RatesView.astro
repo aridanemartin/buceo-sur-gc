@@ -57,13 +57,6 @@ const ctaTitle: Record<Locale, string> = {
   de: 'Bereit für deinen nächsten Tauchgang?',
 }
 
-const ctaText: Record<Locale, string> = {
-  es: 'Reserva tu bautizo, inmersión o curso directamente con nosotros.',
-  en: 'Book your discover dive, guided dive or course directly with us.',
-  fr: 'Réservez votre baptême, plongée ou formation directement chez nous.',
-  de: 'Buche dein Schnuppertauchen, deinen Tauchgang oder Kurs direkt bei uns.',
-}
-
 const cols: Record<
   Locale,
   { product: string; price: string; includes: string; supplements: string; unit: string }
@@ -237,7 +230,7 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
       </div>
     </section>
 
-    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
   </main>
 </BaseLayout>
 

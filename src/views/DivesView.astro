@@ -1,4 +1,5 @@
 ---
+import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import { divesPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
@@ -10,6 +11,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getExperiences } from '../sanity/queries'
+import rowStyles from '../styles/rowLayout.module.css'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -68,13 +70,6 @@ const ctaTitle: Record<Locale, string> = {
   en: 'Ready for your next dive?',
   fr: 'Prêt pour votre prochaine plongée ?',
   de: 'Bereit für deinen nächsten Tauchgang?',
-}
-
-const ctaText: Record<Locale, string> = {
-  es: 'Reserva tu inmersión guiada directamente con nosotros.',
-  en: 'Book your guided dive directly with us.',
-  fr: 'Réservez votre plongée encadrée directement chez nous.',
-  de: 'Buche deinen begleiteten Tauchgang direkt bei uns.',
 }
 
 const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
@@ -143,40 +138,32 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
     <section class={styles.section}>
       <div class={styles.container}>
         <h2 class={styles.sectionTitle}>{l.gridTitle}</h2>
-        <div class={styles.grid}>
+        <div class={rowStyles.list}>
           {experiences.map((x: any) => (
-            <article class={styles.card}>
-              <h3 class={styles.cardTitle}>{t(x.title, lang)}</h3>
-              <ul class={styles.cardMeta}>
-                {t(x.duration, lang) ? <li>{t(x.duration, lang)}</li> : null}
-                {depthBadge(x.depthLimit) ? <li>{depthBadge(x.depthLimit)}</li> : null}
-              </ul>
-              <p class={styles.cardBody}>{t(x.description, lang)}</p>
-              {t(x.includes, lang) ? (
-                <p class={styles.cardBody}>
-                  <strong>{l.includes}: </strong>
-                  {t(x.includes, lang)}
-                </p>
-              ) : null}
-              {t(x.supplements, lang) ? (
-                <p class={styles.cardBody}>
-                  <strong>{l.supplements}: </strong>
-                  {t(x.supplements, lang)}
-                </p>
-              ) : null}
-              {t(x.groupDiscount, lang) ? (
-                <p class={styles.cardBody}>
-                  <strong>{l.conditions}: </strong>
-                  {t(x.groupDiscount, lang)}
-                </p>
-              ) : null}
-              {priceOf(x) ? <p class={styles.cardPrice}>{priceOf(x)}</p> : null}
-            </article>
+            <CourseCard
+              title={t(x.title, lang)}
+              meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
+              paragraphs={[
+                { text: t(x.description, lang) },
+                ...(t(x.includes, lang)
+                  ? [{ label: l.includes, text: t(x.includes, lang) }]
+                  : []),
+                ...(t(x.supplements, lang)
+                  ? [{ label: l.supplements, text: t(x.supplements, lang) }]
+                  : []),
+                ...(t(x.groupDiscount, lang)
+                  ? [{ label: l.conditions, text: t(x.groupDiscount, lang) }]
+                  : []),
+              ]}
+              price={priceOf(x) || null}
+              image={x.image || null}
+              videoUrl={x.videoUrl || null}
+            />
           ))}
         </div>
       </div>
     </section>
 
-    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
   </main>
 </BaseLayout>

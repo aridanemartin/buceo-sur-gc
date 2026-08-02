@@ -165,11 +165,29 @@
   color: var(--color-ocean-700);
 }
 
-/* CTA banner */
+/* CTA banner — the whole band is one clickable link */
 .ctaBanner {
+  display: block;
   padding: var(--section-py) 24px;
-  background: linear-gradient(160deg, var(--color-ocean-800) 0%, var(--color-ocean-600) 100%);
+  background-color: var(--color-ocean-800);
+  background-image:
+    linear-gradient(160deg, rgba(1, 42, 74, 0.82) 0%, rgba(2, 62, 138, 0.72) 100%),
+    url("/assets/sidemount/sidemount-01.webp");
+  background-size: cover;
+  background-position: center;
   text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: filter var(--transition);
+}
+
+.ctaBanner:hover {
+  filter: brightness(1.08);
+}
+
+.ctaBanner:focus-visible {
+  outline: 3px solid var(--color-ocean-200);
+  outline-offset: -3px;
 }
 
 .ctaBannerInner {
@@ -180,11 +198,6 @@
 .ctaTitle {
   color: var(--color-white);
   font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-  margin-bottom: 12px;
-}
-
-.ctaText {
-  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 24px;
 }
 
@@ -205,6 +218,12 @@
 .ctaButton:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
+}
+
+.ctaNote {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  margin-top: 16px;
 }
 
 /* Video embed */

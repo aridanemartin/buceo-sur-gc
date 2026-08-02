@@ -1,7 +1,9 @@
 // src/components/GallerySwiper.tsx
 // One-at-a-time photo carousel for a dive site, autoplaying with a progress bar.
-// The optional site video is included as its own slide: tapping its thumbnail
-// plays the embed inline and pauses autoplay until the user moves on.
+// The optional site video is the first slide: whenever that slide is active the
+// embed mounts and autoplays muted with the player chrome hidden, pausing the
+// carousel until the user swipes away. On other slides a thumbnail is shown
+// that navigates back to the video.
 import { useEffect, useRef, useState } from 'react'
 import type { Swiper as SwiperType } from 'swiper'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
@@ -29,15 +31,18 @@ function getYoutubeThumbnail(embedUrl: string): string | null {
 }
 
 export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwiperProps) {
-  const [videoPlaying, setVideoPlaying] = useState(false)
+  // The video is always the first slide, so realIndex 0 == video slide active.
+  const [activeIndex, setActiveIndex] = useState(0)
   const swiperRef = useRef<SwiperType | null>(null)
+
+  const isVideoActive = Boolean(videoUrl) && activeIndex === 0
 
   useEffect(() => {
     const swiper = swiperRef.current
     if (!swiper?.autoplay) return
-    if (videoPlaying) swiper.autoplay.stop()
+    if (isVideoActive) swiper.autoplay.stop()
     else swiper.autoplay.start()
-  }, [videoPlaying])
+  }, [isVideoActive])
 
   if (images.length === 0 && !videoUrl) return null
 
@@ -52,7 +57,7 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
       onSwiper={(swiper) => {
         swiperRef.current = swiper
       }}
-      onSlideChange={() => setVideoPlaying(false)}
+      onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
       loop={multiSlide}
       autoplay={multiSlide ? { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
       navigation={multiSlide}
@@ -60,10 +65,10 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
     >
       {videoUrl && (
         <SwiperSlide>
-          {videoPlaying ? (
+          {isVideoActive ? (
             <iframe
               className={styles.media}
-              src={`${videoUrl}${videoUrl.includes('?') ? '&' : '?'}autoplay=1`}
+              src={`${videoUrl}${videoUrl.includes('?') ? '&' : '?'}autoplay=1&mute=1&controls=0`}
               title={videoAlt ?? 'Video'}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
@@ -72,7 +77,7 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
             <button
               type="button"
               className={styles.videoThumbBtn}
-              onClick={() => setVideoPlaying(true)}
+              onClick={() => swiperRef.current?.slideToLoop(0)}
               aria-label={videoAlt ?? 'Video'}
               style={videoThumbnail ? { backgroundImage: `url(${videoThumbnail})` } : undefined}
             >

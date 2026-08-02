@@ -1,4 +1,5 @@
 ---
+import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import { baptismsPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
@@ -10,8 +11,8 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getExperiences } from '../sanity/queries'
-import styles from '../styles/viewCommon.module.css'
 import rowStyles from '../styles/rowLayout.module.css'
+import styles from '../styles/viewCommon.module.css'
 
 interface Props {
   lang: Locale
@@ -77,21 +78,12 @@ const ctaTitle: Record<Locale, string> = {
   de: 'Bereit, die Unterwasserwelt zu entdecken?',
 }
 
-const ctaText: Record<Locale, string> = {
-  es: 'Reserva tu bautizo y vive tu primera inmersión con nosotros.',
-  en: 'Book your discover dive and live your first immersion with us.',
-  fr: 'Réservez votre baptême et vivez votre première plongée avec nous.',
-  de: 'Buche dein Schnuppertauchen und erlebe deinen ersten Tauchgang bei uns.',
-}
-
 // Converts youtu.be / youtube.com watch or embed links into privacy-enhanced
-// youtube-nocookie embeds: https://www.youtube-nocookie.com/embed/VIDEO_ID
-const youtubeEmbedUrl = (url: string | null | undefined): string | null => {
-  if (!url) return null
-  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([A-Za-z0-9_-]{11})/)
-  return m ? `https://www.youtube-nocookie.com/embed/${m[1]}` : null
-}
-
+// youtube-nocookie embeds with the player chrome hidden. Deliberately NOT
+// autoplayed: this page lists several videos and loading them all at once
+// would be heavy — the user clicks the placeholder to play each one.
+// https://www.youtube-nocookie.com/embed/VIDEO_ID?controls=0
+// (The shared CourseCard component does this conversion for the cards.)
 const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
 const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price} €` : '')
 ---
@@ -118,63 +110,27 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
       <div class={styles.container}>
         <p class={styles.sectionEyebrow}>{u.nav.baptisms}</p>
         <div class={rowStyles.list}>
-          {
-            experiences.map((x: any) => {
-              const embedUrl = youtubeEmbedUrl(x.videoUrl)
-              return (
-                <article class={rowStyles.row}>
-                  <div class={rowStyles.rowBody}>
-                    <h3 class={rowStyles.cardTitle}>{t(x.title, lang)}</h3>
-                    <ul class={rowStyles.cardMeta}>
-                      {t(x.duration, lang) ? <li>{t(x.duration, lang)}</li> : null}
-                      {depthBadge(x.depthLimit) ? (
-                        <li>{depthBadge(x.depthLimit)}</li>
-                      ) : null}
-                    </ul>
-                    <p class={rowStyles.cardBody}>{t(x.description, lang)}</p>
-                    {t(x.includes, lang) ? (
-                      <p class={rowStyles.cardBody}>
-                        <strong>{l.includes}: </strong>
-                        {t(x.includes, lang)}
-                      </p>
-                    ) : null}
-                    {t(x.supplements, lang) ? (
-                      <p class={rowStyles.cardBody}>
-                        <strong>{l.supplements}: </strong>
-                        {t(x.supplements, lang)}
-                      </p>
-                    ) : null}
-                    {t(x.groupDiscount, lang) ? (
-                      <p class={rowStyles.cardBody}>
-                        <strong>{l.conditions}: </strong>
-                        {t(x.groupDiscount, lang)}
-                      </p>
-                    ) : null}
-                    {priceOf(x) ? (
-                      <p class={rowStyles.cardPrice}>{priceOf(x)}</p>
-                    ) : null}
-                  </div>
-                  {embedUrl ? (
-                    <div class={rowStyles.rowMedia}>
-                      <div class={rowStyles.rowVideo}>
-                        <iframe
-                          src={embedUrl}
-                          title={t(x.title, lang)}
-                          loading="lazy"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                    </div>
-                  ) : x.image ? (
-                    <div class={rowStyles.rowMedia}>
-                      <img class={rowStyles.rowImage} src={x.image} alt={t(x.title, lang)} loading="lazy" />
-                    </div>
-                  ) : null}
-                </article>
-              )
-            })
-          }
+          {experiences.map((x: any) => (
+            <CourseCard
+              title={t(x.title, lang)}
+              meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
+              paragraphs={[
+                { text: t(x.description, lang) },
+                ...(t(x.includes, lang)
+                  ? [{ label: l.includes, text: t(x.includes, lang) }]
+                  : []),
+                ...(t(x.supplements, lang)
+                  ? [{ label: l.supplements, text: t(x.supplements, lang) }]
+                  : []),
+                ...(t(x.groupDiscount, lang)
+                  ? [{ label: l.conditions, text: t(x.groupDiscount, lang) }]
+                  : []),
+              ]}
+              price={priceOf(x) || null}
+              image={x.image || null}
+              videoUrl={x.videoUrl || null}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -183,7 +139,6 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
       lang={lang}
       href={SITE.bookingUrl}
       title={ctaTitle[lang]}
-      text={ctaText[lang]}
     />
   </main>
 </BaseLayout>

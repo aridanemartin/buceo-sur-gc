@@ -34,7 +34,6 @@ export interface UiStrings {
     teamTitle: string
     statsLabel: string
     ctaTitle: string
-    ctaText: string
   }
   sidemount: {
     alt: string
@@ -43,6 +42,7 @@ export interface UiStrings {
   }
   book: string
   ctaButton: string
+  ctaNote: string
   footer: {
     country: string
     tagline: string
@@ -95,8 +95,6 @@ export const ui: Record<Locale, UiStrings> = {
       teamTitle: 'El equipo',
       statsLabel: 'Estadísticas',
       ctaTitle: 'Reserva tu inmersión',
-      ctaText:
-        'Sistema de reservas automatizado — reserva con antelación para garantizar tu plaza.',
     },
     sidemount: {
       alt: 'Buceo sidemount en Gran Canaria',
@@ -105,6 +103,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     book: 'Reservar',
     ctaButton: 'RESERVA YA',
+    ctaNote: 'Serás redirigido a nuestra página de reservas.',
     footer: {
       country: 'España',
       tagline: 'Inmersiones en toda la isla — todo el año',
@@ -155,7 +154,6 @@ export const ui: Record<Locale, UiStrings> = {
       teamTitle: 'The team',
       statsLabel: 'Statistics',
       ctaTitle: 'Book your dive',
-      ctaText: 'Automated booking system — book in advance to guarantee your spot.',
     },
     sidemount: {
       alt: 'Sidemount diving in Gran Canaria',
@@ -164,6 +162,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     book: 'Book now',
     ctaButton: 'BOOK NOW',
+    ctaNote: "You'll be redirected to our booking page.",
     footer: {
       country: 'Spain',
       tagline: 'Dives all over the island — all year round',
@@ -214,7 +213,6 @@ export const ui: Record<Locale, UiStrings> = {
       teamTitle: 'L’équipe',
       statsLabel: 'Statistiques',
       ctaTitle: 'Réservez votre plongée',
-      ctaText: 'Système de réservation automatisé — réservez à l’avance pour garantir votre place.',
     },
     sidemount: {
       alt: 'Plongée sidemount à Gran Canaria',
@@ -223,6 +221,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     book: 'Réserver',
     ctaButton: 'RÉSERVEZ MAINTENANT',
+    ctaNote: 'Vous serez redirigé vers notre page de réservation.',
     footer: {
       country: 'Espagne',
       tagline: 'Plongées sur toute l’île — toute l’année',
@@ -273,7 +272,6 @@ export const ui: Record<Locale, UiStrings> = {
       teamTitle: 'Das Team',
       statsLabel: 'Statistiken',
       ctaTitle: 'Buche deinen Tauchgang',
-      ctaText: 'Automatisiertes Buchungssystem — buche rechtzeitig, um deinen Platz zu sichern.',
     },
     sidemount: {
       alt: 'Sidemount-Tauchen auf Gran Canaria',
@@ -282,6 +280,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     book: 'Jetzt buchen',
     ctaButton: 'JETZT BUCHEN',
+    ctaNote: 'Sie werden zu unserer Buchungsseite weitergeleitet.',
     footer: {
       country: 'Spanien',
       tagline: 'Tauchgänge auf der ganzen Insel — das ganze Jahr über',
