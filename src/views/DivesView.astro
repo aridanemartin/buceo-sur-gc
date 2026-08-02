@@ -12,6 +12,7 @@ import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getExperiences } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
+import textWithCarousel from '../styles/TextWithCarousel.module.css'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -96,9 +97,21 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
 
     <!-- Site choice -->
     <section class={styles.sectionAlt}>
-      <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{t(divesPageContent.siteChoiceTitle, lang)}</h2>
-        <p class={styles.bodyText}>{t(divesPageContent.siteChoice, lang)}</p>
+      <div class={`${styles.container} site-choice-body`}>
+        <div class={textWithCarousel.grid}>
+          <div class={textWithCarousel.text}>
+            <h2 class={styles.sectionTitle}>{t(divesPageContent.siteChoiceTitle, lang)}</h2>
+            <p class={styles.bodyText}>{t(divesPageContent.siteChoice, lang)}</p>
+          </div>
+          <img
+            src="/assets/maps/mapa.sitio.buceo.isla.webp"
+            alt={t(divesPageContent.siteChoiceTitle, lang)}
+            width={800}
+            height={717}
+            loading="lazy"
+            class="site-choice-map"
+          />
+        </div>
       </div>
     </section>
 
@@ -167,3 +180,17 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
     <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
   </main>
 </BaseLayout>
+
+<style>
+  .site-choice-body {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .site-choice-map {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+</style>
