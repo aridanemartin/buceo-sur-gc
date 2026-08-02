@@ -6,7 +6,7 @@
 
 **Architecture:** Add an optional `image` field to the `experience` Sanity schema alongside the existing `videoUrl`, resolve it in `getExperiences()`, extract the Courses row-layout CSS into a shared module, and rewrite `BaptismsView.astro`'s markup from card/grid to row, picking video over image when both are set.
 
-**Tech Stack:** Astro (`.astro` views), CSS Modules, Sanity (schema + GROQ), no test runner configured in this repo — verification is `astro build`/`astro check`, `oxlint`, and manual smoke test via `astro dev`.
+**Tech Stack:** Astro (`.astro` views), CSS Modules, Sanity (schema + GROQ), no test runner configured in this repo. `@astrojs/check` is NOT installed and must not be added — verification is `npx tsc --noEmit -p .` for plain `.ts` files, `npm run build` (full Astro production build) for anything touching `.astro` files, `npm run lint` (oxlint), and manual smoke test via `npm run dev`.
 
 ## Global Constraints
 
@@ -14,6 +14,8 @@
 - Other views reading `experience` documents (`DivesView`, `SidemountView`, `RatesView`, `HomeView`) are out of scope — keep their current layout untouched.
 - Image field mirrors `course.image`: `type: 'image'`, `options: { accept: 'image/webp' }`.
 - Design spec: `docs/superpowers/specs/2026-08-02-bautizos-row-layout-design.md`.
+- Do not run `npx astro check` and do not add `@astrojs/check` or `typescript` to `package.json`/`package-lock.json` — the project doesn't use `astro check`, and running it un-guarded triggers an interactive prompt that installs those as new devDependencies, polluting the diff. If you see `@astrojs/check` or `typescript` added to `package.json`/`package-lock.json` in your `git status`, revert those two files before committing.
+- Baseline note: `npx tsc --noEmit -p .` already reports one pre-existing, unrelated error on `main` — `src/sanity/queries.ts(50,9): error TS2769` (in `getCoursesByTag`, untouched by this plan). This is not something to fix; only new errors introduced by your changes are a problem.
 
 ---
 
@@ -291,8 +293,8 @@ Then replace every `courseStyles.` reference in the template (lines 103, 107, 10
 
 - [ ] **Step 4: Verify the Courses page still builds and looks right**
 
-Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npx astro check`
-Expected: no errors.
+Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npm run build`
+Expected: build succeeds (do not run `npx astro check` — see Global Constraints).
 
 Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npm run dev` (in background), then open `/es/cursos` (or the courses route for your locale) in a browser and confirm the row layout still renders exactly as before (photo on the right, stacking on mobile). Stop the dev server after checking.
 
@@ -406,8 +408,8 @@ Note the precedence: `embedUrl` (video) is checked first; `x.image` is only used
 
 - [ ] **Step 3: Verify the page builds**
 
-Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npx astro check`
-Expected: no errors.
+Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npm run build`
+Expected: build succeeds (do not run `npx astro check` — see Global Constraints).
 
 - [ ] **Step 4: Manual smoke test — video path (existing data)**
 
@@ -417,7 +419,7 @@ Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npm run dev` (in backgro
 
 - [ ] **Step 5: Manual smoke test — image path (temporary local data)**
 
-Temporarily edit `src/content/data/experiences.ts`: on the `experience-ssi-basic-diver` entry, comment out or remove the `videoUrl` line and add `image: 'https://placehold.co/800x600.webp',` in its place. Reload the Bautizos page in the browser and confirm that row now shows the placeholder image instead of a video, sized/cropped the same way Courses' images are. Then revert this temporary edit exactly (restore the original `videoUrl` line, remove the temporary `image` line) — do not commit it.
+Temporarily edit `src/content/data/experiences.ts`: on the `experience-ssi-basic-diver` entry, comment out or remove the `videoUrl` line and add `image: '/assets/local.webp',` in its place (this is an existing local asset already in `public/assets/`, so it needs no network access). Reload the Bautizos page in the browser and confirm that row now shows the image instead of a video, sized/cropped the same way Courses' images are. Then revert this temporary edit exactly (restore the original `videoUrl` line, remove the temporary `image` line) — do not commit it.
 
 Stop the dev server after checking.
 
@@ -444,10 +446,10 @@ uploaded image (video takes precedence when both are set)."
 Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npm run lint`
 Expected: no new errors in the touched files.
 
-- [ ] **Step 2: Full type check**
+- [ ] **Step 2: Type check the plain TS files**
 
-Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npx astro check`
-Expected: no errors.
+Run: `cd /Users/aridanemartin/workspace/buceo-sur-gc && npx tsc --noEmit -p .`
+Expected: the same single pre-existing error as the baseline (`src/sanity/queries.ts(50,9): error TS2769`, in `getCoursesByTag`) and nothing else. Do not run `npx astro check` (see Global Constraints).
 
 - [ ] **Step 3: Production build**
 
