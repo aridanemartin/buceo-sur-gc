@@ -4,7 +4,7 @@
 }
 
 .sectionFlush {
-  padding: 0 24px;
+  padding: 0 24px var(--section-py);
   background: var(--color-white);
 }
 
