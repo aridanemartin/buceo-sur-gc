@@ -7,7 +7,8 @@ export const SITE = {
   // Base booking link (used for Bautizos, doc 3).
   bookingUrl: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1',
   // Category-scoped booking links (docs 2/5/6): Inmersiones, Tarifas and Galería.
-  bookingUrlDives: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1?categories=69bc71f9c2395a856d5778ac',
+  bookingUrlDives:
+    'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1?categories=69bc71f9c2395a856d5778ac',
   email: 'buceosur.gc@gmail.com',
   phones: [
     { label: 'Anne', href: 'tel:+34651352573', display: '+34 651 35 25 73' },

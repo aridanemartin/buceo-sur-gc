@@ -124,43 +124,43 @@
     gap: 40px;
   }
 
-.certs {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  flex-wrap: wrap;
-}
+  .certs {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 
-.certLogo {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-  background: var(--color-white);
-  border-radius: var(--radius-sm);
-  padding: 4px;
-}
+  .certLogo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    background: var(--color-white);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+  }
 
-.social {
-  max-width: var(--container-max);
-  margin: 16px auto 0;
-  padding: 0 24px;
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+  .social {
+    max-width: var(--container-max);
+    margin: 16px auto 0;
+    padding: 0 24px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
 
-.social a {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.85rem;
-  transition: color var(--transition);
-}
+  .social a {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.85rem;
+    transition: color var(--transition);
+  }
 
-.social a:hover {
-  color: var(--color-white);
-}
+  .social a:hover {
+    color: var(--color-white);
+  }
 
   .bottom {
     flex-direction: column;

@@ -33,7 +33,12 @@ export const experiencesData: ExperienceSeed[] = [
       'Votre première plongée en mer, sans expérience préalable. Une fois équipé, vous plongerez dans une zone protégée mais pleine de vie sous-marine : ouvrez les yeux, votre instructeur s’occupe de tout. Pour votre sécurité, nous dédions UN INSTRUCTEUR PAR BAPTÊME.',
       'Ihr erster Tauchgang im Meer, ohne Vorkenntnisse. Ausgerüstet tauchen Sie in einem geschützten, aber lebendigen Gebiet: Augen auf, Ihr Ausbilder kümmert sich um alles. Für Ihre Sicherheit: EIN AUSBILDER PRO SCHNUPPERTAUCHGANG.',
     ),
-    duration: loc('1 inmersión / 2,5 h', '1 dive / 2.5 h', '1 plongée / 2,5 h', '1 Tauchgang / 2,5 Std.'),
+    duration: loc(
+      '1 inmersión / 2,5 h',
+      '1 dive / 2.5 h',
+      '1 plongée / 2,5 h',
+      '1 Tauchgang / 2,5 Std.',
+    ),
     depthLimit: 6,
     price: 80,
     includes: loc(
@@ -42,7 +47,12 @@ export const experiencesData: ExperienceSeed[] = [
       '1 plongée en mer ouverte, tout l’équipement nécessaire et l’assurance obligatoire. Nous allons à Risco Verde, idéal pour les débutants avec une grande diversité de vie.',
       '1 Freiwassertauchgang, die gesamte notwendige Ausrüstung und die Pflichtversicherung. Wir gehen nach Risco Verde, ideal für Anfänger mit großer Artenvielfalt.',
     ),
-    supplements: loc('Clip de vídeo: 25 €.', 'Video clip: €25.', 'Clip vidéo : 25 €.', 'Videoclip: 25 €.'),
+    supplements: loc(
+      'Clip de vídeo: 25 €.',
+      'Video clip: €25.',
+      'Clip vidéo : 25 €.',
+      'Videoclip: 25 €.',
+    ),
     groupDiscount: loc(
       'Requisitos: más de 12 años, saber nadar, apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones) y no tener vuelo el mismo día.',
       'Requirements: over 12 years old, able to swim, fit to dive (medical certificate or completed medical questionnaire with no contraindications) and no flight the same day.',
@@ -55,7 +65,12 @@ export const experiencesData: ExperienceSeed[] = [
   {
     _id: 'experience-ssi-basic-diver',
     _type: 'experience',
-    title: loc('Curso Iniciación Básico (SSI Basic Diver)', 'Basic Initiation Course (SSI Basic Diver)', 'Cours d’initiation basique (SSI Basic Diver)', 'Grundkurs (SSI Basic Diver)'),
+    title: loc(
+      'Curso Iniciación Básico (SSI Basic Diver)',
+      'Basic Initiation Course (SSI Basic Diver)',
+      'Cours d’initiation basique (SSI Basic Diver)',
+      'Grundkurs (SSI Basic Diver)',
+    ),
     audience: 'beginner',
     description: loc(
       'En una piscina natural al lado de la playa aprenderás los gestos básicos del buceo (comunicación, vaciar la máscara, manejar el chaleco…). Luego pondrás todo en práctica en una inmersión más profunda en aguas abiertas. UN INSTRUCTOR POR 2 BUCEADORES.',
@@ -63,7 +78,12 @@ export const experiencesData: ExperienceSeed[] = [
       'Dans une piscine naturelle à côté de la plage, vous apprendrez les gestes de base de la plongée (communication, vider le masque, gérer le gilet…). Ensuite, vous mettrez tout en pratique lors d’une plongée plus profonde en mer ouverte. UN INSTRUCTEUR POUR 2 PLONGEURS.',
       'In einem natürlichen Pool am Strand lernen Sie die Grundtechniken des Tauchens (Kommunikation, Maske ausblasen, Jacket bedienen…). Danach setzen Sie alles bei einem tieferen Freiwassertauchgang um. EIN AUSBILDER PRO 2 TAUCHER.',
     ),
-    duration: loc('2 inmersiones + teoría / 4 h', '2 dives + theory / 4 h', '2 plongées + théorie / 4 h', '2 Tauchgänge + Theorie / 4 Std.'),
+    duration: loc(
+      '2 inmersiones + teoría / 4 h',
+      '2 dives + theory / 4 h',
+      '2 plongées + théorie / 4 h',
+      '2 Tauchgänge + Theorie / 4 Std.',
+    ),
     depthLimit: 8,
     price: 120,
     includes: loc(
@@ -72,7 +92,12 @@ export const experiencesData: ExperienceSeed[] = [
       '1 plongée technique en piscine naturelle (Zoco-Negro, max. 3 m), 1 plongée en mer ouverte (Risco Verde, max. 8 m), théorie en ligne SSI Basic Diver, carte de plongée SSI Basic Diver, équipement de plongée, assurance plongée et tout le nécessaire.',
       '1 technischer Tauchgang im Naturpool (Zoco-Negro, max. 3 m), 1 Freiwassertauchgang (Risco Verde, max. 8 m), SSI-Basic-Diver-Online-Theorie, SSI-Basic-Diver-Karte, Tauchausrüstung, Tauchversicherung und alles Notwendige.',
     ),
-    supplements: loc('Clip de vídeo: 25 €.', 'Video clip: €25.', 'Clip vidéo : 25 €.', 'Videoclip: 25 €.'),
+    supplements: loc(
+      'Clip de vídeo: 25 €.',
+      'Video clip: €25.',
+      'Clip vidéo : 25 €.',
+      'Videoclip: 25 €.',
+    ),
     groupDiscount: loc(
       'Requisitos: más de 12 años, saber nadar, apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones) y no tener vuelo el mismo día.',
       'Requirements: over 12 years old, able to swim, fit to dive (medical certificate or completed medical questionnaire with no contraindications) and no flight the same day.',
@@ -94,23 +119,43 @@ export const experiencesData: ExperienceSeed[] = [
       'Une plongée encadrée l’après-midi (zone Risco, Tufia, Cabrón ou Sardina), avec un minimum de 2 participants.',
       'Ein begleiteter Nachmittagstauchgang (Zone Risco, Tufia, Cabrón oder Sardina), mit mindestens 2 Teilnehmern.',
     ),
-    duration: loc('1 inmersión (tarde)', '1 dive (afternoon)', '1 plongée (après-midi)', '1 Tauchgang (nachmittags)'),
+    duration: loc(
+      '1 inmersión (tarde)',
+      '1 dive (afternoon)',
+      '1 plongée (après-midi)',
+      '1 Tauchgang (nachmittags)',
+    ),
     depthLimit: null,
     price: 50,
-    includes: loc('1 inmersión guiada. Plomos y botella incluidos.', '1 guided dive. Weights and tank included.', '1 plongée encadrée. Plombs et bouteille inclus.', '1 begleiteter Tauchgang. Gewichte und Flasche inklusive.'),
+    includes: loc(
+      '1 inmersión guiada. Plomos y botella incluidos.',
+      '1 guided dive. Weights and tank included.',
+      '1 plongée encadrée. Plombs et bouteille inclus.',
+      '1 begleiteter Tauchgang. Gewichte und Flasche inklusive.',
+    ),
     supplements: loc(
       'Equipo básico: +10 €. Equipo completo (con ordenador): +15 €.',
       'Basic equipment: +€10. Full equipment (with computer): +€15.',
       'Équipement de base : +10 €. Équipement complet (avec ordinateur) : +15 €.',
       'Grundausrüstung: +10 €. Komplettausrüstung (mit Computer): +15 €.',
     ),
-    groupDiscount: loc('Mínimo 2 participantes.', 'Minimum 2 participants.', 'Minimum 2 participants.', 'Mindestens 2 Teilnehmer.'),
+    groupDiscount: loc(
+      'Mínimo 2 participantes.',
+      'Minimum 2 participants.',
+      'Minimum 2 participants.',
+      'Mindestens 2 Teilnehmer.',
+    ),
     order: 3,
   },
   {
     _id: 'experience-double-dive',
     _type: 'experience',
-    title: loc('Doble Buceo (1 día)', 'Double Dive (1 day)', 'Double Plongée (1 jour)', 'Doppeltauchgang (1 Tag)'),
+    title: loc(
+      'Doble Buceo (1 día)',
+      'Double Dive (1 day)',
+      'Double Plongée (1 jour)',
+      'Doppeltauchgang (1 Tag)',
+    ),
     audience: 'certified',
     description: loc(
       'Dos inmersiones guiadas en un día (zona Risco, Tufia, Cabrón o Sardina).',
@@ -118,10 +163,20 @@ export const experiencesData: ExperienceSeed[] = [
       'Deux plongées encadrées en une journée (zone Risco, Tufia, Cabrón ou Sardina).',
       'Zwei begleitete Tauchgänge an einem Tag (Zone Risco, Tufia, Cabrón oder Sardina).',
     ),
-    duration: loc('2 inmersiones / 1 día', '2 dives / 1 day', '2 plongées / 1 jour', '2 Tauchgänge / 1 Tag'),
+    duration: loc(
+      '2 inmersiones / 1 día',
+      '2 dives / 1 day',
+      '2 plongées / 1 jour',
+      '2 Tauchgänge / 1 Tag',
+    ),
     depthLimit: null,
     price: 75,
-    includes: loc('2 inmersiones guiadas. Plomos y botellas incluidos.', '2 guided dives. Weights and tanks included.', '2 plongées encadrées. Plombs et bouteilles inclus.', '2 begleitete Tauchgänge. Gewichte und Flaschen inklusive.'),
+    includes: loc(
+      '2 inmersiones guiadas. Plomos y botellas incluidos.',
+      '2 guided dives. Weights and tanks included.',
+      '2 plongées encadrées. Plombs et bouteilles inclus.',
+      '2 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    ),
     supplements: loc(
       'Barco (zona sur): +20 €. Equipo básico: +20 €. Equipo completo (con ordenador): +25 €.',
       'Boat (south zone): +€20. Basic equipment: +€20. Full equipment (with computer): +€25.',
@@ -134,7 +189,12 @@ export const experiencesData: ExperienceSeed[] = [
   {
     _id: 'experience-bono-4',
     _type: 'experience',
-    title: loc('Bono 4 Buceos (2 días)', '4-Dive Package (2 days)', 'Pack 4 plongées (2 jours)', '4er-Tauchpaket (2 Tage)'),
+    title: loc(
+      'Bono 4 Buceos (2 días)',
+      '4-Dive Package (2 days)',
+      'Pack 4 plongées (2 jours)',
+      '4er-Tauchpaket (2 Tage)',
+    ),
     audience: 'certified',
     description: loc(
       'Cuatro inmersiones guiadas en 2 días (zona Risco, Tufia, Cabrón o Sardina).',
@@ -142,10 +202,20 @@ export const experiencesData: ExperienceSeed[] = [
       'Quatre plongées encadrées sur 2 jours (zone Risco, Tufia, Cabrón ou Sardina).',
       'Vier begleitete Tauchgänge an 2 Tagen (Zone Risco, Tufia, Cabrón oder Sardina).',
     ),
-    duration: loc('4 inmersiones / 2 días', '4 dives / 2 days', '4 plongées / 2 jours', '4 Tauchgänge / 2 Tage'),
+    duration: loc(
+      '4 inmersiones / 2 días',
+      '4 dives / 2 days',
+      '4 plongées / 2 jours',
+      '4 Tauchgänge / 2 Tage',
+    ),
     depthLimit: null,
     price: 140,
-    includes: loc('4 inmersiones guiadas. Plomos y botellas incluidos.', '4 guided dives. Weights and tanks included.', '4 plongées encadrées. Plombs et bouteilles inclus.', '4 begleitete Tauchgänge. Gewichte und Flaschen inklusive.'),
+    includes: loc(
+      '4 inmersiones guiadas. Plomos y botellas incluidos.',
+      '4 guided dives. Weights and tanks included.',
+      '4 plongées encadrées. Plombs et bouteilles inclus.',
+      '4 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    ),
     supplements: loc(
       'Barco (zona sur): +20 €/día. Equipo básico: +40 €. Equipo completo (con ordenador): +50 €.',
       'Boat (south zone): +€20/day. Basic equipment: +€40. Full equipment (with computer): +€50.',
@@ -158,7 +228,12 @@ export const experiencesData: ExperienceSeed[] = [
   {
     _id: 'experience-bono-6',
     _type: 'experience',
-    title: loc('Bono 6 Buceos (3 días)', '6-Dive Package (3 days)', 'Pack 6 plongées (3 jours)', '6er-Tauchpaket (3 Tage)'),
+    title: loc(
+      'Bono 6 Buceos (3 días)',
+      '6-Dive Package (3 days)',
+      'Pack 6 plongées (3 jours)',
+      '6er-Tauchpaket (3 Tage)',
+    ),
     audience: 'certified',
     description: loc(
       'Seis inmersiones guiadas en total (4 en zona Risco, Tufia, Cabrón o Sardina + 2 en zona barco sur).',
@@ -166,10 +241,20 @@ export const experiencesData: ExperienceSeed[] = [
       'Six plongées encadrées au total (4 en zone Risco, Tufia, Cabrón ou Sardina + 2 en zone bateau sud).',
       'Sechs begleitete Tauchgänge insgesamt (4 in der Zone Risco, Tufia, Cabrón oder Sardina + 2 in der südlichen Bootszone).',
     ),
-    duration: loc('6 inmersiones / 3 días', '6 dives / 3 days', '6 plongées / 3 jours', '6 Tauchgänge / 3 Tage'),
+    duration: loc(
+      '6 inmersiones / 3 días',
+      '6 dives / 3 days',
+      '6 plongées / 3 jours',
+      '6 Tauchgänge / 3 Tage',
+    ),
     depthLimit: null,
     price: 230,
-    includes: loc('6 inmersiones guiadas. Plomos y botellas incluidos.', '6 guided dives. Weights and tanks included.', '6 plongées encadrées. Plombs et bouteilles inclus.', '6 begleitete Tauchgänge. Gewichte und Flaschen inklusive.'),
+    includes: loc(
+      '6 inmersiones guiadas. Plomos y botellas incluidos.',
+      '6 guided dives. Weights and tanks included.',
+      '6 plongées encadrées. Plombs et bouteilles inclus.',
+      '6 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    ),
     supplements: loc(
       'Equipo básico: +60 €. Equipo completo (con ordenador): +75 €.',
       'Basic equipment: +€60. Full equipment (with computer): +€75.',
@@ -182,7 +267,12 @@ export const experiencesData: ExperienceSeed[] = [
   {
     _id: 'experience-bono-8',
     _type: 'experience',
-    title: loc('Bono 8 Buceos (4 días)', '8-Dive Package (4 days)', 'Pack 8 plongées (4 jours)', '8er-Tauchpaket (4 Tage)'),
+    title: loc(
+      'Bono 8 Buceos (4 días)',
+      '8-Dive Package (4 days)',
+      'Pack 8 plongées (4 jours)',
+      '8er-Tauchpaket (4 Tage)',
+    ),
     audience: 'certified',
     description: loc(
       'Ocho inmersiones guiadas en total (6 en zona Risco, Tufia, Cabrón o Sardina + 2 en zona barco sur).',
@@ -190,10 +280,20 @@ export const experiencesData: ExperienceSeed[] = [
       'Huit plongées encadrées au total (6 en zone Risco, Tufia, Cabrón ou Sardina + 2 en zone bateau sud).',
       'Acht begleitete Tauchgänge insgesamt (6 in der Zone Risco, Tufia, Cabrón oder Sardina + 2 in der südlichen Bootszone).',
     ),
-    duration: loc('8 inmersiones / 4 días', '8 dives / 4 days', '8 plongées / 4 jours', '8 Tauchgänge / 4 Tage'),
+    duration: loc(
+      '8 inmersiones / 4 días',
+      '8 dives / 4 days',
+      '8 plongées / 4 jours',
+      '8 Tauchgänge / 4 Tage',
+    ),
     depthLimit: null,
     price: 300,
-    includes: loc('8 inmersiones guiadas. Plomos y botellas incluidos.', '8 guided dives. Weights and tanks included.', '8 plongées encadrées. Plombs et bouteilles inclus.', '8 begleitete Tauchgänge. Gewichte und Flaschen inklusive.'),
+    includes: loc(
+      '8 inmersiones guiadas. Plomos y botellas incluidos.',
+      '8 guided dives. Weights and tanks included.',
+      '8 plongées encadrées. Plombs et bouteilles inclus.',
+      '8 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    ),
     supplements: loc(
       'Equipo básico: +80 €. Equipo completo (con ordenador): +100 €.',
       'Basic equipment: +€80. Full equipment (with computer): +€100.',
@@ -206,7 +306,12 @@ export const experiencesData: ExperienceSeed[] = [
   {
     _id: 'experience-bono-10',
     _type: 'experience',
-    title: loc('Bono 10 Buceos (5 días)', '10-Dive Package (5 days)', 'Pack 10 plongées (5 jours)', '10er-Tauchpaket (5 Tage)'),
+    title: loc(
+      'Bono 10 Buceos (5 días)',
+      '10-Dive Package (5 days)',
+      'Pack 10 plongées (5 jours)',
+      '10er-Tauchpaket (5 Tage)',
+    ),
     audience: 'certified',
     description: loc(
       'Diez inmersiones guiadas en total (8 en zona Risco, Tufia, Cabrón o Sardina + 2 en zona barco sur).',
@@ -214,10 +319,20 @@ export const experiencesData: ExperienceSeed[] = [
       'Dix plongées encadrées au total (8 en zone Risco, Tufia, Cabrón ou Sardina + 2 en zone bateau sud).',
       'Zehn begleitete Tauchgänge insgesamt (8 in der Zone Risco, Tufia, Cabrón oder Sardina + 2 in der südlichen Bootszone).',
     ),
-    duration: loc('10 inmersiones / 5 días', '10 dives / 5 days', '10 plongées / 5 jours', '10 Tauchgänge / 5 Tage'),
+    duration: loc(
+      '10 inmersiones / 5 días',
+      '10 dives / 5 days',
+      '10 plongées / 5 jours',
+      '10 Tauchgänge / 5 Tage',
+    ),
     depthLimit: null,
     price: 390,
-    includes: loc('10 inmersiones guiadas. Plomos y botellas incluidos.', '10 guided dives. Weights and tanks included.', '10 plongées encadrées. Plombs et bouteilles inclus.', '10 begleitete Tauchgänge. Gewichte und Flaschen inklusive.'),
+    includes: loc(
+      '10 inmersiones guiadas. Plomos y botellas incluidos.',
+      '10 guided dives. Weights and tanks included.',
+      '10 plongées encadrées. Plombs et bouteilles inclus.',
+      '10 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    ),
     supplements: loc(
       'Equipo básico: +100 €. Equipo completo (con ordenador): +120 €.',
       'Basic equipment: +€100. Full equipment (with computer): +€120.',
@@ -241,20 +356,35 @@ export const experiencesData: ExperienceSeed[] = [
     duration: loc('1 inmersión nocturna', '1 night dive', '1 plongée de nuit', '1 Nachttauchgang'),
     depthLimit: null,
     price: 70,
-    includes: loc('1 inmersión guiada nocturna. Plomos y botellas incluidos.', '1 guided night dive. Weights and tank included.', '1 plongée encadrée de nuit. Plombs et bouteille inclus.', '1 begleiteter Nachttauchgang. Gewichte und Flasche inklusive.'),
+    includes: loc(
+      '1 inmersión guiada nocturna. Plomos y botellas incluidos.',
+      '1 guided night dive. Weights and tank included.',
+      '1 plongée encadrée de nuit. Plombs et bouteille inclus.',
+      '1 begleiteter Nachttauchgang. Gewichte und Flasche inklusive.',
+    ),
     supplements: loc(
       'Linterna: +5 €. Equipo básico: +10 €. Equipo completo (con ordenador): +25 €.',
       'Torch: +€5. Basic equipment: +€10. Full equipment (with computer): +€25.',
       'Lampe : +5 €. Équipement de base : +10 €. Équipement complet (avec ordinateur) : +25 €.',
       'Lampe: +5 €. Grundausrüstung: +10 €. Komplettausrüstung (mit Computer): +25 €.',
     ),
-    groupDiscount: loc('Mínimo 2 participantes.', 'Minimum 2 participants.', 'Minimum 2 participants.', 'Mindestens 2 Teilnehmer.'),
+    groupDiscount: loc(
+      'Mínimo 2 participantes.',
+      'Minimum 2 participants.',
+      'Minimum 2 participants.',
+      'Mindestens 2 Teilnehmer.',
+    ),
     order: 9,
   },
   {
     _id: 'experience-refresher',
     _type: 'experience',
-    title: loc('Buceo Repaso', 'Refresher Dive', 'Plongée de remise à niveau', 'Auffrischungstauchgang'),
+    title: loc(
+      'Buceo Repaso',
+      'Refresher Dive',
+      'Plongée de remise à niveau',
+      'Auffrischungstauchgang',
+    ),
     audience: 'certified',
     description: loc(
       'Una inmersión técnica de repaso para recuperar confianza y técnica antes de volver a bucear con normalidad.',
@@ -262,11 +392,26 @@ export const experiencesData: ExperienceSeed[] = [
       'Une plongée technique de remise à niveau pour retrouver confiance et technique avant de replonger normalement.',
       'Ein technischer Auffrischungstauchgang, um Vertrauen und Technik wiederzugewinnen, bevor Sie wieder normal tauchen.',
     ),
-    duration: loc('1 inmersión de repaso', '1 refresher dive', '1 plongée de remise à niveau', '1 Auffrischungstauchgang'),
+    duration: loc(
+      '1 inmersión de repaso',
+      '1 refresher dive',
+      '1 plongée de remise à niveau',
+      '1 Auffrischungstauchgang',
+    ),
     depthLimit: null,
     price: 80,
-    includes: loc('1 inmersión técnica de repaso. Plomos y botella incluidos. Equipo básico incluido.', '1 technical refresher dive. Weights and tank included. Basic equipment included.', '1 plongée technique de remise à niveau. Plombs et bouteille inclus. Équipement de base inclus.', '1 technischer Auffrischungstauchgang. Gewichte und Flasche inklusive. Grundausrüstung inklusive.'),
-    supplements: loc('Buceo adicional (mismo día): +40 €.', 'Additional dive (same day): +€40.', 'Plongée supplémentaire (même jour) : +40 €.', 'Zusätzlicher Tauchgang (gleicher Tag): +40 €.'),
+    includes: loc(
+      '1 inmersión técnica de repaso. Plomos y botella incluidos. Equipo básico incluido.',
+      '1 technical refresher dive. Weights and tank included. Basic equipment included.',
+      '1 plongée technique de remise à niveau. Plombs et bouteille inclus. Équipement de base inclus.',
+      '1 technischer Auffrischungstauchgang. Gewichte und Flasche inklusive. Grundausrüstung inklusive.',
+    ),
+    supplements: loc(
+      'Buceo adicional (mismo día): +40 €.',
+      'Additional dive (same day): +€40.',
+      'Plongée supplémentaire (même jour) : +40 €.',
+      'Zusätzlicher Tauchgang (gleicher Tag): +40 €.',
+    ),
     groupDiscount: loc(
       'Máximo 2 buceadores por instructor. Si tu última inmersión fue hace más de un año y has realizado menos de 10 inmersiones, te recomendamos un curso de actualización.',
       'Maximum 2 divers per instructor. If your last dive was over a year ago and you have fewer than 10 dives, we recommend a refresher course.',
@@ -278,7 +423,12 @@ export const experiencesData: ExperienceSeed[] = [
   {
     _id: 'experience-technical-training',
     _type: 'experience',
-    title: loc('Buceo de Formación Técnica', 'Technical Training Dive', 'Plongée de formation technique', 'Technischer Ausbildungstauchgang'),
+    title: loc(
+      'Buceo de Formación Técnica',
+      'Technical Training Dive',
+      'Plongée de formation technique',
+      'Technischer Ausbildungstauchgang',
+    ),
     audience: 'certified',
     description: loc(
       'Una inmersión técnica de curso para la validación de N1 sin agua abierta.',
@@ -286,23 +436,43 @@ export const experiencesData: ExperienceSeed[] = [
       'Une plongée technique de formation pour la validation du N1 sans eau ouverte.',
       'Ein technischer Ausbildungstauchgang zur N1-Validierung ohne Freiwasser.',
     ),
-    duration: loc('1 inmersión técnica', '1 technical dive', '1 plongée technique', '1 technischer Tauchgang'),
+    duration: loc(
+      '1 inmersión técnica',
+      '1 technical dive',
+      '1 plongée technique',
+      '1 technischer Tauchgang',
+    ),
     depthLimit: null,
     price: 70,
-    includes: loc('1 inmersión técnica de curso (validación de N1 sin agua abierta).', '1 technical course dive (N1 validation without open water).', '1 plongée technique de formation (validation N1 sans eau ouverte).', '1 technischer Ausbildungstauchgang (N1-Validierung ohne Freiwasser).'),
+    includes: loc(
+      '1 inmersión técnica de curso (validación de N1 sin agua abierta).',
+      '1 technical course dive (N1 validation without open water).',
+      '1 plongée technique de formation (validation N1 sans eau ouverte).',
+      '1 technischer Ausbildungstauchgang (N1-Validierung ohne Freiwasser).',
+    ),
     supplements: loc(
       'Equipo básico: +10 €. Equipo completo (con ordenador): +15 €.',
       'Basic equipment: +€10. Full equipment (with computer): +€15.',
       'Équipement de base : +10 €. Équipement complet (avec ordinateur) : +15 €.',
       'Grundausrüstung: +10 €. Komplettausrüstung (mit Computer): +15 €.',
     ),
-    groupDiscount: loc('Máximo 2 buceadores por instructor.', 'Maximum 2 divers per instructor.', 'Maximum 2 plongeurs par instructeur.', 'Maximal 2 Taucher pro Ausbilder.'),
+    groupDiscount: loc(
+      'Máximo 2 buceadores por instructor.',
+      'Maximum 2 divers per instructor.',
+      'Maximum 2 plongeurs par instructeur.',
+      'Maximal 2 Taucher pro Ausbilder.',
+    ),
     order: 11,
   },
   {
     _id: 'experience-deep-wreck',
     _type: 'experience',
-    title: loc('Buceo Doble Especial Pecio Profundo (zona norte)', 'Special Deep Wreck Double Dive (north zone)', 'Double plongée spéciale épave profonde (zone nord)', 'Spezieller Tieftauchgang Wrack (Nordzone)'),
+    title: loc(
+      'Buceo Doble Especial Pecio Profundo (zona norte)',
+      'Special Deep Wreck Double Dive (north zone)',
+      'Double plongée spéciale épave profonde (zone nord)',
+      'Spezieller Tieftauchgang Wrack (Nordzone)',
+    ),
     audience: 'certified',
     description: loc(
       'Dos inmersiones guiadas en la zona norte (pecio coreano, Arona…).',
@@ -310,10 +480,20 @@ export const experiencesData: ExperienceSeed[] = [
       'Deux plongées encadrées en zone nord (épave coréenne, Arona…).',
       'Zwei begleitete Tauchgänge in der Nordzone (koreanisches Wrack, Arona…).',
     ),
-    duration: loc('2 inmersiones guiadas', '2 guided dives', '2 plongées encadrées', '2 begleitete Tauchgänge'),
+    duration: loc(
+      '2 inmersiones guiadas',
+      '2 guided dives',
+      '2 plongées encadrées',
+      '2 begleitete Tauchgänge',
+    ),
     depthLimit: null,
     price: 115,
-    includes: loc('2 inmersiones guiadas zona norte. Botellas, plomos y Nitrox incluidos.', '2 guided dives in the north zone. Tanks, weights and Nitrox included.', '2 plongées encadrées zone nord. Bouteilles, plombs et Nitrox inclus.', '2 begleitete Tauchgänge Nordzone. Flaschen, Gewichte und Nitrox inklusive.'),
+    includes: loc(
+      '2 inmersiones guiadas zona norte. Botellas, plomos y Nitrox incluidos.',
+      '2 guided dives in the north zone. Tanks, weights and Nitrox included.',
+      '2 plongées encadrées zone nord. Bouteilles, plombs et Nitrox inclus.',
+      '2 begleitete Tauchgänge Nordzone. Flaschen, Gewichte und Nitrox inklusive.',
+    ),
     supplements: loc(
       'Equipo básico: +20 €. Equipo completo (con ordenador): +25 €.',
       'Basic equipment: +€20. Full equipment (with computer): +€25.',

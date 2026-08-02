@@ -35,7 +35,12 @@ export const tariffExtrasData: TariffExtraSeed[] = [
   {
     _id: 'tariff-seguro-1-dia',
     _type: 'tariffExtra',
-    title: loc('Seguro de buceo 1 día', '1-day dive insurance', 'Assurance plongée 1 jour', 'Tauchversicherung 1 Tag'),
+    title: loc(
+      'Seguro de buceo 1 día',
+      '1-day dive insurance',
+      'Assurance plongée 1 jour',
+      'Tauchversicherung 1 Tag',
+    ),
     description: loc('', '', '', ''),
     price: 8,
     unit: loc('por día', 'per day', 'par jour', 'pro Tag'),
@@ -44,7 +49,12 @@ export const tariffExtrasData: TariffExtraSeed[] = [
   {
     _id: 'tariff-seguro-1-semana',
     _type: 'tariffExtra',
-    title: loc('Seguro de buceo 1 semana', '1-week dive insurance', 'Assurance plongée 1 semaine', 'Tauchversicherung 1 Woche'),
+    title: loc(
+      'Seguro de buceo 1 semana',
+      '1-week dive insurance',
+      'Assurance plongée 1 semaine',
+      'Tauchversicherung 1 Woche',
+    ),
     description: loc('', '', '', ''),
     price: 20,
     unit: loc('por semana', 'per week', 'par semaine', 'pro Woche'),
@@ -53,7 +63,12 @@ export const tariffExtrasData: TariffExtraSeed[] = [
   {
     _id: 'tariff-seguro-2-semanas',
     _type: 'tariffExtra',
-    title: loc('Seguro de buceo 2 semanas', '2-week dive insurance', 'Assurance plongée 2 semaines', 'Tauchversicherung 2 Wochen'),
+    title: loc(
+      'Seguro de buceo 2 semanas',
+      '2-week dive insurance',
+      'Assurance plongée 2 semaines',
+      'Tauchversicherung 2 Wochen',
+    ),
     description: loc('', '', '', ''),
     price: 38,
     unit: loc('por 2 semanas', 'per 2 weeks', 'par 2 semaines', 'pro 2 Wochen'),
@@ -62,7 +77,12 @@ export const tariffExtrasData: TariffExtraSeed[] = [
   {
     _id: 'tariff-seguro-1-mes',
     _type: 'tariffExtra',
-    title: loc('Seguro de buceo 1 mes', '1-month dive insurance', 'Assurance plongée 1 mois', 'Tauchversicherung 1 Monat'),
+    title: loc(
+      'Seguro de buceo 1 mes',
+      '1-month dive insurance',
+      'Assurance plongée 1 mois',
+      'Tauchversicherung 1 Monat',
+    ),
     description: loc('', '', '', ''),
     price: 45,
     unit: loc('por mes', 'per month', 'par mois', 'pro Monat'),

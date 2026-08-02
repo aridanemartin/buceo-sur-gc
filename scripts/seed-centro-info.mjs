@@ -43,12 +43,13 @@ const staffRefs = await Promise.all(
     role: m.role,
     bio: m.bio,
     languages: m.languages,
-    photo: m._key === 'staff-yann'
-      ? await uploadImage(assetsDir + 'Staf.Yann.jpg', 'yann.jpg')
-      : m._key === 'staff-anne'
-        ? await uploadImage(assetsDir + 'staf.anne.jpeg', 'anne.jpg')
-        : await uploadImage(assetsDir + 'staf.kike.jpg', 'kike.jpg'),
-  }))
+    photo:
+      m._key === 'staff-yann'
+        ? await uploadImage(assetsDir + 'Staf.Yann.jpg', 'yann.jpg')
+        : m._key === 'staff-anne'
+          ? await uploadImage(assetsDir + 'staf.anne.jpeg', 'anne.jpg')
+          : await uploadImage(assetsDir + 'staf.kike.jpg', 'kike.jpg'),
+  })),
 )
 
 const doc = {
@@ -65,10 +66,26 @@ const doc = {
   staff: staffRefs,
   stats: centroInfoData.stats,
   certifications: [
-    { _key: 'anmp', name: 'ANMP', logo: await uploadImage(assetsDir + 'Icon.ANMP EPF.jpg', 'anmp.jpg') },
-    { _key: 'cmas', name: 'CMAS', logo: await uploadImage(assetsDir + 'Icon.CMAS.png', 'cmas.png') },
-    { _key: 'ssi', name: 'SSI', logo: await uploadImage(assetsDir + 'Icon.diveSSI.jpeg', 'ssi.jpg') },
-    { _key: 'canarias', name: 'Gobierno de Canarias', logo: await uploadImage(assetsDir + 'Icon.gobernio de canarias.jpg', 'gobierno.jpg') },
+    {
+      _key: 'anmp',
+      name: 'ANMP',
+      logo: await uploadImage(assetsDir + 'Icon.ANMP EPF.jpg', 'anmp.jpg'),
+    },
+    {
+      _key: 'cmas',
+      name: 'CMAS',
+      logo: await uploadImage(assetsDir + 'Icon.CMAS.png', 'cmas.png'),
+    },
+    {
+      _key: 'ssi',
+      name: 'SSI',
+      logo: await uploadImage(assetsDir + 'Icon.diveSSI.jpeg', 'ssi.jpg'),
+    },
+    {
+      _key: 'canarias',
+      name: 'Gobierno de Canarias',
+      logo: await uploadImage(assetsDir + 'Icon.gobernio de canarias.jpg', 'gobierno.jpg'),
+    },
   ],
   mapImage: await uploadImage(assetsDir + 'mapa.sitio.buceo.isla.png', 'mapa-isla.png'),
 }

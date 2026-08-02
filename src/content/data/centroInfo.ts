@@ -29,14 +29,24 @@ export const centroInfoData = {
     {
       _key: 'staff-yann',
       name: 'Yann',
-      role: loc('Instructor y director técnico', 'Instructor and technical director', 'Instructeur et directeur technique', 'Ausbilder und technischer Leiter'),
+      role: loc(
+        'Instructor y director técnico',
+        'Instructor and technical director',
+        'Instructeur et directeur technique',
+        'Ausbilder und technischer Leiter',
+      ),
       bio: loc(
         'Francés enamorado de Canarias desde hace 15 años. Formado en Francia, las Antillas Francesas, Nueva Caledonia y Córcega. En 2014 se instaló en Canarias y en 2015 se hizo cargo de "Buceo Sur". Instructor DEJEPS reconocido por el Estado francés, PADI MSDT y assistant instructor trainer de SSI.',
         'Frenchman in love with the Canaries for 15 years. Trained in France, the French West Indies, New Caledonia and Corsica. Settled in the Canaries in 2014 and took over "Buceo Sur" in 2015. DEJEPS instructor recognised by the French State, PADI MSDT and SSI assistant instructor trainer.',
         "Français amoureux des Canaries depuis 15 ans. Formé en France, aux Antilles françaises, en Nouvelle-Calédonie et en Corse. Installé aux Canaries en 2014, il reprend « Buceo Sur » en 2015. Instructeur DEJEPS reconnu par l'État français, PADI MSDT et assistant instructor trainer SSI.",
         'Franzose, seit 15 Jahren mit den Kanaren verbunden. Ausgebildet in Frankreich, den französischen Antillen, Neukaledonien und Korsika. Lebt seit 2014 auf den Kanaren und übernahm 2015 "Buceo Sur". DEJEPS-Ausbilder (vom französischen Staat anerkannt), PADI MSDT und SSI Assistant Instructor Trainer.',
       ),
-      languages: loc('Español, inglés, francés', 'Spanish, English, French', 'Espagnol, anglais, français', 'Spanisch, Englisch, Französisch'),
+      languages: loc(
+        'Español, inglés, francés',
+        'Spanish, English, French',
+        'Espagnol, anglais, français',
+        'Spanisch, Englisch, Französisch',
+      ),
     },
     {
       _key: 'staff-anne',
@@ -48,26 +58,67 @@ export const centroInfoData = {
         "Elle répond à vos demandes pendant que Yann est dans l'eau, toujours avec gentillesse et précision. Ce n'est pas une IA, elle pense donc vraiment, mais elle dort aussi et n'est pas toujours disponible instantanément : elle cesse de répondre aux demandes du lendemain après 19 h.",
         'Sie beantwortet Ihre Anfragen, während Yann im Wasser ist, immer freundlich und präzise. Sie ist keine KI, sie denkt wirklich nach, aber sie schläft auch und ist nicht immer sofort verfügbar: Nach 19 Uhr beantwortet sie keine Anfragen mehr für den nächsten Tag.',
       ),
-      languages: loc('Español, inglés, francés', 'Spanish, English, French', 'Espagnol, anglais, français', 'Spanisch, Englisch, Französisch'),
+      languages: loc(
+        'Español, inglés, francés',
+        'Spanish, English, French',
+        'Espagnol, anglais, français',
+        'Spanisch, Englisch, Französisch',
+      ),
     },
     {
       _key: 'staff-kike',
       name: 'Kike',
-      role: loc('Instructor de buceo', 'Dive instructor', 'Instructeur de plongée', 'Tauchausbilder'),
+      role: loc(
+        'Instructor de buceo',
+        'Dive instructor',
+        'Instructeur de plongée',
+        'Tauchausbilder',
+      ),
       bio: loc(
         'Instructor en la isla desde hace 30 años, conoce cada rincón. Tiene un talento especial para encontrar caballitos de mar y tiburones ángel. Un auténtico canario, nacido en la isla. Instructor CMAS, PADI y SSI; solo es verdaderamente feliz bajo el agua.',
         'A dive instructor on the island for 30 years, he knows every corner. He has a special talent for finding seahorses and angel sharks. A true Canarian, born on the island. CMAS, PADI and SSI instructor; truly happy only underwater.',
         "Instructeur de plongée sur l'île depuis 30 ans, il connaît chaque recoin. Il a un talent particulier pour trouver chevaux de mer et anges de mer. Un authentique canarien, né sur l'île. Instructeur CMAS, PADI et SSI ; il n'est vraiment heureux que sous l'eau.",
         'Seit 30 Jahren Tauchausbilder auf der Insel, kennt er jede Ecke. Er hat ein besonderes Talent, Seepferdchen und Engelhaie zu finden. Ein echter Kanarier, auf der Insel geboren. CMAS-, PADI- und SSI-Ausbilder; nur unter Wasser ist er wirklich glücklich.',
       ),
-      languages: loc('Español, inglés, alemán', 'Spanish, English, German', 'Espagnol, anglais, allemand', 'Spanisch, Englisch, Deutsch'),
+      languages: loc(
+        'Español, inglés, alemán',
+        'Spanish, English, German',
+        'Espagnol, anglais, allemand',
+        'Spanisch, Englisch, Deutsch',
+      ),
     },
   ],
   stats: [
-    { _key: 'years', value: '20+', label: loc('Años de experiencia', 'Years of experience', "Ans d'expérience", 'Jahre Erfahrung') },
-    { _key: 'sites', value: '50+', label: loc('Puntos de inmersión', 'Dive sites', 'Sites de plongée', 'Tauchplätze') },
-    { _key: 'temp', value: '22°C', label: loc('Temperatura media', 'Average water temp', 'Température moyenne', 'Durchschnittstemperatur') },
-    { _key: 'months', value: '12', label: loc('Meses al año', 'Months a year', 'Mois par an', 'Monate im Jahr') },
+    {
+      _key: 'years',
+      value: '20+',
+      label: loc(
+        'Años de experiencia',
+        'Years of experience',
+        "Ans d'expérience",
+        'Jahre Erfahrung',
+      ),
+    },
+    {
+      _key: 'sites',
+      value: '50+',
+      label: loc('Puntos de inmersión', 'Dive sites', 'Sites de plongée', 'Tauchplätze'),
+    },
+    {
+      _key: 'temp',
+      value: '22°C',
+      label: loc(
+        'Temperatura media',
+        'Average water temp',
+        'Température moyenne',
+        'Durchschnittstemperatur',
+      ),
+    },
+    {
+      _key: 'months',
+      value: '12',
+      label: loc('Meses al año', 'Months a year', 'Mois par an', 'Monate im Jahr'),
+    },
   ],
   certifications: [
     { _key: 'anmp', name: 'ANMP' },

@@ -28,7 +28,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-scuba-diver',
     _type: 'course',
-    title: loc('Scuba Diver - 12 m', 'Scuba Diver - 12 m', 'Scuba Diver - 12 m', 'Scuba Diver - 12 m'),
+    title: loc(
+      'Scuba Diver - 12 m',
+      'Scuba Diver - 12 m',
+      'Scuba Diver - 12 m',
+      'Scuba Diver - 12 m',
+    ),
     agency: 'SSI',
     category: 'recreational',
     summary: loc(
@@ -59,14 +64,24 @@ export const coursesData: CourseSeed[] = [
       'Clip vidéo : 25 €. Plongée supplémentaire : 40 €.',
       'Videoclip: 25 €. Zusätzlicher Tauchgang: 40 €.',
     ),
-    groupDiscount: loc('Máximo 1 instructor por 3 estudiantes.', 'Maximum 1 instructor per 3 students.', 'Maximum 1 instructeur pour 3 élèves.', 'Maximal 1 Ausbilder pro 3 Schüler.'),
+    groupDiscount: loc(
+      'Máximo 1 instructor por 3 estudiantes.',
+      'Maximum 1 instructor per 3 students.',
+      'Maximum 1 instructeur pour 3 élèves.',
+      'Maximal 1 Ausbilder pro 3 Schüler.',
+    ),
     tags: [],
     order: 1,
   },
   {
     _id: 'course-open-water',
     _type: 'course',
-    title: loc('Open Water Diver - 18 m', 'Open Water Diver - 18 m', 'Open Water Diver - 18 m', 'Open Water Diver - 18 m'),
+    title: loc(
+      'Open Water Diver - 18 m',
+      'Open Water Diver - 18 m',
+      'Open Water Diver - 18 m',
+      'Open Water Diver - 18 m',
+    ),
     agency: 'SSI',
     category: 'recreational',
     summary: loc(
@@ -97,7 +112,12 @@ export const coursesData: CourseSeed[] = [
       'Clip vidéo : 25 €. Plongée double supplémentaire : 80 €.',
       'Videoclip: 25 €. Zusätzlicher Doppeltauchgang: 80 €.',
     ),
-    groupDiscount: loc('Máximo 1 instructor por 3 estudiantes.', 'Maximum 1 instructor per 3 students.', 'Maximum 1 instructeur pour 3 élèves.', 'Maximal 1 Ausbilder pro 3 Schüler.'),
+    groupDiscount: loc(
+      'Máximo 1 instructor por 3 estudiantes.',
+      'Maximum 1 instructor per 3 students.',
+      'Maximum 1 instructeur pour 3 élèves.',
+      'Maximal 1 Ausbilder pro 3 Schüler.',
+    ),
     tags: [],
     order: 2,
   },
@@ -105,7 +125,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-advanced-open-water',
     _type: 'course',
-    title: loc('Advanced Open Water Diver - 30 m', 'Advanced Open Water Diver - 30 m', 'Advanced Open Water Diver - 30 m', 'Advanced Open Water Diver - 30 m'),
+    title: loc(
+      'Advanced Open Water Diver - 30 m',
+      'Advanced Open Water Diver - 30 m',
+      'Advanced Open Water Diver - 30 m',
+      'Advanced Open Water Diver - 30 m',
+    ),
     agency: 'SSI',
     category: 'recreational',
     summary: loc(
@@ -143,7 +168,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-deep-diving',
     _type: 'course',
-    title: loc('Especialidad Buceo Profundo - hasta 40 m', 'Deep Diving Specialty - up to 40 m', 'Spécialité Plongée profonde - jusqu’à 40 m', 'Deep-Diving-Spezialkurs - bis 40 m'),
+    title: loc(
+      'Especialidad Buceo Profundo - hasta 40 m',
+      'Deep Diving Specialty - up to 40 m',
+      'Spécialité Plongée profonde - jusqu’à 40 m',
+      'Deep-Diving-Spezialkurs - bis 40 m',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -181,7 +211,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-nitrox',
     _type: 'course',
-    title: loc('Especialidad Nitrox 32', 'Nitrox 32 Specialty', 'Spécialité Nitrox 32', 'Nitrox-32-Spezialkurs'),
+    title: loc(
+      'Especialidad Nitrox 32',
+      'Nitrox 32 Specialty',
+      'Spécialité Nitrox 32',
+      'Nitrox-32-Spezialkurs',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -190,7 +225,12 @@ export const coursesData: CourseSeed[] = [
       'Apprenez à plonger à l’air enrichi à 32 % et élargissez votre marge de sécurité.',
       'Tauchen mit 32 % angereicherter Luft lernen und die Sicherheitsmarge vergrößern.',
     ),
-    prerequisites: loc('Certificación Open Water.', 'Open Water certification.', 'Certification Open Water.', 'Open-Water-Zertifizierung.'),
+    prerequisites: loc(
+      'Certificación Open Water.',
+      'Open Water certification.',
+      'Certification Open Water.',
+      'Open-Water-Zertifizierung.',
+    ),
     depthLimit: null,
     duration: loc('1 día', '1 day', '1 jour', '1 Tag'),
     minAge: 12,
@@ -214,7 +254,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-deco',
     _type: 'course',
-    title: loc('Especialidad Buceo con Descompresión', 'Decompression Diving Specialty', 'Spécialité Plongée avec décompression', 'Dekompressions-Spezialkurs'),
+    title: loc(
+      'Especialidad Buceo con Descompresión',
+      'Decompression Diving Specialty',
+      'Spécialité Plongée avec décompression',
+      'Dekompressions-Spezialkurs',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -252,7 +297,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-navigation',
     _type: 'course',
-    title: loc('Especialidad Orientación', 'Navigation Specialty', 'Spécialité Orientation', 'Navigations-Spezialkurs'),
+    title: loc(
+      'Especialidad Orientación',
+      'Navigation Specialty',
+      'Spécialité Orientation',
+      'Navigations-Spezialkurs',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -261,7 +311,12 @@ export const coursesData: CourseSeed[] = [
       'Trois plongées de formation pour maîtriser l’orientation naturelle et au compas.',
       'Drei Kurs-Tauchgänge zur natürlichen und Kompass-Navigation.',
     ),
-    prerequisites: loc('Certificación Open Water.', 'Open Water certification.', 'Certification Open Water.', 'Open-Water-Zertifizierung.'),
+    prerequisites: loc(
+      'Certificación Open Water.',
+      'Open Water certification.',
+      'Certification Open Water.',
+      'Open-Water-Zertifizierung.',
+    ),
     depthLimit: 40,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 12,
@@ -285,7 +340,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-rescue',
     _type: 'course',
-    title: loc('Especialidad Rescate “Stress and Rescue”', 'Rescue Specialty “Stress and Rescue”', 'Spécialité Sauvetage « Stress and Rescue »', 'Rettungs-Spezialkurs “Stress and Rescue”'),
+    title: loc(
+      'Especialidad Rescate “Stress and Rescue”',
+      'Rescue Specialty “Stress and Rescue”',
+      'Spécialité Sauvetage « Stress and Rescue »',
+      'Rettungs-Spezialkurs “Stress and Rescue”',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -294,7 +354,12 @@ export const coursesData: CourseSeed[] = [
       'Quatre plongées de formation axées sur la prévention du stress et le sauvetage.',
       'Vier Kurs-Tauchgänge zur Stressprävention und Rettung.',
     ),
-    prerequisites: loc('Certificación Open Water.', 'Open Water certification.', 'Certification Open Water.', 'Open-Water-Zertifizierung.'),
+    prerequisites: loc(
+      'Certificación Open Water.',
+      'Open Water certification.',
+      'Certification Open Water.',
+      'Open-Water-Zertifizierung.',
+    ),
     depthLimit: null,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 12,
@@ -318,7 +383,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-react-right',
     _type: 'course',
-    title: loc('Especialidad Primeros Auxilios “React Right”', 'First Aid Specialty “React Right”', 'Spécialité Premiers secours « React Right »', 'Erste-Hilfe-Spezialkurs “React Right”'),
+    title: loc(
+      'Especialidad Primeros Auxilios “React Right”',
+      'First Aid Specialty “React Right”',
+      'Spécialité Premiers secours « React Right »',
+      'Erste-Hilfe-Spezialkurs “React Right”',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -347,7 +417,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-pe12',
     _type: 'course',
-    title: loc('Buzo supervisado 12 m (PE12)', 'Supervised Diver 12 m (PE12)', 'Plongeur encadré 12 m (PE12)', 'Begleiteter Taucher 12 m (PE12)'),
+    title: loc(
+      'Buzo supervisado 12 m (PE12)',
+      'Supervised Diver 12 m (PE12)',
+      'Plongeur encadré 12 m (PE12)',
+      'Begleiteter Taucher 12 m (PE12)',
+    ),
     agency: 'CMAS',
     category: 'recreational',
     summary: loc(
@@ -378,14 +453,24 @@ export const coursesData: CourseSeed[] = [
       'Clip vidéo : 25 €. Plongée supplémentaire : 40 €.',
       'Videoclip: 25 €. Zusätzlicher Tauchgang: 40 €.',
     ),
-    groupDiscount: loc('Máximo 1 instructor por 3 estudiantes.', 'Maximum 1 instructor per 3 students.', 'Maximum 1 instructeur pour 3 élèves.', 'Maximal 1 Ausbilder pro 3 Schüler.'),
+    groupDiscount: loc(
+      'Máximo 1 instructor por 3 estudiantes.',
+      'Maximum 1 instructor per 3 students.',
+      'Maximum 1 instructeur pour 3 élèves.',
+      'Maximal 1 Ausbilder pro 3 Schüler.',
+    ),
     tags: [],
     order: 10,
   },
   {
     _id: 'course-pe20',
     _type: 'course',
-    title: loc('Nivel 1 - Buzo supervisado 20 m (PE20)', 'Level 1 - Supervised Diver 20 m (PE20)', 'Niveau 1 - Plongeur encadré 20 m (PE20)', 'Niveau 1 - Begleiteter Taucher 20 m (PE20)'),
+    title: loc(
+      'Nivel 1 - Buzo supervisado 20 m (PE20)',
+      'Level 1 - Supervised Diver 20 m (PE20)',
+      'Niveau 1 - Plongeur encadré 20 m (PE20)',
+      'Niveau 1 - Begleiteter Taucher 20 m (PE20)',
+    ),
     agency: 'CMAS',
     category: 'recreational',
     summary: loc(
@@ -416,7 +501,12 @@ export const coursesData: CourseSeed[] = [
       'Clip vidéo : 25 €. Plongée double supplémentaire : 80 €.',
       'Videoclip: 25 €. Zusätzlicher Doppeltauchgang: 80 €.',
     ),
-    groupDiscount: loc('Máximo 1 instructor por 3 estudiantes.', 'Maximum 1 instructor per 3 students.', 'Maximum 1 instructeur pour 3 élèves.', 'Maximal 1 Ausbilder pro 3 Schüler.'),
+    groupDiscount: loc(
+      'Máximo 1 instructor por 3 estudiantes.',
+      'Maximum 1 instructor per 3 students.',
+      'Maximum 1 instructeur pour 3 élèves.',
+      'Maximal 1 Ausbilder pro 3 Schüler.',
+    ),
     tags: [],
     order: 11,
   },
@@ -424,7 +514,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-pa20',
     _type: 'course',
-    title: loc('Buzo autónomo de 20 m (PA20)', 'Autonomous Diver 20 m (PA20)', 'Plongeur autonome 20 m (PA20)', 'Autonomer Taucher 20 m (PA20)'),
+    title: loc(
+      'Buzo autónomo de 20 m (PA20)',
+      'Autonomous Diver 20 m (PA20)',
+      'Plongeur autonome 20 m (PA20)',
+      'Autonomer Taucher 20 m (PA20)',
+    ),
     agency: 'CMAS',
     category: 'technical',
     summary: loc(
@@ -455,14 +550,24 @@ export const coursesData: CourseSeed[] = [
       'Plongée supplémentaire : 40 €. Équipement de base : +60 €. Équipement complet : +75 €. Assurance semaine : 20 €.',
       'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +60 €. Komplettausrüstung: +75 €. Versicherung Woche: 20 €.',
     ),
-    groupDiscount: loc('Máximo 2 estudiantes por sesión.', 'Maximum 2 students per session.', 'Maximum 2 élèves par session.', 'Maximal 2 Schüler pro Sitzung.'),
+    groupDiscount: loc(
+      'Máximo 2 estudiantes por sesión.',
+      'Maximum 2 students per session.',
+      'Maximum 2 élèves par session.',
+      'Maximal 2 Schüler pro Sitzung.',
+    ),
     tags: [],
     order: 12,
   },
   {
     _id: 'course-pe40',
     _type: 'course',
-    title: loc('Buzo supervisado de 40 m (PE40)', 'Supervised Diver 40 m (PE40)', 'Plongeur encadré 40 m (PE40)', 'Begleiteter Taucher 40 m (PE40)'),
+    title: loc(
+      'Buzo supervisado de 40 m (PE40)',
+      'Supervised Diver 40 m (PE40)',
+      'Plongeur encadré 40 m (PE40)',
+      'Begleiteter Taucher 40 m (PE40)',
+    ),
     agency: 'CMAS',
     category: 'technical',
     summary: loc(
@@ -493,14 +598,24 @@ export const coursesData: CourseSeed[] = [
       'Plongée supplémentaire : 40 €. Équipement de base : +40 €. Équipement complet : +50 €. Assurance 2 jours : 16 €.',
       'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +40 €. Komplettausrüstung: +50 €. Versicherung 2 Tage: 16 €.',
     ),
-    groupDiscount: loc('Máximo 2 estudiantes por sesión.', 'Maximum 2 students per session.', 'Maximum 2 élèves par session.', 'Maximal 2 Schüler pro Sitzung.'),
+    groupDiscount: loc(
+      'Máximo 2 estudiantes por sesión.',
+      'Maximum 2 students per session.',
+      'Maximum 2 élèves par session.',
+      'Maximal 2 Schüler pro Sitzung.',
+    ),
     tags: [],
     order: 13,
   },
   {
     _id: 'course-niveau-2',
     _type: 'course',
-    title: loc('Nivel 2 - CMAS 2* (PE40 + PA20)', 'Level 2 - CMAS 2* (PE40 + PA20)', 'Niveau 2 - CMAS 2* (PE40 + PA20)', 'Niveau 2 - CMAS 2* (PE40 + PA20)'),
+    title: loc(
+      'Nivel 2 - CMAS 2* (PE40 + PA20)',
+      'Level 2 - CMAS 2* (PE40 + PA20)',
+      'Niveau 2 - CMAS 2* (PE40 + PA20)',
+      'Niveau 2 - CMAS 2* (PE40 + PA20)',
+    ),
     agency: 'CMAS',
     category: 'technical',
     summary: loc(
@@ -531,7 +646,12 @@ export const coursesData: CourseSeed[] = [
       'Équipement de base : +80 €. Équipement complet : +100 €. Assurance semaine : 20 €.',
       'Grundausrüstung: +80 €. Komplettausrüstung: +100 €. Versicherung Woche: 20 €.',
     ),
-    groupDiscount: loc('Máximo 2 estudiantes por sesión.', 'Maximum 2 students per session.', 'Maximum 2 élèves par session.', 'Maximal 2 Schüler pro Sitzung.'),
+    groupDiscount: loc(
+      'Máximo 2 estudiantes por sesión.',
+      'Maximum 2 students per session.',
+      'Maximum 2 élèves par session.',
+      'Maximal 2 Schüler pro Sitzung.',
+    ),
     tags: [],
     order: 14,
   },
@@ -539,7 +659,12 @@ export const coursesData: CourseSeed[] = [
   {
     _id: 'course-sidemount-baptism',
     _type: 'course',
-    title: loc('Bautizo Sidemount', 'Sidemount Discover Dive', 'Baptême Sidemount', 'Schnuppertauchen Sidemount'),
+    title: loc(
+      'Bautizo Sidemount',
+      'Sidemount Discover Dive',
+      'Baptême Sidemount',
+      'Schnuppertauchen Sidemount',
+    ),
     agency: 'SSI',
     category: 'technical',
     summary: loc(
@@ -564,15 +689,30 @@ export const coursesData: CourseSeed[] = [
       '2 plongées, équipement et bouteilles sidemount.',
       '2 Tauchgänge, Sidemount-Ausrüstung und Flaschen.',
     ),
-    supplements: loc('Seguro 1 día: 8 €.', '1-day insurance: €8.', 'Assurance 1 jour : 8 €.', 'Versicherung 1 Tag: 8 €.'),
-    groupDiscount: loc('Máximo 2 estudiantes por sesión.', 'Maximum 2 students per session.', 'Maximum 2 élèves par session.', 'Maximal 2 Schüler pro Sitzung.'),
+    supplements: loc(
+      'Seguro 1 día: 8 €.',
+      '1-day insurance: €8.',
+      'Assurance 1 jour : 8 €.',
+      'Versicherung 1 Tag: 8 €.',
+    ),
+    groupDiscount: loc(
+      'Máximo 2 estudiantes por sesión.',
+      'Maximum 2 students per session.',
+      'Maximum 2 élèves par session.',
+      'Maximal 2 Schüler pro Sitzung.',
+    ),
     tags: ['sidemount'],
     order: 15,
   },
   {
     _id: 'course-sidemount-recreational',
     _type: 'course',
-    title: loc('Curso SSI Recreational Sidemount', 'SSI Recreational Sidemount Course', 'Cours SSI Recreational Sidemount', 'SSI Recreational Sidemount Kurs'),
+    title: loc(
+      'Curso SSI Recreational Sidemount',
+      'SSI Recreational Sidemount Course',
+      'Cours SSI Recreational Sidemount',
+      'SSI Recreational Sidemount Kurs',
+    ),
     agency: 'SSI',
     category: 'technical',
     summary: loc(
@@ -588,7 +728,12 @@ export const coursesData: CourseSeed[] = [
       'Niveau 1 oder Open Water und 10 protokollierte Tauchgänge. Ärztliches Attest oder Fragebogen.',
     ),
     depthLimit: null,
-    duration: loc('4 inmersiones de curso / 2 días', '4 course dives / 2 days', '4 plongées de formation / 2 jours', '4 Kurs-Tauchgänge / 2 Tage'),
+    duration: loc(
+      '4 inmersiones de curso / 2 días',
+      '4 course dives / 2 days',
+      '4 plongées de formation / 2 jours',
+      '4 Kurs-Tauchgänge / 2 Tage',
+    ),
     minAge: 16,
     price: 450,
     includes: loc(
@@ -603,7 +748,12 @@ export const coursesData: CourseSeed[] = [
       'Assurance 1 semaine : 20 €. Plongée double supplémentaire en configuration sidemount : 100 €.',
       'Versicherung 1 Woche: 20 €. Zusätzlicher Doppeltauchgang in Sidemount-Konfiguration: 100 €.',
     ),
-    groupDiscount: loc('Máximo 2 estudiantes por sesión.', 'Maximum 2 students per session.', 'Maximum 2 élèves par session.', 'Maximal 2 Schüler pro Sitzung.'),
+    groupDiscount: loc(
+      'Máximo 2 estudiantes por sesión.',
+      'Maximum 2 students per session.',
+      'Maximum 2 élèves par session.',
+      'Maximal 2 Schüler pro Sitzung.',
+    ),
     tags: ['sidemount'],
     order: 16,
   },
@@ -613,7 +763,12 @@ export const courseBundlesData: CourseSeed[] = [
   {
     _id: 'course-pack-2-specialties',
     _type: 'course',
-    title: loc('Paquete 2 Especialidades - Nitrox + Profundo', '2-Specialty Package - Nitrox + Deep', 'Pack 2 spécialités - Nitrox + Profonde', 'Paket 2 Spezialkurse - Nitrox + Tiefe'),
+    title: loc(
+      'Paquete 2 Especialidades - Nitrox + Profundo',
+      '2-Specialty Package - Nitrox + Deep',
+      'Pack 2 spécialités - Nitrox + Profonde',
+      'Paket 2 Spezialkurse - Nitrox + Tiefe',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -622,9 +777,19 @@ export const courseBundlesData: CourseSeed[] = [
       'Deux spécialités combinées : Nitrox 32 et Plongée profonde.',
       'Zwei kombinierte Spezialkurse: Nitrox 32 und Tiefe.',
     ),
-    prerequisites: loc('Certificación Open Water.', 'Open Water certification.', 'Certification Open Water.', 'Open-Water-Zertifizierung.'),
+    prerequisites: loc(
+      'Certificación Open Water.',
+      'Open Water certification.',
+      'Certification Open Water.',
+      'Open-Water-Zertifizierung.',
+    ),
     depthLimit: 40,
-    duration: loc('3 inmersiones de curso / 2 días', '3 course dives / 2 days', '3 plongées de formation / 2 jours', '3 Kurs-Tauchgänge / 2 Tage'),
+    duration: loc(
+      '3 inmersiones de curso / 2 días',
+      '3 course dives / 2 days',
+      '3 plongées de formation / 2 jours',
+      '3 Kurs-Tauchgänge / 2 Tage',
+    ),
     minAge: 12,
     price: 350,
     includes: loc(
@@ -646,7 +811,12 @@ export const courseBundlesData: CourseSeed[] = [
   {
     _id: 'course-pack-3-specialties',
     _type: 'course',
-    title: loc('Pack 3 Especialidades - Nitrox + Profundo + Descompresión', '3-Specialty Pack - Nitrox + Deep + Decompression', 'Pack 3 spécialités - Nitrox + Profonde + Décompression', 'Paket 3 Spezialkurse - Nitrox + Tiefe + Dekompression'),
+    title: loc(
+      'Pack 3 Especialidades - Nitrox + Profundo + Descompresión',
+      '3-Specialty Pack - Nitrox + Deep + Decompression',
+      'Pack 3 spécialités - Nitrox + Profonde + Décompression',
+      'Paket 3 Spezialkurse - Nitrox + Tiefe + Dekompression',
+    ),
     agency: 'SSI',
     category: 'specialty',
     summary: loc(
@@ -655,9 +825,19 @@ export const courseBundlesData: CourseSeed[] = [
       'Trois spécialités combinées : Nitrox 32, Plongée profonde et Décompression.',
       'Drei kombinierte Spezialkurse: Nitrox 32, Tiefe und Dekompression.',
     ),
-    prerequisites: loc('Certificación Open Water.', 'Open Water certification.', 'Certification Open Water.', 'Open-Water-Zertifizierung.'),
+    prerequisites: loc(
+      'Certificación Open Water.',
+      'Open Water certification.',
+      'Certification Open Water.',
+      'Open-Water-Zertifizierung.',
+    ),
     depthLimit: 40,
-    duration: loc('7 inmersiones de curso / 2 días', '7 course dives / 2 days', '7 plongées de formation / 2 jours', '7 Kurs-Tauchgänge / 2 Tage'),
+    duration: loc(
+      '7 inmersiones de curso / 2 días',
+      '7 course dives / 2 days',
+      '7 plongées de formation / 2 jours',
+      '7 Kurs-Tauchgänge / 2 Tage',
+    ),
     minAge: 16,
     price: 700,
     includes: loc(

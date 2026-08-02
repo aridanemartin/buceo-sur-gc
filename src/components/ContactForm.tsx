@@ -1,7 +1,7 @@
 // src/components/ContactForm.tsx
 // React island: name/email/message fields with a client-side submitted-state
 // confirmation (no backend), ported from the old SPA behavior.
-import { useState, type FormEvent } from 'react'
+import { type FormEvent, useState } from 'react'
 import styles from './ContactForm.module.css'
 
 export interface ContactFormLabels {

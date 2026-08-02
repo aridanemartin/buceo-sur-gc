@@ -23,7 +23,9 @@
   height: 150px;
   object-fit: cover;
   border-radius: var(--radius-md);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .thumbBtn:hover .thumb {

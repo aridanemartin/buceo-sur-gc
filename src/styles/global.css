@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -21,8 +23,8 @@
   --color-text: #1b2a3b;
   --color-text-muted: #5a6a7a;
 
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: "Raleway", sans-serif;
+  --font-body: "Inter", sans-serif;
 
   --container-max: 1160px;
   --section-py: 96px;
@@ -51,7 +53,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.15;
@@ -74,6 +79,8 @@ button {
   font-family: inherit;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: inherit;
 }

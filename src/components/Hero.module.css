@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/buceoSur.png');
+  background-image: url("/buceoSur.png");
   background-size: cover;
   background-position: center 18%;
   background-attachment: fixed;
@@ -20,7 +20,7 @@
     transparent 0%,
     transparent 30%,
     rgba(1, 8, 22, 0.55) 68%,
-    rgba(1, 8, 22, 0.90) 100%
+    rgba(1, 8, 22, 0.9) 100%
   );
 }
 
@@ -61,8 +61,13 @@
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(9px); }
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(9px);
+  }
 }
 
 @media (max-width: 768px) {

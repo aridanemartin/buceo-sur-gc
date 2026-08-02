@@ -1,5 +1,5 @@
 import { getRelativeLocaleUrl } from 'astro:i18n'
-import { LOCALES, LOCALE_LABELS, type Locale } from './locales'
+import { LOCALE_LABELS, LOCALES, type Locale } from './locales'
 
 export function localePath(lang: Locale, path = ''): string {
   return getRelativeLocaleUrl(lang, path)

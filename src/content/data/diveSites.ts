@@ -21,7 +21,12 @@ export const diveSitesData: DiveSiteSeed[] = [
   {
     _id: 'site-el-cabron',
     _type: 'diveSite',
-    name: loc('Reserva marina El Cabrón - Arinaga', 'El Cabrón marine reserve - Arinaga', 'Réserve marine El Cabrón - Arinaga', 'Meeresschutzgebiet El Cabrón - Arinaga'),
+    name: loc(
+      'Reserva marina El Cabrón - Arinaga',
+      'El Cabrón marine reserve - Arinaga',
+      'Réserve marine El Cabrón - Arinaga',
+      'Meeresschutzgebiet El Cabrón - Arinaga',
+    ),
     depthRange: '5-30 m',
     levelTag: loc('Todos los niveles', 'All levels', 'Tous niveaux', 'Alle Levels'),
     description: loc(
@@ -37,7 +42,12 @@ export const diveSitesData: DiveSiteSeed[] = [
   {
     _id: 'site-risco-verde',
     _type: 'diveSite',
-    name: loc('Risco Verde - Arinaga', 'Risco Verde - Arinaga', 'Risco Verde - Arinaga', 'Risco Verde - Arinaga'),
+    name: loc(
+      'Risco Verde - Arinaga',
+      'Risco Verde - Arinaga',
+      'Risco Verde - Arinaga',
+      'Risco Verde - Arinaga',
+    ),
     depthRange: '6-20 m',
     levelTag: loc('Todos los niveles', 'All levels', 'Tous niveaux', 'Alle Levels'),
     description: loc(
@@ -97,7 +107,12 @@ export const diveSitesData: DiveSiteSeed[] = [
   {
     _id: 'site-cermona',
     _type: 'diveSite',
-    name: loc('Pecio de Mogán «Cermona»', 'Mogán wreck “Cermona”', 'Épave de Mogán « Cermona »', 'Wrack von Mogán „Cermona“'),
+    name: loc(
+      'Pecio de Mogán «Cermona»',
+      'Mogán wreck “Cermona”',
+      'Épave de Mogán « Cermona »',
+      'Wrack von Mogán „Cermona“',
+    ),
     depthRange: '15-20 m',
     levelTag: loc('Todos los niveles', 'All levels', 'Tous niveaux', 'Alle Levels'),
     description: loc(
@@ -112,7 +127,12 @@ export const diveSitesData: DiveSiteSeed[] = [
   {
     _id: 'site-arona',
     _type: 'diveSite',
-    name: loc('Pecio profundo «Arona»', 'Deep wreck “Arona”', 'Épave profonde « Arona »', 'Tiefes Wrack „Arona“'),
+    name: loc(
+      'Pecio profundo «Arona»',
+      'Deep wreck “Arona”',
+      'Épave profonde « Arona »',
+      'Tiefes Wrack „Arona“',
+    ),
     depthRange: '25-40 m',
     levelTag: loc('Avanzado', 'Advanced', 'Avancé', 'Fortgeschritten'),
     description: loc(

@@ -66,7 +66,12 @@ export const divesPageContent = {
     'Pour votre confort, votre sécurité et la qualité de vos plongées, nous limitons toujours le nombre de plongeurs par instructeur. Par conséquent, en haute saison et pendant les vacances scolaires, nous devons souvent refuser des demandes faute de places disponibles. Nous vous recommandons de réserver à l’avance pour garantir votre place. Réserver à l’avance nous aide aussi à planifier et organiser vos plongées et formations de manière optimale : nous pouvons choisir les meilleurs sites selon le niveau et les conditions météo, et regrouper les plongeurs de niveaux similaires.',
     'Für Ihren Komfort, Ihre Sicherheit und die Qualität Ihrer Tauchgänge begrenzen wir immer die Anzahl der Taucher pro Ausbilder. Daher müssen wir in der Hochsaison und in den Schulferien oft Anfragen ablehnen, wenn keine Plätze verfügbar sind. Wir empfehlen, rechtzeitig zu buchen, um Ihren Platz zu sichern. Rechtzeitiges Buchen hilft uns auch, Ihre Tauchgänge und Kurse optimal zu planen: Wir können die besten Tauchplätze je nach Level und Wetterlage wählen und Taucher mit ähnlicher Erfahrung gruppieren.',
   ),
-  docsTitle: loc('Documentación obligatoria y requisitos', 'Mandatory documentation and requirements', 'Documentation obligatoire et conditions', 'Pflichtdokumente und Voraussetzungen'),
+  docsTitle: loc(
+    'Documentación obligatoria y requisitos',
+    'Mandatory documentation and requirements',
+    'Documentation obligatoire et conditions',
+    'Pflichtdokumente und Voraussetzungen',
+  ),
   docs: loc(
     'Todos los buceadores certificados deben tener: una tarjeta de certificación que acredite su nivel; un certificado médico (en papel o escaneado) con una antigüedad inferior a 2 años (si es necesario, se puede obtener en la Clínica Isla del Sol) o una declaración médica según lo estipulado en el Real Decreto 550/2020, de 27/06/2020; y un seguro de buceo. Si no dispone de uno, puede contratar una póliza diaria, semanal o anual directamente en el centro de buceo.',
     'All certified divers must have: a certification card proving their level; a medical certificate (paper or scanned) less than 2 years old (if needed, it can be obtained at Clínica Isla del Sol) or a medical declaration as stipulated in Royal Decree 550/2020 of 27/06/2020; and dive insurance. If you do not have one, you can take out a daily, weekly or annual policy directly at the dive centre.',
@@ -122,7 +127,12 @@ export const sidemountPageContent = {
     'Der Meeresboden Gran Canarias mit seinen vielen gesunkenen Wracks und den vom Vulkanismus geformten Reliefs bietet einen spielerischen und idealen Raum zum Lernen und Üben des Sidemount-Tauchens. Wir tauchen auf der ganzen Insel und Sie finden Höhlen, Tunnel, Bögen und Schornsteine sowie begehbare Wracks. Sie verbinden Technik, Spaß und Sicherheit.',
   ),
   videoUrl: 'https://youtu.be/VcV43eZU-GA?si=V9Qxb7fbtL5_eLYo',
-  courseTitle: loc('Curso de buceo Sidemount (montaje lateral)', 'Sidemount diving course (side mount)', 'Cours de plongée Sidemount (montage latéral)', 'Sidemount-Tauchkurs (Seitenmontage)'),
+  courseTitle: loc(
+    'Curso de buceo Sidemount (montaje lateral)',
+    'Sidemount diving course (side mount)',
+    'Cours de plongée Sidemount (montage latéral)',
+    'Sidemount-Tauchkurs (Seitenmontage)',
+  ),
   courseRequirementsTitle: loc('Requisitos', 'Requirements', 'Conditions', 'Voraussetzungen'),
   courseRequirements: loc(
     'CMAS 1* u Open Water + mínimo de 30 inmersiones registradas. Certificado médico.',

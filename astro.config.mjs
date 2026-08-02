@@ -1,8 +1,9 @@
 // astro.config.mjs
-import { defineConfig } from 'astro/config'
+
 import react from '@astrojs/react'
 import vercel from '@astrojs/vercel'
 import sanity from '@sanity/astro'
+import { defineConfig } from 'astro/config'
 
 const integrations = [react()]
 
@@ -20,7 +21,7 @@ if (sanityConfigured) {
       dataset: process.env.SANITY_DATASET ?? 'production',
       useCdn: false,
       studioBasePath: '/admin',
-    })
+    }),
   )
 } else {
   // Offline fallback: without the Sanity integration the virtual `sanity:client` module does not

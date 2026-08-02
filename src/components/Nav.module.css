@@ -7,7 +7,10 @@
   background: rgba(1, 14, 30, 0.42);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  transition: background var(--transition), box-shadow var(--transition), backdrop-filter var(--transition);
+  transition:
+    background var(--transition),
+    box-shadow var(--transition),
+    backdrop-filter var(--transition);
   padding: 0 24px;
 }
 
@@ -64,7 +67,9 @@
   font-weight: 500;
   padding: 8px 14px;
   border-radius: var(--radius-sm);
-  transition: color var(--transition), background var(--transition);
+  transition:
+    color var(--transition),
+    background var(--transition);
 }
 
 .link:hover {
@@ -80,7 +85,9 @@
   font-weight: 600;
   padding: 10px 22px;
   border-radius: var(--radius-sm);
-  transition: background var(--transition), transform var(--transition);
+  transition:
+    background var(--transition),
+    transform var(--transition);
   margin-left: 8px;
 }
 
@@ -102,7 +109,9 @@
   height: 2px;
   background: var(--color-white);
   border-radius: 2px;
-  transition: transform var(--transition), opacity var(--transition);
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
 }
 
 /* Language selector */
@@ -119,7 +128,9 @@
   font-weight: 500;
   padding: 8px 12px;
   border-radius: var(--radius-sm);
-  transition: color var(--transition), background var(--transition);
+  transition:
+    color var(--transition),
+    background var(--transition);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -145,8 +156,14 @@
 }
 
 @keyframes dropIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .langOption {
@@ -158,7 +175,9 @@
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.88rem;
   cursor: pointer;
-  transition: background var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    color var(--transition);
   text-align: left;
 }
 
@@ -179,8 +198,14 @@
 }
 
 @keyframes navItemIn {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .burgerOpen span:nth-child(1) {
@@ -211,7 +236,11 @@
     justify-content: center;
     align-items: center;
     gap: 16px;
-    background: radial-gradient(ellipse at 50% 40%, rgba(0, 55, 95, 0.98) 0%, rgba(1, 16, 36, 0.99) 100%);
+    background: radial-gradient(
+      ellipse at 50% 40%,
+      rgba(0, 55, 95, 0.98) 0%,
+      rgba(1, 16, 36, 0.99) 100%
+    );
     /* iris closed */
     visibility: hidden;
     pointer-events: none;
@@ -231,12 +260,24 @@
       visibility 0s linear 0s;
   }
 
-  .links.open li:nth-child(1) { animation: navItemIn 0.4s ease 0.20s both; }
-  .links.open li:nth-child(2) { animation: navItemIn 0.4s ease 0.26s both; }
-  .links.open li:nth-child(3) { animation: navItemIn 0.4s ease 0.32s both; }
-  .links.open li:nth-child(4) { animation: navItemIn 0.4s ease 0.38s both; }
-  .links.open li:nth-child(5) { animation: navItemIn 0.4s ease 0.44s both; }
-  .links.open li:nth-child(6) { animation: navItemIn 0.4s ease 0.50s both; }
+  .links.open li:nth-child(1) {
+    animation: navItemIn 0.4s ease 0.2s both;
+  }
+  .links.open li:nth-child(2) {
+    animation: navItemIn 0.4s ease 0.26s both;
+  }
+  .links.open li:nth-child(3) {
+    animation: navItemIn 0.4s ease 0.32s both;
+  }
+  .links.open li:nth-child(4) {
+    animation: navItemIn 0.4s ease 0.38s both;
+  }
+  .links.open li:nth-child(5) {
+    animation: navItemIn 0.4s ease 0.44s both;
+  }
+  .links.open li:nth-child(6) {
+    animation: navItemIn 0.4s ease 0.5s both;
+  }
 
   .link {
     font-size: 1.5rem;
@@ -257,12 +298,22 @@
   .links {
     clip-path: none !important;
     opacity: 0;
-    transition: opacity 0.15s ease, visibility 0s linear 0.15s !important;
+    transition:
+      opacity 0.15s ease,
+      visibility 0s linear 0.15s !important;
   }
   .links.open {
     opacity: 1;
-    transition: opacity 0.15s ease, visibility 0s linear 0s !important;
+    transition:
+      opacity 0.15s ease,
+      visibility 0s linear 0s !important;
   }
-  .links.open li { animation: none !important; }
-  .burgerOpen span { transition: transform 0.1s ease, opacity 0.1s ease !important; }
+  .links.open li {
+    animation: none !important;
+  }
+  .burgerOpen span {
+    transition:
+      transform 0.1s ease,
+      opacity 0.1s ease !important;
+  }
 }

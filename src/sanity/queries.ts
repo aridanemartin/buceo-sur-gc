@@ -1,8 +1,8 @@
 import { sanityClient } from 'sanity:client'
 import { centroInfoData } from '../content/data/centroInfo'
 import { allCoursesData } from '../content/data/courses'
-import { experiencesData } from '../content/data/experiences'
 import { diveSitesData } from '../content/data/diveSites'
+import { experiencesData } from '../content/data/experiences'
 import { tariffExtrasData } from '../content/data/tariffExtras'
 
 // All query helpers fall back to the canonical docx-sourced data (src/content/data)
@@ -43,8 +43,13 @@ export async function getCourses() {
 
 export async function getCoursesByTag(tag: string) {
   try {
-    const data = await sanityClient.fetch(`*[_type == "course" && $tag in tags] | order(order asc)`, { tag })
-    return Array.isArray(data) && data.length > 0 ? data : allCoursesData.filter((c) => c.tags?.includes(tag))
+    const data = await sanityClient.fetch(
+      `*[_type == "course" && $tag in tags] | order(order asc)`,
+      { tag },
+    )
+    return Array.isArray(data) && data.length > 0
+      ? data
+      : allCoursesData.filter((c) => c.tags?.includes(tag))
   } catch {
     return allCoursesData.filter((c) => c.tags?.includes(tag))
   }
@@ -56,7 +61,9 @@ export async function getExperiences(audience: 'beginner' | 'certified') {
       `*[_type == "experience" && audience == $audience] | order(order asc)`,
       { audience },
     )
-    return Array.isArray(data) && data.length > 0 ? data : experiencesData.filter((e) => e.audience === audience)
+    return Array.isArray(data) && data.length > 0
+      ? data
+      : experiencesData.filter((e) => e.audience === audience)
   } catch {
     return experiencesData.filter((e) => e.audience === audience)
   }
