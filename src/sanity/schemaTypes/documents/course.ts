@@ -18,6 +18,12 @@ export const course = defineType({
       type: 'string',
       options: { list: ['recreational', 'specialty', 'technical', 'professional'] },
     }),
+    defineField({
+      name: 'image',
+      title: 'Imagen',
+      type: 'image',
+      options: { accept: 'image/webp' },
+    }),
     defineField({ name: 'summary', title: 'Resumen', type: 'localeText' }),
     defineField({ name: 'prerequisites', title: 'Requisitos', type: 'localeText' }),
     defineField({ name: 'depthLimit', title: 'Profundidad máxima (m)', type: 'number' }),
@@ -32,9 +38,13 @@ export const course = defineType({
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'title.es', agency: 'agency', category: 'category' },
-    prepare({ title, agency, category }) {
-      return { title: title || 'Sin título', subtitle: [agency, category].filter(Boolean).join(' · ') }
+    select: { title: 'title.es', agency: 'agency', category: 'category', media: 'image' },
+    prepare({ title, agency, category, media }) {
+      return {
+        title: title || 'Sin título',
+        subtitle: [agency, category].filter(Boolean).join(' · '),
+        media,
+      }
     },
   },
 })

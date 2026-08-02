@@ -10,6 +10,7 @@ export interface CourseSeed {
   title: LocaleValue
   agency: string
   category: string
+  image?: string
   summary: LocaleValue
   prerequisites: LocaleValue
   depthLimit?: number | null

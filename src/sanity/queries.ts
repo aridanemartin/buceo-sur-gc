@@ -34,7 +34,9 @@ export async function getCentroInfo() {
 
 export async function getCourses() {
   try {
-    const data = await sanityClient.fetch(`*[_type == "course"] | order(order asc)`)
+    const data = await sanityClient.fetch(
+      `*[_type == "course"] | order(order asc) { ..., "image": image.asset->url }`,
+    )
     return Array.isArray(data) && data.length > 0 ? data : allCoursesData
   } catch {
     return allCoursesData
@@ -44,7 +46,7 @@ export async function getCourses() {
 export async function getCoursesByTag(tag: string) {
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "course" && $tag in tags] | order(order asc)`,
+      `*[_type == "course" && $tag in tags] | order(order asc) { ..., "image": image.asset->url }`,
       { tag },
     )
     return Array.isArray(data) && data.length > 0
