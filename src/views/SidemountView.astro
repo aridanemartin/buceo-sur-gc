@@ -1,14 +1,15 @@
 ---
+import CtaBanner from '../components/CtaBanner.astro'
+import { sidemountPageContent } from '../content/data/pageContent'
+import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
 // src/views/SidemountView.astro
 // Sidemount intro (canonical copy from src/content/data/pageContent.ts),
 // the promo video, and the sidemount courses filtered by tag.
 import BaseLayout from '../layouts/BaseLayout.astro'
-import type { Locale } from '../i18n/locales'
+import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getCoursesByTag } from '../sanity/queries'
-import { SITE } from '../lib/constants'
-import { sidemountPageContent } from '../content/data/pageContent'
-import CtaBanner from '../components/CtaBanner.astro'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const { lang } = Astro.props
+const u = ui[lang]
 const courses = await getCoursesByTag('sidemount')
 
 const l = (f: any) => t(f, lang)
@@ -30,10 +32,22 @@ function toEmbedUrl(url: string): string {
 const videoEmbedUrl = toEmbedUrl(sidemountPageContent.videoUrl)
 
 const cta = {
-  es: { title: 'Reserva tu bautismo Sidemount', text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.' },
-  en: { title: 'Book your Sidemount discover dive', text: 'Book in advance to guarantee your spot. Automated booking system.' },
-  fr: { title: 'Réservez votre baptême Sidemount', text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.' },
-  de: { title: 'Buchen Sie Ihr Sidemount-Schnuppertauchen', text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.' },
+  es: {
+    title: 'Reserva tu bautismo Sidemount',
+    text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.',
+  },
+  en: {
+    title: 'Book your Sidemount discover dive',
+    text: 'Book in advance to guarantee your spot. Automated booking system.',
+  },
+  fr: {
+    title: 'Réservez votre baptême Sidemount',
+    text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.',
+  },
+  de: {
+    title: 'Buchen Sie Ihr Sidemount-Schnuppertauchen',
+    text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.',
+  },
 }[lang]
 ---
 <BaseLayout
@@ -76,7 +90,7 @@ const cta = {
 
     <section class={styles.section} id="cursos">
       <div class={styles.container}>
-        <p class={styles.sectionEyebrow}>Cursos</p>
+        <p class={styles.sectionEyebrow}>{u.nav.courses}</p>
         <h2 class={styles.sectionTitle}>{l(sidemountPageContent.courseTitle)}</h2>
         <ul class={styles.list}>
           <li>{l(sidemountPageContent.courseRequirementsTitle)}: {l(sidemountPageContent.courseRequirements)}</li>
@@ -104,6 +118,6 @@ const cta = {
       </div>
     </section>
 
-    <CtaBanner href={SITE.bookingUrl} title={cta.title} text={cta.text} />
+    <CtaBanner lang={lang} href={SITE.bookingUrl} title={cta.title} text={cta.text} />
   </main>
 </BaseLayout>

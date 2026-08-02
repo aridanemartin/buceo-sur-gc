@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
-import styles from './Nav.module.css'
+import { useEffect, useState } from 'react'
 import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
+import styles from './Nav.module.css'
 
 interface NavLink {
   label: string
@@ -26,6 +27,7 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, hom
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const a11y = ui[lang].a11y
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -41,7 +43,7 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, hom
 
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
-      <nav className={styles.nav} aria-label="Navegación principal">
+      <nav className={styles.nav} aria-label={a11y.mainNav}>
         <a href={homeHref} className={styles.logo}>
           <span className={styles.logoText}>Buceo Sur</span>
           <span className={styles.logoSub}>Gran Canaria</span>
@@ -64,7 +66,17 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, hom
               aria-haspopup="listbox"
             >
               🌐 {lang.toUpperCase()}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
                 <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
@@ -72,7 +84,10 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, hom
               <ul className={styles.langDropdown} role="listbox">
                 {localeLinks.map((l) => (
                   <li key={l.locale} role="option" aria-selected={lang === l.locale}>
-                    <a href={l.href} className={`${styles.langOption} ${lang === l.locale ? styles.langActive : ''}`}>
+                    <a
+                      href={l.href}
+                      className={`${styles.langOption} ${lang === l.locale ? styles.langActive : ''}`}
+                    >
                       <span className={styles.langCode}>{l.locale.toUpperCase()}</span>
                       <span>{l.label}</span>
                     </a>
@@ -83,7 +98,13 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, hom
           </li>
 
           <li>
-            <a href={bookHref} target="_blank" rel="noopener noreferrer" className={styles.cta} onClick={() => setMenuOpen(false)}>
+            <a
+              href={bookHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.cta}
+              onClick={() => setMenuOpen(false)}
+            >
               {bookLabel}
             </a>
           </li>
@@ -91,7 +112,7 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, hom
 
         <button
           className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`}
-          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-label={menuOpen ? a11y.closeMenu : a11y.openMenu}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((o) => !o)}
         >

@@ -1,16 +1,16 @@
 ---
+import CtaBanner from '../components/CtaBanner.astro'
+import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
 // src/views/RatesView.astro
 // Tarifas page — aggregates every price source (courses, experiences, tariff
 // extras) into one consolidated pricing page, per docs/5. Tarifas.docx:
 // "todos los tarifas en la misma página con opciones y suplemento posible".
 import BaseLayout from '../layouts/BaseLayout.astro'
-import CtaBanner from '../components/CtaBanner.astro'
-import styles from '../styles/viewCommon.module.css'
 import { SITE } from '../lib/constants'
-import { ui } from '../i18n/strings'
-import type { Locale } from '../i18n/locales'
 import { t } from '../sanity/localize'
 import { getCourses, getExperiences, getTariffExtras } from '../sanity/queries'
+import styles from '../styles/viewCommon.module.css'
 
 interface Props {
   lang: Locale
@@ -64,11 +64,38 @@ const ctaText: Record<Locale, string> = {
   de: 'Buche dein Schnuppertauchen, deinen Tauchgang oder Kurs direkt bei uns.',
 }
 
-const cols: Record<Locale, { product: string; price: string; includes: string; supplements: string; unit: string }> = {
-  es: { product: 'Producto', price: 'Precio', includes: 'Incluye', supplements: 'Suplemento / Opción', unit: 'Unidad' },
-  en: { product: 'Product', price: 'Price', includes: 'Includes', supplements: 'Supplement / Option', unit: 'Unit' },
-  fr: { product: 'Produit', price: 'Prix', includes: 'Inclut', supplements: 'Supplément / Option', unit: 'Unité' },
-  de: { product: 'Produkt', price: 'Preis', includes: 'Inklusive', supplements: 'Zuschlag / Option', unit: 'Einheit' },
+const cols: Record<
+  Locale,
+  { product: string; price: string; includes: string; supplements: string; unit: string }
+> = {
+  es: {
+    product: 'Producto',
+    price: 'Precio',
+    includes: 'Incluye',
+    supplements: 'Suplemento / Opción',
+    unit: 'Unidad',
+  },
+  en: {
+    product: 'Product',
+    price: 'Price',
+    includes: 'Includes',
+    supplements: 'Supplement / Option',
+    unit: 'Unit',
+  },
+  fr: {
+    product: 'Produit',
+    price: 'Prix',
+    includes: 'Inclut',
+    supplements: 'Supplément / Option',
+    unit: 'Unité',
+  },
+  de: {
+    product: 'Produkt',
+    price: 'Preis',
+    includes: 'Inklusive',
+    supplements: 'Zuschlag / Option',
+    unit: 'Einheit',
+  },
 }
 const col = cols[lang]
 
@@ -210,7 +237,7 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
       </div>
     </section>
 
-    <CtaBanner href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
   </main>
 </BaseLayout>
 

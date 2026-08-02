@@ -1,20 +1,24 @@
 ---
 // src/components/CtaBanner.astro
-// Big "RESERVA YA" booking banner, per the docx documents' "INSERTAR BOTON en grande RESERVA YA".
+// Big booking banner, per the docx documents' "INSERTAR BOTON en grande RESERVA YA".
+import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
+  lang: Locale
   href: string
   title: string
   text?: string
 }
 
-const { href, title, text } = Astro.props
+const { lang, href, title, text } = Astro.props
+const u = ui[lang]
 ---
 <section class={styles.ctaBanner}>
   <div class={styles.ctaBannerInner}>
     <h2 class={styles.ctaTitle}>{title}</h2>
     {text && <p class={styles.ctaText}>{text}</p>}
-    <a class={styles.ctaButton} href={href} target="_blank" rel="noopener noreferrer">RESERVA YA</a>
+    <a class={styles.ctaButton} href={href} target="_blank" rel="noopener noreferrer">{u.ctaButton}</a>
   </div>
 </section>

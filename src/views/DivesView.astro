@@ -1,16 +1,16 @@
 ---
+import CtaBanner from '../components/CtaBanner.astro'
+import { divesPageContent } from '../content/data/pageContent'
+import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
 // src/views/DivesView.astro
 // Inmersiones page — organisation prose from divesPageContent plus the certified
 // experiences as cards, per docs/2. inmersiones.docx.
 import BaseLayout from '../layouts/BaseLayout.astro'
-import CtaBanner from '../components/CtaBanner.astro'
-import styles from '../styles/viewCommon.module.css'
 import { SITE } from '../lib/constants'
-import { ui } from '../i18n/strings'
-import type { Locale } from '../i18n/locales'
 import { t } from '../sanity/localize'
 import { getExperiences } from '../sanity/queries'
-import { divesPageContent } from '../content/data/pageContent'
+import styles from '../styles/viewCommon.module.css'
 
 interface Props {
   lang: Locale
@@ -21,11 +21,38 @@ const u = ui[lang]
 
 const experiences = await getExperiences('certified')
 
-const labels: Record<Locale, { includes: string; supplements: string; conditions: string; depth: string; gridTitle: string }> = {
-  es: { includes: 'Incluye', supplements: 'Suplementos / opciones', conditions: 'Condiciones', depth: 'máx.', gridTitle: 'Inmersiones guiadas' },
-  en: { includes: 'Includes', supplements: 'Supplements / options', conditions: 'Conditions', depth: 'max', gridTitle: 'Guided dives' },
-  fr: { includes: 'Inclut', supplements: 'Suppléments / options', conditions: 'Conditions', depth: 'max', gridTitle: 'Plongées encadrées' },
-  de: { includes: 'Inklusive', supplements: 'Zuschläge / Optionen', conditions: 'Bedingungen', depth: 'max.', gridTitle: 'Begleitete Tauchgänge' },
+const labels: Record<
+  Locale,
+  { includes: string; supplements: string; conditions: string; depth: string; gridTitle: string }
+> = {
+  es: {
+    includes: 'Incluye',
+    supplements: 'Suplementos / opciones',
+    conditions: 'Condiciones',
+    depth: 'máx.',
+    gridTitle: 'Inmersiones guiadas',
+  },
+  en: {
+    includes: 'Includes',
+    supplements: 'Supplements / options',
+    conditions: 'Conditions',
+    depth: 'max',
+    gridTitle: 'Guided dives',
+  },
+  fr: {
+    includes: 'Inclut',
+    supplements: 'Suppléments / options',
+    conditions: 'Conditions',
+    depth: 'max',
+    gridTitle: 'Plongées encadrées',
+  },
+  de: {
+    includes: 'Inklusive',
+    supplements: 'Zuschläge / Optionen',
+    conditions: 'Bedingungen',
+    depth: 'max.',
+    gridTitle: 'Begleitete Tauchgänge',
+  },
 }
 const l = labels[lang]
 
@@ -150,6 +177,6 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
       </div>
     </section>
 
-    <CtaBanner href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} text={ctaText[lang]} />
   </main>
 </BaseLayout>

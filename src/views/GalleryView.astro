@@ -1,14 +1,14 @@
 ---
-// src/views/GalleryView.astro
-// Galería page: intro copy, then one section per dive site with meta pills
-// (depth range + level), localized description, optional YouTube video and a
-// Lightbox gallery of the site's images.
-import BaseLayout from '../layouts/BaseLayout.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import Lightbox from '../components/Lightbox.tsx'
 import { galleryPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
+// src/views/GalleryView.astro
+// Galería page: intro copy, then one section per dive site with meta pills
+// (depth range + level), localized description, optional YouTube video and a
+// Lightbox gallery of the site's images.
+import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getDiveSites } from '../sanity/queries'
@@ -71,5 +71,5 @@ const intro = t(galleryPageContent.intro, lang)
     }
   </main>
 
-  <CtaBanner href={SITE.bookingUrlDives} title={strings.book} />
+  <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={strings.book} />
 </BaseLayout>

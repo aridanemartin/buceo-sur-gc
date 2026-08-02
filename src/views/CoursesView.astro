@@ -1,13 +1,13 @@
 ---
+import CtaBanner from '../components/CtaBanner.astro'
+import type { Locale } from '../i18n/locales'
 // src/views/CoursesView.astro
 // Renders all course documents from getCourses(), grouped by agency (SSI / CMAS)
 // and category (recreational / specialty / technical).
 import BaseLayout from '../layouts/BaseLayout.astro'
-import type { Locale } from '../i18n/locales'
+import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getCourses } from '../sanity/queries'
-import { SITE } from '../lib/constants'
-import CtaBanner from '../components/CtaBanner.astro'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -46,16 +46,37 @@ const categoryLabels: Record<string, string> = {
 }[lang]
 
 const cta = {
-  es: { title: 'Reserva tu curso de buceo', text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.' },
-  en: { title: 'Book your diving course', text: 'Book in advance to guarantee your spot. Automated booking system.' },
-  fr: { title: 'Réservez votre formation de plongée', text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.' },
-  de: { title: 'Buchen Sie Ihren Tauchkurs', text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.' },
+  es: {
+    title: 'Reserva tu curso de buceo',
+    text: 'Reserva con antelación para garantizar tu plaza. Sistema de reservas automatizado.',
+  },
+  en: {
+    title: 'Book your diving course',
+    text: 'Book in advance to guarantee your spot. Automated booking system.',
+  },
+  fr: {
+    title: 'Réservez votre formation de plongée',
+    text: 'Réservez à l’avance pour garantir votre place. Système de réservation automatisé.',
+  },
+  de: {
+    title: 'Buchen Sie Ihren Tauchkurs',
+    text: 'Buchen Sie rechtzeitig, um Ihren Platz zu sichern. Automatisiertes Buchungssystem.',
+  },
+}[lang]
+
+const agencyLabel: Record<Locale, string> = {
+  es: 'Agencia',
+  en: 'Agency',
+  fr: 'Organisme',
+  de: 'Verband',
 }[lang]
 
 const agencies = [...new Set(courses.map((c: any) => c.agency))]
 const grouped = agencies.map((agency) => ({
   agency,
-  categories: [...new Set(courses.filter((c: any) => c.agency === agency).map((c: any) => c.category))],
+  categories: [
+    ...new Set(courses.filter((c: any) => c.agency === agency).map((c: any) => c.category)),
+  ],
   items: courses.filter((c: any) => c.agency === agency),
 }))
 ---
@@ -72,7 +93,7 @@ const grouped = agencies.map((agency) => ({
     {grouped.map((group) => (
       <section class={styles.sectionAlt} id={group.agency.toLowerCase()}>
         <div class={styles.container}>
-          <p class={styles.sectionEyebrow}>Agencia</p>
+          <p class={styles.sectionEyebrow}>{agencyLabel}</p>
           <h2 class={styles.sectionTitle}>{group.agency}</h2>
 
           {group.categories.map((category) => (
@@ -105,6 +126,6 @@ const grouped = agencies.map((agency) => ({
       </section>
     ))}
 
-    <CtaBanner href={SITE.bookingUrlDives} title={cta.title} text={cta.text} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={cta.title} text={cta.text} />
   </main>
 </BaseLayout>
