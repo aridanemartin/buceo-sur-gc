@@ -1,31 +1,36 @@
 /* Instalaciones section on the home page — text beside a photo of the dive centre. */
 
 .grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 48px;
-	/* align-items: center; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+/* photoWrap has no intrinsic height, so the grid row height is driven only
+   by .text; the image is then stretched to fill that row and cropped via
+   object-fit, guaranteeing it never grows taller than the text column. */
+.photoWrap {
+  position: relative;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
 .photo {
-	width: 100%;
-	height: 100%;
-	border-radius: var(--radius-lg);
-	box-shadow: var(--shadow-md);
-	object-fit: cover;
-}
-
-.text {
-	align-self: start;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media (max-width: 900px) {
-	.grid {
-		grid-template-columns: 1fr;
-		gap: 32px;
-	}
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 
-	.photo {
-		height: auto;
-	}
+  .photoWrap {
+    aspect-ratio: 4 / 3;
+  }
 }

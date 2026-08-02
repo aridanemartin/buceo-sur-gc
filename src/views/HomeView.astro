@@ -2,12 +2,13 @@
 import CtaBanner from "../components/CtaBanner.astro";
 import heroStyles from "../components/Hero.module.css";
 import type { Locale } from "../i18n/locales";
-// src/views/HomeView.astro
+import { ui } from "../i18n/strings";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../lib/constants";
 import { t } from "../sanity/localize";
 import { getCentroInfo } from "../sanity/queries";
 import aboutStyles from "../styles/HomeAbout.module.css";
+import dondeEstamos from "../styles/HomeDondeEstamos.module.css";
 import instalaciones from "../styles/HomeInstalaciones.module.css";
 import commonStyles from "../styles/viewCommon.module.css";
 
@@ -18,16 +19,24 @@ interface Props {
 const { lang } = Astro.props;
 const info = await getCentroInfo();
 const l = (f: any) => t(f, lang);
+const uiStrings = ui[lang];
+const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
+  `Buceo Sur Gran Canaria, ${SITE.address.line1}, ${SITE.address.line2}, ${SITE.address.line3}`,
+)}&z=15&output=embed&hl=${lang}`;
 ---
 
 <BaseLayout
   lang={lang}
   path=""
-  title="Buceo Sur Gran Canaria — Inmersiones en toda la isla"
+  title={uiStrings.home.metaTitle}
   description={l(info?.intro)}
 >
   <main>
-    <section id="inicio" class={heroStyles.hero} aria-label="Portada">
+    <section
+      id="inicio"
+      class={heroStyles.hero}
+      aria-label={uiStrings.home.heroLabel}
+    >
       <div class={heroStyles.vignette}></div>
       <img
         src="/logo.png"
@@ -39,7 +48,7 @@ const l = (f: any) => t(f, lang);
       <a
         href="#nosotros"
         class={heroStyles.scroll}
-        aria-label="Ir a la siguiente sección"
+        aria-label={uiStrings.home.scrollLabel}
       >
         <svg
           width="28"
@@ -60,12 +69,15 @@ const l = (f: any) => t(f, lang);
     <section id="nosotros" class={aboutStyles.section}>
       <div class={aboutStyles.container}>
         <div class={aboutStyles.text}>
-          <p class={aboutStyles.eyebrow}>Quiénes somos</p>
+          <p class={aboutStyles.eyebrow}>{uiStrings.home.whoWeAreEyebrow}</p>
           <h2 class={aboutStyles.title}>Buceo Sur Gran Canaria</h2>
           <p class={aboutStyles.body}>{l(info?.intro)}</p>
           <p class={aboutStyles.body}>{l(info?.history)}</p>
 
-          <ul class={aboutStyles.certifications} aria-label="Certificaciones">
+          <ul
+            class={aboutStyles.certifications}
+            aria-label={uiStrings.home.certificationsLabel}
+          >
             {
               (info?.certifications ?? []).map((cert: any) => (
                 <li class={aboutStyles.cert}>
@@ -89,13 +101,13 @@ const l = (f: any) => t(f, lang);
           <div class={aboutStyles.videoWrapper}>
             <iframe
               src="https://www.youtube-nocookie.com/embed/3ZaJwr3My3Y?wmode=transparent&vq=hd1080"
-              title="Inmersión en alta definición — Gran Canaria"
+              title={uiStrings.home.videoTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               loading="lazy"></iframe>
           </div>
           <p class={aboutStyles.videoCaption}>
-            Inmersión en alta definición · Gran Canaria
+            {uiStrings.home.videoCaption}
           </p>
         </div>
       </div>
@@ -103,25 +115,29 @@ const l = (f: any) => t(f, lang);
 
     <section id="instalaciones" class={commonStyles.sectionAlt}>
       <div class={commonStyles.container}>
-        <p class={commonStyles.sectionEyebrow}>Instalaciones</p>
+        <p class={commonStyles.sectionEyebrow}>
+          {uiStrings.home.facilitiesEyebrow}
+        </p>
 
         <div class={instalaciones.grid}>
           <div class={instalaciones.text}>
             <h2 class={commonStyles.sectionTitle}>
-              Nuestro centro en Playa de Arinaga
+              {uiStrings.home.facilitiesTitle}
             </h2>
             <p class={commonStyles.bodyText}>{l(info?.installations)}</p>
           </div>
           {
             info?.installationsImages?.[0] && (
-              <img
-                src={info.installationsImages[0]}
-                alt="Nuestras instalaciones en Playa de Arinaga"
-                class={instalaciones.photo}
-                width={1152}
-                height={864}
-                loading="lazy"
-              />
+              <div class={instalaciones.photoWrap}>
+                <img
+                  src={info.installationsImages[0]}
+                  alt={uiStrings.home.facilitiesAlt}
+                  class={instalaciones.photo}
+                  width={1152}
+                  height={864}
+                  loading="lazy"
+                />
+              </div>
             )
           }
         </div>
@@ -130,8 +146,8 @@ const l = (f: any) => t(f, lang);
 
     <section id="equipo" class={commonStyles.section}>
       <div class={commonStyles.container}>
-        <p class={commonStyles.sectionEyebrow}>Sobre nosotros</p>
-        <h2 class={commonStyles.sectionTitle}>El equipo</h2>
+        <p class={commonStyles.sectionEyebrow}>{uiStrings.home.aboutEyebrow}</p>
+        <h2 class={commonStyles.sectionTitle}>{uiStrings.home.teamTitle}</h2>
         <div class={commonStyles.grid}>
           {
             (info?.staff ?? []).map((member: any) => (
@@ -158,7 +174,7 @@ const l = (f: any) => t(f, lang);
       </div>
     </section>
 
-    <section class={aboutStyles.section} aria-label="Estadísticas">
+    <section class={aboutStyles.section} aria-label={uiStrings.home.statsLabel}>
       <div class={aboutStyles.stats}>
         {
           (info?.stats ?? []).map((stat: any) => (
@@ -172,9 +188,26 @@ const l = (f: any) => t(f, lang);
     </section>
 
     <CtaBanner
+      lang={lang}
       href={SITE.bookingUrl}
-      title="Reserva tu inmersión"
-      text="Sistema de reservas automatizado — reserva con antelación para garantizar tu plaza."
+      title={uiStrings.home.ctaTitle}
+      text={uiStrings.home.ctaText}
     />
+
+    <section id="donde-estamos" class={commonStyles.section}>
+      <div class={commonStyles.container}>
+        <h2 class={commonStyles.sectionTitle}>{uiStrings.home.dondeEstamos}</h2>
+        <div class={dondeEstamos.mapWrapper}>
+          <iframe
+            src={mapSrc}
+            title={`Buceo Sur Gran Canaria — ${uiStrings.home.dondeEstamos}`}
+            width="100%"
+            height="400"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
   </main>
 </BaseLayout>
