@@ -110,7 +110,7 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     <!-- Bautizos -->
     <section class={styles.section}>
       <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{u.nav.baptisms}</h2>
+        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.baptisms}</h2>
         <div class={`${styles.card} pricingCard`}>
           <table class="ratesTable">
             <thead>
@@ -142,7 +142,7 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     <!-- Inmersiones -->
     <section class={styles.sectionAlt}>
       <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{u.nav.dives}</h2>
+        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.dives}</h2>
         <div class={`${styles.card} pricingCard`}>
           <table class="ratesTable">
             <thead>
@@ -174,7 +174,7 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     <!-- Cursos -->
     <section class={styles.section}>
       <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{u.nav.courses}</h2>
+        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.courses}</h2>
         <div class={`${styles.card} pricingCard`}>
           <table class="ratesTable">
             <thead>
@@ -206,7 +206,7 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     <!-- Extras -->
     <section class={styles.sectionAlt}>
       <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{extrasTitle[lang]}</h2>
+        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{extrasTitle[lang]}</h2>
         <div class={`${styles.card} pricingCard`}>
           <table class="ratesTable">
             <thead>
@@ -240,7 +240,7 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     overflow-x: auto;
   }
 
-  .sectionTitle {
+  .ratesSectionTitle {
     margin-bottom: 24px;
   }
 
