@@ -1,0 +1,81 @@
+---
+// src/components/WildlifeMarquee.astro
+// Endless left-to-right scrolling strip of underwater wildlife photos, shown
+// right after the hero on the home page. The scroll itself is pure CSS (the
+// image list is duplicated once so the loop is seamless, disabled under
+// prefers-reduced-motion); a small inline script opens a full-screen preview
+// when a thumbnail is clicked. The strip keeps scrolling while the preview is
+// open and after it closes. The duplicated copy used for the loop is hidden
+// from assistive tech and keyboard nav.
+import type { Locale } from '../i18n/locales'
+import { t } from '../sanity/localize'
+import { wildlifeGalleryData } from '../content/data/wildlifeGallery'
+import styles from './WildlifeMarquee.module.css'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const photos = wildlifeGalleryData.map((photo) => ({ ...photo, alt: t(photo.alt, lang) }))
+---
+
+<div class={styles.marquee} data-wildlife-marquee>
+  <ul class={styles.track}>
+    {
+      photos.map((photo) => (
+        <li class={styles.item}>
+          <button type="button" data-open-image={photo.image} aria-label={photo.alt}>
+            <img src={photo.image} alt={photo.alt} loading="lazy" width={450} height={300} />
+          </button>
+        </li>
+      ))
+    }
+    {
+      photos.map((photo) => (
+        <li class={styles.item} aria-hidden="true">
+          <button type="button" data-open-image={photo.image} tabindex="-1">
+            <img src={photo.image} alt="" loading="lazy" width={450} height={300} />
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class={styles.overlay} data-overlay hidden>
+    <button type="button" class={styles.close} data-close aria-label="Close">✕</button>
+    <img src="" alt="" data-overlay-img />
+  </div>
+</div>
+
+<script>
+  const marquees = document.querySelectorAll<HTMLElement>('[data-wildlife-marquee]')
+
+  for (const marquee of marquees) {
+    const overlay = marquee.querySelector<HTMLElement>('[data-overlay]')
+    const overlayImg = marquee.querySelector<HTMLImageElement>('[data-overlay-img]')
+    if (!overlay || !overlayImg) continue
+
+    const open = (src: string, alt: string) => {
+      overlayImg.src = src
+      overlayImg.alt = alt
+      overlay.hidden = false
+    }
+    const close = () => {
+      overlay.hidden = true
+      overlayImg.src = ''
+    }
+
+    marquee.querySelectorAll<HTMLButtonElement>('[data-open-image]').forEach((button) => {
+      button.addEventListener('click', () => {
+        open(button.dataset.openImage ?? '', button.getAttribute('aria-label') ?? '')
+      })
+    })
+
+    overlay.addEventListener('click', close)
+    marquee.querySelector('[data-close]')?.addEventListener('click', close)
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close()
+    })
+  }
+</script>

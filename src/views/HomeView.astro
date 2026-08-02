@@ -1,33 +1,36 @@
 ---
-import CtaBanner from '../components/CtaBanner.astro'
-import heroStyles from '../components/Hero.module.css'
-import InstalacionesCarousel from '../components/InstalacionesCarousel.tsx'
-import type { Locale } from '../i18n/locales'
-import { ui } from '../i18n/strings'
-import BaseLayout from '../layouts/BaseLayout.astro'
-import { SITE } from '../lib/constants'
-import { t } from '../sanity/localize'
-import { getCentroInfo } from '../sanity/queries'
-import aboutStyles from '../styles/HomeAbout.module.css'
-import dondeEstamos from '../styles/HomeDondeEstamos.module.css'
-import instalaciones from '../styles/HomeInstalaciones.module.css'
-import commonStyles from '../styles/viewCommon.module.css'
+import CtaBanner from "../components/CtaBanner.astro";
+import heroStyles from "../components/Hero.module.css";
+import InstalacionesCarousel from "../components/InstalacionesCarousel.tsx";
+import WildlifeMarquee from "../components/WildlifeMarquee.astro";
+import type { Locale } from "../i18n/locales";
+import { ui } from "../i18n/strings";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../lib/constants";
+import { t } from "../sanity/localize";
+import { getCentroInfo } from "../sanity/queries";
+import aboutStyles from "../styles/HomeAbout.module.css";
+import dondeEstamos from "../styles/HomeDondeEstamos.module.css";
+import instalaciones from "../styles/HomeInstalaciones.module.css";
+import commonStyles from "../styles/viewCommon.module.css";
 
 interface Props {
-  lang: Locale
+  lang: Locale;
 }
 
-const { lang } = Astro.props
-const info = await getCentroInfo()
-const l = (f: any) => t(f, lang)
-const uiStrings = ui[lang]
+const { lang } = Astro.props;
+const info = await getCentroInfo();
+const l = (f: any) => t(f, lang);
+const uiStrings = ui[lang];
 const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
   `Buceo Sur Gran Canaria, ${SITE.address.line1}, ${SITE.address.line2}, ${SITE.address.line3}`,
-)}&z=15&output=embed&hl=${lang}`
-const instalacionesImages = (info?.installationsImages ?? []).map((url: string) => ({
-  url,
-  alt: uiStrings.home.facilitiesAlt,
-}))
+)}&z=15&output=embed&hl=${lang}`;
+const instalacionesImages = (info?.installationsImages ?? []).map(
+  (url: string) => ({
+    url,
+    alt: uiStrings.home.facilitiesAlt,
+  }),
+);
 ---
 
 <BaseLayout
@@ -116,6 +119,8 @@ const instalacionesImages = (info?.installationsImages ?? []).map((url: string) 
         </div>
       </div>
     </section>
+
+    <WildlifeMarquee lang={lang} />
 
     <section id="instalaciones" class={commonStyles.sectionAlt}>
       <div class={commonStyles.container}>
