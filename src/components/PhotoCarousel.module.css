@@ -1,0 +1,83 @@
+/* Generic fading photo carousel — Swiper crossfades between photos. The
+   Swiper absolutely fills the root so it never contributes its own
+   intrinsic (4:3) height to the grid row: on desktop the carousel is sized to
+   the text column, on mobile the 4/3 aspect ratio sizes it. */
+
+.carousel {
+  position: relative;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  background: var(--color-ocean-900);
+}
+
+.carousel > .swiper {
+  --swiper-navigation-color: var(--color-white);
+  --swiper-navigation-size: 20px;
+  --swiper-pagination-color: var(--color-white);
+  --swiper-pagination-bullet-size: 10px;
+  --swiper-pagination-bullet-inactive-color: var(--color-white);
+  --swiper-pagination-bullet-inactive-opacity: 0.4;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Circular semi-transparent arrows, matching the previous custom buttons. */
+.swiper :global(.swiper-button-prev),
+.swiper :global(.swiper-button-next) {
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  border-radius: 50%;
+  background: rgba(1, 14, 30, 0.45);
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.swiper :global(.swiper-button-prev) {
+  left: 14px;
+}
+
+.swiper :global(.swiper-button-next) {
+  right: 14px;
+}
+
+.swiper :global(.swiper-button-prev:hover),
+.swiper :global(.swiper-button-next:hover) {
+  background: rgba(1, 14, 30, 0.7);
+}
+
+.swiper :global(.swiper-button-prev:active),
+.swiper :global(.swiper-button-next:active) {
+  transform: scale(0.94);
+}
+
+/* Dots at the bottom, matching the previous custom pagination. */
+.swiper :global(.swiper-pagination-bullets) {
+  bottom: 14px;
+}
+
+.swiper :global(.swiper-pagination-bullet) {
+  opacity: var(--swiper-pagination-bullet-inactive-opacity);
+}
+
+.swiper :global(.swiper-pagination-bullet-active) {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+@media (max-width: 900px) {
+  .carousel {
+    aspect-ratio: 4 / 3;
+  }
+}

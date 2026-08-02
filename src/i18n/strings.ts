@@ -36,6 +36,11 @@ export interface UiStrings {
     ctaTitle: string
     ctaText: string
   }
+  sidemount: {
+    alt: string
+    prev: string
+    next: string
+  }
   book: string
   ctaButton: string
   footer: {
@@ -93,6 +98,11 @@ export const ui: Record<Locale, UiStrings> = {
       ctaText:
         'Sistema de reservas automatizado — reserva con antelación para garantizar tu plaza.',
     },
+    sidemount: {
+      alt: 'Buceo sidemount en Gran Canaria',
+      prev: 'Foto anterior',
+      next: 'Foto siguiente',
+    },
     book: 'Reservar',
     ctaButton: 'RESERVA YA',
     footer: {
@@ -146,6 +156,11 @@ export const ui: Record<Locale, UiStrings> = {
       statsLabel: 'Statistics',
       ctaTitle: 'Book your dive',
       ctaText: 'Automated booking system — book in advance to guarantee your spot.',
+    },
+    sidemount: {
+      alt: 'Sidemount diving in Gran Canaria',
+      prev: 'Previous photo',
+      next: 'Next photo',
     },
     book: 'Book now',
     ctaButton: 'BOOK NOW',
@@ -201,6 +216,11 @@ export const ui: Record<Locale, UiStrings> = {
       ctaTitle: 'Réservez votre plongée',
       ctaText: 'Système de réservation automatisé — réservez à l’avance pour garantir votre place.',
     },
+    sidemount: {
+      alt: 'Plongée sidemount à Gran Canaria',
+      prev: 'Photo précédente',
+      next: 'Photo suivante',
+    },
     book: 'Réserver',
     ctaButton: 'RÉSERVEZ MAINTENANT',
     footer: {
@@ -254,6 +274,11 @@ export const ui: Record<Locale, UiStrings> = {
       statsLabel: 'Statistiken',
       ctaTitle: 'Buche deinen Tauchgang',
       ctaText: 'Automatisiertes Buchungssystem — buche rechtzeitig, um deinen Platz zu sichern.',
+    },
+    sidemount: {
+      alt: 'Sidemount-Tauchen auf Gran Canaria',
+      prev: 'Vorheriges Foto',
+      next: 'Nächstes Foto',
     },
     book: 'Jetzt buchen',
     ctaButton: 'JETZT BUCHEN',

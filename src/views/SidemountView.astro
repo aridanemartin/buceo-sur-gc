@@ -1,6 +1,8 @@
 ---
 import CtaBanner from '../components/CtaBanner.astro'
+import PhotoCarousel from '../components/PhotoCarousel.tsx'
 import { sidemountPageContent } from '../content/data/pageContent'
+import { sidemountGalleryImages } from '../content/data/sidemountGallery'
 import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
 // src/views/SidemountView.astro
@@ -10,6 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getCoursesByTag } from '../sanity/queries'
+import textWithCarousel from '../styles/TextWithCarousel.module.css'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -21,6 +24,8 @@ const u = ui[lang]
 const courses = await getCoursesByTag('sidemount')
 
 const l = (f: any) => t(f, lang)
+
+const terrainImages = sidemountGalleryImages.map((url) => ({ url, alt: u.sidemount.alt }))
 
 // Converts https://youtu.be/<id> or https://www.youtube.com/watch?v=<id>
 // into a privacy-enhanced youtube-nocookie embed URL.
@@ -83,8 +88,18 @@ const cta = {
     <section class={styles.sectionAlt}>
       <div class={styles.container}>
         <p class={styles.sectionEyebrow}>Sidemount</p>
-        <h2 class={styles.sectionTitle}>{l(sidemountPageContent.terrainTitle)}</h2>
-        <p class={styles.bodyText}>{l(sidemountPageContent.terrain)}</p>
+        <div class={textWithCarousel.grid}>
+          <div class={textWithCarousel.text}>
+            <h2 class={styles.sectionTitle}>{l(sidemountPageContent.terrainTitle)}</h2>
+            <p class={styles.bodyText}>{l(sidemountPageContent.terrain)}</p>
+          </div>
+          <PhotoCarousel
+            images={terrainImages}
+            prevLabel={u.sidemount.prev}
+            nextLabel={u.sidemount.next}
+            client:load
+          />
+        </div>
       </div>
     </section>
 
