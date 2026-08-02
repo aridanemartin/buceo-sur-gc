@@ -65,4 +65,10 @@ export const centroInfo = defineType({
     }),
     defineField({ name: 'mapImage', title: 'Imagen del mapa de acceso', type: 'image' }),
   ],
+  preview: {
+    select: { intro: 'intro.es' },
+    prepare({ intro }) {
+      return { title: 'Información del centro', subtitle: intro }
+    },
+  },
 })
