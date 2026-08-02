@@ -1,4 +1,4 @@
-// Canonical home-page content, sourced from docs/1. El centro de buceo.docx (docx takes precedence).
+// Canonical home-page content, sourced from docs/1. El centro de buceo.md.
 export type LocaleValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string>>
 
 const loc = (es: string, en: string, fr: string, de: string): LocaleValue => ({ es, en, fr, de })
@@ -24,7 +24,11 @@ export const centroInfoData = {
     "Nos installations se trouvent à Playa de Arinaga, une petite station balnéaire idéale pour les familles, loin du tourisme de masse, sur la côte est à 15 km de l'aéroport. Nous disposons de 200 m² d'installations confortables : douches d'eau chaude, sanitaires, compresseur, salle de formation et atelier de réparation. Le matériel est bien entretenu, avec un suivi régulier, et renouvelé périodiquement.",
     'Unsere Einrichtungen befinden sich in Playa de Arinaga, einem kleinen, familienfreundlichen Badeort abseits des Massentourismus, an der Ostküste, 15 km vom Flughafen entfernt. Wir verfügen über 200 m² komfortable Räumlichkeiten: Warmwasserduschen, Toiletten, Kompressor, Schulungsraum und Reparaturwerkstatt. Die Ausrüstung ist in gutem Zustand, wird regelmäßig gewartet und periodisch erneuert.',
   ),
-  installationsImages: ['/assets/local.jpg'],
+  installationsImages: [
+    '/assets/local.webp',
+    '/assets/local-grupo.webp',
+    '/assets/local-zona-humeda.webp',
+  ],
   staff: [
     {
       _key: 'staff-yann',

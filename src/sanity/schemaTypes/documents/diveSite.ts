@@ -9,7 +9,12 @@ export const diveSite = defineType({
     defineField({ name: 'depthRange', title: 'Rango de profundidad', type: 'string' }),
     defineField({ name: 'levelTag', title: 'Nivel', type: 'localeString' }),
     defineField({ name: 'description', title: 'Descripción', type: 'localeText' }),
-    defineField({ name: 'images', title: 'Imágenes', type: 'array', of: [{ type: 'image' }] }),
+    defineField({
+      name: 'images',
+      title: 'Imágenes',
+      type: 'array',
+      of: [{ type: 'image', options: { accept: 'image/webp' } }],
+    }),
     defineField({ name: 'youtubeUrl', title: 'Vídeo de YouTube', type: 'url' }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],

@@ -22,7 +22,7 @@ async function uploadImage(filePath, label) {
     const asset = await client.request({
       uri: `/assets/images/${process.env.SANITY_DATASET ?? 'production'}`,
       method: 'POST',
-      headers: { 'Content-Type': 'image/jpeg' },
+      headers: { 'Content-Type': 'image/webp' },
       body: data,
     })
     const id = asset.document?._id ?? asset._id
@@ -45,10 +45,10 @@ const staffRefs = await Promise.all(
     languages: m.languages,
     photo:
       m._key === 'staff-yann'
-        ? await uploadImage(assetsDir + 'Staf.Yann.jpg', 'yann.jpg')
+        ? await uploadImage(assetsDir + 'staff/Staf.Yann.webp', 'yann.webp')
         : m._key === 'staff-anne'
-          ? await uploadImage(assetsDir + 'staf.anne.jpeg', 'anne.jpg')
-          : await uploadImage(assetsDir + 'staf.kike.jpg', 'kike.jpg'),
+          ? await uploadImage(assetsDir + 'staff/staf.anne.webp', 'anne.webp')
+          : await uploadImage(assetsDir + 'staff/staf.kike.webp', 'kike.webp'),
   })),
 )
 
@@ -59,9 +59,9 @@ const doc = {
   history: centroInfoData.history,
   installations: centroInfoData.installations,
   installationsImages: [
-    await uploadImage(assetsDir + 'Local.jpg', 'local.jpg'),
-    await uploadImage(assetsDir + 'Local grupo.groupe.jpg', 'local-grupo.jpg'),
-    await uploadImage(assetsDir + 'Local zona humeda.jpg', 'local-zona-humeda.jpg'),
+    await uploadImage(assetsDir + 'local/Local.webp', 'local.webp'),
+    await uploadImage(assetsDir + 'local/Local grupo.groupe.webp', 'local-grupo.webp'),
+    await uploadImage(assetsDir + 'local/Local zona humeda.webp', 'local-zona-humeda.webp'),
   ].filter(Boolean),
   staff: staffRefs,
   stats: centroInfoData.stats,
@@ -69,25 +69,28 @@ const doc = {
     {
       _key: 'anmp',
       name: 'ANMP',
-      logo: await uploadImage(assetsDir + 'Icon.ANMP EPF.jpg', 'anmp.jpg'),
+      logo: await uploadImage(assetsDir + 'certifications/Icon.ANMP EPF.webp', 'anmp.webp'),
     },
     {
       _key: 'cmas',
       name: 'CMAS',
-      logo: await uploadImage(assetsDir + 'Icon.CMAS.png', 'cmas.png'),
+      logo: await uploadImage(assetsDir + 'certifications/Icon.CMAS.webp', 'cmas.webp'),
     },
     {
       _key: 'ssi',
       name: 'SSI',
-      logo: await uploadImage(assetsDir + 'Icon.diveSSI.jpeg', 'ssi.jpg'),
+      logo: await uploadImage(assetsDir + 'certifications/Icon.diveSSI.webp', 'ssi.webp'),
     },
     {
       _key: 'canarias',
       name: 'Gobierno de Canarias',
-      logo: await uploadImage(assetsDir + 'Icon.gobernio de canarias.jpg', 'gobierno.jpg'),
+      logo: await uploadImage(
+        assetsDir + 'certifications/Icon.gobernio de canarias.webp',
+        'gobierno.webp',
+      ),
     },
   ],
-  mapImage: await uploadImage(assetsDir + 'mapa.sitio.buceo.isla.png', 'mapa-isla.png'),
+  mapImage: await uploadImage(assetsDir + 'maps/mapa.sitio.buceo.isla.webp', 'mapa-isla.webp'),
 }
 
 await client.createOrReplace(doc)

@@ -12,7 +12,7 @@ export const centroInfo = defineType({
       name: 'installationsImages',
       title: 'Fotos de las instalaciones',
       type: 'array',
-      of: [{ type: 'image' }],
+      of: [{ type: 'image', options: { accept: 'image/webp' } }],
     }),
     defineField({
       name: 'staff',
@@ -28,7 +28,12 @@ export const centroInfo = defineType({
             defineField({ name: 'role', title: 'Rol', type: 'localeString' }),
             defineField({ name: 'bio', title: 'Biografía', type: 'localeText' }),
             defineField({ name: 'languages', title: 'Idiomas', type: 'localeString' }),
-            defineField({ name: 'photo', title: 'Foto', type: 'image' }),
+            defineField({
+              name: 'photo',
+              title: 'Foto',
+              type: 'image',
+              options: { accept: 'image/webp' },
+            }),
           ],
         },
       ],
@@ -58,12 +63,22 @@ export const centroInfo = defineType({
           name: 'certification',
           fields: [
             defineField({ name: 'name', title: 'Nombre', type: 'string' }),
-            defineField({ name: 'logo', title: 'Logo', type: 'image' }),
+            defineField({
+              name: 'logo',
+              title: 'Logo',
+              type: 'image',
+              options: { accept: 'image/webp' },
+            }),
           ],
         },
       ],
     }),
-    defineField({ name: 'mapImage', title: 'Imagen del mapa de acceso', type: 'image' }),
+    defineField({
+      name: 'mapImage',
+      title: 'Imagen del mapa de acceso',
+      type: 'image',
+      options: { accept: 'image/webp' },
+    }),
   ],
   preview: {
     select: { intro: 'intro.es' },
