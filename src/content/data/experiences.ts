@@ -1,5 +1,5 @@
 // Canonical experience data (bautizos + inmersiones).
-// Sourced from docs/3. Bautizos.docx, docs/2. inmersiones.docx and docs/5. Tarifas.docx (docx takes precedence).
+// Sourced from docs/3. Bautizos.md, docs/2. inmersiones.md and docs/5. Tarifas.md.
 export type LocaleValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string>>
 
 const loc = (es: string, en: string, fr: string, de: string): LocaleValue => ({ es, en, fr, de })

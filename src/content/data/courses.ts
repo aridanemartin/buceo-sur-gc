@@ -1,4 +1,4 @@
-// Canonical course data, sourced from docs/5. Tarifas.docx (docx takes precedence).
+// Canonical course data, sourced from docs/5. Tarifas.md.
 // All prices, durations, dive counts and supplements come directly from that document.
 export type LocaleValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string>>
 

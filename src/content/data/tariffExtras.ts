@@ -1,4 +1,4 @@
-// Canonical tariff-extra data, sourced from docs/5. Tarifas.docx (docx takes precedence).
+// Canonical tariff-extra data, sourced from docs/5. Tarifas.md.
 export type LocaleValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string>>
 
 const loc = (es: string, en: string, fr: string, de: string): LocaleValue => ({ es, en, fr, de })
