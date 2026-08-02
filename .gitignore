@@ -30,3 +30,4 @@ dist-ssr
 
 # Claude worktrees (separate git checkouts)
 .claude/worktrees/
+.worktrees/
