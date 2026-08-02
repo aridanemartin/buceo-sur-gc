@@ -1,4 +1,5 @@
-/* Instalaciones section on the home page — text beside a photo of the dive centre. */
+/* Instalaciones section on the home page — text beside a photo carousel of the
+   dive centre. The carousel component provides its own fill/aspect-ratio. */
 
 .grid {
   display: grid;
@@ -6,31 +7,13 @@
   gap: 48px;
 }
 
-/* photoWrap has no intrinsic height, so the grid row height is driven only
-   by .text; the image is then stretched to fill that row and cropped via
-   object-fit, guaranteeing it never grows taller than the text column. */
-.photoWrap {
-  position: relative;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
-}
-
-.photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.text {
+  align-self: start;
 }
 
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;
     gap: 32px;
-  }
-
-  .photoWrap {
-    aspect-ratio: 4 / 3;
   }
 }

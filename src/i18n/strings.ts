@@ -28,6 +28,8 @@ export interface UiStrings {
     facilitiesEyebrow: string
     facilitiesTitle: string
     facilitiesAlt: string
+    facilitiesPrev: string
+    facilitiesNext: string
     aboutEyebrow: string
     teamTitle: string
     statsLabel: string
@@ -82,6 +84,8 @@ export const ui: Record<Locale, UiStrings> = {
       facilitiesEyebrow: 'Instalaciones',
       facilitiesTitle: 'Nuestro centro en Playa de Arinaga',
       facilitiesAlt: 'Nuestras instalaciones en Playa de Arinaga',
+      facilitiesPrev: 'Foto anterior',
+      facilitiesNext: 'Foto siguiente',
       aboutEyebrow: 'Sobre nosotros',
       teamTitle: 'El equipo',
       statsLabel: 'Estadísticas',
@@ -135,6 +139,8 @@ export const ui: Record<Locale, UiStrings> = {
       facilitiesEyebrow: 'Facilities',
       facilitiesTitle: 'Our center in Playa de Arinaga',
       facilitiesAlt: 'Our facilities in Playa de Arinaga',
+      facilitiesPrev: 'Previous photo',
+      facilitiesNext: 'Next photo',
       aboutEyebrow: 'About us',
       teamTitle: 'The team',
       statsLabel: 'Statistics',
@@ -187,6 +193,8 @@ export const ui: Record<Locale, UiStrings> = {
       facilitiesEyebrow: 'Installations',
       facilitiesTitle: 'Notre centre à Playa de Arinaga',
       facilitiesAlt: 'Nos installations à Playa de Arinaga',
+      facilitiesPrev: 'Photo précédente',
+      facilitiesNext: 'Photo suivante',
       aboutEyebrow: 'À propos de nous',
       teamTitle: 'L’équipe',
       statsLabel: 'Statistiques',
@@ -239,6 +247,8 @@ export const ui: Record<Locale, UiStrings> = {
       facilitiesEyebrow: 'Einrichtungen',
       facilitiesTitle: 'Unser Center in Playa de Arinaga',
       facilitiesAlt: 'Unsere Einrichtungen in Playa de Arinaga',
+      facilitiesPrev: 'Vorheriges Foto',
+      facilitiesNext: 'Nächstes Foto',
       aboutEyebrow: 'Über das Team',
       teamTitle: 'Das Team',
       statsLabel: 'Statistiken',
