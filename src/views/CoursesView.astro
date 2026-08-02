@@ -9,7 +9,7 @@ import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getCourses } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
-import courseStyles from './CoursesView.module.css'
+import rowStyles from '../styles/rowLayout.module.css'
 
 interface Props {
   lang: Locale
@@ -100,29 +100,29 @@ const grouped = agencies.map((agency) => ({
           {group.categories.map((category) => (
             <div>
               <h3 class={styles.sectionEyebrow}>{categoryLabels[category]}</h3>
-              <div class={courseStyles.list}>
+              <div class={rowStyles.list}>
                 {group.items
                   .filter((c: any) => c.category === category)
                   .map((c: any) => (
-                    <article class={courseStyles.row}>
-                      <div class={courseStyles.rowBody}>
-                        <h4 class={courseStyles.cardTitle}>{l(c.title)}</h4>
-                        <ul class={courseStyles.cardMeta}>
+                    <article class={rowStyles.row}>
+                      <div class={rowStyles.rowBody}>
+                        <h4 class={rowStyles.cardTitle}>{l(c.title)}</h4>
+                        <ul class={rowStyles.cardMeta}>
                           <li>{c.agency}</li>
                           <li>{categoryLabels[category]}</li>
                           {c.depthLimit ? <li>{c.depthLimit} m</li> : null}
                           <li>{l(c.duration)}</li>
                           {c.minAge ? <li>{c.minAge}+</li> : null}
                         </ul>
-                        <p class={courseStyles.cardBody}>{l(c.summary)}</p>
-                        <p class={courseStyles.cardBody}>{l(c.includes)}</p>
-                        {l(c.supplements) && <p class={courseStyles.cardBody}>{l(c.supplements)}</p>}
-                        <p class={courseStyles.cardBody}>{l(c.prerequisites)}</p>
-                        {c.price ? <p class={courseStyles.cardPrice}>{c.price} €</p> : null}
+                        <p class={rowStyles.cardBody}>{l(c.summary)}</p>
+                        <p class={rowStyles.cardBody}>{l(c.includes)}</p>
+                        {l(c.supplements) && <p class={rowStyles.cardBody}>{l(c.supplements)}</p>}
+                        <p class={rowStyles.cardBody}>{l(c.prerequisites)}</p>
+                        {c.price ? <p class={rowStyles.cardPrice}>{c.price} €</p> : null}
                       </div>
                       {c.image ? (
-                        <div class={courseStyles.rowMedia}>
-                          <img class={courseStyles.rowImage} src={c.image} alt={l(c.title)} loading="lazy" />
+                        <div class={rowStyles.rowMedia}>
+                          <img class={rowStyles.rowImage} src={c.image} alt={l(c.title)} loading="lazy" />
                         </div>
                       ) : null}
                     </article>
