@@ -1,5 +1,5 @@
 .section {
-  padding: var(--section-py) 24px;
+  padding: 0 24px;
   background: var(--color-white);
 }
 
@@ -84,7 +84,7 @@
 
 .stats {
   max-width: var(--container-max);
-  margin: 64px auto 0;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;

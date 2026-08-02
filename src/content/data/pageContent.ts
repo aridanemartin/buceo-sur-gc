@@ -157,9 +157,9 @@ export const galleryPageContent = {
     'Bilder der Tauchplätze auf Gran Canaria',
   ),
   intro: loc(
-    'Solicitamos un poco de indulgencia con las imágenes publicadas en esta página: somos profesionales del buceo, pero no de la fotografía. Estas imágenes, hechas con material corriente, te darán una buena idea de lo que puedes ver con nosotros. Lo que verás realmente a través de tu máscara siempre será mucho mejor.',
-    'We ask a little indulgence for the images published on this page: we are professionals of diving, not of photography. These images, taken with ordinary gear, will give you a good idea of what you can see with us. What you will actually see through your mask will always be much better.',
-    'Nous sollicitons un peu d’indulgence pour les images publiées sur cette page : nous sommes des professionnels de la plongée, pas de la photographie. Ces images, prises avec du matériel courant, vous donneront une bonne idée de ce que vous pouvez voir avec nous. Ce que vous verrez réellement à travers votre masque sera toujours bien mieux.',
-    'Wir bitten um etwas Nachsicht für die auf dieser Seite veröffentlichten Bilder: Wir sind Profis des Tauchens, nicht der Fotografie. Diese mit gewöhnlichem Material aufgenommenen Bilder geben Ihnen einen guten Eindruck von dem, was Sie mit uns sehen können. Was Sie wirklich durch Ihre Maske sehen, wird immer viel besser sein.',
+    'Aunque no somos fotógrafos profesionales, estas imágenes te darán una buena idea de lo que podrás descubrir con nosotros. Y recuerda: ¡a través de tu máscara será aún mejor!',
+    'Although we are not professional photographers, these images will give you a good idea of what you can discover with us. And remember: through your mask it will be even better!',
+    'Bien que nous ne soyons pas des photographes professionnels, ces images vous donneront une bonne idée de ce que vous pourrez découvrir avec nous. Et rappelez-vous : à travers votre masque, ce sera encore mieux !',
+    'Auch wenn wir keine professionellen Fotografen sind, geben Ihnen diese Bilder einen guten Eindruck davon, was Sie mit uns entdecken können. Und denken Sie daran: Durch Ihre Maske wird es noch besser!',
   ),
 }

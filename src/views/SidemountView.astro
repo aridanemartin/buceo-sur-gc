@@ -12,6 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
 import { getCoursesByTag } from '../sanity/queries'
+import rowStyles from '../styles/rowLayout.module.css'
 import textWithCarousel from '../styles/TextWithCarousel.module.css'
 import styles from '../styles/viewCommon.module.css'
 
@@ -71,7 +72,7 @@ const cta = {
     </header>
 
     <section class={styles.section}>
-      <div class={styles.container}>
+      <div class={`${styles.container} sidemount-body`}>
         <p class={styles.bodyText}>{l(sidemountPageContent.intro)}</p>
         <div class={styles.videoWrapper}>
           <iframe
@@ -86,7 +87,7 @@ const cta = {
     </section>
 
     <section class={styles.sectionAlt}>
-      <div class={styles.container}>
+      <div class={`${styles.container} sidemount-body`}>
         <p class={styles.sectionEyebrow}>Sidemount</p>
         <div class={textWithCarousel.grid}>
           <div class={textWithCarousel.text}>
@@ -104,7 +105,7 @@ const cta = {
     </section>
 
     <section class={styles.section} id="cursos">
-      <div class={styles.container}>
+      <div class={`${styles.container} sidemount-body`}>
         <p class={styles.sectionEyebrow}>{u.nav.courses}</p>
         <h2 class={styles.sectionTitle}>{l(sidemountPageContent.courseTitle)}</h2>
         <ul class={styles.list}>
@@ -112,21 +113,28 @@ const cta = {
           <li>{l(sidemountPageContent.courseIncludesTitle)}: {l(sidemountPageContent.courseIncludes)}</li>
         </ul>
 
-        <div class={styles.grid}>
+        <div class={rowStyles.list}>
           {courses.map((c: any) => (
-            <article class={styles.card}>
-              <h3 class={styles.cardTitle}>{l(c.title)}</h3>
-              <ul class={styles.cardMeta}>
-                <li>{c.agency}</li>
-                {c.depthLimit ? <li>{c.depthLimit} m</li> : null}
-                <li>{l(c.duration)}</li>
-                {c.minAge ? <li>{c.minAge}+</li> : null}
-              </ul>
-              <p class={styles.cardBody}>{l(c.summary)}</p>
-              <p class={styles.cardBody}>{l(c.includes)}</p>
-              {l(c.supplements) && <p class={styles.cardBody}>{l(c.supplements)}</p>}
-              <p class={styles.cardBody}>{l(c.prerequisites)}</p>
-              {c.price ? <p class={styles.cardPrice}>{c.price} €</p> : null}
+            <article class={rowStyles.row}>
+              <div class={rowStyles.rowBody}>
+                <h3 class={rowStyles.cardTitle}>{l(c.title)}</h3>
+                <ul class={rowStyles.cardMeta}>
+                  <li>{c.agency}</li>
+                  {c.depthLimit ? <li>{c.depthLimit} m</li> : null}
+                  <li>{l(c.duration)}</li>
+                  {c.minAge ? <li>{c.minAge}+</li> : null}
+                </ul>
+                <p class={rowStyles.cardBody}>{l(c.summary)}</p>
+                <p class={rowStyles.cardBody}>{l(c.includes)}</p>
+                {l(c.supplements) && <p class={rowStyles.cardBody}>{l(c.supplements)}</p>}
+                <p class={rowStyles.cardBody}>{l(c.prerequisites)}</p>
+                {c.price ? <p class={rowStyles.cardPrice}>{c.price} €</p> : null}
+              </div>
+              {c.image ? (
+                <div class={rowStyles.rowMedia}>
+                  <img class={rowStyles.rowImage} src={c.image} alt={l(c.title)} loading="lazy" />
+                </div>
+              ) : null}
             </article>
           ))}
         </div>
@@ -136,3 +144,10 @@ const cta = {
     <CtaBanner lang={lang} href={SITE.bookingUrl} title={cta.title} text={cta.text} />
   </main>
 </BaseLayout>
+
+<style>
+  .sidemount-body {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+</style>
