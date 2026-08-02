@@ -20,6 +20,13 @@ export const experience = defineType({
     defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeText' }),
     defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeString' }),
     defineField({ name: 'videoUrl', title: 'Vídeo de YouTube', type: 'url' }),
+    defineField({
+      name: 'image',
+      title: 'Imagen',
+      type: 'image',
+      options: { accept: 'image/webp' },
+      description: 'Se usa solo si no hay vídeo de YouTube. El vídeo tiene prioridad.',
+    }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
