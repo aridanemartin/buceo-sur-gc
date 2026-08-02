@@ -17,6 +17,7 @@ export interface ExperienceSeed {
   supplements: LocaleValue
   groupDiscount?: LocaleValue
   videoUrl?: string
+  image?: string
   order: number
 }
 

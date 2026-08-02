@@ -60,7 +60,7 @@ export async function getCoursesByTag(tag: string) {
 export async function getExperiences(audience: 'beginner' | 'certified') {
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "experience" && audience == $audience] | order(order asc)`,
+      `*[_type == "experience" && audience == $audience] | order(order asc) { ..., "image": image.asset->url }`,
       { audience },
     )
     return Array.isArray(data) && data.length > 0
