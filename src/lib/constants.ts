@@ -26,11 +26,20 @@ export const SITE = {
     youtubeVideo: 'https://youtu.be/R8b97SNYsgM?si=PW8LxHU86SdrwtsW',
     googleReview: 'https://www.google.com/search?q=buceo+sur+gran+canaria',
   },
+  developer: {
+    name: 'Aridane Martín',
+    url: 'https://www.aridanemartin.dev',
+  },
   // Partner certifications / logos (doc 1 footer + spec: ANMP, SSI, CMAS, Gobierno de Canarias).
+  // `url` is optional — set it to make a logo clickable (opens in a new tab).
   certifications: [
-    { name: 'ANMP', logo: '/assets/certs/anmp.jpg' },
-    { name: 'CMAS', logo: '/assets/certs/cmas.png' },
-    { name: 'SSI', logo: '/assets/certs/ssi.jpg' },
-    { name: 'Gobierno de Canarias', logo: '/assets/certs/gobierno.jpg' },
+    { name: 'ANMP', logo: '/assets/certs/anmp.jpg', url: undefined as string | undefined },
+    { name: 'CMAS', logo: '/assets/certs/cmas.png', url: undefined as string | undefined },
+    { name: 'SSI', logo: '/assets/certs/ssi.jpg', url: undefined as string | undefined },
+    {
+      name: 'Gobierno de Canarias',
+      logo: '/assets/certs/gobierno.jpg',
+      url: undefined as string | undefined,
+    },
   ],
 }

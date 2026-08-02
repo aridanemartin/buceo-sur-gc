@@ -114,6 +114,81 @@
   color: var(--color-white);
 }
 
+.credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--color-white);
+  color: var(--color-ocean-700);
+  padding: 1rem;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.credit a {
+  color: var(--color-ocean-700);
+  font-weight: 700;
+  transition: color var(--transition);
+}
+
+.credit a:hover {
+  color: var(--color-ocean-400);
+}
+
+.certs {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.certLogo {
+  box-sizing: border-box;
+  height: 40px;
+  width: auto;
+  background: var(--color-white);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  object-fit: contain;
+}
+
+.social {
+  max-width: var(--container-max);
+  margin: 24px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.65);
+  transition:
+    color var(--transition),
+    background var(--transition);
+}
+
+.socialLink:hover {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.socialIcon {
+  width: 18px;
+  height: 18px;
+}
+
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
@@ -124,42 +199,8 @@
     gap: 40px;
   }
 
-  .certs {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .certLogo {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    background: var(--color-white);
-    border-radius: var(--radius-sm);
-    padding: 4px;
-  }
-
   .social {
-    max-width: var(--container-max);
-    margin: 16px auto 0;
-    padding: 0 24px;
-    display: flex;
-    gap: 20px;
     flex-wrap: wrap;
-  }
-
-  .social a {
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 0.85rem;
-    transition: color var(--transition);
-  }
-
-  .social a:hover {
-    color: var(--color-white);
   }
 
   .bottom {
