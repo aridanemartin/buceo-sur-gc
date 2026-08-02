@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const centroInfo = defineType({
   name: 'centroInfo',
@@ -8,7 +8,12 @@ export const centroInfo = defineType({
     defineField({ name: 'intro', title: 'Introducción', type: 'localeText' }),
     defineField({ name: 'history', title: 'Historia / zona de buceo', type: 'localeText' }),
     defineField({ name: 'installations', title: 'Instalaciones', type: 'localeText' }),
-    defineField({ name: 'installationsImages', title: 'Fotos de las instalaciones', type: 'array', of: [{ type: 'image' }] }),
+    defineField({
+      name: 'installationsImages',
+      title: 'Fotos de las instalaciones',
+      type: 'array',
+      of: [{ type: 'image' }],
+    }),
     defineField({
       name: 'staff',
       title: 'Equipo',

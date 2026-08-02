@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const experience = defineType({
   name: 'experience',
@@ -23,4 +23,10 @@ export const experience = defineType({
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'title.es', audience: 'audience', duration: 'duration.es' },
+    prepare({ title, audience, duration }) {
+      return { title: title || 'Sin título', subtitle: [audience, duration].filter(Boolean).join(' · ') }
+    },
+  },
 })

@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const tariffExtra = defineType({
   name: 'tariffExtra',
@@ -12,4 +12,11 @@ export const tariffExtra = defineType({
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'title.es', price: 'price', unit: 'unit.es' },
+    prepare({ title, price, unit }) {
+      const subtitle = price != null ? `${price} € ${unit || ''}`.trim() : unit
+      return { title: title || 'Sin título', subtitle }
+    },
+  },
 })

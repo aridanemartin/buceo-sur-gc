@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const course = defineType({
   name: 'course',
@@ -31,4 +31,10 @@ export const course = defineType({
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'title.es', agency: 'agency', category: 'category' },
+    prepare({ title, agency, category }) {
+      return { title: title || 'Sin título', subtitle: [agency, category].filter(Boolean).join(' · ') }
+    },
+  },
 })

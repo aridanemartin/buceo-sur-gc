@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const diveSite = defineType({
   name: 'diveSite',
@@ -14,4 +14,10 @@ export const diveSite = defineType({
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'name.es', level: 'levelTag.es', depth: 'depthRange', media: 'images.0' },
+    prepare({ title, level, depth, media }) {
+      return { title: title || 'Sin título', subtitle: [level, depth].filter(Boolean).join(' · '), media }
+    },
+  },
 })
