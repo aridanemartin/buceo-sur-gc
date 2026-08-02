@@ -11,6 +11,11 @@ export interface UiStrings {
     sidemount: string
     contact: string
   }
+  legal: {
+    privacy: string
+    cancellation: string
+    terms: string
+  }
   book: string
   footer: {
     servicesTitle: string
@@ -33,6 +38,11 @@ export const ui: Record<Locale, UiStrings> = {
       sidemount: 'Sidemount',
       contact: 'Contacto',
     },
+    legal: {
+      privacy: 'Privacidad',
+      cancellation: 'Cancelación',
+      terms: 'Condiciones',
+    },
     book: 'Reservar',
     footer: {
       servicesTitle: 'Servicios',
@@ -52,6 +62,11 @@ export const ui: Record<Locale, UiStrings> = {
       gallery: 'Gallery',
       sidemount: 'Sidemount',
       contact: 'Contact',
+    },
+    legal: {
+      privacy: 'Privacy',
+      cancellation: 'Cancellation',
+      terms: 'Terms',
     },
     book: 'Book now',
     footer: {
@@ -73,6 +88,11 @@ export const ui: Record<Locale, UiStrings> = {
       sidemount: 'Sidemount',
       contact: 'Contact',
     },
+    legal: {
+      privacy: 'Confidentialité',
+      cancellation: 'Annulation',
+      terms: 'Conditions',
+    },
     book: 'Réserver',
     footer: {
       servicesTitle: 'Services',
@@ -92,6 +112,11 @@ export const ui: Record<Locale, UiStrings> = {
       gallery: 'Galerie',
       sidemount: 'Sidemount',
       contact: 'Kontakt',
+    },
+    legal: {
+      privacy: 'Datenschutz',
+      cancellation: 'Stornierung',
+      terms: 'Bedingungen',
     },
     book: 'Jetzt buchen',
     footer: {

@@ -19,9 +19,10 @@ interface NavProps {
   localeLinks: LocaleLink[]
   bookHref: string
   bookLabel: string
+  homeHref: string
 }
 
-export default function Nav({ lang, items, localeLinks, bookHref, bookLabel }: NavProps) {
+export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, homeHref }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -41,7 +42,7 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel }: N
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <nav className={styles.nav} aria-label="Navegación principal">
-        <a href={items[0]?.href ?? '/'} className={styles.logo}>
+        <a href={homeHref} className={styles.logo}>
           <span className={styles.logoText}>Buceo Sur</span>
           <span className={styles.logoSub}>Gran Canaria</span>
         </a>

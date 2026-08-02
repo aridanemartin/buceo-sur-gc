@@ -41,14 +41,6 @@ const t = ui[lang]
           <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
         </ul>
       </div>
-      <div>
-        <h4>{t.footer.legalTitle}</h4>
-        <ul>
-          <li><a href={localePath(lang, 'legal/privacy')}>Privacidad</a></li>
-          <li><a href={localePath(lang, 'legal/cancellation')}>Cancelación</a></li>
-          <li><a href={localePath(lang, 'legal/terms')}>Condiciones</a></li>
-        </ul>
-      </div>
     </nav>
   </div>
 
@@ -67,6 +59,13 @@ const t = ui[lang]
 
   <div class={styles.bottom}>
     <p>© {new Date().getFullYear()} {SITE.fullName}. {t.footer.rightsReserved}</p>
-    <p>{t.footer.textsCredit}</p>
+    <div class={styles.bottomRight}>
+      <ul class={styles.legal} aria-label={t.footer.legalTitle}>
+        <li><a href={localePath(lang, 'legal/privacy')}>{t.legal.privacy}</a></li>
+        <li><a href={localePath(lang, 'legal/cancellation')}>{t.legal.cancellation}</a></li>
+        <li><a href={localePath(lang, 'legal/terms')}>{t.legal.terms}</a></li>
+      </ul>
+      <p>{t.footer.textsCredit}</p>
+    </div>
   </div>
 </footer>
