@@ -1,5 +1,6 @@
 ---
 import ContactForm from '../components/ContactForm'
+import CtaBanner from '../components/CtaBanner.astro'
 // src/views/ContactView.astro
 // Contacto page: contact details from SITE constants, social links, and the
 // ContactForm React island (client-side submitted-state only, no backend).
@@ -104,6 +105,13 @@ const t = {
   },
 }[lang]
 
+const ctaTitle: Record<Locale, string> = {
+  es: '¿Listo para reservar tu próxima inmersión?',
+  en: 'Ready to book your next dive?',
+  fr: 'Prêt à réserver votre prochaine plongée ?',
+  de: 'Bereit, deinen nächsten Tauchgang zu buchen?',
+}
+
 const socials = [
   { label: 'Facebook', href: SITE.social.facebook },
   { label: 'Instagram', href: SITE.social.instagram },
@@ -183,6 +191,8 @@ const socials = [
     </div>
   </div>
 </section>
+
+<CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
 
 <style>
   .info {
