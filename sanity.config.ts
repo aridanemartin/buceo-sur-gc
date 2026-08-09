@@ -1,5 +1,6 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { createProtectedDeleteAction } from './src/sanity/actions/protectDeleteWhenReferenced'
 import { schemaTypes } from './src/sanity/schemaTypes'
 import { structure } from './src/sanity/structure'
 
@@ -13,4 +14,12 @@ export default defineConfig({
   dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
   plugins: [structureTool({ structure })],
   schema: { types: schemaTypes },
+  document: {
+    actions: (prev, context) =>
+      context.schemaType === 'certifyingAgency'
+        ? prev.map((action) =>
+            action.action === 'delete' ? createProtectedDeleteAction(action) : action,
+          )
+        : prev,
+  },
 })
