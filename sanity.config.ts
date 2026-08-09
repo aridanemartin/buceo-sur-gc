@@ -1,5 +1,6 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { StudioLayout } from './src/sanity/components/StudioLayout'
 import { schemaTypes } from './src/sanity/schemaTypes'
 import { structure } from './src/sanity/structure'
 
@@ -13,4 +14,5 @@ export default defineConfig({
   dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
   plugins: [structureTool({ structure })],
   schema: { types: schemaTypes },
+  studio: { components: { layout: StudioLayout } },
 })

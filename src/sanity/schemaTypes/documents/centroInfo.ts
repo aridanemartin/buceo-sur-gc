@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { StatsFieldExample } from '../../components/StatsFieldExample'
 
 export const centroInfo = defineType({
   name: 'centroInfo',
@@ -42,6 +43,7 @@ export const centroInfo = defineType({
       name: 'stats',
       title: 'Estadísticas',
       type: 'array',
+      components: { input: StatsFieldExample },
       of: [
         {
           type: 'object',
