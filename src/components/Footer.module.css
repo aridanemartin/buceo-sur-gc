@@ -136,30 +136,10 @@
   color: var(--color-ocean-400);
 }
 
-.certs {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.certLogo {
-  box-sizing: border-box;
-  height: 40px;
-  width: auto;
-  background: var(--color-white);
-  border-radius: var(--radius-sm);
-  padding: 6px 10px;
-  object-fit: contain;
-}
-
 .social {
   max-width: var(--container-max);
   margin: 24px auto 0;
-  padding: 0 24px;
+  padding: 0 24px 48px;
   display: flex;
   gap: 16px;
   align-items: center;

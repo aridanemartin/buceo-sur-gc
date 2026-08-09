@@ -44,18 +44,6 @@ const t = ui[lang]
     </nav>
   </div>
 
-  <div class={styles.certs}>
-    {SITE.certifications.map((c) =>
-      c.url ? (
-        <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name}>
-          <img src={c.logo} alt={c.name} class={styles.certLogo} loading="lazy" />
-        </a>
-      ) : (
-        <img src={c.logo} alt={c.name} class={styles.certLogo} loading="lazy" />
-      ),
-    )}
-  </div>
-
   <div class={styles.social}>
     <a href={SITE.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" class={styles.socialLink}>
       <svg viewBox="0 0 24 24" fill="currentColor" class={styles.socialIcon} aria-hidden="true">

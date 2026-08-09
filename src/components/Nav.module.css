@@ -96,6 +96,11 @@
   transform: translateY(-1px);
 }
 
+/* Social links — mobile menu only */
+.socialItem {
+  display: none;
+}
+
 .burger {
   display: none;
   flex-direction: column;
@@ -278,6 +283,21 @@
   .links.open li:nth-child(6) {
     animation: navItemIn 0.4s ease 0.5s both;
   }
+  .links.open li:nth-child(7) {
+    animation: navItemIn 0.4s ease 0.56s both;
+  }
+
+  .langItem {
+    position: absolute;
+    top: 36px;
+    transform: translateY(-50%);
+    left: 24px;
+  }
+
+  .langDropdown {
+    left: 0;
+    right: auto;
+  }
 
   .link {
     font-size: 1.5rem;
@@ -291,6 +311,42 @@
     padding: 14px 32px;
     margin-left: 0;
     margin-top: 8px;
+  }
+
+  .socialItem {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .socialRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .socialLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.65);
+    transition:
+      color var(--transition),
+      background var(--transition);
+  }
+
+  .socialLink:hover {
+    color: var(--color-white);
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .socialIcon {
+    width: 18px;
+    height: 18px;
   }
 }
 
