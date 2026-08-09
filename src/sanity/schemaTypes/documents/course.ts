@@ -9,8 +9,8 @@ export const course = defineType({
     defineField({
       name: 'agency',
       title: 'Entidad certificadora',
-      type: 'string',
-      options: { list: ['SSI', 'CMAS', 'PADI', 'FSGT'] },
+      type: 'reference',
+      to: [{ type: 'certifyingAgency' }],
     }),
     defineField({
       name: 'category',
@@ -38,11 +38,11 @@ export const course = defineType({
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'title.es', agency: 'agency', category: 'category', media: 'image' },
-    prepare({ title, agency, category, media }) {
+    select: { title: 'title.es', agencyName: 'agency.name', category: 'category', media: 'image' },
+    prepare({ title, agencyName, category, media }) {
       return {
         title: title || 'Sin título',
-        subtitle: [agency, category].filter(Boolean).join(' · '),
+        subtitle: [agencyName, category].filter(Boolean).join(' · '),
         media,
       }
     },
