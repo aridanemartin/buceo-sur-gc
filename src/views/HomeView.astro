@@ -179,7 +179,10 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
       </div>
     </section>
 
-    <section class={`${aboutStyles.section} ${aboutStyles.sectionFlush}`} aria-label={uiStrings.home.statsLabel}>
+    <section
+      class={`${aboutStyles.section} ${aboutStyles.sectionFlush}`}
+      aria-label={uiStrings.home.statsLabel}
+    >
       <div class={aboutStyles.stats}>
         {
           (info?.stats ?? []).map((stat: any) => (
