@@ -35,7 +35,7 @@ export async function getCentroInfo() {
 export async function getCourses() {
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "course"] | order(order asc) { ..., "image": image.asset->url }`,
+      `*[_type == "course"] | order(order asc) { ..., "image": image.asset->url, "agency": agency->name }`,
     )
     return Array.isArray(data) && data.length > 0 ? data : allCoursesData
   } catch {
@@ -46,7 +46,7 @@ export async function getCourses() {
 export async function getCoursesByTag(tag: string) {
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "course" && $tag in tags] | order(order asc) { ..., "image": image.asset->url }`,
+      `*[_type == "course" && $tag in tags] | order(order asc) { ..., "image": image.asset->url, "agency": agency->name }`,
       { tag },
     )
     return Array.isArray(data) && data.length > 0
@@ -54,6 +54,21 @@ export async function getCoursesByTag(tag: string) {
       : allCoursesData.filter((c) => c.tags?.includes(tag))
   } catch {
     return allCoursesData.filter((c) => c.tags?.includes(tag))
+  }
+}
+
+export async function getCertifyingAgencies() {
+  try {
+    const data = await sanityClient.fetch(`
+      *[_type == "certifyingAgency"] {
+        name,
+        "logo": logo.asset->url,
+        website
+      }
+    `)
+    return Array.isArray(data) ? data : []
+  } catch {
+    return []
   }
 }
 
