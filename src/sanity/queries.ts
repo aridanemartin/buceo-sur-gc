@@ -14,6 +14,7 @@ export async function getCentroInfo() {
     const data = await sanityClient.fetch(`
       *[_type == "centroInfo"][0] {
         ...,
+        "heroImage": heroImage.asset->url,
         "installationsImages": installationsImages[].asset->url,
         staff[] {
           ...,

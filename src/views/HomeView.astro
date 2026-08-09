@@ -43,6 +43,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
     <section
       id="inicio"
       class={heroStyles.hero}
+      style={`background-image: url("${info?.heroImage ?? '/assets/colorful-background.webp'}")`}
       aria-label={uiStrings.home.heroLabel}
     >
       <div class={heroStyles.vignette}></div>

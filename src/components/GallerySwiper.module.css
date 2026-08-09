@@ -1,4 +1,4 @@
-/* GallerySwiper: single-slide autoplay carousel with a progress bar, consistent with the site design tokens. */
+/* GallerySwiper: single-slide carousel with a progress bar, consistent with the site design tokens. */
 
 .swiper {
   --swiper-pagination-color: var(--color-ocean-400);

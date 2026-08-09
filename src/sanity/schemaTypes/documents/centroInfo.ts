@@ -3,9 +3,15 @@ import { StatsFieldExample } from '../../components/StatsFieldExample'
 
 export const centroInfo = defineType({
   name: 'centroInfo',
-  title: 'Información del centro',
+  title: 'Información del centro / general',
   type: 'document',
   fields: [
+    defineField({
+      name: 'heroImage',
+      title: 'Imagen de hero',
+      type: 'image',
+      options: { accept: 'image/webp' },
+    }),
     defineField({ name: 'intro', title: 'Introducción', type: 'localeText' }),
     defineField({ name: 'history', title: 'Historia / zona de buceo', type: 'localeText' }),
     defineField({ name: 'installations', title: 'Instalaciones', type: 'localeText' }),
@@ -85,7 +91,7 @@ export const centroInfo = defineType({
   preview: {
     select: { intro: 'intro.es' },
     prepare({ intro }) {
-      return { title: 'Información del centro', subtitle: intro }
+      return { title: 'Información del centro / general', subtitle: intro }
     },
   },
 })

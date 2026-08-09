@@ -6,8 +6,8 @@ import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
 // src/views/GalleryView.astro
 // Galería page: intro copy, then one section per dive site with meta pills
-// (depth range + level), localized description and an autoplaying, one-image-
-// at-a-time swiper of the site's photos — the optional YouTube video is its own slide.
+// (depth range + level), localized description and a one-image-at-a-time
+// swiper of the site's photos — the optional YouTube video is its own slide.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
@@ -67,5 +67,13 @@ const intro = t(galleryPageContent.intro, lang)
   .gallery-body {
     max-width: 900px;
     margin: 0 auto;
+  }
+
+  main > section {
+    padding-top: 0;
+  }
+
+  main > section:first-of-type {
+    padding-top: var(--section-py);
   }
 </style>

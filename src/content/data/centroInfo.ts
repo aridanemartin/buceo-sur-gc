@@ -6,6 +6,7 @@ const loc = (es: string, en: string, fr: string, de: string): LocaleValue => ({ 
 export const centroInfoData = {
   _id: 'centroInfo',
   _type: 'centroInfo',
+  heroImage: '/assets/colorful-background.webp',
   intro: loc(
     'Buceo Sur es una pequeña empresa familiar con licencia oficial del Gobierno de Canarias. Venta directa, sin intermediarios, con instructores certificados y muy experimentados. Buceamos por toda la isla para ofrecer las mejores inmersiones según tu nivel de experiencia y las condiciones meteorológicas. Atención personalizada y grupos reducidos siempre.',
     'Buceo Sur is a small family business with an official licence from the Government of the Canary Islands. Direct sales, no middlemen, with highly experienced certified instructors. We dive all over the island to offer the best dives according to your experience level and the weather conditions. Always personal attention and small groups.',

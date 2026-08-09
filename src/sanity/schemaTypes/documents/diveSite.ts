@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { ImagesFieldWarning } from '../../components/ImagesFieldWarning'
 
 export const diveSite = defineType({
   name: 'diveSite',
@@ -14,6 +15,7 @@ export const diveSite = defineType({
       title: 'Imágenes',
       type: 'array',
       of: [{ type: 'image', options: { accept: 'image/webp' } }],
+      components: { input: ImagesFieldWarning },
     }),
     defineField({ name: 'youtubeUrl', title: 'Vídeo de YouTube', type: 'url' }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),

@@ -5,7 +5,7 @@ export const structure: StructureResolver = (S) =>
     .title('Contenido')
     .items([
       S.listItem()
-        .title('Información del centro')
+        .title('Información del centro / general')
         .child(S.document().schemaType('centroInfo').documentId('centroInfo')),
       S.divider(),
       ...S.documentTypeListItems().filter((item) => item.getId() !== 'centroInfo'),

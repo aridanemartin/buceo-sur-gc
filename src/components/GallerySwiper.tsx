@@ -1,12 +1,12 @@
 // src/components/GallerySwiper.tsx
-// One-at-a-time photo carousel for a dive site, autoplaying with a progress bar.
+// One-at-a-time photo carousel for a dive site with manual navigation.
 // The optional site video is the first slide: whenever that slide is active the
 // embed mounts and autoplays muted with the player chrome hidden, pausing the
 // carousel until the user swipes away. On other slides a thumbnail is shown
 // that navigates back to the video.
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import type { Swiper as SwiperType } from 'swiper'
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import styles from './GallerySwiper.module.css'
 
@@ -37,13 +37,6 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
 
   const isVideoActive = Boolean(videoUrl) && activeIndex === 0
 
-  useEffect(() => {
-    const swiper = swiperRef.current
-    if (!swiper?.autoplay) return
-    if (isVideoActive) swiper.autoplay.stop()
-    else swiper.autoplay.start()
-  }, [isVideoActive])
-
   if (images.length === 0 && !videoUrl) return null
 
   const videoThumbnail = videoUrl ? getYoutubeThumbnail(videoUrl) : null
@@ -53,13 +46,12 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
   return (
     <Swiper
       className={styles.swiper}
-      modules={[Autoplay, Navigation, Pagination]}
+      modules={[Navigation, Pagination]}
       onSwiper={(swiper) => {
         swiperRef.current = swiper
       }}
       onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
       loop={multiSlide}
-      autoplay={multiSlide ? { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
       navigation={multiSlide}
       pagination={multiSlide ? { type: 'progressbar' } : false}
     >
