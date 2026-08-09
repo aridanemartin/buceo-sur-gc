@@ -38,6 +38,7 @@ One-time scripts in `scripts/` populate the Sanity dataset with the canonical co
 
 ```bash
 npm run seed scripts/seed-centro-info.mjs
+npm run seed scripts/seed-certifying-agencies.mjs
 npm run seed scripts/seed-courses.mjs
 npm run seed scripts/seed-experiences.mjs
 npm run seed scripts/seed-dive-sites.mjs
@@ -63,6 +64,7 @@ the Vercel project settings.
 ## Sanity content model
 
 - `course` — courses (SSI/CMAS/PADI/FSGT), used by `/courses` and `/sidemount` (tagged).
+- `certifyingAgency` — certifying bodies referenced by `course.agency`; can't be deleted while a published course still references it.
 - `experience` — bautizos (beginner) and inmersiones (certified), used by `/baptisms` and `/dives`.
 - `diveSite` — gallery sites, used by `/gallery`.
 - `tariffExtra` — standalone priced items (nitrox, bottles, insurance), used by `/rates`.

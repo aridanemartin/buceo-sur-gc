@@ -8,7 +8,7 @@ import type { Locale } from '../i18n/locales'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
-import { getCourses } from '../sanity/queries'
+import { getCertifyingAgencies, getCourses } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 import rowStyles from '../styles/rowLayout.module.css'
 
@@ -18,6 +18,8 @@ interface Props {
 
 const { lang } = Astro.props
 const courses = await getCourses()
+const agencies = await getCertifyingAgencies()
+const agencyByName = new Map(agencies.map((a: any) => [a.name, a]))
 
 const l = (f: any) => t(f, lang)
 
@@ -69,9 +71,11 @@ const agencyLabel: Record<Locale, string> = {
   de: 'Verband',
 }[lang]
 
-const agencies = [...new Set(courses.map((c: any) => c.agency))]
-const grouped = agencies.map((agency) => ({
+const agencyNames = [...new Set(courses.map((c: any) => c.agency))]
+const grouped = agencyNames.map((agency) => ({
   agency,
+  logo: agencyByName.get(agency)?.logo ?? null,
+  website: agencyByName.get(agency)?.website ?? null,
   categories: [
     ...new Set(courses.filter((c: any) => c.agency === agency).map((c: any) => c.category)),
   ],
@@ -92,7 +96,18 @@ const grouped = agencies.map((agency) => ({
       <section class={styles.sectionAlt} id={group.agency.toLowerCase()}>
         <div class={styles.container}>
           <p class={styles.sectionEyebrow}>{agencyLabel}</p>
-          <h2 class={styles.sectionTitle}>{group.agency}</h2>
+          <div class="agencyHeading">
+            <h2 class={styles.sectionTitle}>{group.agency}</h2>
+            {group.logo ? (
+              group.website ? (
+                <a href={group.website} target="_blank" rel="noopener noreferrer">
+                  <img src={group.logo} alt={group.agency} class="agencyLogo" />
+                </a>
+              ) : (
+                <img src={group.logo} alt={group.agency} class="agencyLogo" />
+              )
+            ) : null}
+          </div>
 
           {group.categories.map((category) => (
             <div>
@@ -131,3 +146,16 @@ const grouped = agencies.map((agency) => ({
     <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={cta.title} />
   </main>
 </BaseLayout>
+
+<style>
+  .agencyHeading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .agencyLogo {
+    height: 32px;
+    width: auto;
+  }
+</style>

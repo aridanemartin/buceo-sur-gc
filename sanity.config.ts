@@ -1,5 +1,6 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { createProtectedDeleteAction } from './src/sanity/actions/protectDeleteWhenReferenced'
 import { StudioLayout } from './src/sanity/components/StudioLayout'
 import { schemaTypes } from './src/sanity/schemaTypes'
 import { structure } from './src/sanity/structure'
@@ -15,4 +16,12 @@ export default defineConfig({
   plugins: [structureTool({ structure })],
   schema: { types: schemaTypes },
   studio: { components: { layout: StudioLayout } },
+  document: {
+    actions: (prev, context) =>
+      context.schemaType === 'certifyingAgency'
+        ? prev.map((action) =>
+            action.action === 'delete' ? createProtectedDeleteAction(action) : action,
+          )
+        : prev,
+  },
 })

@@ -3,6 +3,7 @@
 // Run: npm run seed scripts/seed-courses.mjs
 import { createClient } from '@sanity/client'
 import { readFileSync } from 'node:fs'
+import { agencyIdByName } from '../src/content/data/certifyingAgencies.ts'
 import { allCoursesData } from '../src/content/data/courses.ts'
 
 const client = createClient({
@@ -81,7 +82,10 @@ for (const c of allCoursesData) {
     }
     image = uploadedByFile[file]
   }
-  courses.push(image ? { ...c, image } : c)
+  const agencyId = agencyIdByName[c.agency]
+  if (!agencyId) throw new Error(`Unknown agency "${c.agency}" for course ${c._id}`)
+  const agency = { _type: 'reference', _ref: agencyId }
+  courses.push({ ...c, agency, ...(image ? { image } : {}) })
 }
 
 const tx = client.transaction()
