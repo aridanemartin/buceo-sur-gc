@@ -1,6 +1,7 @@
 ---
 import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
+import Tabs from '../components/Tabs'
 import { divesPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
@@ -87,95 +88,110 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
       </div>
     </header>
 
-    <!-- Intro -->
-    <section class={styles.section}>
-      <div class={styles.container}>
-        <p class={styles.sectionEyebrow}>{u.nav.dives}</p>
-        <p class={styles.bodyText}>{t(divesPageContent.intro, lang)}</p>
-      </div>
-    </section>
-
-    <!-- Site choice -->
-    <section class={styles.sectionAlt}>
-      <div class={`${styles.container} site-choice-body`}>
-        <div class={textWithCarousel.grid}>
-          <div class={textWithCarousel.text}>
-            <h2 class={styles.sectionTitle}>{t(divesPageContent.siteChoiceTitle, lang)}</h2>
-            <p class={styles.bodyText}>{t(divesPageContent.siteChoice, lang)}</p>
+    <!-- Tabbed content: Información | Tarifas -->
+    <Tabs
+      client:load
+      label={u.nav.dives}
+      idPrefix="dives"
+      tabs={[
+        { id: 'info', label: u.dives.infoTab },
+        { id: 'rates', label: u.nav.rates },
+      ]}
+    >
+      <div slot="info">
+        <!-- Intro -->
+        <section class={styles.section}>
+          <div class={styles.container}>
+            <p class={styles.sectionEyebrow}>{u.nav.dives}</p>
+            <p class={styles.bodyText}>{t(divesPageContent.intro, lang)}</p>
           </div>
-          <img
-            src="/assets/maps/mapa.sitio.buceo.isla.webp"
-            alt={t(divesPageContent.siteChoiceTitle, lang)}
-            width={800}
-            height={717}
-            loading="lazy"
-            class="site-choice-map"
-          />
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <!-- Refresher -->
-    <section class={styles.section}>
-      <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
-        <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
-      </div>
-    </section>
+        <!-- Site choice -->
+        <section class={styles.sectionAlt}>
+          <div class={`${styles.container} site-choice-body`}>
+            <div class={textWithCarousel.grid}>
+              <div class={textWithCarousel.text}>
+                <h2 class={styles.sectionTitle}>{t(divesPageContent.siteChoiceTitle, lang)}</h2>
+                <p class={styles.bodyText}>{t(divesPageContent.siteChoice, lang)}</p>
+              </div>
+              <img
+                src="/assets/maps/mapa.sitio.buceo.isla.webp"
+                alt={t(divesPageContent.siteChoiceTitle, lang)}
+                width={800}
+                height={717}
+                loading="lazy"
+                class="site-choice-map"
+              />
+            </div>
+          </div>
+        </section>
 
-    <!-- Schedule -->
-    <section class={styles.sectionAlt}>
-      <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{t(divesPageContent.scheduleTitle, lang)}</h2>
-        <p class={styles.bodyText}>{t(divesPageContent.schedule, lang)}</p>
-      </div>
-    </section>
+        <!-- Refresher -->
+        <section class={styles.section}>
+          <div class={styles.container}>
+            <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
+            <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
+          </div>
+        </section>
 
-    <!-- Booking -->
-    <section class={styles.section}>
-      <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{t(divesPageContent.bookingTitle, lang)}</h2>
-        <p class={styles.bodyText}>{t(divesPageContent.booking, lang)}</p>
-      </div>
-    </section>
+        <!-- Schedule -->
+        <section class={styles.sectionAlt}>
+          <div class={styles.container}>
+            <h2 class={styles.sectionTitle}>{t(divesPageContent.scheduleTitle, lang)}</h2>
+            <p class={styles.bodyText}>{t(divesPageContent.schedule, lang)}</p>
+          </div>
+        </section>
 
-    <!-- Documentation -->
-    <section class={styles.sectionAlt}>
-      <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{t(divesPageContent.docsTitle, lang)}</h2>
-        <p class={styles.bodyText}>{t(divesPageContent.docs, lang)}</p>
-      </div>
-    </section>
+        <!-- Booking -->
+        <section class={styles.section}>
+          <div class={styles.container}>
+            <h2 class={styles.sectionTitle}>{t(divesPageContent.bookingTitle, lang)}</h2>
+            <p class={styles.bodyText}>{t(divesPageContent.booking, lang)}</p>
+          </div>
+        </section>
 
-    <!-- Certified experiences -->
-    <section class={styles.section}>
-      <div class={styles.container}>
-        <h2 class={styles.sectionTitle}>{l.gridTitle}</h2>
-        <div class={rowStyles.list}>
-          {experiences.map((x: any) => (
-            <CourseCard
-              title={t(x.title, lang)}
-              meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
-              paragraphs={[
-                { text: t(x.description, lang) },
-                ...(t(x.includes, lang)
-                  ? [{ label: l.includes, text: t(x.includes, lang) }]
-                  : []),
-                ...(t(x.supplements, lang)
-                  ? [{ label: l.supplements, text: t(x.supplements, lang) }]
-                  : []),
-                ...(t(x.groupDiscount, lang)
-                  ? [{ label: l.conditions, text: t(x.groupDiscount, lang) }]
-                  : []),
-              ]}
-              price={priceOf(x) || null}
-              image={x.image || null}
-              videoUrl={x.videoUrl || null}
-            />
-          ))}
-        </div>
+        <!-- Documentation -->
+        <section class={styles.sectionAlt}>
+          <div class={styles.container}>
+            <h2 class={styles.sectionTitle}>{t(divesPageContent.docsTitle, lang)}</h2>
+            <p class={styles.bodyText}>{t(divesPageContent.docs, lang)}</p>
+          </div>
+        </section>
       </div>
-    </section>
+
+      <div slot="rates">
+        <!-- Certified experiences -->
+        <section class={styles.section}>
+          <div class={styles.container}>
+            <h2 class={styles.sectionTitle}>{l.gridTitle}</h2>
+            <div class={rowStyles.list}>
+              {experiences.map((x: any) => (
+                <CourseCard
+                  title={t(x.title, lang)}
+                  meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
+                  paragraphs={[
+                    { text: t(x.description, lang) },
+                    ...(t(x.includes, lang)
+                      ? [{ label: l.includes, text: t(x.includes, lang) }]
+                      : []),
+                    ...(t(x.supplements, lang)
+                      ? [{ label: l.supplements, text: t(x.supplements, lang) }]
+                      : []),
+                    ...(t(x.groupDiscount, lang)
+                      ? [{ label: l.conditions, text: t(x.groupDiscount, lang) }]
+                      : []),
+                  ]}
+                  price={priceOf(x) || null}
+                  image={x.image || null}
+                  videoUrl={x.videoUrl || null}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    </Tabs>
 
     <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
   </main>

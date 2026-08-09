@@ -40,6 +40,9 @@ export interface UiStrings {
     prev: string
     next: string
   }
+  dives: {
+    infoTab: string
+  }
   book: string
   ctaButton: string
   ctaNote: string
@@ -101,6 +104,9 @@ export const ui: Record<Locale, UiStrings> = {
       prev: 'Foto anterior',
       next: 'Foto siguiente',
     },
+    dives: {
+      infoTab: 'Información',
+    },
     book: 'Reservar',
     ctaButton: 'RESERVA YA',
     ctaNote: 'Serás redirigido a nuestra página de reservas.',
@@ -159,6 +165,9 @@ export const ui: Record<Locale, UiStrings> = {
       alt: 'Sidemount diving in Gran Canaria',
       prev: 'Previous photo',
       next: 'Next photo',
+    },
+    dives: {
+      infoTab: 'Information',
     },
     book: 'Book now',
     ctaButton: 'BOOK NOW',
@@ -219,6 +228,9 @@ export const ui: Record<Locale, UiStrings> = {
       prev: 'Photo précédente',
       next: 'Photo suivante',
     },
+    dives: {
+      infoTab: 'Informations',
+    },
     book: 'Réserver',
     ctaButton: 'RÉSERVEZ MAINTENANT',
     ctaNote: 'Vous serez redirigé vers notre page de réservation.',
@@ -277,6 +289,9 @@ export const ui: Record<Locale, UiStrings> = {
       alt: 'Sidemount-Tauchen auf Gran Canaria',
       prev: 'Vorheriges Foto',
       next: 'Nächstes Foto',
+    },
+    dives: {
+      infoTab: 'Information',
     },
     book: 'Jetzt buchen',
     ctaButton: 'JETZT BUCHEN',
