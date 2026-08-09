@@ -8,12 +8,12 @@ export const localeString = defineType({
   fields: [
     defineField({
       name: 'es',
-      title: 'Español',
+      title: '🇪🇸 Español',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
-    defineField({ name: 'en', title: 'English', type: 'string' }),
-    defineField({ name: 'fr', title: 'Français', type: 'string' }),
-    defineField({ name: 'de', title: 'Deutsch', type: 'string' }),
+    defineField({ name: 'en', title: '🇬🇧 English', type: 'string' }),
+    defineField({ name: 'fr', title: '🇫🇷 Français', type: 'string' }),
+    defineField({ name: 'de', title: '🇩🇪 Deutsch', type: 'string' }),
   ],
 })

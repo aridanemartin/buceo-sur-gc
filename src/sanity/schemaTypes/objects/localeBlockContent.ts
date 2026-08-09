@@ -21,9 +21,9 @@ export const localeBlockContent = defineType({
   type: 'object',
   options: { collapsible: true, collapsed: false },
   fields: [
-    defineField({ name: 'es', title: 'Español', type: 'array', of: [block], validation: (Rule) => Rule.required() }),
-    defineField({ name: 'en', title: 'English', type: 'array', of: [block] }),
-    defineField({ name: 'fr', title: 'Français', type: 'array', of: [block] }),
-    defineField({ name: 'de', title: 'Deutsch', type: 'array', of: [block] }),
+    defineField({ name: 'es', title: '🇪🇸 Español', type: 'array', of: [block], validation: (Rule) => Rule.required() }),
+    defineField({ name: 'en', title: '🇬🇧 English', type: 'array', of: [block] }),
+    defineField({ name: 'fr', title: '🇫🇷 Français', type: 'array', of: [block] }),
+    defineField({ name: 'de', title: '🇩🇪 Deutsch', type: 'array', of: [block] }),
   ],
 })
