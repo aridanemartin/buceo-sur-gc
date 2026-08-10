@@ -41,15 +41,8 @@ export default function Nav({
 }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [logoVisible, setLogoVisible] = useState(!hasHeroLogo)
   const a11y = ui[lang].a11y
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     const close = () => setLangOpen(false)
@@ -57,11 +50,11 @@ export default function Nav({
     return () => document.removeEventListener('click', close)
   }, [langOpen])
 
-  // Mobile-only: fly the hero logo into the nav's left slot right as the header
-  // (fixed on top of the hero) would otherwise start covering it, morphing via
-  // the View Transitions API. The trigger tracks the logo's real on-screen
-  // position rather than a fixed scroll fraction, so it never disappears
-  // behind the header before landing in the nav.
+  // Fly the hero logo into the nav's left slot right as the header (fixed on
+  // top of the hero) would otherwise start covering it, morphing via the View
+  // Transitions API. Runs at every viewport width. The trigger tracks the
+  // logo's real on-screen position rather than a fixed scroll fraction, so it
+  // never disappears behind the header before landing in the nav.
   useEffect(() => {
     if (!hasHeroLogo) return
 
@@ -92,7 +85,7 @@ export default function Nav({
     const evaluate = (animate: boolean) => {
       measureLogo()
       const logoViewportTop = logoDocTop - window.scrollY
-      const shouldBeInNav = mobileQuery.matches && logoViewportTop <= header.getBoundingClientRect().bottom
+      const shouldBeInNav = logoViewportTop <= header.getBoundingClientRect().bottom
       if (shouldBeInNav === logoInNav) return
       logoInNav = shouldBeInNav
 
@@ -136,9 +129,7 @@ export default function Nav({
 
   return (
     <header
-      className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${hasHeroLogo ? styles.heroNav : ''} ${
-        logoVisible ? styles.logoLanded : ''
-      }`}
+      className={`${styles.header} ${hasHeroLogo ? styles.heroNav : ''} ${logoVisible ? styles.logoLanded : ''}`}
     >
       <nav className={styles.nav} aria-label={a11y.mainNav}>
         <a href={homeHref} className={styles.logo} aria-label="Buceo Sur Gran Canaria">

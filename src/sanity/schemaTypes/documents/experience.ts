@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export const experience = defineType({
   name: 'experience',
-  title: 'Experiencia (bautizo / inmersión)',
+  title: 'Experiencia (Bautizo / Inmersión)',
   type: 'document',
   fields: [
     defineField({ name: 'title', title: 'Título', type: 'localeString' }),
@@ -33,7 +33,10 @@ export const experience = defineType({
   preview: {
     select: { title: 'title.es', audience: 'audience', duration: 'duration.es' },
     prepare({ title, audience, duration }) {
-      return { title: title || 'Sin título', subtitle: [audience, duration].filter(Boolean).join(' · ') }
+      return {
+        title: title || 'Sin título',
+        subtitle: [audience, duration].filter(Boolean).join(' · '),
+      }
     },
   },
 })

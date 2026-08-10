@@ -30,6 +30,26 @@ function getYoutubeThumbnail(embedUrl: string): string | null {
   return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null
 }
 
+// The blurred backdrop (.slide::before) reads its image from this div's own
+// background-image via `inherit`, but CSS background-images always fetch
+// eagerly — setting it upfront would defeat the <img>'s native lazy loading
+// and pull every slide's photo on page load. Only apply it once the <img>
+// itself has actually loaded, so the backdrop follows the same lazy timing.
+function GallerySlideImage({ url, alt }: GalleryImage) {
+  const [loaded, setLoaded] = useState(false)
+  return (
+    <div className={styles.slide} style={loaded ? { backgroundImage: `url(${url})` } : undefined}>
+      <img
+        src={url}
+        alt={alt}
+        loading="lazy"
+        className={styles.media}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  )
+}
+
 export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwiperProps) {
   // The video is always the first slide, so realIndex 0 == video slide active.
   const [activeIndex, setActiveIndex] = useState(0)
@@ -74,7 +94,12 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
               style={videoThumbnail ? { backgroundImage: `url(${videoThumbnail})` } : undefined}
             >
               {videoThumbnail && (
-                <img src={videoThumbnail} alt={videoAlt ?? 'Video'} className={styles.media} />
+                <img
+                  src={videoThumbnail}
+                  alt={videoAlt ?? 'Video'}
+                  loading="lazy"
+                  className={styles.media}
+                />
               )}
               <span className={styles.playIcon} aria-hidden="true">
                 ▶
@@ -85,9 +110,7 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
       )}
       {images.map((image) => (
         <SwiperSlide key={image.url}>
-          <div className={styles.slide} style={{ backgroundImage: `url(${image.url})` }}>
-            <img src={image.url} alt={image.alt} loading="lazy" className={styles.media} />
-          </div>
+          <GallerySlideImage url={image.url} alt={image.alt} />
         </SwiperSlide>
       ))}
     </Swiper>

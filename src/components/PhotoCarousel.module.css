@@ -32,13 +32,16 @@
 }
 
 /* Circular semi-transparent arrows: the circle is bigger than the chevron
-   inside it — the Swiper icon stays at 20px (--swiper-navigation-size)
-   while the button it sits in grows to 40px. */
+   inside it. Swiper's arrow SVG fills 100% of the button's box, so padding
+   (not --swiper-navigation-size) is what keeps the chevron smaller than the
+   40px circle — without it the arrow's tip pokes past the circle's edge. */
 .swiper :global(.swiper-button-prev),
 .swiper :global(.swiper-button-next) {
+  box-sizing: border-box;
   width: 40px;
   height: 40px;
   margin-top: -20px;
+  padding: 10px;
   border-radius: 50%;
   background: rgba(1, 14, 30, 0.45);
   transition:

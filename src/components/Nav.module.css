@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(1, 14, 30, 0.42);
+  background: rgba(1, 42, 74, 0.8);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   transition:
@@ -12,13 +12,6 @@
     box-shadow var(--transition),
     backdrop-filter var(--transition);
   padding: 0 24px;
-}
-
-.header.scrolled {
-  background: rgba(1, 42, 74, 0.97);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
 }
 
 .nav {
@@ -39,23 +32,15 @@
   flex-shrink: 0;
 }
 
-.logoText {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: 0.5px;
-}
-
+.logoText,
 .logoSub {
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--color-ocean-200);
+  display: none;
 }
 
 .logoImg {
-  display: none;
+  display: block;
+  height: 32px;
+  width: auto;
 }
 
 .links {
@@ -235,31 +220,13 @@
     z-index: 100;
   }
 
-  .logoText,
-  .logoSub {
-    display: none;
-  }
-
-  .logoImg {
-    display: block;
-    height: 32px;
-    width: auto;
-  }
-
-  /* Homepage only: nav stays fully transparent over the hero until the logo
-     lands in it, instead of the generic scrolled-based tint. */
-  .header.heroNav {
+  /* Homepage only: no background until the hero logo lands in the nav; once
+     landed it falls back to the standard translucent .header look above. */
+  .header.heroNav:not(.logoLanded) {
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: none;
-  }
-
-  .header.heroNav.logoLanded {
-    background: rgba(1, 42, 74, 0.97);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
   }
 
   .links {

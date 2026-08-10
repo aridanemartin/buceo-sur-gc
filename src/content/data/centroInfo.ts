@@ -107,7 +107,7 @@ export const centroInfoData = {
     {
       _key: 'sites',
       value: '50+',
-      label: loc('Puntos de inmersión', 'Dive sites', 'Sites de plongée', 'Tauchplätze'),
+      label: loc('Galería (Puntos de inmersión)', 'Dive sites', 'Sites de plongée', 'Tauchplätze'),
     },
     {
       _key: 'temp',

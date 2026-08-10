@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export const certifyingAgency = defineType({
   name: 'certifyingAgency',
-  title: 'Entidad certificadora',
+  title: 'Entidades certificadoras',
   type: 'document',
   fields: [
     defineField({
