@@ -12,9 +12,10 @@ interface Props {
   path: string
   title: string
   description: string
+  hasHeroLogo?: boolean
 }
 
-const { lang, path, title, description } = Astro.props
+const { lang, path, title, description, hasHeroLogo = false } = Astro.props
 const alternates = alternateLinks(path)
 const t = ui[lang]
 
@@ -45,7 +46,7 @@ const navItems = [
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <Nav lang={lang} items={navItems} localeLinks={alternates} bookHref={SITE.bookingUrl} bookLabel={t.book} homeHref={localePath(lang, '')} client:load />
+    <Nav lang={lang} items={navItems} localeLinks={alternates} bookHref={SITE.bookingUrl} bookLabel={t.book} homeHref={localePath(lang, '')} hasHeroLogo={hasHeroLogo} client:load />
     <slot />
     <Footer lang={lang} />
   </body>

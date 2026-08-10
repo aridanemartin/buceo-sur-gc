@@ -54,6 +54,10 @@
   color: var(--color-ocean-200);
 }
 
+.logoImg {
+  display: none;
+}
+
 .links {
   display: flex;
   align-items: center;
@@ -229,6 +233,33 @@
     display: flex;
     position: relative;
     z-index: 100;
+  }
+
+  .logoText,
+  .logoSub {
+    display: none;
+  }
+
+  .logoImg {
+    display: block;
+    height: 32px;
+    width: auto;
+  }
+
+  /* Homepage only: nav stays fully transparent over the hero until the logo
+     lands in it, instead of the generic scrolled-based tint. */
+  .header.heroNav {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .header.heroNav.logoLanded {
+    background: rgba(1, 42, 74, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
   }
 
   .links {

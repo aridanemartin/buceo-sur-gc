@@ -84,3 +84,22 @@ textarea,
 select {
   font-family: inherit;
 }
+
+/* Hero logo → mobile nav shared-element transition (see Nav.tsx) */
+::view-transition-group(hero-nav-logo) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(hero-nav-logo),
+::view-transition-new(hero-nav-logo) {
+  animation-duration: 0.45s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(hero-nav-logo),
+  ::view-transition-old(hero-nav-logo),
+  ::view-transition-new(hero-nav-logo) {
+    animation: none !important;
+  }
+}

@@ -38,6 +38,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
   path=""
   title={uiStrings.home.metaTitle}
   description={l(info?.intro)}
+  hasHeroLogo
 >
   <main>
     <section
@@ -51,6 +52,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
         src="/logo.png"
         alt="Buceo Sur Gran Canaria"
         class={heroStyles.logo}
+        data-shared-logo="hero"
         width={480}
         height={186}
       />

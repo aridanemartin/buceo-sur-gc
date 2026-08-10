@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
 import { SITE } from '../lib/constants'
@@ -22,12 +23,26 @@ interface NavProps {
   bookHref: string
   bookLabel: string
   homeHref: string
+  /** Homepage only: hero has a matching logo the mobile nav logo flies in from on scroll. */
+  hasHeroLogo?: boolean
 }
 
-export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, homeHref }: NavProps) {
+const HERO_LOGO_TRANSITION_NAME = 'hero-nav-logo'
+const MOBILE_QUERY = '(max-width: 768px)'
+
+export default function Nav({
+  lang,
+  items,
+  localeLinks,
+  bookHref,
+  bookLabel,
+  homeHref,
+  hasHeroLogo = false,
+}: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [logoVisible, setLogoVisible] = useState(!hasHeroLogo)
   const a11y = ui[lang].a11y
 
   useEffect(() => {
@@ -42,12 +57,102 @@ export default function Nav({ lang, items, localeLinks, bookHref, bookLabel, hom
     return () => document.removeEventListener('click', close)
   }, [langOpen])
 
+  // Mobile-only: fly the hero logo into the nav's left slot right as the header
+  // (fixed on top of the hero) would otherwise start covering it, morphing via
+  // the View Transitions API. The trigger tracks the logo's real on-screen
+  // position rather than a fixed scroll fraction, so it never disappears
+  // behind the header before landing in the nav.
+  useEffect(() => {
+    if (!hasHeroLogo) return
+
+    const heroLogo = document.querySelector<HTMLElement>('[data-shared-logo="hero"]')
+    const header = document.querySelector<HTMLElement>('header')
+    if (!heroLogo || !header) return
+
+    const mobileQuery = window.matchMedia(MOBILE_QUERY)
+    let logoInNav = false
+    let logoDocTop = 0
+
+    // visibility (not display) keeps the element measurable while hidden,
+    // so its on-screen position can be tracked even mid-transition.
+    const measureLogo = () => {
+      logoDocTop = heroLogo.getBoundingClientRect().top + window.scrollY
+    }
+
+    const setHeroLogoVisible = (visible: boolean) => {
+      if (visible) {
+        heroLogo.style.removeProperty('visibility')
+        heroLogo.style.setProperty('view-transition-name', HERO_LOGO_TRANSITION_NAME)
+      } else {
+        heroLogo.style.setProperty('visibility', 'hidden')
+        heroLogo.style.removeProperty('view-transition-name')
+      }
+    }
+
+    const evaluate = (animate: boolean) => {
+      measureLogo()
+      const logoViewportTop = logoDocTop - window.scrollY
+      const shouldBeInNav = mobileQuery.matches && logoViewportTop <= header.getBoundingClientRect().bottom
+      if (shouldBeInNav === logoInNav) return
+      logoInNav = shouldBeInNav
+
+      const apply = (withFlush: boolean) => {
+        setHeroLogoVisible(!shouldBeInNav)
+        if (withFlush) {
+          flushSync(() => setLogoVisible(shouldBeInNav))
+        } else {
+          setLogoVisible(shouldBeInNav)
+        }
+      }
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const startViewTransition = (document as { startViewTransition?: (cb: () => void) => void }).startViewTransition
+
+      if (animate && startViewTransition && !reducedMotion) {
+        startViewTransition.call(document, () => apply(true))
+      } else {
+        apply(false)
+      }
+    }
+
+    // Establish the hero logo's baseline view-transition-name up front (it
+    // starts as the visible side), so the very first fly-in has a matching
+    // "old" snapshot to morph from instead of just fading the nav logo in.
+    setHeroLogoVisible(!logoInNav)
+    evaluate(false)
+
+    const onScroll = () => evaluate(true)
+    const onResize = () => evaluate(false)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onResize)
+    mobileQuery.addEventListener('change', onResize)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+      mobileQuery.removeEventListener('change', onResize)
+    }
+  }, [hasHeroLogo])
+
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+    <header
+      className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${hasHeroLogo ? styles.heroNav : ''} ${
+        logoVisible ? styles.logoLanded : ''
+      }`}
+    >
       <nav className={styles.nav} aria-label={a11y.mainNav}>
-        <a href={homeHref} className={styles.logo}>
+        <a href={homeHref} className={styles.logo} aria-label="Buceo Sur Gran Canaria">
           <span className={styles.logoText}>Buceo Sur</span>
           <span className={styles.logoSub}>Gran Canaria</span>
+          <img
+            src="/logo.png"
+            alt=""
+            className={styles.logoImg}
+            data-shared-logo="nav"
+            width={140}
+            height={54}
+            style={logoVisible ? { viewTransitionName: HERO_LOGO_TRANSITION_NAME } : { display: 'none' }}
+          />
         </a>
 
         <ul className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
