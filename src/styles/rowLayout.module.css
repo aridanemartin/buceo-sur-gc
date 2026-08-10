@@ -9,6 +9,7 @@
 }
 
 .row {
+  position: relative;
   background: var(--color-white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
@@ -60,10 +61,85 @@
   border: 0;
 }
 
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Replaces the old text-repeating "SSI"/"CMAS" meta pill: the agency's own
+   mark is more identifiable at a glance and doesn't need translating. */
+.agencyLogo {
+  height: 28px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
 .cardTitle {
   font-size: 1.25rem;
   color: var(--color-dark);
   font-family: var(--font-heading);
+}
+
+/* Category badge: a light-to-dark blue scale standing in for depth —
+   recreational courses stay shallow, specialty is mid-water, technical
+   goes deep. Square corners and uppercase set it apart from the fully
+   rounded meta pills below it. Pinned to the card's top-right corner so it
+   reads as a stamp over the media (image/video sits on the right on
+   desktop, on top on mobile — see the media order flip below). */
+.categoryBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  /* Flush with the card's own top-right curve (matches .row's border-radius)
+     instead of floating with a gap; the bottom-left corner gets a smaller
+     cut so it still reads as a tag rather than a solid block. */
+  border-radius: 0 var(--radius-lg) 0 var(--radius-md);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Icon is single-color line art (transparent PNG/WebP converted to alpha
+   mask) so it can be painted with currentColor — the same asset reads dark
+   on the light recreational badge and white on the darker specialty/
+   technical ones, no per-variant asset needed. */
+.categoryIcon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  background-color: currentColor;
+  -webkit-mask-image: var(--icon);
+  mask-image: var(--icon);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.categoryBadgeRecreational {
+  background: var(--color-ocean-100);
+  color: var(--color-ocean-900);
+}
+
+.categoryBadgeSpecialty {
+  background: var(--color-ocean-500);
+  color: var(--color-white);
+}
+
+.categoryBadgeTechnical {
+  background: var(--color-ocean-900);
+  color: var(--color-white);
 }
 
 .cardMeta {

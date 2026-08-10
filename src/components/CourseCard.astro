@@ -8,6 +8,9 @@ import rowStyles from '../styles/rowLayout.module.css'
 
 interface Props {
   title: string
+  category?: { key: string; label: string } | null
+  agencyLogo?: string | null
+  agencyName?: string
   meta?: string[]
   paragraphs?: Array<{ label?: string; text: string }>
   price?: string | null
@@ -18,6 +21,9 @@ interface Props {
 
 const {
   title,
+  category = null,
+  agencyLogo = null,
+  agencyName = '',
   meta = [],
   paragraphs = [],
   price,
@@ -25,6 +31,24 @@ const {
   videoUrl,
   headingLevel = 3,
 } = Astro.props
+
+// Course category badges read as a depth cue: recreational courses stay
+// shallow (light), specialty sits mid-water, technical goes deep (dark) —
+// mirroring the depth limits that actually separate these tracks.
+const categoryVariant: Record<string, string> = {
+  recreational: rowStyles.categoryBadgeRecreational,
+  specialty: rowStyles.categoryBadgeSpecialty,
+  technical: rowStyles.categoryBadgeTechnical,
+}
+
+// Icons are single-color line art masked with currentColor (see
+// .categoryIcon), so the same asset works on both the light recreational
+// badge and the dark specialty/technical ones without separate colored files.
+const categoryIcon: Record<string, string> = {
+  recreational: '/assets/icons/recreational.webp',
+  specialty: '/assets/icons/specialty.webp',
+  technical: '/assets/icons/technical.webp',
+}
 
 // Converts youtu.be / youtube.com watch or embed links into privacy-enhanced
 // youtube-nocookie embeds with the player chrome hidden. Deliberately NOT
@@ -40,8 +64,30 @@ const Tag = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
 ---
 
 <article class={rowStyles.row}>
+  {category ? (
+    <span class={`${rowStyles.categoryBadge} ${categoryVariant[category.key] ?? ''}`}>
+      {categoryIcon[category.key] ? (
+        <span
+          class={rowStyles.categoryIcon}
+          style={`--icon: url(${categoryIcon[category.key]})`}
+          aria-hidden="true"
+        />
+      ) : null}
+      {category.label}
+    </span>
+  ) : null}
   <div class={rowStyles.rowBody}>
-    <Tag class={rowStyles.cardTitle}>{title}</Tag>
+    <div class={rowStyles.titleRow}>
+      {agencyLogo ? (
+        <img
+          src={agencyLogo}
+          alt={agencyName}
+          class={rowStyles.agencyLogo}
+          loading="lazy"
+        />
+      ) : null}
+      <Tag class={rowStyles.cardTitle}>{title}</Tag>
+    </div>
     {meta.length > 0 ? (
       <ul class={rowStyles.cardMeta}>
         {meta.map((item) => (

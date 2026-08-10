@@ -1,161 +1,173 @@
 ---
-import CourseCard from '../components/CourseCard.astro'
-import CtaBanner from '../components/CtaBanner.astro'
-import type { Locale } from '../i18n/locales'
+import CourseCard from "../components/CourseCard.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import type { Locale } from "../i18n/locales";
 // src/views/CoursesView.astro
-// Renders all course documents from getCourses(), grouped by agency (SSI / CMAS)
+// Renders all course documents from getCourses(), grouped by agency
 // and category (recreational / specialty / technical).
-import BaseLayout from '../layouts/BaseLayout.astro'
-import { SITE } from '../lib/constants'
-import { t } from '../sanity/localize'
-import { getCertifyingAgencies, getCourses } from '../sanity/queries'
-import styles from '../styles/viewCommon.module.css'
-import rowStyles from '../styles/rowLayout.module.css'
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../lib/constants";
+import { t } from "../sanity/localize";
+import { getCertifyingAgencies, getCourses } from "../sanity/queries";
+import rowStyles from "../styles/rowLayout.module.css";
+import styles from "../styles/viewCommon.module.css";
 
 interface Props {
-  lang: Locale
+  lang: Locale;
 }
 
-const { lang } = Astro.props
-const courses = await getCourses()
-const agencies = await getCertifyingAgencies()
-const agencyByName = new Map(agencies.map((a: any) => [a.name, a]))
+const { lang } = Astro.props;
+const courses = await getCourses();
+const agencies = await getCertifyingAgencies();
+const agencyByName = new Map(agencies.map((a: any) => [a.name, a]));
 
-const l = (f: any) => t(f, lang)
+const l = (f: any) => t(f, lang);
+
+const agencyNames = [...new Set(courses.map((c: any) => c.agency))];
+const agencyList = agencyNames.length
+  ? new Intl.ListFormat(lang, { style: "long", type: "conjunction" }).format(
+      agencyNames,
+    )
+  : "";
 
 const page = {
   es: {
-    title: 'Cursos de buceo — Buceo Sur',
-    description: 'Cursos SSI y CMAS para todos los niveles en Gran Canaria.',
+    title: "Cursos de buceo",
+    description: agencyList
+      ? `Cursos ${agencyList} para todos los niveles en Gran Canaria.`
+      : "Cursos de buceo para todos los niveles en Gran Canaria.",
   },
   en: {
-    title: 'Diving courses — Buceo Sur',
-    description: 'SSI and CMAS courses for all levels in Gran Canaria.',
+    title: "Diving courses",
+    description: agencyList
+      ? `${agencyList} courses for all levels in Gran Canaria.`
+      : "Diving courses for all levels in Gran Canaria.",
   },
   fr: {
-    title: 'Formations de plongée — Buceo Sur',
-    description: 'Formations SSI et CMAS pour tous les niveaux à Grande Canarie.',
+    title: "Formations de plongée",
+    description: agencyList
+      ? `Formations ${agencyList} pour tous les niveaux à Grande Canarie.`
+      : "Formations de plongée pour tous les niveaux à Grande Canarie.",
   },
   de: {
-    title: 'Tauchkurse — Buceo Sur',
-    description: 'SSI- und CMAS-Kurse für alle Level auf Gran Canaria.',
+    title: "Tauchkurse",
+    description: agencyList
+      ? `${agencyList} Kurse für alle Level auf Gran Canaria.`
+      : "Tauchkurse für alle Level auf Gran Canaria.",
   },
-}[lang]
+}[lang];
 
 const categoryLabels: Record<string, string> = {
-  es: { recreational: 'Recreativo', specialty: 'Especialidad', technical: 'Técnico' },
-  en: { recreational: 'Recreational', specialty: 'Specialty', technical: 'Technical' },
-  fr: { recreational: 'Loisirs', specialty: 'Spécialité', technical: 'Technique' },
-  de: { recreational: 'Freizeit', specialty: 'Spezialkurs', technical: 'Technisch' },
-}[lang]
+  es: {
+    recreational: "Recreativo",
+    specialty: "Especialidad",
+    technical: "Técnico",
+  },
+  en: {
+    recreational: "Recreational",
+    specialty: "Specialty",
+    technical: "Technical",
+  },
+  fr: {
+    recreational: "Loisirs",
+    specialty: "Spécialité",
+    technical: "Technique",
+  },
+  de: {
+    recreational: "Freizeit",
+    specialty: "Spezialkurs",
+    technical: "Technisch",
+  },
+}[lang];
 
 const cta = {
   es: {
-    title: 'Reserva tu curso de buceo',
+    title: "Reserva tu curso de buceo",
   },
   en: {
-    title: 'Book your diving course',
+    title: "Book your diving course",
   },
   fr: {
-    title: 'Réservez votre formation de plongée',
+    title: "Réservez votre formation de plongée",
   },
   de: {
-    title: 'Buchen Sie Ihren Tauchkurs',
+    title: "Buchen Sie Ihren Tauchkurs",
   },
-}[lang]
+}[lang];
 
-const agencyLabel: Record<Locale, string> = {
-  es: 'Agencia',
-  en: 'Agency',
-  fr: 'Organisme',
-  de: 'Verband',
-}[lang]
-
-const agencyNames = [...new Set(courses.map((c: any) => c.agency))]
 const grouped = agencyNames.map((agency) => ({
   agency,
   logo: agencyByName.get(agency)?.logo ?? null,
-  website: agencyByName.get(agency)?.website ?? null,
   categories: [
-    ...new Set(courses.filter((c: any) => c.agency === agency).map((c: any) => c.category)),
+    ...new Set(
+      courses
+        .filter((c: any) => c.agency === agency)
+        .map((c: any) => c.category),
+    ),
   ],
   items: courses.filter((c: any) => c.agency === agency),
-}))
+}));
 ---
-<BaseLayout lang={lang} path="courses" title={page.title} description={page.description}>
+
+<BaseLayout
+  lang={lang}
+  path="courses"
+  title={page.title}
+  description={page.description}
+>
   <main>
     <header class={styles.pageHeader}>
       <div class={styles.pageHeaderInner}>
-        <p class={styles.pageEyebrow}>SSI · CMAS</p>
+        <p class={styles.pageEyebrow}>{agencyNames.join(" · ")}</p>
         <h1 class={styles.pageTitle}>{page.title}</h1>
         <p class={styles.pageSubtitle}>{page.description}</p>
       </div>
     </header>
 
-    {grouped.map((group) => (
-      <section class={styles.sectionAlt} id={group.agency.toLowerCase()}>
-        <div class={styles.container}>
-          <p class={styles.sectionEyebrow}>{agencyLabel}</p>
-          <div class="agencyHeading">
-            <h2 class={styles.sectionTitle}>{group.agency}</h2>
-            {group.logo ? (
-              group.website ? (
-                <a href={group.website} target="_blank" rel="noopener noreferrer">
-                  <img src={group.logo} alt={group.agency} class="agencyLogo" />
-                </a>
-              ) : (
-                <img src={group.logo} alt={group.agency} class="agencyLogo" />
-              )
-            ) : null}
-          </div>
-
-          {group.categories.map((category) => (
-            <div>
-              <h3 class={styles.sectionEyebrow}>{categoryLabels[category]}</h3>
-              <div class={rowStyles.list}>
-                {group.items
-                  .filter((c: any) => c.category === category)
-                  .map((c: any) => (
-                    <CourseCard
-                      title={l(c.title)}
-                      meta={[
-                        c.agency,
-                        categoryLabels[category],
-                        c.depthLimit ? `${c.depthLimit} m` : '',
-                        l(c.duration),
-                        c.minAge ? `${c.minAge}+` : '',
-                      ].filter((v) => v)}
-                      paragraphs={[
-                        { text: l(c.summary) },
-                        { text: l(c.includes) },
-                        ...(l(c.supplements) ? [{ text: l(c.supplements) }] : []),
-                        { text: l(c.prerequisites) },
-                      ]}
-                      price={c.price ? `${c.price} €` : null}
-                      image={c.image || null}
-                      headingLevel={4}
-                    />
-                  ))}
+    {
+      grouped.map((group) => (
+        <section class={styles.sectionAlt} id={group.agency.toLowerCase()}>
+          <div class={styles.container}>
+            {group.categories.map((category) => (
+              <div>
+                <div class={rowStyles.list}>
+                  {group.items
+                    .filter((c: any) => c.category === category)
+                    .map((c: any) => (
+                      <CourseCard
+                        title={l(c.title)}
+                        category={{
+                          key: category,
+                          label: categoryLabels[category],
+                        }}
+                        agencyLogo={group.logo}
+                        agencyName={group.agency}
+                        meta={[
+                          c.depthLimit ? `${c.depthLimit} m` : "",
+                          l(c.duration),
+                          c.minAge ? `${c.minAge}+` : "",
+                        ].filter((v) => v)}
+                        paragraphs={[
+                          { text: l(c.summary) },
+                          { text: l(c.includes) },
+                          ...(l(c.supplements)
+                            ? [{ text: l(c.supplements) }]
+                            : []),
+                          { text: l(c.prerequisites) },
+                        ]}
+                        price={c.price ? `${c.price} €` : null}
+                        image={c.image || null}
+                        headingLevel={4}
+                      />
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    ))}
+            ))}
+          </div>
+        </section>
+      ))
+    }
 
     <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={cta.title} />
   </main>
 </BaseLayout>
-
-<style>
-  .agencyHeading {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  .agencyLogo {
-    height: 32px;
-    width: auto;
-  }
-</style>
