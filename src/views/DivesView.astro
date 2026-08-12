@@ -144,7 +144,7 @@ const reserveHrefOf = (x: any) =>
         <!-- Refresher -->
         <section class={styles.section}>
           <div class={styles.container}>
-            <div class={textWithCarousel.grid}>
+            <div class={`${textWithCarousel.grid} refresher-grid`}>
               <div class={textWithCarousel.text}>
                 <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
                 <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
@@ -284,9 +284,23 @@ const reserveHrefOf = (x: any) =>
      crops instead of distorting). On mobile the grid stacks, so the image
      keeps its in-flow size below the text. */
   @media (min-width: 901px) {
+    /* .grid (shared with other sections via TextWithCarousel.module.css)
+       isn't position: relative, so without this the absolutely-positioned
+       image's containing block falls back to the viewport instead of the
+       grid, and it renders as a giant, misplaced image. Scope the
+       positioning to this section only. */
+    .refresher-grid {
+      position: relative;
+    }
+
     .refresher-image {
       position: absolute;
       inset: 0;
+      /* Without an explicit column, an absolutely-positioned grid item with
+         no grid-row/grid-column defaults to spanning the *entire* grid, so
+         inset: 0 would stretch it across both the text and image columns.
+         Pin it to the image column only. */
+      grid-column: 2;
     }
   }
 </style>
