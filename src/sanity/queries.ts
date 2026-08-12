@@ -44,20 +44,6 @@ export async function getCourses() {
   }
 }
 
-export async function getCoursesByTag(tag: string) {
-  try {
-    const data = await sanityClient.fetch(
-      `*[_type == "course" && $tag in tags] | order(order asc) { ..., "image": image.asset->url, "agency": agency->name }`,
-      { tag },
-    )
-    return Array.isArray(data) && data.length > 0
-      ? data
-      : allCoursesData.filter((c) => c.tags?.includes(tag))
-  } catch {
-    return allCoursesData.filter((c) => c.tags?.includes(tag))
-  }
-}
-
 export async function getCertifyingAgencies() {
   try {
     const data = await sanityClient.fetch(`

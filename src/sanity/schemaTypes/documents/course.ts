@@ -33,7 +33,6 @@ export const course = defineType({
     defineField({ name: 'includes', title: 'Incluye', type: 'localeText' }),
     defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeText' }),
     defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
-    defineField({ name: 'tags', title: 'Etiquetas', type: 'array', of: [{ type: 'string' }] }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],

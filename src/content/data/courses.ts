@@ -20,7 +20,6 @@ export interface CourseSeed {
   includes: LocaleValue
   supplements: LocaleValue
   groupDiscount?: LocaleValue
-  tags: string[]
   order: number
 }
 
@@ -71,7 +70,6 @@ export const coursesData: CourseSeed[] = [
       'Maximum 1 instructeur pour 3 élèves.',
       'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
-    tags: [],
     order: 1,
   },
   {
@@ -119,7 +117,6 @@ export const coursesData: CourseSeed[] = [
       'Maximum 1 instructeur pour 3 élèves.',
       'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
-    tags: [],
     order: 2,
   },
   // ---------- SSI Especialidades y avanzado ----------
@@ -163,7 +160,6 @@ export const coursesData: CourseSeed[] = [
       'Zusätzlicher Tauchgang: 40 €. Ausrüstung: 40 €. Versicherung: 20 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 3,
   },
   {
@@ -206,7 +202,6 @@ export const coursesData: CourseSeed[] = [
       'Zusätzlicher Tauchgang: 40 €. Grundausrüstung (ohne Computer): +30 €. Komplettausrüstung (mit Computer): +40 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 4,
   },
   {
@@ -223,7 +218,7 @@ export const coursesData: CourseSeed[] = [
     summary: loc(
       'Aprende a bucear con aire enriquecido al 32% y amplía tu margen de seguridad.',
       'Learn to dive with 32% enriched air and widen your safety margin.',
-      'Apprenez à plonger à l’air enrichi à 32 % et élargissez votre marge de sécurité.',
+      "Apprenez à plonger à l'air enrichi à 32 % et élargissez votre marge de sécurité.",
       'Tauchen mit 32 % angereicherter Luft lernen und die Sicherheitsmarge vergrößern.',
     ),
     prerequisites: loc(
@@ -249,7 +244,6 @@ export const coursesData: CourseSeed[] = [
       'Grundausrüstung (ohne Computer): +20 €. Komplettausrüstung (mit Computer): +25 €. Versicherung 1 Tag: 8 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 5,
   },
   {
@@ -292,7 +286,6 @@ export const coursesData: CourseSeed[] = [
       'Grundausrüstung (ohne Computer): +20 €. Komplettausrüstung (mit Computer): +25 €. Versicherung 1 Woche: 20 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 6,
   },
   {
@@ -335,7 +328,6 @@ export const coursesData: CourseSeed[] = [
       'Grundausrüstung (ohne Computer): +40 €. Komplettausrüstung (mit Computer): +50 €. Versicherung 2 Tage: 16 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 7,
   },
   {
@@ -378,7 +370,6 @@ export const coursesData: CourseSeed[] = [
       'Grundausrüstung (ohne Computer): +40 €. Komplettausrüstung (mit Computer): +50 €. Versicherung 2 Tage: 16 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 8,
   },
   {
@@ -411,7 +402,6 @@ export const coursesData: CourseSeed[] = [
     ),
     supplements: loc('', '', '', ''),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 9,
   },
   // ---------- CMAS Para Principiantes (Ecole de plongée Française) ----------
@@ -460,7 +450,6 @@ export const coursesData: CourseSeed[] = [
       'Maximum 1 instructeur pour 3 élèves.',
       'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
-    tags: [],
     order: 10,
   },
   {
@@ -508,7 +497,6 @@ export const coursesData: CourseSeed[] = [
       'Maximum 1 instructeur pour 3 élèves.',
       'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
-    tags: [],
     order: 11,
   },
   // ---------- CMAS Avanzado ----------
@@ -557,7 +545,6 @@ export const coursesData: CourseSeed[] = [
       'Maximum 2 élèves par session.',
       'Maximal 2 Schüler pro Sitzung.',
     ),
-    tags: [],
     order: 12,
   },
   {
@@ -605,7 +592,6 @@ export const coursesData: CourseSeed[] = [
       'Maximum 2 élèves par session.',
       'Maximal 2 Schüler pro Sitzung.',
     ),
-    tags: [],
     order: 13,
   },
   {
@@ -653,7 +639,6 @@ export const coursesData: CourseSeed[] = [
       'Maximum 2 élèves par session.',
       'Maximal 2 Schüler pro Sitzung.',
     ),
-    tags: [],
     order: 14,
   },
 ]
@@ -704,7 +689,6 @@ export const courseBundlesData: CourseSeed[] = [
       'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +30 €. Komplettausrüstung: +40 €. Versicherung 2 Tage: 16 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 17,
   },
   {
@@ -752,7 +736,6 @@ export const courseBundlesData: CourseSeed[] = [
       'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +60 €. Komplettausrüstung: +75 €. Versicherung Woche: 20 €.',
     ),
     groupDiscount: loc('', '', '', ''),
-    tags: [],
     order: 18,
   },
 ]

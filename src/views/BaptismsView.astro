@@ -30,7 +30,6 @@ const labels: Record<
     supplements: string
     conditions: string
     depth: string
-    gridTitle: string
   }
 > = {
   es: {
@@ -38,28 +37,24 @@ const labels: Record<
     supplements: 'Suplementos / opciones',
     conditions: 'Condiciones',
     depth: 'máx.',
-    gridTitle: 'Nuestros bautizos',
   },
   en: {
     includes: 'Includes',
     supplements: 'Supplements / options',
     conditions: 'Conditions',
     depth: 'max',
-    gridTitle: 'Our discover dives',
   },
   fr: {
     includes: 'Inclut',
     supplements: 'Suppléments / options',
     conditions: 'Conditions',
     depth: 'max',
-    gridTitle: 'Nos baptêmes',
   },
   de: {
     includes: 'Inklusive',
     supplements: 'Zuschläge / Optionen',
     conditions: 'Bedingungen',
     depth: 'max.',
-    gridTitle: 'Unser Schnuppertauchen',
   },
 }
 const l = labels[lang]
@@ -108,7 +103,6 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
     <!-- Beginner experiences -->
     <section class={styles.section}>
       <div class={styles.container}>
-        <p class={styles.sectionEyebrow}>{u.nav.baptisms}</p>
         <div class={rowStyles.list}>
           {experiences.map((x: any) => (
             <CourseCard

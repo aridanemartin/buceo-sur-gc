@@ -37,11 +37,12 @@ export const experience = defineType({
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'title.es', audience: 'audience', duration: 'duration.es' },
-    prepare({ title, audience, duration }) {
+    select: { title: 'title.es', audience: 'audience', duration: 'duration.es', media: 'image' },
+    prepare({ title, audience, duration, media }) {
       return {
         title: title || 'Sin título',
         subtitle: [audience, duration].filter(Boolean).join(' · '),
+        media,
       }
     },
   },
