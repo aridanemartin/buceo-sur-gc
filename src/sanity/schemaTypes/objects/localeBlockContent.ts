@@ -19,7 +19,9 @@ export const localeBlockContent = defineType({
   name: 'localeBlockContent',
   title: 'Contenido enriquecido (localizado)',
   type: 'object',
-  options: { collapsible: true, collapsed: false },
+  options: {
+    layout: 'tabs',
+  },
   fields: [
     defineField({ name: 'es', title: '🇪🇸 Español', type: 'array', of: [block], validation: (Rule) => Rule.required() }),
     defineField({ name: 'en', title: '🇬🇧 English', type: 'array', of: [block] }),

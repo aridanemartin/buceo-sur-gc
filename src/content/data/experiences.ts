@@ -9,6 +9,7 @@ export interface ExperienceSeed {
   _type: 'experience'
   title: LocaleValue
   audience: 'beginner' | 'certified'
+  isPackage?: boolean
   description: LocaleValue
   duration: LocaleValue
   depthLimit?: number | null
@@ -209,6 +210,7 @@ export const experiencesData: ExperienceSeed[] = [
       '4 plongées / 2 jours',
       '4 Tauchgänge / 2 Tage',
     ),
+    isPackage: true,
     depthLimit: null,
     price: 140,
     includes: loc(
@@ -248,6 +250,7 @@ export const experiencesData: ExperienceSeed[] = [
       '6 plongées / 3 jours',
       '6 Tauchgänge / 3 Tage',
     ),
+    isPackage: true,
     depthLimit: null,
     price: 230,
     includes: loc(
@@ -287,6 +290,7 @@ export const experiencesData: ExperienceSeed[] = [
       '8 plongées / 4 jours',
       '8 Tauchgänge / 4 Tage',
     ),
+    isPackage: true,
     depthLimit: null,
     price: 300,
     includes: loc(
@@ -326,6 +330,7 @@ export const experiencesData: ExperienceSeed[] = [
       '10 plongées / 5 jours',
       '10 Tauchgänge / 5 Tage',
     ),
+    isPackage: true,
     depthLimit: null,
     price: 390,
     includes: loc(

@@ -27,7 +27,14 @@ const experiences = await getExperiences('certified')
 
 const labels: Record<
   Locale,
-  { includes: string; supplements: string; conditions: string; depth: string; gridTitle: string }
+  {
+    includes: string
+    supplements: string
+    conditions: string
+    depth: string
+    gridTitle: string
+    packageBadge: string
+  }
 > = {
   es: {
     includes: 'Incluye',
@@ -35,6 +42,7 @@ const labels: Record<
     conditions: 'Condiciones',
     depth: 'máx.',
     gridTitle: 'Inmersiones guiadas',
+    packageBadge: 'Bono / Pack',
   },
   en: {
     includes: 'Includes',
@@ -42,6 +50,7 @@ const labels: Record<
     conditions: 'Conditions',
     depth: 'max',
     gridTitle: 'Guided dives',
+    packageBadge: 'Package',
   },
   fr: {
     includes: 'Inclut',
@@ -49,6 +58,7 @@ const labels: Record<
     conditions: 'Conditions',
     depth: 'max',
     gridTitle: 'Plongées encadrées',
+    packageBadge: 'Forfait',
   },
   de: {
     includes: 'Inklusive',
@@ -56,6 +66,7 @@ const labels: Record<
     conditions: 'Bedingungen',
     depth: 'max.',
     gridTitle: 'Begleitete Tauchgänge',
+    packageBadge: 'Paket',
   },
 }
 const l = labels[lang]
@@ -185,6 +196,8 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
                   price={priceOf(x) || null}
                   image={x.image || null}
                   videoUrl={x.videoUrl || null}
+                  isPackage={x.isPackage}
+                  packageLabel={l.packageBadge}
                 />
               ))}
             </div>

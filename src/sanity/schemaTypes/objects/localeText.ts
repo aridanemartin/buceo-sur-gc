@@ -4,7 +4,9 @@ export const localeText = defineType({
   name: 'localeText',
   title: 'Texto largo (localizado)',
   type: 'object',
-  options: { collapsible: true, collapsed: false },
+  options: {
+    layout: 'tabs',
+  },
   fields: [
     defineField({
       name: 'es',

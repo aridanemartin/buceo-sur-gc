@@ -12,6 +12,12 @@ export const experience = defineType({
       type: 'string',
       options: { list: ['beginner', 'certified'] },
     }),
+    defineField({
+      name: 'isPackage',
+      title: '¿Es un bono / pack?',
+      type: 'boolean',
+      initialValue: false,
+    }),
     defineField({ name: 'description', title: 'Descripción', type: 'localeText' }),
     defineField({ name: 'duration', title: 'Duración', type: 'localeString' }),
     defineField({ name: 'depthLimit', title: 'Profundidad máxima (m)', type: 'number' }),
