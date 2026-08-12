@@ -1,4 +1,5 @@
-import { defineType, defineField, defineArrayMember } from 'sanity'
+import { ALL_FIELDS_GROUP, defineType, defineField, defineArrayMember } from 'sanity'
+import { BareField } from '../../components/BareField'
 
 const block = defineArrayMember({
   type: 'block',
@@ -24,11 +25,12 @@ export const localeBlockContent = defineType({
     { name: 'en', title: '🇬🇧 English' },
     { name: 'fr', title: '🇫🇷 Français' },
     { name: 'de', title: '🇩🇪 Deutsch' },
+    { ...ALL_FIELDS_GROUP, hidden: true },
   ],
   fields: [
-    defineField({ name: 'es', title: '🇪🇸 Español', type: 'array', of: [block], group: 'es', validation: (Rule) => Rule.required() }),
-    defineField({ name: 'en', title: '🇬🇧 English', type: 'array', of: [block], group: 'en' }),
-    defineField({ name: 'fr', title: '🇫🇷 Français', type: 'array', of: [block], group: 'fr' }),
-    defineField({ name: 'de', title: '🇩🇪 Deutsch', type: 'array', of: [block], group: 'de' }),
+    defineField({ name: 'es', title: ' ', type: 'array', of: [block], group: 'es', components: { field: BareField }, validation: (Rule) => Rule.required() }),
+    defineField({ name: 'en', title: ' ', type: 'array', of: [block], group: 'en', components: { field: BareField } }),
+    defineField({ name: 'fr', title: ' ', type: 'array', of: [block], group: 'fr', components: { field: BareField } }),
+    defineField({ name: 'de', title: ' ', type: 'array', of: [block], group: 'de', components: { field: BareField } }),
   ],
 })
