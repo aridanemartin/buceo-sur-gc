@@ -87,19 +87,19 @@ const categoryLabels: Record<string, string> = {
 const filterCopy = {
   es: {
     label: "Filtrar por modalidad",
-    empty: "Selecciona al menos una modalidad para ver los cursos.",
+    all: "Todos",
   },
   en: {
     label: "Filter by type",
-    empty: "Select at least one course type to see courses.",
+    all: "All",
   },
   fr: {
     label: "Filtrer par type",
-    empty: "Sélectionnez au moins un type de formation pour afficher les cours.",
+    all: "Tous",
   },
   de: {
     label: "Nach Kursart filtern",
-    empty: "Wählen Sie mindestens eine Kursart aus, um Kurse anzuzeigen.",
+    all: "Alle",
   },
 }[lang];
 
@@ -165,12 +165,16 @@ const categorized = categoryOrder
       <div class={styles.container}>
         <fieldset class={filterStyles.filterBar}>
           <legend class={filterStyles.filterLabel}>{filterCopy.label}</legend>
+          <label class={`${filterStyles.filterChip} ${filterStyles.filterChipAll}`}>
+            <input type="radio" name="category" value="all" checked />
+            {filterCopy.all}
+          </label>
           {
             categorized.map((group) => (
               <label
                 class={`${filterStyles.filterChip} ${categoryVariant[group.category]}`}
               >
-                <input type="checkbox" value={group.category} checked />
+                <input type="radio" name="category" value={group.category} />
                 <span
                   class={filterStyles.filterChipIcon}
                   style={`--icon: url(${categoryIcon[group.category]})`}
@@ -232,7 +236,6 @@ const categorized = categoryOrder
               </section>
             ))
           }
-          <p class={filterStyles.emptyState}>{filterCopy.empty}</p>
         </div>
       </div>
     </section>

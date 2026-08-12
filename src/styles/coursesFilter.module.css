@@ -100,6 +100,12 @@
   color: var(--color-white);
 }
 
+.filterChipAll:has(input:checked) {
+  background: var(--color-ocean-700);
+  border-color: var(--color-ocean-700);
+  color: var(--color-white);
+}
+
 /* Category-ordered list: replaces the old per-agency sections. Each group
    is a lightweight heading (tinted to match its badge) over the shared
    row list — agencies now interleave within a category, told apart by the
@@ -155,35 +161,23 @@
   color: var(--color-ocean-900);
 }
 
-.emptyState {
-  display: none;
-  text-align: center;
-  padding: 64px 24px 24px;
-  color: var(--color-text-muted);
-  font-size: 1rem;
-}
-
-/* Toggling a chip off hides its category group. Chained :has() implies
-   AND, so the empty state only shows once every category is switched off. */
-.filterBar:has(input[value="recreational"]:not(:checked)) ~ .courseGroups
-  [data-category="recreational"] {
+/* Single-select radios: picking a category hides the other two groups.
+   Comma inside :has() is an OR, so "checked" on either sibling category
+   hides this one — still zero JS. When "all" is checked, none of these
+   three conditions match, so every group shows. */
+.filterBar:has(input[value="specialty"]:checked, input[value="technical"]:checked)
+  ~ .courseGroups [data-category="recreational"] {
   display: none;
 }
 
-.filterBar:has(input[value="specialty"]:not(:checked)) ~ .courseGroups [data-category="specialty"] {
+.filterBar:has(input[value="recreational"]:checked, input[value="technical"]:checked)
+  ~ .courseGroups [data-category="specialty"] {
   display: none;
 }
 
-.filterBar:has(input[value="technical"]:not(:checked)) ~ .courseGroups [data-category="technical"] {
+.filterBar:has(input[value="recreational"]:checked, input[value="specialty"]:checked)
+  ~ .courseGroups [data-category="technical"] {
   display: none;
-}
-
-.filterBar:has(input[value="recreational"]:not(:checked)):has(
-    input[value="specialty"]:not(:checked)
-  ):has(input[value="technical"]:not(:checked))
-  ~ .courseGroups
-  .emptyState {
-  display: block;
 }
 
 @media (max-width: 600px) {
