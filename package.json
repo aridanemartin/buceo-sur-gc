@@ -7,8 +7,7 @@
     "dev": "node --env-file-if-exists=.env ./node_modules/.bin/astro dev",
     "build": "node --env-file-if-exists=.env ./node_modules/.bin/astro build",
     "lint": "oxlint",
-    "preview": "node --env-file-if-exists=.env ./node_modules/.bin/astro preview",
-    "seed": "node --env-file=.env"
+    "preview": "node --env-file-if-exists=.env ./node_modules/.bin/astro preview"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.2",
