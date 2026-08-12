@@ -8,11 +8,11 @@ import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
 // src/views/SidemountView.astro
 // Sidemount intro (canonical copy from src/content/data/pageContent.ts),
-// the promo video, and the sidemount courses filtered by tag.
+// the promo video, and the sidemount courses from their dedicated schema.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t } from '../sanity/localize'
-import { getCoursesByTag } from '../sanity/queries'
+import { getSidemountCourses } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import textWithCarousel from '../styles/TextWithCarousel.module.css'
 import styles from '../styles/viewCommon.module.css'
@@ -23,12 +23,7 @@ interface Props {
 
 const { lang } = Astro.props
 const u = ui[lang]
-const courses = (await getCoursesByTag('sidemount')).map((c, i) => ({
-  ...c,
-  // Reuse sidemount photos from the terrain carousel for the course cards
-  // (index 4 = sidemount-05.webp, index 11 = sidemount-12.webp).
-  image: sidemountGalleryImages[i % 2 === 0 ? 4 : 11],
-}))
+const courses = await getSidemountCourses()
 
 const l = (f: any) => t(f, lang)
 

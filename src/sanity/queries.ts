@@ -109,3 +109,14 @@ export async function getTariffExtras() {
     return tariffExtrasData
   }
 }
+
+export async function getSidemountCourses() {
+  try {
+    const data = await sanityClient.fetch(
+      `*[_type == "sidemountCourse"] | order(order asc) { ..., "image": image.asset->url, "agency": agency->name }`,
+    )
+    return Array.isArray(data) ? data : []
+  } catch {
+    return []
+  }
+}
