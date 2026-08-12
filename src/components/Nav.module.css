@@ -191,6 +191,13 @@
   min-width: 22px;
 }
 
+.flagImg {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
 @keyframes navItemIn {
   from {
     opacity: 0;

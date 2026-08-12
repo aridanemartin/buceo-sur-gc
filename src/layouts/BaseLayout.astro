@@ -30,8 +30,34 @@ const navItems = [
 ]
 ---
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-locale={lang}>
   <head>
+    <script is:inline>
+      ;(() => {
+        const SUPPORTED = ['es', 'en', 'fr', 'de']
+        const COOKIE_NAME = 'bs-locale'
+        const DEFAULT = 'en'
+        const current = document.documentElement.dataset.locale
+        const cookie = document.cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`))
+        if (cookie) return
+        const langs = navigator.languages || [navigator.language]
+        for (const l of langs) {
+          const code = l.slice(0, 2).toLowerCase()
+          const match = SUPPORTED.find((s) => s === code)
+          if (match && match !== current) {
+            document.cookie = `${COOKIE_NAME}=${match};path=/;max-age=31536000;SameSite=Lax`
+            window.location.replace('/' + match)
+            return
+          }
+        }
+        if (current !== DEFAULT) {
+          document.cookie = `${COOKIE_NAME}=${DEFAULT};path=/;max-age=31536000;SameSite=Lax`
+          window.location.replace('/' + DEFAULT)
+        } else {
+          document.cookie = `${COOKIE_NAME}=${current};path=/;max-age=31536000;SameSite=Lax`
+        }
+      })()
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>

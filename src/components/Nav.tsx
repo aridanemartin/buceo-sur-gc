@@ -30,6 +30,15 @@ interface NavProps {
 const HERO_LOGO_TRANSITION_NAME = 'hero-nav-logo'
 const MOBILE_QUERY = '(max-width: 768px)'
 
+const FLAG_IMAGES: Record<Locale, string> = {
+  es: '/flags/es.webp',
+  en: '/flags/gb.webp',
+  fr: '/flags/fr.webp',
+  de: '/flags/de.webp',
+}
+
+const FLAG_SIZE = 20
+
 export default function Nav({
   lang,
   items,
@@ -162,7 +171,14 @@ export default function Nav({
               aria-expanded={langOpen}
               aria-haspopup="listbox"
             >
-              🌐 {lang.toUpperCase()}
+              <img
+                src={FLAG_IMAGES[lang]}
+                alt=""
+                width={FLAG_SIZE}
+                height={FLAG_SIZE}
+                className={styles.flagImg}
+                aria-hidden="true"
+              />
               <svg
                 width="12"
                 height="12"
@@ -184,8 +200,18 @@ export default function Nav({
                     <a
                       href={l.href}
                       className={`${styles.langOption} ${lang === l.locale ? styles.langActive : ''}`}
+                      onClick={() => {
+                        document.cookie = `bs-locale=${l.locale};path=/;max-age=31536000;SameSite=Lax`
+                      }}
                     >
-                      <span className={styles.langCode}>{l.locale.toUpperCase()}</span>
+                      <img
+                        src={FLAG_IMAGES[l.locale]}
+                        alt=""
+                        width={FLAG_SIZE}
+                        height={FLAG_SIZE}
+                        className={styles.flagImg}
+                        aria-hidden="true"
+                      />
                       <span>{l.label}</span>
                     </a>
                   </li>
