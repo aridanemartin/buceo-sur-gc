@@ -6,10 +6,12 @@ import { experience } from './documents/experience'
 import { sidemountCourse } from './documents/sidemountCourse'
 import { tariffExtra } from './documents/tariffExtra'
 import { localeString } from './objects/localeString'
+import { localeStringOptional } from './objects/localeStringOptional'
 import { localeText } from './objects/localeText'
 
 export const schemaTypes = [
   localeString,
+  localeStringOptional,
   localeText,
   certifyingAgency,
   course,

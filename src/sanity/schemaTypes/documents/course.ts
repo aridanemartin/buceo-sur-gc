@@ -32,7 +32,7 @@ export const course = defineType({
     defineField({ name: 'price', title: 'Precio (EUR)', type: 'number' }),
     defineField({ name: 'includes', title: 'Incluye', type: 'localeText' }),
     defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeText' }),
-    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeString' }),
+    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
     defineField({ name: 'tags', title: 'Etiquetas', type: 'array', of: [{ type: 'string' }] }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],

@@ -32,7 +32,7 @@ export const sidemountCourse = defineType({
     defineField({ name: 'price', title: 'Precio (EUR)', type: 'number' }),
     defineField({ name: 'includes', title: 'Incluye', type: 'localeText' }),
     defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeText' }),
-    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeString' }),
+    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],

@@ -24,7 +24,7 @@ export const experience = defineType({
     defineField({ name: 'price', title: 'Precio (EUR)', type: 'number' }),
     defineField({ name: 'includes', title: 'Incluye', type: 'localeText' }),
     defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeText' }),
-    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeString' }),
+    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
     defineField({ name: 'videoUrl', title: 'Vídeo de YouTube', type: 'url' }),
     defineField({
       name: 'image',

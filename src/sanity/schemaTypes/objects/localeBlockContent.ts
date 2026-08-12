@@ -19,13 +19,16 @@ export const localeBlockContent = defineType({
   name: 'localeBlockContent',
   title: 'Contenido enriquecido (localizado)',
   type: 'object',
-  options: {
-    layout: 'tabs',
-  },
+  groups: [
+    { name: 'es', title: '🇪🇸 Español', default: true },
+    { name: 'en', title: '🇬🇧 English' },
+    { name: 'fr', title: '🇫🇷 Français' },
+    { name: 'de', title: '🇩🇪 Deutsch' },
+  ],
   fields: [
-    defineField({ name: 'es', title: '🇪🇸 Español', type: 'array', of: [block], validation: (Rule) => Rule.required() }),
-    defineField({ name: 'en', title: '🇬🇧 English', type: 'array', of: [block] }),
-    defineField({ name: 'fr', title: '🇫🇷 Français', type: 'array', of: [block] }),
-    defineField({ name: 'de', title: '🇩🇪 Deutsch', type: 'array', of: [block] }),
+    defineField({ name: 'es', title: '🇪🇸 Español', type: 'array', of: [block], group: 'es', validation: (Rule) => Rule.required() }),
+    defineField({ name: 'en', title: '🇬🇧 English', type: 'array', of: [block], group: 'en' }),
+    defineField({ name: 'fr', title: '🇫🇷 Français', type: 'array', of: [block], group: 'fr' }),
+    defineField({ name: 'de', title: '🇩🇪 Deutsch', type: 'array', of: [block], group: 'de' }),
   ],
 })
