@@ -3,12 +3,16 @@ import CourseCard from "../components/CourseCard.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import type { Locale } from "../i18n/locales";
 // src/views/CoursesView.astro
-// Renders all course documents from getCourses(), grouped by agency
-// and category (recreational / specialty / technical).
+// Renders all course documents from getCourses(), ordered by category
+// (recreational / specialty / technical) with a client-filterable,
+// multi-select toggle for that same category. Agencies are no longer
+// split into separate sections — each course row already carries its own
+// agency logo via CourseCard.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../lib/constants";
 import { t } from "../sanity/localize";
 import { getCertifyingAgencies, getCourses } from "../sanity/queries";
+import filterStyles from "../styles/coursesFilter.module.css";
 import rowStyles from "../styles/rowLayout.module.css";
 import styles from "../styles/viewCommon.module.css";
 
@@ -80,6 +84,25 @@ const categoryLabels: Record<string, string> = {
   },
 }[lang];
 
+const filterCopy = {
+  es: {
+    label: "Filtrar por modalidad",
+    empty: "Selecciona al menos una modalidad para ver los cursos.",
+  },
+  en: {
+    label: "Filter by type",
+    empty: "Select at least one course type to see courses.",
+  },
+  fr: {
+    label: "Filtrer par type",
+    empty: "Sélectionnez au moins un type de formation pour afficher les cours.",
+  },
+  de: {
+    label: "Nach Kursart filtern",
+    empty: "Wählen Sie mindestens eine Kursart aus, um Kurse anzuzeigen.",
+  },
+}[lang];
+
 const cta = {
   es: {
     title: "Reserva tu curso de buceo",
@@ -95,18 +118,32 @@ const cta = {
   },
 }[lang];
 
-const grouped = agencyNames.map((agency) => ({
-  agency,
-  logo: agencyByName.get(agency)?.logo ?? null,
-  categories: [
-    ...new Set(
-      courses
-        .filter((c: any) => c.agency === agency)
-        .map((c: any) => c.category),
-    ),
-  ],
-  items: courses.filter((c: any) => c.agency === agency),
-}));
+// Fixed taxonomy, shallow to deep — matches the depth-scale badge colors
+// used on each CourseCard (light → mid → dark blue).
+const categoryOrder = ["recreational", "specialty", "technical"] as const;
+
+const categoryIcon: Record<string, string> = {
+  recreational: "/assets/icons/recreational.webp",
+  specialty: "/assets/icons/specialty.webp",
+  technical: "/assets/icons/technical.webp",
+};
+
+const categoryVariant: Record<string, string> = {
+  recreational: filterStyles.filterChipRecreational,
+  specialty: filterStyles.filterChipSpecialty,
+  technical: filterStyles.filterChipTechnical,
+};
+
+// Courses arrive from getCourses() already sorted by their Sanity `order`.
+// Grouping by category (instead of by agency) reorders the page while
+// keeping that relative order intact within each group.
+const categorized = categoryOrder
+  .map((category) => ({
+    category,
+    label: categoryLabels[category],
+    items: courses.filter((c: any) => c.category === category),
+  }))
+  .filter((group) => group.items.length > 0);
 ---
 
 <BaseLayout
@@ -124,49 +161,81 @@ const grouped = agencyNames.map((agency) => ({
       </div>
     </header>
 
-    {
-      grouped.map((group) => (
-        <section class={styles.sectionAlt} id={group.agency.toLowerCase()}>
-          <div class={styles.container}>
-            {group.categories.map((category) => (
-              <div>
+    <section class={styles.section}>
+      <div class={styles.container}>
+        <fieldset class={filterStyles.filterBar}>
+          <legend class={filterStyles.filterLabel}>{filterCopy.label}</legend>
+          {
+            categorized.map((group) => (
+              <label
+                class={`${filterStyles.filterChip} ${categoryVariant[group.category]}`}
+              >
+                <input type="checkbox" value={group.category} checked />
+                <span
+                  class={filterStyles.filterChipIcon}
+                  style={`--icon: url(${categoryIcon[group.category]})`}
+                  aria-hidden="true"
+                />
+                {group.label}
+              </label>
+            ))
+          }
+        </fieldset>
+
+        <div class={filterStyles.courseGroups}>
+          {
+            categorized.map((group) => (
+              <section
+                class={filterStyles.categoryGroup}
+                data-category={group.category}
+              >
+                <h2
+                  class={filterStyles.categoryHeading}
+                  data-tone={group.category}
+                >
+                  <span
+                    class={filterStyles.categoryHeadingIcon}
+                    style={`--icon: url(${categoryIcon[group.category]})`}
+                    aria-hidden="true"
+                  />
+                  {group.label}
+                </h2>
                 <div class={rowStyles.list}>
-                  {group.items
-                    .filter((c: any) => c.category === category)
-                    .map((c: any) => (
-                      <CourseCard
-                        title={l(c.title)}
-                        category={{
-                          key: category,
-                          label: categoryLabels[category],
-                        }}
-                        agencyLogo={group.logo}
-                        agencyName={group.agency}
-                        meta={[
-                          c.depthLimit ? `${c.depthLimit} m` : "",
-                          l(c.duration),
-                          c.minAge ? `${c.minAge}+` : "",
-                        ].filter((v) => v)}
-                        paragraphs={[
-                          { text: l(c.summary) },
-                          { text: l(c.includes) },
-                          ...(l(c.supplements)
-                            ? [{ text: l(c.supplements) }]
-                            : []),
-                          { text: l(c.prerequisites) },
-                        ]}
-                        price={c.price ? `${c.price} €` : null}
-                        image={c.image || null}
-                        headingLevel={4}
-                      />
-                    ))}
+                  {group.items.map((c: any) => (
+                    <CourseCard
+                      title={l(c.title)}
+                      category={{
+                        key: group.category,
+                        label: group.label,
+                      }}
+                      agencyLogo={agencyByName.get(c.agency)?.logo ?? null}
+                      agencyName={c.agency}
+                      meta={[
+                        c.depthLimit ? `${c.depthLimit} m` : "",
+                        l(c.duration),
+                        c.minAge ? `${c.minAge}+` : "",
+                      ].filter((v) => v)}
+                      paragraphs={[
+                        { text: l(c.summary) },
+                        { text: l(c.includes) },
+                        ...(l(c.supplements)
+                          ? [{ text: l(c.supplements) }]
+                          : []),
+                        { text: l(c.prerequisites) },
+                      ]}
+                      price={c.price ? `${c.price} €` : null}
+                      image={c.image || null}
+                      headingLevel={3}
+                    />
+                  ))}
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      ))
-    }
+              </section>
+            ))
+          }
+          <p class={filterStyles.emptyState}>{filterCopy.empty}</p>
+        </div>
+      </div>
+    </section>
 
     <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={cta.title} />
   </main>

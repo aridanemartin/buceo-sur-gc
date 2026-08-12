@@ -165,8 +165,20 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
         <!-- Documentation -->
         <section class={styles.sectionAlt}>
           <div class={styles.container}>
-            <h2 class={styles.sectionTitle}>{t(divesPageContent.docsTitle, lang)}</h2>
-            <p class={styles.bodyText}>{t(divesPageContent.docs, lang)}</p>
+            <div class={textWithCarousel.grid}>
+              <div class={textWithCarousel.text}>
+                <h2 class={styles.sectionTitle}>{t(divesPageContent.docsTitle, lang)}</h2>
+                <p class={styles.bodyText}>{t(divesPageContent.docs, lang)}</p>
+              </div>
+              <img
+                src="/assets/documentation/scuba-license.webp"
+                alt={t(divesPageContent.docsTitle, lang)}
+                width={1000}
+                height={532}
+                loading="lazy"
+                class="docs-license-image"
+              />
+            </div>
           </div>
         </section>
       </div>
@@ -219,5 +231,12 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
   .site-choice-map {
     width: 100%;
     height: auto;
+  }
+
+  .docs-license-image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
   }
 </style>
