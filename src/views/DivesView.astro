@@ -129,14 +129,16 @@ const reserveHrefOf = (x: any) =>
                 <h2 class={styles.sectionTitle}>{t(divesPageContent.siteChoiceTitle, lang)}</h2>
                 <p class={styles.bodyText}>{t(divesPageContent.siteChoice, lang)}</p>
               </div>
-              <img
-                src="/assets/maps/mapa.sitio.buceo.isla.webp"
-                alt={t(divesPageContent.siteChoiceTitle, lang)}
-                width={800}
-                height={717}
-                loading="lazy"
-                class="site-choice-map"
-              />
+              <figure class="imageFrame">
+                <img
+                  src="/assets/maps/mapa.sitio.buceo.isla.webp"
+                  alt={t(divesPageContent.siteChoiceTitle, lang)}
+                  width={800}
+                  height={717}
+                  loading="lazy"
+                  class="site-choice-map"
+                />
+              </figure>
             </div>
           </div>
         </section>
@@ -144,19 +146,21 @@ const reserveHrefOf = (x: any) =>
         <!-- Refresher -->
         <section class={styles.section}>
           <div class={styles.container}>
-            <div class={`${textWithCarousel.grid} refresher-grid`}>
+            <div class={`${textWithCarousel.grid} image-left`}>
               <div class={textWithCarousel.text}>
                 <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
                 <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
               </div>
-              <img
-                src="/assets/refresh.webp"
-                alt={t(divesPageContent.refresherTitle, lang)}
-                width={1536}
-                height={1024}
-                loading="lazy"
-                class="refresher-image"
-              />
+              <figure class="imageFrame">
+                <img
+                  src="/assets/refresh.webp"
+                  alt={t(divesPageContent.refresherTitle, lang)}
+                  width={1536}
+                  height={1024}
+                  loading="lazy"
+                  class="refresher-image"
+                />
+              </figure>
             </div>
           </div>
         </section>
@@ -164,27 +168,43 @@ const reserveHrefOf = (x: any) =>
         <!-- Schedule -->
         <section class={styles.sectionAlt}>
           <div class={styles.container}>
-            <h2 class={styles.sectionTitle}>{t(divesPageContent.scheduleTitle, lang)}</h2>
-            <p class={styles.bodyText}>{t(divesPageContent.schedule, lang)}</p>
+            <div class={textWithCarousel.grid}>
+              <div class={textWithCarousel.text}>
+                <h2 class={styles.sectionTitle}>{t(divesPageContent.scheduleTitle, lang)}</h2>
+                <p class={styles.bodyText}>{t(divesPageContent.schedule, lang)}</p>
+              </div>
+              <figure class="imageFrame">
+                <img
+                  src="/assets/calendar-dive.webp"
+                  alt={t(divesPageContent.scheduleTitle, lang)}
+                  width={1536}
+                  height={1024}
+                  loading="lazy"
+                  class="schedule-image"
+                />
+              </figure>
+            </div>
           </div>
         </section>
 
         <!-- Booking -->
         <section class={styles.section}>
           <div class={styles.container}>
-            <div class={textWithCarousel.grid}>
+            <div class={`${textWithCarousel.grid} image-left`}>
               <div class={textWithCarousel.text}>
                 <h2 class={styles.sectionTitle}>{t(divesPageContent.bookingTitle, lang)}</h2>
                 <p class={styles.bodyText}>{t(divesPageContent.booking, lang)}</p>
               </div>
-              <img
-                src="/assets/reservar.webp"
-                alt={t(divesPageContent.bookingTitle, lang)}
-                width={1672}
-                height={941}
-                loading="lazy"
-                class="booking-image"
-              />
+              <figure class="imageFrame">
+                <img
+                  src="/assets/reservar.webp"
+                  alt={t(divesPageContent.bookingTitle, lang)}
+                  width={1672}
+                  height={941}
+                  loading="lazy"
+                  class="booking-image"
+                />
+              </figure>
             </div>
           </div>
         </section>
@@ -197,14 +217,16 @@ const reserveHrefOf = (x: any) =>
                 <h2 class={styles.sectionTitle}>{t(divesPageContent.docsTitle, lang)}</h2>
                 <p class={styles.bodyText}>{t(divesPageContent.docs, lang)}</p>
               </div>
-              <img
-                src="/assets/documentation/scuba-license.webp"
-                alt={t(divesPageContent.docsTitle, lang)}
-                width={1000}
-                height={532}
-                loading="lazy"
-                class="docs-license-image"
-              />
+              <figure class="imageFrame">
+                <img
+                  src="/assets/documentation/scuba-license.webp"
+                  alt={t(divesPageContent.docsTitle, lang)}
+                  width={1000}
+                  height={532}
+                  loading="lazy"
+                  class="docs-license-image"
+                />
+              </figure>
             </div>
           </div>
         </section>
@@ -257,50 +279,76 @@ const reserveHrefOf = (x: any) =>
     margin: 0 auto;
   }
 
-  /* Grid rows in TextWithCarousel.module.css default to stretch: giving the
-     image height: 100% (instead of auto, which only sizes to its own aspect
-     ratio) makes it fill the row up to the text column's height, with
-     object-fit cropping instead of distorting. */
-  .site-choice-map {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  /* <figure> ships a default margin; the grid gap already provides spacing. */
+  .imageFrame {
+    margin: 0;
   }
 
+  /* Below 901px this is the only sizing that applies: the grid stacks to a
+     single column, so height: 100% resolves against an indefinite parent
+     height and falls back to auto, i.e. the image just keeps its own aspect
+     ratio (see width/height attrs above). */
+  .site-choice-map,
   .docs-license-image,
   .booking-image,
-  .refresher-image {
+  .refresher-image,
+  .schedule-image {
     width: 100%;
     height: 100%;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
     object-fit: cover;
   }
 
-  /* Repaso (refresher): on desktop the 3:2 photo is taller than the text
-     column, so it drives the grid row height and ends up bigger than the
-     text. Absolute positioning takes the image out of grid track sizing,
-     so the text defines the row and the image adapts to its height (cover
-     crops instead of distorting). On mobile the grid stacks, so the image
-     keeps its in-flow size below the text. */
+  /* Map, not a photo — no card styling. */
+  .docs-license-image,
+  .booking-image,
+  .refresher-image,
+  .schedule-image {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
   @media (min-width: 901px) {
-    /* .grid (shared with other sections via TextWithCarousel.module.css)
-       isn't position: relative, so without this the absolutely-positioned
-       image's containing block falls back to the viewport instead of the
-       grid, and it renders as a giant, misplaced image. Scope the
-       positioning to this section only. */
-    .refresher-grid {
+    /* The five info-tab photos alternate sides (left, right, left, right…):
+       refresher left, schedule right, booking left, documentation right.
+       The .image-left modifier swaps the two grid columns so the photo sits
+       on the left and the text on the right; sections without it keep the
+       default (text left, photo right). Child selectors are used because
+       the grid/text classes come from the shared TextWithCarousel CSS
+       module and can't be targeted by name from this scoped style block;
+       <figure> vs <div> tells the two children apart. */
+    .image-left > div {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .image-left > figure {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    /* Without this, a tall photo would drive the grid row's auto height
+       and end up taller than the text next to it. .imageFrame has no
+       in-flow content (its image is taken out of flow below), so it
+       contributes 0 to the row's height — the text alone sizes the row.
+       align-items: stretch (the grid's default) then stretches the frame
+       to that row height, and the absolutely-positioned image fills the
+       frame, cropped via object-fit instead of overflowing it.
+
+       The site-choice map is deliberately left out of this: it's a
+       reference map (not a mood photo), so cropping it down to a short
+       paragraph's height would cut off parts of the island. It stays
+       in-flow at its own natural aspect ratio instead, sized by whatever
+       height it needs. */
+    .imageFrame {
       position: relative;
     }
 
-    .refresher-image {
+    .docs-license-image,
+    .booking-image,
+    .refresher-image,
+    .schedule-image {
       position: absolute;
       inset: 0;
-      /* Without an explicit column, an absolutely-positioned grid item with
-         no grid-row/grid-column defaults to spanning the *entire* grid, so
-         inset: 0 would stretch it across both the text and image columns.
-         Pin it to the image column only. */
-      grid-column: 2;
     }
   }
 </style>
