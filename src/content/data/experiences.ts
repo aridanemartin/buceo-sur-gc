@@ -1,8 +1,33 @@
 // Canonical experience data (bautizos + inmersiones).
 // Sourced from docs/3. Bautizos.md, docs/2. inmersiones.md and docs/5. Tarifas.md.
 export type LocaleValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string>>
+export type LocaleListValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string[]>>
+
+// A "Suplementos" row: concept + price as separate fields (so the front end
+// can color them differently), instead of one "Concepto: precio" string.
+export interface SupplementItem {
+  label: string
+  price: string
+}
+export type LocaleSupplementListValue = Partial<Record<'es' | 'en' | 'fr' | 'de', SupplementItem[]>>
 
 const loc = (es: string, en: string, fr: string, de: string): LocaleValue => ({ es, en, fr, de })
+
+// "Incluye" is rendered as a <ul><li> list, so each locale carries an array
+// of short items instead of one prose string.
+const locList = (es: string[], en: string[], fr: string[], de: string[]): LocaleListValue => ({
+  es,
+  en,
+  fr,
+  de,
+})
+
+const locSupplements = (
+  es: SupplementItem[],
+  en: SupplementItem[],
+  fr: SupplementItem[],
+  de: SupplementItem[],
+): LocaleSupplementListValue => ({ es, en, fr, de })
 
 export interface ExperienceSeed {
   _id: string
@@ -14,9 +39,13 @@ export interface ExperienceSeed {
   duration: LocaleValue
   depthLimit?: number | null
   price?: number | null
-  includes: LocaleValue
-  supplements: LocaleValue
+  includes: LocaleListValue
+  supplements: LocaleSupplementListValue
   groupDiscount?: LocaleValue
+  // Direct link to the bookable product in Bukyapp. Left undefined for
+  // experiences Bukyapp doesn't sell online — BaptismsView/DivesView fall
+  // back to a contact-form link with a prefilled "interested in X" message.
+  reservationLink?: string
   videoUrl?: string
   image?: string
   order: number
@@ -43,17 +72,29 @@ export const experiencesData: ExperienceSeed[] = [
     ),
     depthLimit: 6,
     price: 80,
-    includes: loc(
-      '1 inmersión en mar abierto, todo el equipo necesario y el seguro obligatorio. Vamos a Risco Verde, ideal para principiantes con gran diversidad de vida.',
-      '1 open water dive, all necessary equipment and mandatory insurance. We go to Risco Verde, ideal for beginners with great marine-life diversity.',
-      '1 plongée en mer ouverte, tout l’équipement nécessaire et l’assurance obligatoire. Nous allons à Risco Verde, idéal pour les débutants avec une grande diversité de vie.',
-      '1 Freiwassertauchgang, die gesamte notwendige Ausrüstung und die Pflichtversicherung. Wir gehen nach Risco Verde, ideal für Anfänger mit großer Artenvielfalt.',
+    includes: locList(
+      [
+        '1 inmersión en mar abierto, todo el equipo necesario y el seguro obligatorio',
+        'Vamos a Risco Verde, ideal para principiantes con gran diversidad de vida',
+      ],
+      [
+        '1 open water dive, all necessary equipment and mandatory insurance',
+        'We go to Risco Verde, ideal for beginners with great marine-life diversity',
+      ],
+      [
+        '1 plongée en mer ouverte, tout l’équipement nécessaire et l’assurance obligatoire',
+        'Nous allons à Risco Verde, idéal pour les débutants avec une grande diversité de vie',
+      ],
+      [
+        '1 Freiwassertauchgang, die gesamte notwendige Ausrüstung und die Pflichtversicherung',
+        'Wir gehen nach Risco Verde, ideal für Anfänger mit großer Artenvielfalt',
+      ],
     ),
-    supplements: loc(
-      'Clip de vídeo: 25 €.',
-      'Video clip: €25.',
-      'Clip vidéo : 25 €.',
-      'Videoclip: 25 €.',
+    supplements: locSupplements(
+      [{ label: 'Clip de vídeo', price: '25 €' }],
+      [{ label: 'Video clip', price: '€25' }],
+      [{ label: 'Clip vidéo', price: '25 €' }],
+      [{ label: 'Videoclip', price: '25 €' }],
     ),
     groupDiscount: loc(
       'Requisitos: más de 12 años, saber nadar, apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones) y no tener vuelo el mismo día.',
@@ -61,6 +102,7 @@ export const experiencesData: ExperienceSeed[] = [
       'Conditions : plus de 12 ans, savoir nager, apte à plonger (certificat médical ou questionnaire médical rempli sans contre-indication) et ne pas prendre l’avion le jour même.',
       'Voraussetzungen: über 12 Jahre alt, schwimmfähig, tauglich zum Tauchen (ärztliches Attest oder ausgefüllter medizinischer Fragebogen ohne Gegenanzeigen) und kein Flug am selben Tag.',
     ),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b1475740d7e94c0efbc158',
     videoUrl: 'https://youtu.be/gGARKaie1_s?si=Du0qrp7Z883ECPks',
     order: 1,
   },
@@ -88,17 +130,45 @@ export const experiencesData: ExperienceSeed[] = [
     ),
     depthLimit: 8,
     price: 120,
-    includes: loc(
-      '1 inmersión técnica en piscina natural (Zoco-Negro, máx. 3 m), 1 inmersión en mar abierto (Risco Verde, máx. 8 m), teoría online SSI Basic Diver, carnet de buceo SSI Basic Diver, equipo de buceo, seguro de buceo y todo lo necesario.',
-      '1 technical dive in a natural pool (Zoco-Negro, max. 3 m), 1 open water dive (Risco Verde, max. 8 m), SSI Basic Diver online theory, SSI Basic Diver certification card, diving equipment, dive insurance and everything needed.',
-      '1 plongée technique en piscine naturelle (Zoco-Negro, max. 3 m), 1 plongée en mer ouverte (Risco Verde, max. 8 m), théorie en ligne SSI Basic Diver, carte de plongée SSI Basic Diver, équipement de plongée, assurance plongée et tout le nécessaire.',
-      '1 technischer Tauchgang im Naturpool (Zoco-Negro, max. 3 m), 1 Freiwassertauchgang (Risco Verde, max. 8 m), SSI-Basic-Diver-Online-Theorie, SSI-Basic-Diver-Karte, Tauchausrüstung, Tauchversicherung und alles Notwendige.',
+    includes: locList(
+      [
+        '1 inmersión técnica en piscina natural (Zoco-Negro, máx. 3 m)',
+        '1 inmersión en mar abierto (Risco Verde, máx. 8 m)',
+        'Teoría online SSI Basic Diver',
+        'Carnet de buceo SSI Basic Diver',
+        'Equipo de buceo',
+        'Seguro de buceo y todo lo necesario',
+      ],
+      [
+        '1 technical dive in a natural pool (Zoco-Negro, max. 3 m)',
+        '1 open water dive (Risco Verde, max. 8 m)',
+        'SSI Basic Diver online theory',
+        'SSI Basic Diver certification card',
+        'Diving equipment',
+        'Dive insurance and everything needed',
+      ],
+      [
+        '1 plongée technique en piscine naturelle (Zoco-Negro, max. 3 m)',
+        '1 plongée en mer ouverte (Risco Verde, max. 8 m)',
+        'Théorie en ligne SSI Basic Diver',
+        'Carte de plongée SSI Basic Diver',
+        'Équipement de plongée',
+        'Assurance plongée et tout le nécessaire',
+      ],
+      [
+        '1 technischer Tauchgang im Naturpool (Zoco-Negro, max. 3 m)',
+        '1 Freiwassertauchgang (Risco Verde, max. 8 m)',
+        'SSI-Basic-Diver-Online-Theorie',
+        'SSI-Basic-Diver-Karte',
+        'Tauchausrüstung',
+        'Tauchversicherung und alles Notwendige',
+      ],
     ),
-    supplements: loc(
-      'Clip de vídeo: 25 €.',
-      'Video clip: €25.',
-      'Clip vidéo : 25 €.',
-      'Videoclip: 25 €.',
+    supplements: locSupplements(
+      [{ label: 'Clip de vídeo', price: '25 €' }],
+      [{ label: 'Video clip', price: '€25' }],
+      [{ label: 'Clip vidéo', price: '25 €' }],
+      [{ label: 'Videoclip', price: '25 €' }],
     ),
     groupDiscount: loc(
       'Requisitos: más de 12 años, saber nadar, apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones) y no tener vuelo el mismo día.',
@@ -106,6 +176,7 @@ export const experiencesData: ExperienceSeed[] = [
       'Conditions : plus de 12 ans, savoir nager, apte à plonger (certificat médical ou questionnaire médical rempli sans contre-indication) et ne pas prendre l’avion le jour même.',
       'Voraussetzungen: über 12 Jahre alt, schwimmfähig, tauglich zum Tauchen (ärztliches Attest oder ausgefüllter medizinischer Fragebogen ohne Gegenanzeigen) und kein Flug am selben Tag.',
     ),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b4566e40d7e94c0e14704a',
     videoUrl: 'https://youtu.be/j-qIyqbd0Z8?si=Kow4g7EBo5Uy4Vee',
     order: 2,
   },
@@ -113,13 +184,13 @@ export const experiencesData: ExperienceSeed[] = [
   {
     _id: 'experience-single-dive',
     _type: 'experience',
-    title: loc('1 x Buceo', '1 x Dive', '1 x Plongée', '1 x Tauchgang'),
+    title: loc('1 x Inmersión', '1 x Dive', '1 x Plongée', '1 x Tauchgang'),
     audience: 'certified',
     description: loc(
-      'Una inmersión guiada por la tarde (zona Risco, Tufia, Cabrón o Sardina), con un mínimo de 2 participantes.',
-      'A guided afternoon dive (Risco, Tufia, Cabrón or Sardina area), with a minimum of 2 participants.',
-      'Une plongée encadrée l’après-midi (zone Risco, Tufia, Cabrón ou Sardina), avec un minimum de 2 participants.',
-      'Ein begleiteter Nachmittagstauchgang (Zone Risco, Tufia, Cabrón oder Sardina), mit mindestens 2 Teilnehmern.',
+      'Una inmersión guiada por la tarde (zona Risco, Tufia, Cabrón o Sardina).',
+      'A guided afternoon dive (Risco, Tufia, Cabrón or Sardina area).',
+      'Une plongée encadrée l’après-midi (zone Risco, Tufia, Cabrón ou Sardina).',
+      'Ein begleiteter Nachmittagstauchgang (Zone Risco, Tufia, Cabrón oder Sardina).',
     ),
     duration: loc(
       '1 inmersión (tarde)',
@@ -129,17 +200,29 @@ export const experiencesData: ExperienceSeed[] = [
     ),
     depthLimit: null,
     price: 50,
-    includes: loc(
-      '1 inmersión guiada. Plomos y botella incluidos.',
-      '1 guided dive. Weights and tank included.',
-      '1 plongée encadrée. Plombs et bouteille inclus.',
-      '1 begleiteter Tauchgang. Gewichte und Flasche inklusive.',
+    includes: locList(
+      ['1 inmersión guiada', 'Plomos y botella incluidos'],
+      ['1 guided dive', 'Weights and tank included'],
+      ['1 plongée encadrée', 'Plombs et bouteille inclus'],
+      ['1 begleiteter Tauchgang', 'Gewichte und Flasche inklusive'],
     ),
-    supplements: loc(
-      'Equipo básico: +10 €. Equipo completo (con ordenador): +15 €.',
-      'Basic equipment: +€10. Full equipment (with computer): +€15.',
-      'Équipement de base : +10 €. Équipement complet (avec ordinateur) : +15 €.',
-      'Grundausrüstung: +10 €. Komplettausrüstung (mit Computer): +15 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico', price: '+10 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+15 €' },
+      ],
+      [
+        { label: 'Basic equipment', price: '+€10' },
+        { label: 'Full equipment (with computer)', price: '+€15' },
+      ],
+      [
+        { label: 'Équipement de base', price: '+10 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+15 €' },
+      ],
+      [
+        { label: 'Grundausrüstung', price: '+10 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+15 €' },
+      ],
     ),
     groupDiscount: loc(
       'Mínimo 2 participantes.',
@@ -153,7 +236,7 @@ export const experiencesData: ExperienceSeed[] = [
     _id: 'experience-double-dive',
     _type: 'experience',
     title: loc(
-      'Doble Buceo (1 día)',
+      'Doble Inmersión (1 día)',
       'Double Dive (1 day)',
       'Double Plongée (1 jour)',
       'Doppeltauchgang (1 Tag)',
@@ -173,26 +256,43 @@ export const experiencesData: ExperienceSeed[] = [
     ),
     depthLimit: null,
     price: 75,
-    includes: loc(
-      '2 inmersiones guiadas. Plomos y botellas incluidos.',
-      '2 guided dives. Weights and tanks included.',
-      '2 plongées encadrées. Plombs et bouteilles inclus.',
-      '2 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    includes: locList(
+      ['2 inmersiones guiadas', 'Plomos y botellas incluidos'],
+      ['2 guided dives', 'Weights and tanks included'],
+      ['2 plongées encadrées', 'Plombs et bouteilles inclus'],
+      ['2 begleitete Tauchgänge', 'Gewichte und Flaschen inklusive'],
     ),
-    supplements: loc(
-      'Barco (zona sur): +20 €. Equipo básico: +20 €. Equipo completo (con ordenador): +25 €.',
-      'Boat (south zone): +€20. Basic equipment: +€20. Full equipment (with computer): +€25.',
-      'Bateau (zone sud) : +20 €. Équipement de base : +20 €. Équipement complet (avec ordinateur) : +25 €.',
-      'Boot (Südzone): +20 €. Grundausrüstung: +20 €. Komplettausrüstung (mit Computer): +25 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Barco (zona sur)', price: '+20 €' },
+        { label: 'Equipo básico', price: '+20 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+25 €' },
+      ],
+      [
+        { label: 'Boat (south zone)', price: '+€20' },
+        { label: 'Basic equipment', price: '+€20' },
+        { label: 'Full equipment (with computer)', price: '+€25' },
+      ],
+      [
+        { label: 'Bateau (zone sud)', price: '+20 €' },
+        { label: 'Équipement de base', price: '+20 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+25 €' },
+      ],
+      [
+        { label: 'Boot (Südzone)', price: '+20 €' },
+        { label: 'Grundausrüstung', price: '+20 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+25 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b4584afc967e7d1fa9b887',
     order: 4,
   },
   {
     _id: 'experience-bono-4',
     _type: 'experience',
     title: loc(
-      'Bono 4 Buceos (2 días)',
+      'Bono 4 Inmersiones (2 días)',
       '4-Dive Package (2 days)',
       'Pack 4 plongées (2 jours)',
       '4er-Tauchpaket (2 Tage)',
@@ -213,26 +313,43 @@ export const experiencesData: ExperienceSeed[] = [
     isPackage: true,
     depthLimit: null,
     price: 140,
-    includes: loc(
-      '4 inmersiones guiadas. Plomos y botellas incluidos.',
-      '4 guided dives. Weights and tanks included.',
-      '4 plongées encadrées. Plombs et bouteilles inclus.',
-      '4 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    includes: locList(
+      ['4 inmersiones guiadas', 'Plomos y botellas incluidos'],
+      ['4 guided dives', 'Weights and tanks included'],
+      ['4 plongées encadrées', 'Plombs et bouteilles inclus'],
+      ['4 begleitete Tauchgänge', 'Gewichte und Flaschen inklusive'],
     ),
-    supplements: loc(
-      'Barco (zona sur): +20 €/día. Equipo básico: +40 €. Equipo completo (con ordenador): +50 €.',
-      'Boat (south zone): +€20/day. Basic equipment: +€40. Full equipment (with computer): +€50.',
-      'Bateau (zone sud) : +20 €/jour. Équipement de base : +40 €. Équipement complet (avec ordinateur) : +50 €.',
-      'Boot (Südzone): +20 €/Tag. Grundausrüstung: +40 €. Komplettausrüstung (mit Computer): +50 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Barco (zona sur)', price: '+20 €/día' },
+        { label: 'Equipo básico', price: '+40 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+50 €' },
+      ],
+      [
+        { label: 'Boat (south zone)', price: '+€20/day' },
+        { label: 'Basic equipment', price: '+€40' },
+        { label: 'Full equipment (with computer)', price: '+€50' },
+      ],
+      [
+        { label: 'Bateau (zone sud)', price: '+20 €/jour' },
+        { label: 'Équipement de base', price: '+40 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+50 €' },
+      ],
+      [
+        { label: 'Boot (Südzone)', price: '+20 €/Tag' },
+        { label: 'Grundausrüstung', price: '+40 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+50 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b45d2cc2395a856d17a423',
     order: 5,
   },
   {
     _id: 'experience-bono-6',
     _type: 'experience',
     title: loc(
-      'Bono 6 Buceos (3 días)',
+      'Bono 6 Inmersiones (3 días)',
       '6-Dive Package (3 days)',
       'Pack 6 plongées (3 jours)',
       '6er-Tauchpaket (3 Tage)',
@@ -253,26 +370,39 @@ export const experiencesData: ExperienceSeed[] = [
     isPackage: true,
     depthLimit: null,
     price: 230,
-    includes: loc(
-      '6 inmersiones guiadas. Plomos y botellas incluidos.',
-      '6 guided dives. Weights and tanks included.',
-      '6 plongées encadrées. Plombs et bouteilles inclus.',
-      '6 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    includes: locList(
+      ['6 inmersiones guiadas', 'Plomos y botellas incluidos'],
+      ['6 guided dives', 'Weights and tanks included'],
+      ['6 plongées encadrées', 'Plombs et bouteilles inclus'],
+      ['6 begleitete Tauchgänge', 'Gewichte und Flaschen inklusive'],
     ),
-    supplements: loc(
-      'Equipo básico: +60 €. Equipo completo (con ordenador): +75 €.',
-      'Basic equipment: +€60. Full equipment (with computer): +€75.',
-      'Équipement de base : +60 €. Équipement complet (avec ordinateur) : +75 €.',
-      'Grundausrüstung: +60 €. Komplettausrüstung (mit Computer): +75 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico', price: '+60 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+75 €' },
+      ],
+      [
+        { label: 'Basic equipment', price: '+€60' },
+        { label: 'Full equipment (with computer)', price: '+€75' },
+      ],
+      [
+        { label: 'Équipement de base', price: '+60 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+75 €' },
+      ],
+      [
+        { label: 'Grundausrüstung', price: '+60 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+75 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69e68a2cbe8564dc8a68eafe',
     order: 6,
   },
   {
     _id: 'experience-bono-8',
     _type: 'experience',
     title: loc(
-      'Bono 8 Buceos (4 días)',
+      'Bono 8 Inmersiones (4 días)',
       '8-Dive Package (4 days)',
       'Pack 8 plongées (4 jours)',
       '8er-Tauchpaket (4 Tage)',
@@ -293,26 +423,39 @@ export const experiencesData: ExperienceSeed[] = [
     isPackage: true,
     depthLimit: null,
     price: 300,
-    includes: loc(
-      '8 inmersiones guiadas. Plomos y botellas incluidos.',
-      '8 guided dives. Weights and tanks included.',
-      '8 plongées encadrées. Plombs et bouteilles inclus.',
-      '8 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    includes: locList(
+      ['8 inmersiones guiadas', 'Plomos y botellas incluidos'],
+      ['8 guided dives', 'Weights and tanks included'],
+      ['8 plongées encadrées', 'Plombs et bouteilles inclus'],
+      ['8 begleitete Tauchgänge', 'Gewichte und Flaschen inklusive'],
     ),
-    supplements: loc(
-      'Equipo básico: +80 €. Equipo completo (con ordenador): +100 €.',
-      'Basic equipment: +€80. Full equipment (with computer): +€100.',
-      'Équipement de base : +80 €. Équipement complet (avec ordinateur) : +100 €.',
-      'Grundausrüstung: +80 €. Komplettausrüstung (mit Computer): +100 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico', price: '+80 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+100 €' },
+      ],
+      [
+        { label: 'Basic equipment', price: '+€80' },
+        { label: 'Full equipment (with computer)', price: '+€100' },
+      ],
+      [
+        { label: 'Équipement de base', price: '+80 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+100 €' },
+      ],
+      [
+        { label: 'Grundausrüstung', price: '+80 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+100 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69c1c12f5595aad44548a94e',
     order: 7,
   },
   {
     _id: 'experience-bono-10',
     _type: 'experience',
     title: loc(
-      'Bono 10 Buceos (5 días)',
+      'Bono 10 Inmersiones (5 días)',
       '10-Dive Package (5 days)',
       'Pack 10 plongées (5 jours)',
       '10er-Tauchpaket (5 Tage)',
@@ -333,25 +476,38 @@ export const experiencesData: ExperienceSeed[] = [
     isPackage: true,
     depthLimit: null,
     price: 390,
-    includes: loc(
-      '10 inmersiones guiadas. Plomos y botellas incluidos.',
-      '10 guided dives. Weights and tanks included.',
-      '10 plongées encadrées. Plombs et bouteilles inclus.',
-      '10 begleitete Tauchgänge. Gewichte und Flaschen inklusive.',
+    includes: locList(
+      ['10 inmersiones guiadas', 'Plomos y botellas incluidos'],
+      ['10 guided dives', 'Weights and tanks included'],
+      ['10 plongées encadrées', 'Plombs et bouteilles inclus'],
+      ['10 begleitete Tauchgänge', 'Gewichte und Flaschen inklusive'],
     ),
-    supplements: loc(
-      'Equipo básico: +100 €. Equipo completo (con ordenador): +120 €.',
-      'Basic equipment: +€100. Full equipment (with computer): +€120.',
-      'Équipement de base : +100 €. Équipement complet (avec ordinateur) : +120 €.',
-      'Grundausrüstung: +100 €. Komplettausrüstung (mit Computer): +120 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico', price: '+100 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+120 €' },
+      ],
+      [
+        { label: 'Basic equipment', price: '+€100' },
+        { label: 'Full equipment (with computer)', price: '+€120' },
+      ],
+      [
+        { label: 'Équipement de base', price: '+100 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+120 €' },
+      ],
+      [
+        { label: 'Grundausrüstung', price: '+100 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+120 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/6a4d3d9d73dd28bfee51c9e5',
     order: 8,
   },
   {
     _id: 'experience-night-dive',
     _type: 'experience',
-    title: loc('Buceo Nocturno', 'Night Dive', 'Plongée de nuit', 'Nachttauchgang'),
+    title: loc('Inmersión Nocturna', 'Night Dive', 'Plongée de nuit', 'Nachttauchgang'),
     audience: 'certified',
     description: loc(
       'Una inmersión guiada nocturna para descubrir la fauna que sale después del atardecer.',
@@ -362,17 +518,33 @@ export const experiencesData: ExperienceSeed[] = [
     duration: loc('1 inmersión nocturna', '1 night dive', '1 plongée de nuit', '1 Nachttauchgang'),
     depthLimit: null,
     price: 70,
-    includes: loc(
-      '1 inmersión guiada nocturna. Plomos y botellas incluidos.',
-      '1 guided night dive. Weights and tank included.',
-      '1 plongée encadrée de nuit. Plombs et bouteille inclus.',
-      '1 begleiteter Nachttauchgang. Gewichte und Flasche inklusive.',
+    includes: locList(
+      ['1 inmersión guiada nocturna', 'Plomos y botellas incluidos'],
+      ['1 guided night dive', 'Weights and tank included'],
+      ['1 plongée encadrée de nuit', 'Plombs et bouteille inclus'],
+      ['1 begleiteter Nachttauchgang', 'Gewichte und Flasche inklusive'],
     ),
-    supplements: loc(
-      'Linterna: +5 €. Equipo básico: +10 €. Equipo completo (con ordenador): +25 €.',
-      'Torch: +€5. Basic equipment: +€10. Full equipment (with computer): +€25.',
-      'Lampe : +5 €. Équipement de base : +10 €. Équipement complet (avec ordinateur) : +25 €.',
-      'Lampe: +5 €. Grundausrüstung: +10 €. Komplettausrüstung (mit Computer): +25 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Linterna', price: '+5 €' },
+        { label: 'Equipo básico', price: '+10 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+25 €' },
+      ],
+      [
+        { label: 'Torch', price: '+€5' },
+        { label: 'Basic equipment', price: '+€10' },
+        { label: 'Full equipment (with computer)', price: '+€25' },
+      ],
+      [
+        { label: 'Lampe', price: '+5 €' },
+        { label: 'Équipement de base', price: '+10 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+25 €' },
+      ],
+      [
+        { label: 'Lampe', price: '+5 €' },
+        { label: 'Grundausrüstung', price: '+10 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+25 €' },
+      ],
     ),
     groupDiscount: loc(
       'Mínimo 2 participantes.',
@@ -380,13 +552,14 @@ export const experiencesData: ExperienceSeed[] = [
       'Minimum 2 participants.',
       'Mindestens 2 Teilnehmer.',
     ),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69e90e2b3875045b1ac20e68',
     order: 9,
   },
   {
     _id: 'experience-refresher',
     _type: 'experience',
     title: loc(
-      'Buceo Repaso',
+      'Inmersión de Repaso',
       'Refresher Dive',
       'Plongée de remise à niveau',
       'Auffrischungstauchgang',
@@ -406,17 +579,25 @@ export const experiencesData: ExperienceSeed[] = [
     ),
     depthLimit: null,
     price: 80,
-    includes: loc(
-      '1 inmersión técnica de repaso. Plomos y botella incluidos. Equipo básico incluido.',
-      '1 technical refresher dive. Weights and tank included. Basic equipment included.',
-      '1 plongée technique de remise à niveau. Plombs et bouteille inclus. Équipement de base inclus.',
-      '1 technischer Auffrischungstauchgang. Gewichte und Flasche inklusive. Grundausrüstung inklusive.',
+    includes: locList(
+      ['1 inmersión técnica de repaso', 'Plomos y botella incluidos', 'Equipo básico incluido'],
+      ['1 technical refresher dive', 'Weights and tank included', 'Basic equipment included'],
+      [
+        '1 plongée technique de remise à niveau',
+        'Plombs et bouteille inclus',
+        'Équipement de base inclus',
+      ],
+      [
+        '1 technischer Auffrischungstauchgang',
+        'Gewichte und Flasche inklusive',
+        'Grundausrüstung inklusive',
+      ],
     ),
-    supplements: loc(
-      'Buceo adicional (mismo día): +40 €.',
-      'Additional dive (same day): +€40.',
-      'Plongée supplémentaire (même jour) : +40 €.',
-      'Zusätzlicher Tauchgang (gleicher Tag): +40 €.',
+    supplements: locSupplements(
+      [{ label: 'Buceo adicional (mismo día)', price: '+40 €' }],
+      [{ label: 'Additional dive (same day)', price: '+€40' }],
+      [{ label: 'Plongée supplémentaire (même jour)', price: '+40 €' }],
+      [{ label: 'Zusätzlicher Tauchgang (gleicher Tag)', price: '+40 €' }],
     ),
     groupDiscount: loc(
       'Máximo 2 buceadores por instructor. Si tu última inmersión fue hace más de un año y has realizado menos de 10 inmersiones, te recomendamos un curso de actualización.',
@@ -424,13 +605,14 @@ export const experiencesData: ExperienceSeed[] = [
       'Maximum 2 plongeurs par instructeur. Si votre dernière plongée date de plus d’un an et que vous avez moins de 10 plongées, nous recommandons un cours de remise à niveau.',
       'Maximal 2 Taucher pro Ausbilder. Wenn Ihr letzter Tauchgang mehr als ein Jahr zurückliegt und Sie weniger als 10 Tauchgänge haben, empfehlen wir einen Auffrischungskurs.',
     ),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69e8b0339fad86498df4112b',
     order: 10,
   },
   {
     _id: 'experience-technical-training',
     _type: 'experience',
     title: loc(
-      'Buceo de Formación Técnica',
+      'Inmersión de Formación Técnica',
       'Technical Training Dive',
       'Plongée de formation technique',
       'Technischer Ausbildungstauchgang',
@@ -450,17 +632,29 @@ export const experiencesData: ExperienceSeed[] = [
     ),
     depthLimit: null,
     price: 70,
-    includes: loc(
-      '1 inmersión técnica de curso (validación de N1 sin agua abierta).',
-      '1 technical course dive (N1 validation without open water).',
-      '1 plongée technique de formation (validation N1 sans eau ouverte).',
-      '1 technischer Ausbildungstauchgang (N1-Validierung ohne Freiwasser).',
+    includes: locList(
+      ['1 inmersión técnica de curso (validación de N1 sin agua abierta)'],
+      ['1 technical course dive (N1 validation without open water)'],
+      ['1 plongée technique de formation (validation N1 sans eau ouverte)'],
+      ['1 technischer Ausbildungstauchgang (N1-Validierung ohne Freiwasser)'],
     ),
-    supplements: loc(
-      'Equipo básico: +10 €. Equipo completo (con ordenador): +15 €.',
-      'Basic equipment: +€10. Full equipment (with computer): +€15.',
-      'Équipement de base : +10 €. Équipement complet (avec ordinateur) : +15 €.',
-      'Grundausrüstung: +10 €. Komplettausrüstung (mit Computer): +15 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico', price: '+10 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+15 €' },
+      ],
+      [
+        { label: 'Basic equipment', price: '+€10' },
+        { label: 'Full equipment (with computer)', price: '+€15' },
+      ],
+      [
+        { label: 'Équipement de base', price: '+10 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+15 €' },
+      ],
+      [
+        { label: 'Grundausrüstung', price: '+10 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+15 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 2 buceadores por instructor.',
@@ -474,7 +668,7 @@ export const experiencesData: ExperienceSeed[] = [
     _id: 'experience-deep-wreck',
     _type: 'experience',
     title: loc(
-      'Buceo Doble Especial Pecio Profundo (zona norte)',
+      'Inmersión Doble Especial Pecio Profundo (zona norte)',
       'Special Deep Wreck Double Dive (north zone)',
       'Double plongée spéciale épave profonde (zone nord)',
       'Spezieller Tieftauchgang Wrack (Nordzone)',
@@ -494,17 +688,29 @@ export const experiencesData: ExperienceSeed[] = [
     ),
     depthLimit: null,
     price: 115,
-    includes: loc(
-      '2 inmersiones guiadas zona norte. Botellas, plomos y Nitrox incluidos.',
-      '2 guided dives in the north zone. Tanks, weights and Nitrox included.',
-      '2 plongées encadrées zone nord. Bouteilles, plombs et Nitrox inclus.',
-      '2 begleitete Tauchgänge Nordzone. Flaschen, Gewichte und Nitrox inklusive.',
+    includes: locList(
+      ['2 inmersiones guiadas zona norte', 'Botellas, plomos y Nitrox incluidos'],
+      ['2 guided dives in the north zone', 'Tanks, weights and Nitrox included'],
+      ['2 plongées encadrées zone nord', 'Bouteilles, plombs et Nitrox inclus'],
+      ['2 begleitete Tauchgänge Nordzone', 'Flaschen, Gewichte und Nitrox inklusive'],
     ),
-    supplements: loc(
-      'Equipo básico: +20 €. Equipo completo (con ordenador): +25 €.',
-      'Basic equipment: +€20. Full equipment (with computer): +€25.',
-      'Équipement de base : +20 €. Équipement complet (avec ordinateur) : +25 €.',
-      'Grundausrüstung: +20 €. Komplettausrüstung (mit Computer): +25 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico', price: '+20 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+25 €' },
+      ],
+      [
+        { label: 'Basic equipment', price: '+€20' },
+        { label: 'Full equipment (with computer)', price: '+€25' },
+      ],
+      [
+        { label: 'Équipement de base', price: '+20 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+25 €' },
+      ],
+      [
+        { label: 'Grundausrüstung', price: '+20 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+25 €' },
+      ],
     ),
     groupDiscount: loc(
       'Mínimo 4 participantes y condiciones meteorológicas muy favorables, con aprobación previa del director técnico.',

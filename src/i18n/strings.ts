@@ -42,6 +42,7 @@ export interface UiStrings {
   }
   dives: {
     infoTab: string
+    ratesTab: string
   }
   book: string
   ctaButton: string
@@ -61,6 +62,20 @@ export interface UiStrings {
     openMenu: string
     closeMenu: string
   }
+}
+
+// Message pre-filled into the contact form's textarea when a course/baptism/
+// dive has no direct Bukyapp reservationLink — the "Reservar" button on its
+// card falls back to /contact?message=... instead of an external booking URL.
+const reserveInterestMessages: Record<Locale, (title: string) => string> = {
+  es: (title) => `Estoy interesado/a en reservar ${title}.`,
+  en: (title) => `I'm interested in reserving ${title}.`,
+  fr: (title) => `Je suis intéressé(e) par la réservation de ${title}.`,
+  de: (title) => `Ich interessiere mich für die Buchung von ${title}.`,
+}
+
+export function reserveInterestMessage(lang: Locale, title: string): string {
+  return reserveInterestMessages[lang](title)
 }
 
 export const ui: Record<Locale, UiStrings> = {
@@ -106,6 +121,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     dives: {
       infoTab: 'Información',
+      ratesTab: 'Inmersiones',
     },
     book: 'Reservar',
     ctaButton: 'RESERVA YA',
@@ -168,6 +184,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     dives: {
       infoTab: 'Information',
+      ratesTab: 'Dives',
     },
     book: 'Book now',
     ctaButton: 'BOOK NOW',
@@ -230,6 +247,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     dives: {
       infoTab: 'Informations',
+      ratesTab: 'Plongées',
     },
     book: 'Réserver',
     ctaButton: 'RÉSERVEZ MAINTENANT',
@@ -292,6 +310,7 @@ export const ui: Record<Locale, UiStrings> = {
     },
     dives: {
       infoTab: 'Information',
+      ratesTab: 'Tauchgänge',
     },
     book: 'Jetzt buchen',
     ctaButton: 'JETZT BUCHEN',

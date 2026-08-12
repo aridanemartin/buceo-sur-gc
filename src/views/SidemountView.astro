@@ -5,13 +5,14 @@ import PhotoCarousel from '../components/PhotoCarousel.tsx'
 import { sidemountPageContent } from '../content/data/pageContent'
 import { sidemountGalleryImages } from '../content/data/sidemountGallery'
 import type { Locale } from '../i18n/locales'
-import { ui } from '../i18n/strings'
+import { localePath, withLangParam } from '../i18n/paths'
+import { reserveInterestMessage, ui } from '../i18n/strings'
 // src/views/SidemountView.astro
 // Sidemount intro (canonical copy from src/content/data/pageContent.ts),
 // the promo video, and the sidemount courses from their dedicated schema.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { t } from '../sanity/localize'
+import { t, tList, tSupplements } from '../sanity/localize'
 import { getSidemountCourses } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import textWithCarousel from '../styles/TextWithCarousel.module.css'
@@ -26,6 +27,15 @@ const u = ui[lang]
 const courses = await getSidemountCourses()
 
 const l = (f: any) => t(f, lang)
+const lList = (f: any) => tList(f, lang)
+const lSupplements = (f: any) => tSupplements(f, lang)
+
+// Cards without a Bukyapp reservationLink fall back to the contact form
+// with a prefilled "interested in X" message, opened in the same tab.
+const reserveHrefOf = (c: any) =>
+  c.reservationLink
+    ? withLangParam(c.reservationLink, lang)
+    : `${localePath(lang, 'contact')}?message=${encodeURIComponent(reserveInterestMessage(lang, l(c.title)))}`
 
 const terrainImages = sidemountGalleryImages.map((url) => ({ url, alt: u.sidemount.alt }))
 
@@ -129,12 +139,17 @@ const cta = {
               ].filter((v) => v)}
               paragraphs={[
                 { text: l(c.summary) },
-                { text: l(c.includes) },
-                ...(l(c.supplements) ? [{ text: l(c.supplements) }] : []),
+                { items: lList(c.includes) },
+                ...(lSupplements(c.supplements).length
+                  ? [{ supplements: lSupplements(c.supplements) }]
+                  : []),
                 { text: l(c.prerequisites) },
               ]}
               price={c.price ? `${c.price} €` : null}
               image={c.image || null}
+              reserveHref={reserveHrefOf(c)}
+              reserveLabel={u.book}
+              reserveExternal={!!c.reservationLink}
             />
           ))}
         </div>

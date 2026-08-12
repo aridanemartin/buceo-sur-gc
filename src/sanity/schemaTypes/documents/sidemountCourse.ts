@@ -30,9 +30,16 @@ export const sidemountCourse = defineType({
     defineField({ name: 'duration', title: 'Duración', type: 'localeString' }),
     defineField({ name: 'minAge', title: 'Edad mínima', type: 'number' }),
     defineField({ name: 'price', title: 'Precio (EUR)', type: 'number' }),
-    defineField({ name: 'includes', title: 'Incluye', type: 'localeText' }),
-    defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeText' }),
+    defineField({ name: 'includes', title: 'Incluye', type: 'localeList' }),
+    defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeSupplementList' }),
     defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
+    defineField({
+      name: 'reservationLink',
+      title: 'Enlace de reserva (Bukyapp)',
+      type: 'url',
+      description:
+        'Enlace directo al producto en Bukyapp. Si se deja vacío, el botón "Reservar" envía al formulario de contacto con el mensaje precargado.',
+    }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],

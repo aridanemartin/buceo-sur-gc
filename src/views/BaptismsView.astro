@@ -3,13 +3,14 @@ import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import { baptismsPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
-import { ui } from '../i18n/strings'
+import { localePath, withLangParam } from '../i18n/paths'
+import { reserveInterestMessage, ui } from '../i18n/strings'
 // src/views/BaptismsView.astro
 // Bautizos page — intro prose from baptismsPageContent plus the beginner
 // experiences as cards with their YouTube video, per docs/3. Bautizos.md.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { t } from '../sanity/localize'
+import { t, tList, tSupplements } from '../sanity/localize'
 import { getExperiences } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import styles from '../styles/viewCommon.module.css'
@@ -81,6 +82,13 @@ const ctaTitle: Record<Locale, string> = {
 // (The shared CourseCard component does this conversion for the cards.)
 const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
 const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price} €` : '')
+
+// Cards without a Bukyapp reservationLink fall back to the contact form
+// with a prefilled "interested in X" message, opened in the same tab.
+const reserveHrefOf = (x: any) =>
+  x.reservationLink
+    ? withLangParam(x.reservationLink, lang)
+    : `${localePath(lang, 'contact')}?message=${encodeURIComponent(reserveInterestMessage(lang, t(x.title, lang)))}`
 ---
 
 <BaseLayout
@@ -110,11 +118,11 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
               meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
               paragraphs={[
                 { text: t(x.description, lang) },
-                ...(t(x.includes, lang)
-                  ? [{ label: l.includes, text: t(x.includes, lang) }]
+                ...(tList(x.includes, lang).length
+                  ? [{ label: l.includes, items: tList(x.includes, lang) }]
                   : []),
-                ...(t(x.supplements, lang)
-                  ? [{ label: l.supplements, text: t(x.supplements, lang) }]
+                ...(tSupplements(x.supplements, lang).length
+                  ? [{ label: l.supplements, supplements: tSupplements(x.supplements, lang) }]
                   : []),
                 ...(t(x.groupDiscount, lang)
                   ? [{ label: l.conditions, text: t(x.groupDiscount, lang) }]
@@ -123,6 +131,9 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
               price={priceOf(x) || null}
               image={x.image || null}
               videoUrl={x.videoUrl || null}
+              reserveHref={reserveHrefOf(x)}
+              reserveLabel={u.book}
+              reserveExternal={!!x.reservationLink}
             />
           ))}
         </div>

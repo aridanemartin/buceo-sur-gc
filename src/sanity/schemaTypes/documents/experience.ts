@@ -22,9 +22,16 @@ export const experience = defineType({
     defineField({ name: 'duration', title: 'Duración', type: 'localeString' }),
     defineField({ name: 'depthLimit', title: 'Profundidad máxima (m)', type: 'number' }),
     defineField({ name: 'price', title: 'Precio (EUR)', type: 'number' }),
-    defineField({ name: 'includes', title: 'Incluye', type: 'localeText' }),
-    defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeText' }),
+    defineField({ name: 'includes', title: 'Incluye', type: 'localeList' }),
+    defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeSupplementList' }),
     defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
+    defineField({
+      name: 'reservationLink',
+      title: 'Enlace de reserva (Bukyapp)',
+      type: 'url',
+      description:
+        'Enlace directo al producto en Bukyapp. Si se deja vacío, el botón "Reservar" envía al formulario de contacto con el mensaje precargado.',
+    }),
     defineField({ name: 'videoUrl', title: 'Vídeo de YouTube', type: 'url' }),
     defineField({
       name: 'image',

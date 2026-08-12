@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .row {
@@ -172,11 +172,85 @@
   line-height: 1.7;
 }
 
+.cardList {
+  margin: 4px 0 0;
+  padding-left: 1.2em;
+}
+
+.cardList li {
+  list-style: disc;
+}
+
+/* Supplements as concept/price rows instead of a plain-text bullet list —
+   the price reuses the same amber accent as the package badge above, so
+   "this costs extra" reads consistently across the card. */
+.supplementList {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.supplementList li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(2, 62, 138, 0.12);
+}
+
+.supplementList li:last-child {
+  border-bottom: 0;
+}
+
+.supplementLabel {
+  color: var(--color-text-muted);
+}
+
+.supplementPrice {
+  color: #c97a2b;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  white-space: nowrap;
+}
+
 .cardPrice {
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 1.3rem;
   color: var(--color-ocean-700);
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.reserveButton {
+  display: inline-block;
+  background: var(--color-ocean-700);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px 24px;
+  border-radius: 100px;
+  white-space: nowrap;
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.reserveButton:hover {
+  background: var(--color-ocean-800);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 @media (max-width: 768px) {

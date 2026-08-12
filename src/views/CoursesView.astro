@@ -8,9 +8,11 @@ import type { Locale } from "../i18n/locales";
 // multi-select toggle for that same category. Agencies are no longer
 // split into separate sections — each course row already carries its own
 // agency logo via CourseCard.
+import { localePath, withLangParam } from "../i18n/paths";
+import { reserveInterestMessage, ui } from "../i18n/strings";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../lib/constants";
-import { t } from "../sanity/localize";
+import { t, tList, tSupplements } from "../sanity/localize";
 import { getCertifyingAgencies, getCourses } from "../sanity/queries";
 import filterStyles from "../styles/coursesFilter.module.css";
 import rowStyles from "../styles/rowLayout.module.css";
@@ -21,11 +23,21 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+const u = ui[lang];
 const courses = await getCourses();
+
+// Cards without a Bukyapp reservationLink fall back to the contact form
+// with a prefilled "interested in X" message, opened in the same tab.
+const reserveHrefOf = (c: any) =>
+  c.reservationLink
+    ? withLangParam(c.reservationLink, lang)
+    : `${localePath(lang, "contact")}?message=${encodeURIComponent(reserveInterestMessage(lang, l(c.title)))}`;
 const agencies = await getCertifyingAgencies();
 const agencyByName = new Map(agencies.map((a: any) => [a.name, a]));
 
 const l = (f: any) => t(f, lang);
+const lList = (f: any) => tList(f, lang);
+const lSupplements = (f: any) => tSupplements(f, lang);
 
 const agencyNames = [...new Set(courses.map((c: any) => c.agency))];
 const agencyList = agencyNames.length
@@ -59,6 +71,13 @@ const page = {
       ? `${agencyList} Kurse für alle Level auf Gran Canaria.`
       : "Tauchkurse für alle Level auf Gran Canaria.",
   },
+}[lang];
+
+const labels: Record<Locale, { includes: string; supplements: string }> = {
+  es: { includes: "Incluye", supplements: "Suplementos / opciones" },
+  en: { includes: "Includes", supplements: "Supplements / options" },
+  fr: { includes: "Inclut", supplements: "Suppléments / options" },
+  de: { includes: "Inklusive", supplements: "Zuschläge / Optionen" },
 }[lang];
 
 const categoryLabels: Record<string, string> = {
@@ -163,28 +182,57 @@ const categorized = categoryOrder
 
     <section class={styles.section}>
       <div class={styles.container}>
-        <fieldset class={filterStyles.filterBar}>
-          <legend class={filterStyles.filterLabel}>{filterCopy.label}</legend>
-          <label class={`${filterStyles.filterChip} ${filterStyles.filterChipAll}`}>
-            <input type="radio" name="category" value="all" checked />
-            {filterCopy.all}
-          </label>
-          {
-            categorized.map((group) => (
-              <label
-                class={`${filterStyles.filterChip} ${categoryVariant[group.category]}`}
-              >
-                <input type="radio" name="category" value={group.category} />
-                <span
-                  class={filterStyles.filterChipIcon}
-                  style={`--icon: url(${categoryIcon[group.category]})`}
-                  aria-hidden="true"
-                />
-                {group.label}
-              </label>
-            ))
-          }
-        </fieldset>
+        <details class={filterStyles.filterMenu}>
+          <summary class={filterStyles.filterToggle}>
+            <svg
+              class={filterStyles.filterToggleIcon}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polygon points="4 4 20 4 14 12.5 14 19 10 21 10 12.5 4 4" />
+            </svg>
+            {filterCopy.label}
+            <svg
+              class={filterStyles.filterToggleChevron}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </summary>
+          <fieldset class={filterStyles.filterBar}>
+            <legend class={filterStyles.srOnly}>{filterCopy.label}</legend>
+            <label class={`${filterStyles.filterChip} ${filterStyles.filterChipAll}`}>
+              <input type="radio" name="category" value="all" checked />
+              {filterCopy.all}
+            </label>
+            {
+              categorized.map((group) => (
+                <label
+                  class={`${filterStyles.filterChip} ${categoryVariant[group.category]}`}
+                >
+                  <input type="radio" name="category" value={group.category} />
+                  <span
+                    class={filterStyles.filterChipIcon}
+                    style={`--icon: url(${categoryIcon[group.category]})`}
+                    aria-hidden="true"
+                  />
+                  {group.label}
+                </label>
+              ))
+            }
+          </fieldset>
+        </details>
 
         <div class={filterStyles.courseGroups}>
           {
@@ -204,7 +252,7 @@ const categorized = categoryOrder
                   />
                   {group.label}
                 </h2>
-                <div class={rowStyles.list}>
+                <div class={`${rowStyles.list} ${filterStyles.courseList}`}>
                   {group.items.map((c: any) => (
                     <CourseCard
                       title={l(c.title)}
@@ -221,15 +269,18 @@ const categorized = categoryOrder
                       ].filter((v) => v)}
                       paragraphs={[
                         { text: l(c.summary) },
-                        { text: l(c.includes) },
-                        ...(l(c.supplements)
-                          ? [{ text: l(c.supplements) }]
+                        { label: labels.includes, items: lList(c.includes) },
+                        ...(lSupplements(c.supplements).length
+                          ? [{ label: labels.supplements, supplements: lSupplements(c.supplements) }]
                           : []),
                         { text: l(c.prerequisites) },
                       ]}
                       price={c.price ? `${c.price} €` : null}
                       image={c.image || null}
                       headingLevel={3}
+                      reserveHref={reserveHrefOf(c)}
+                      reserveLabel={u.book}
+                      reserveExternal={!!c.reservationLink}
                     />
                   ))}
                 </div>

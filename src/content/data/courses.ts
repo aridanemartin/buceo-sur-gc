@@ -1,8 +1,33 @@
 // Canonical course data, sourced from docs/5. Tarifas.md.
 // All prices, durations, dive counts and supplements come directly from that document.
 export type LocaleValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string>>
+export type LocaleListValue = Partial<Record<'es' | 'en' | 'fr' | 'de', string[]>>
+
+// A "Suplementos" row: concept + price as separate fields (so the front end
+// can color them differently), instead of one "Concepto: precio" string.
+export interface SupplementItem {
+  label: string
+  price: string
+}
+export type LocaleSupplementListValue = Partial<Record<'es' | 'en' | 'fr' | 'de', SupplementItem[]>>
 
 const loc = (es: string, en: string, fr: string, de: string): LocaleValue => ({ es, en, fr, de })
+
+// "Incluye" is rendered as a <ul><li> list, so each locale carries an array
+// of short items instead of one prose string.
+const locList = (es: string[], en: string[], fr: string[], de: string[]): LocaleListValue => ({
+  es,
+  en,
+  fr,
+  de,
+})
+
+const locSupplements = (
+  es: SupplementItem[],
+  en: SupplementItem[],
+  fr: SupplementItem[],
+  de: SupplementItem[],
+): LocaleSupplementListValue => ({ es, en, fr, de })
 
 export interface CourseSeed {
   _id: string
@@ -17,9 +42,13 @@ export interface CourseSeed {
   duration: LocaleValue
   minAge?: number | null
   price?: number | null
-  includes: LocaleValue
-  supplements: LocaleValue
+  includes: LocaleListValue
+  supplements: LocaleSupplementListValue
   groupDiscount?: LocaleValue
+  // Direct link to the bookable product in Bukyapp. Left undefined for
+  // courses Bukyapp doesn't sell online — CoursesView falls back to a
+  // contact-form link with a prefilled "interested in X" message.
+  reservationLink?: string
   order: number
 }
 
@@ -52,17 +81,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 12,
     price: 290,
-    includes: loc(
-      '3 inmersiones de curso, equipos y seguro de buceo, kit E-learning SSI y carnet digital.',
-      '3 course dives, equipment and dive insurance, SSI e-learning kit and digital certification card.',
-      '3 plongées de formation, équipement et assurance plongée, kit e-learning SSI et carte numérique.',
-      '3 Kurs-Tauchgänge, Ausrüstung und Tauchversicherung, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['3 inmersiones de curso', 'equipos y seguro de buceo', 'kit E-learning SSI y carnet digital'],
+      ['3 course dives', 'equipment and dive insurance', 'SSI e-learning kit and digital certification card'],
+      [
+        '3 plongées de formation',
+        'équipement et assurance plongée',
+        'kit e-learning SSI et carte numérique',
+      ],
+      ['3 Kurs-Tauchgänge', 'Ausrüstung und Tauchversicherung', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Clip de vídeo: 25 €. Buceo adicional: 40 €.',
-      'Video clip: €25. Additional dive: €40.',
-      'Clip vidéo : 25 €. Plongée supplémentaire : 40 €.',
-      'Videoclip: 25 €. Zusätzlicher Tauchgang: 40 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Clip de vídeo', price: '25 €' },
+        { label: 'Buceo adicional', price: '40 €' },
+      ],
+      [
+        { label: 'Video clip', price: '€25' },
+        { label: 'Additional dive', price: '€40' },
+      ],
+      [
+        { label: 'Clip vidéo', price: '25 €' },
+        { label: 'Plongée supplémentaire', price: '40 €' },
+      ],
+      [
+        { label: 'Videoclip', price: '25 €' },
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 1 instructor por 3 estudiantes.',
@@ -70,6 +115,7 @@ export const coursesData: CourseSeed[] = [
       'Maximum 1 instructeur pour 3 élèves.',
       'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69c27a375595aad4454bc062',
     order: 1,
   },
   {
@@ -99,17 +145,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
     minAge: 12,
     price: 470,
-    includes: loc(
-      '6 inmersiones de curso, equipos y seguro de buceo, kit E-learning SSI y carnet digital.',
-      '6 course dives, equipment and dive insurance, SSI e-learning kit and digital certification card.',
-      '6 plongées de formation, équipement et assurance plongée, kit e-learning SSI et carte numérique.',
-      '6 Kurs-Tauchgänge, Ausrüstung und Tauchversicherung, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['6 inmersiones de curso', 'equipos y seguro de buceo', 'kit E-learning SSI y carnet digital'],
+      ['6 course dives', 'equipment and dive insurance', 'SSI e-learning kit and digital certification card'],
+      [
+        '6 plongées de formation',
+        'équipement et assurance plongée',
+        'kit e-learning SSI et carte numérique',
+      ],
+      ['6 Kurs-Tauchgänge', 'Ausrüstung und Tauchversicherung', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Clip de vídeo: 25 €. Buceo doble adicional: 80 €.',
-      'Video clip: €25. Additional double dive: €80.',
-      'Clip vidéo : 25 €. Plongée double supplémentaire : 80 €.',
-      'Videoclip: 25 €. Zusätzlicher Doppeltauchgang: 80 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Clip de vídeo', price: '25 €' },
+        { label: 'Buceo doble adicional', price: '80 €' },
+      ],
+      [
+        { label: 'Video clip', price: '€25' },
+        { label: 'Additional double dive', price: '€80' },
+      ],
+      [
+        { label: 'Clip vidéo', price: '25 €' },
+        { label: 'Plongée double supplémentaire', price: '80 €' },
+      ],
+      [
+        { label: 'Videoclip', price: '25 €' },
+        { label: 'Zusätzlicher Doppeltauchgang', price: '80 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 1 instructor por 3 estudiantes.',
@@ -117,6 +179,7 @@ export const coursesData: CourseSeed[] = [
       'Maximum 1 instructeur pour 3 élèves.',
       'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b45e24c2395a856d17af85',
     order: 2,
   },
   // ---------- SSI Especialidades y avanzado ----------
@@ -147,17 +210,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
     minAge: 12,
     price: 290,
-    includes: loc(
-      '5 inmersiones de curso, kit E-learning SSI y carnet digital.',
-      '5 course dives, SSI e-learning kit and digital certification card.',
-      '5 plongées de formation, kit e-learning SSI et carte numérique.',
-      '5 Kurs-Tauchgänge, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['5 inmersiones de curso', 'kit E-learning SSI y carnet digital'],
+      ['5 course dives', 'SSI e-learning kit and digital certification card'],
+      ['5 plongées de formation', 'kit e-learning SSI et carte numérique'],
+      ['5 Kurs-Tauchgänge', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Buceo adicional: 40 €. Equipos: 40 €. Seguro: 20 €.',
-      'Additional dive: €40. Equipment: €40. Insurance: €20.',
-      'Plongée supplémentaire : 40 €. Équipement : 40 €. Assurance : 20 €.',
-      'Zusätzlicher Tauchgang: 40 €. Ausrüstung: 40 €. Versicherung: 20 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Buceo adicional', price: '40 €' },
+        { label: 'Equipos', price: '40 €' },
+        { label: 'Seguro', price: '20 €' },
+      ],
+      [
+        { label: 'Additional dive', price: '€40' },
+        { label: 'Equipment', price: '€40' },
+        { label: 'Insurance', price: '€20' },
+      ],
+      [
+        { label: 'Plongée supplémentaire', price: '40 €' },
+        { label: 'Équipement', price: '40 €' },
+        { label: 'Assurance', price: '20 €' },
+      ],
+      [
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+        { label: 'Ausrüstung', price: '40 €' },
+        { label: 'Versicherung', price: '20 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 3,
@@ -189,17 +268,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 12,
     price: 290,
-    includes: loc(
-      '3 inmersiones de curso, kit E-learning SSI y carnet digital.',
-      '3 course dives, SSI e-learning kit and digital certification card.',
-      '3 plongées de formation, kit e-learning SSI et carte numérique.',
-      '3 Kurs-Tauchgänge, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['3 inmersiones de curso', 'kit E-learning SSI y carnet digital'],
+      ['3 course dives', 'SSI e-learning kit and digital certification card'],
+      ['3 plongées de formation', 'kit e-learning SSI et carte numérique'],
+      ['3 Kurs-Tauchgänge', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Buceo adicional: 40 €. Equipo básico (sin ordenador): +30 €. Equipo completo (con ordenador): +40 €.',
-      'Additional dive: €40. Basic equipment (no computer): +€30. Full equipment (with computer): +€40.',
-      'Plongée supplémentaire : 40 €. Équipement de base (sans ordinateur) : +30 €. Équipement complet (avec ordinateur) : +40 €.',
-      'Zusätzlicher Tauchgang: 40 €. Grundausrüstung (ohne Computer): +30 €. Komplettausrüstung (mit Computer): +40 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Buceo adicional', price: '40 €' },
+        { label: 'Equipo básico (sin ordenador)', price: '+30 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+40 €' },
+      ],
+      [
+        { label: 'Additional dive', price: '€40' },
+        { label: 'Basic equipment (no computer)', price: '+€30' },
+        { label: 'Full equipment (with computer)', price: '+€40' },
+      ],
+      [
+        { label: 'Plongée supplémentaire', price: '40 €' },
+        { label: 'Équipement de base (sans ordinateur)', price: '+30 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+40 €' },
+      ],
+      [
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+        { label: 'Grundausrüstung (ohne Computer)', price: '+30 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+40 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 4,
@@ -231,17 +326,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('1 día', '1 day', '1 jour', '1 Tag'),
     minAge: 12,
     price: 160,
-    includes: loc(
-      '2 inmersiones de curso, kit E-learning SSI y carnet digital.',
-      '2 course dives, SSI e-learning kit and digital certification card.',
-      '2 plongées de formation, kit e-learning SSI et carte numérique.',
-      '2 Kurs-Tauchgänge, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['2 inmersiones de curso', 'kit E-learning SSI y carnet digital'],
+      ['2 course dives', 'SSI e-learning kit and digital certification card'],
+      ['2 plongées de formation', 'kit e-learning SSI et carte numérique'],
+      ['2 Kurs-Tauchgänge', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Equipo básico (sin ordenador): +20 €. Equipo completo (con ordenador): +25 €. Seguro 1 día: 8 €.',
-      'Basic equipment (no computer): +€20. Full equipment (with computer): +€25. 1-day insurance: €8.',
-      'Équipement de base (sans ordinateur) : +20 €. Équipement complet (avec ordinateur) : +25 €. Assurance 1 jour : 8 €.',
-      'Grundausrüstung (ohne Computer): +20 €. Komplettausrüstung (mit Computer): +25 €. Versicherung 1 Tag: 8 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico (sin ordenador)', price: '+20 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+25 €' },
+        { label: 'Seguro 1 día', price: '8 €' },
+      ],
+      [
+        { label: 'Basic equipment (no computer)', price: '+€20' },
+        { label: 'Full equipment (with computer)', price: '+€25' },
+        { label: '1-day insurance', price: '€8' },
+      ],
+      [
+        { label: 'Équipement de base (sans ordinateur)', price: '+20 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+25 €' },
+        { label: 'Assurance 1 jour', price: '8 €' },
+      ],
+      [
+        { label: 'Grundausrüstung (ohne Computer)', price: '+20 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+25 €' },
+        { label: 'Versicherung 1 Tag', price: '8 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 5,
@@ -273,17 +384,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
     minAge: 16,
     price: 460,
-    includes: loc(
-      '4 inmersiones de curso, kit E-learning SSI y carnet digital.',
-      '4 course dives, SSI e-learning kit and digital certification card.',
-      '4 plongées de formation, kit e-learning SSI et carte numérique.',
-      '4 Kurs-Tauchgänge, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['4 inmersiones de curso', 'kit E-learning SSI y carnet digital'],
+      ['4 course dives', 'SSI e-learning kit and digital certification card'],
+      ['4 plongées de formation', 'kit e-learning SSI et carte numérique'],
+      ['4 Kurs-Tauchgänge', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Equipo básico (sin ordenador): +20 €. Equipo completo (con ordenador): +25 €. Seguro 1 semana: 20 €.',
-      'Basic equipment (no computer): +€20. Full equipment (with computer): +€25. 1-week insurance: €20.',
-      'Équipement de base (sans ordinateur) : +20 €. Équipement complet (avec ordinateur) : +25 €. Assurance 1 semaine : 20 €.',
-      'Grundausrüstung (ohne Computer): +20 €. Komplettausrüstung (mit Computer): +25 €. Versicherung 1 Woche: 20 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico (sin ordenador)', price: '+20 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+25 €' },
+        { label: 'Seguro 1 semana', price: '20 €' },
+      ],
+      [
+        { label: 'Basic equipment (no computer)', price: '+€20' },
+        { label: 'Full equipment (with computer)', price: '+€25' },
+        { label: '1-week insurance', price: '€20' },
+      ],
+      [
+        { label: 'Équipement de base (sans ordinateur)', price: '+20 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+25 €' },
+        { label: 'Assurance 1 semaine', price: '20 €' },
+      ],
+      [
+        { label: 'Grundausrüstung (ohne Computer)', price: '+20 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+25 €' },
+        { label: 'Versicherung 1 Woche', price: '20 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 6,
@@ -315,17 +442,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 12,
     price: 260,
-    includes: loc(
-      '3 inmersiones de curso, kit E-learning SSI y carnet digital.',
-      '3 course dives, SSI e-learning kit and digital certification card.',
-      '3 plongées de formation, kit e-learning SSI et carte numérique.',
-      '3 Kurs-Tauchgänge, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['3 inmersiones de curso', 'kit E-learning SSI y carnet digital'],
+      ['3 course dives', 'SSI e-learning kit and digital certification card'],
+      ['3 plongées de formation', 'kit e-learning SSI et carte numérique'],
+      ['3 Kurs-Tauchgänge', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Equipo básico (sin ordenador): +40 €. Equipo completo (con ordenador): +50 €. Seguro 2 días: 16 €.',
-      'Basic equipment (no computer): +€40. Full equipment (with computer): +€50. 2-day insurance: €16.',
-      'Équipement de base (sans ordinateur) : +40 €. Équipement complet (avec ordinateur) : +50 €. Assurance 2 jours : 16 €.',
-      'Grundausrüstung (ohne Computer): +40 €. Komplettausrüstung (mit Computer): +50 €. Versicherung 2 Tage: 16 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico (sin ordenador)', price: '+40 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+50 €' },
+        { label: 'Seguro 2 días', price: '16 €' },
+      ],
+      [
+        { label: 'Basic equipment (no computer)', price: '+€40' },
+        { label: 'Full equipment (with computer)', price: '+€50' },
+        { label: '2-day insurance', price: '€16' },
+      ],
+      [
+        { label: 'Équipement de base (sans ordinateur)', price: '+40 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+50 €' },
+        { label: 'Assurance 2 jours', price: '16 €' },
+      ],
+      [
+        { label: 'Grundausrüstung (ohne Computer)', price: '+40 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+50 €' },
+        { label: 'Versicherung 2 Tage', price: '16 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 7,
@@ -357,17 +500,33 @@ export const coursesData: CourseSeed[] = [
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 12,
     price: 350,
-    includes: loc(
-      '4 inmersiones de curso, kit E-learning SSI y carnet digital.',
-      '4 course dives, SSI e-learning kit and digital certification card.',
-      '4 plongées de formation, kit e-learning SSI et carte numérique.',
-      '4 Kurs-Tauchgänge, SSI-E-Learning-Kit und digitale Karte.',
+    includes: locList(
+      ['4 inmersiones de curso', 'kit E-learning SSI y carnet digital'],
+      ['4 course dives', 'SSI e-learning kit and digital certification card'],
+      ['4 plongées de formation', 'kit e-learning SSI et carte numérique'],
+      ['4 Kurs-Tauchgänge', 'SSI-E-Learning-Kit und digitale Karte'],
     ),
-    supplements: loc(
-      'Equipo básico (sin ordenador): +40 €. Equipo completo (con ordenador): +50 €. Seguro 2 días: 16 €.',
-      'Basic equipment (no computer): +€40. Full equipment (with computer): +€50. 2-day insurance: €16.',
-      'Équipement de base (sans ordinateur) : +40 €. Équipement complet (avec ordinateur) : +50 €. Assurance 2 jours : 16 €.',
-      'Grundausrüstung (ohne Computer): +40 €. Komplettausrüstung (mit Computer): +50 €. Versicherung 2 Tage: 16 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico (sin ordenador)', price: '+40 €' },
+        { label: 'Equipo completo (con ordenador)', price: '+50 €' },
+        { label: 'Seguro 2 días', price: '16 €' },
+      ],
+      [
+        { label: 'Basic equipment (no computer)', price: '+€40' },
+        { label: 'Full equipment (with computer)', price: '+€50' },
+        { label: '2-day insurance', price: '€16' },
+      ],
+      [
+        { label: 'Équipement de base (sans ordinateur)', price: '+40 €' },
+        { label: 'Équipement complet (avec ordinateur)', price: '+50 €' },
+        { label: 'Assurance 2 jours', price: '16 €' },
+      ],
+      [
+        { label: 'Grundausrüstung (ohne Computer)', price: '+40 €' },
+        { label: 'Komplettausrüstung (mit Computer)', price: '+50 €' },
+        { label: 'Versicherung 2 Tage', price: '16 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 8,
@@ -394,13 +553,13 @@ export const coursesData: CourseSeed[] = [
     duration: loc('1 día', '1 day', '1 jour', '1 Tag'),
     minAge: 12,
     price: 140,
-    includes: loc(
-      'Prácticas sin buceo, taller de rescate.',
-      'No-dive practical session, rescue workshop.',
-      'Exercices sans plongée, atelier de sauvetage.',
-      'Übungen ohne Tauchen, Rettungsworkshop.',
+    includes: locList(
+      ['Prácticas sin buceo', 'taller de rescate'],
+      ['No-dive practical session', 'rescue workshop'],
+      ['Exercices sans plongée', 'atelier de sauvetage'],
+      ['Übungen ohne Tauchen', 'Rettungsworkshop'],
     ),
-    supplements: loc('', '', '', ''),
+    supplements: locSupplements([], [], [], []),
     groupDiscount: loc('', '', '', ''),
     order: 9,
   },
@@ -432,17 +591,45 @@ export const coursesData: CourseSeed[] = [
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 12,
     price: 260,
-    includes: loc(
-      '3 inmersiones de curso, equipos y seguro de buceo, formación teórica presencial (2 h) y carnet digital.',
-      '3 course dives, equipment and dive insurance, classroom theory (2 h) and digital certification card.',
-      '3 plongées de formation, équipement et assurance plongée, formation théorique en présentiel (2 h) et carte numérique.',
-      '3 Kurs-Tauchgänge, Ausrüstung und Tauchversicherung, Präsenztheorie (2 Std.) und digitale Karte.',
+    includes: locList(
+      [
+        '3 inmersiones de curso',
+        'equipos y seguro de buceo',
+        'formación teórica presencial (2 h) y carnet digital',
+      ],
+      [
+        '3 course dives',
+        'equipment and dive insurance',
+        'classroom theory (2 h) and digital certification card',
+      ],
+      [
+        '3 plongées de formation',
+        'équipement et assurance plongée',
+        'formation théorique en présentiel (2 h) et carte numérique',
+      ],
+      [
+        '3 Kurs-Tauchgänge',
+        'Ausrüstung und Tauchversicherung',
+        'Präsenztheorie (2 Std.) und digitale Karte',
+      ],
     ),
-    supplements: loc(
-      'Clip de vídeo: 25 €. Buceo adicional: 40 €.',
-      'Video clip: €25. Additional dive: €40.',
-      'Clip vidéo : 25 €. Plongée supplémentaire : 40 €.',
-      'Videoclip: 25 €. Zusätzlicher Tauchgang: 40 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Clip de vídeo', price: '25 €' },
+        { label: 'Buceo adicional', price: '40 €' },
+      ],
+      [
+        { label: 'Video clip', price: '€25' },
+        { label: 'Additional dive', price: '€40' },
+      ],
+      [
+        { label: 'Clip vidéo', price: '25 €' },
+        { label: 'Plongée supplémentaire', price: '40 €' },
+      ],
+      [
+        { label: 'Videoclip', price: '25 €' },
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 1 instructor por 3 estudiantes.',
@@ -479,17 +666,45 @@ export const coursesData: CourseSeed[] = [
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
     minAge: 12,
     price: 420,
-    includes: loc(
-      '5 inmersiones de curso, equipos y seguro de buceo, formación teórica presencial (4 h) y carnet digital.',
-      '5 course dives, equipment and dive insurance, classroom theory (4 h) and digital certification card.',
-      '5 plongées de formation, équipement et assurance plongée, formation théorique en présentiel (4 h) et carte numérique.',
-      '5 Kurs-Tauchgänge, Ausrüstung und Tauchversicherung, Präsenztheorie (4 Std.) und digitale Karte.',
+    includes: locList(
+      [
+        '5 inmersiones de curso',
+        'equipos y seguro de buceo',
+        'formación teórica presencial (4 h) y carnet digital',
+      ],
+      [
+        '5 course dives',
+        'equipment and dive insurance',
+        'classroom theory (4 h) and digital certification card',
+      ],
+      [
+        '5 plongées de formation',
+        'équipement et assurance plongée',
+        'formation théorique en présentiel (4 h) et carte numérique',
+      ],
+      [
+        '5 Kurs-Tauchgänge',
+        'Ausrüstung und Tauchversicherung',
+        'Präsenztheorie (4 Std.) und digitale Karte',
+      ],
     ),
-    supplements: loc(
-      'Clip de vídeo: 25 €. Buceo doble adicional: 80 €.',
-      'Video clip: €25. Additional double dive: €80.',
-      'Clip vidéo : 25 €. Plongée double supplémentaire : 80 €.',
-      'Videoclip: 25 €. Zusätzlicher Doppeltauchgang: 80 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Clip de vídeo', price: '25 €' },
+        { label: 'Buceo doble adicional', price: '80 €' },
+      ],
+      [
+        { label: 'Video clip', price: '€25' },
+        { label: 'Additional double dive', price: '€80' },
+      ],
+      [
+        { label: 'Clip vidéo', price: '25 €' },
+        { label: 'Plongée double supplémentaire', price: '80 €' },
+      ],
+      [
+        { label: 'Videoclip', price: '25 €' },
+        { label: 'Zusätzlicher Doppeltauchgang', price: '80 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 1 instructor por 3 estudiantes.',
@@ -497,6 +712,7 @@ export const coursesData: CourseSeed[] = [
       'Maximum 1 instructeur pour 3 élèves.',
       'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
+    reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/6a312c66a0cc4a3ec72bbc0c',
     order: 11,
   },
   // ---------- CMAS Avanzado ----------
@@ -527,17 +743,53 @@ export const coursesData: CourseSeed[] = [
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
     minAge: 16,
     price: 360,
-    includes: loc(
-      '6 inmersiones de curso, equipos y seguro de buceo, formación teórica presencial (2 h) y carnet digital.',
-      '6 course dives, equipment and dive insurance, classroom theory (2 h) and digital certification card.',
-      '6 plongées de formation, équipement et assurance plongée, formation théorique en présentiel (2 h) et carte numérique.',
-      '6 Kurs-Tauchgänge, Ausrüstung und Tauchversicherung, Präsenztheorie (2 Std.) und digitale Karte.',
+    includes: locList(
+      [
+        '6 inmersiones de curso',
+        'equipos y seguro de buceo',
+        'formación teórica presencial (2 h) y carnet digital',
+      ],
+      [
+        '6 course dives',
+        'equipment and dive insurance',
+        'classroom theory (2 h) and digital certification card',
+      ],
+      [
+        '6 plongées de formation',
+        'équipement et assurance plongée',
+        'formation théorique en présentiel (2 h) et carte numérique',
+      ],
+      [
+        '6 Kurs-Tauchgänge',
+        'Ausrüstung und Tauchversicherung',
+        'Präsenztheorie (2 Std.) und digitale Karte',
+      ],
     ),
-    supplements: loc(
-      'Buceo adicional: 40 €. Equipo básico: +60 €. Equipo completo: +75 €. Seguro semana: 20 €.',
-      'Additional dive: €40. Basic equipment: +€60. Full equipment: +€75. Weekly insurance: €20.',
-      'Plongée supplémentaire : 40 €. Équipement de base : +60 €. Équipement complet : +75 €. Assurance semaine : 20 €.',
-      'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +60 €. Komplettausrüstung: +75 €. Versicherung Woche: 20 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Buceo adicional', price: '40 €' },
+        { label: 'Equipo básico', price: '+60 €' },
+        { label: 'Equipo completo', price: '+75 €' },
+        { label: 'Seguro semana', price: '20 €' },
+      ],
+      [
+        { label: 'Additional dive', price: '€40' },
+        { label: 'Basic equipment', price: '+€60' },
+        { label: 'Full equipment', price: '+€75' },
+        { label: 'Weekly insurance', price: '€20' },
+      ],
+      [
+        { label: 'Plongée supplémentaire', price: '40 €' },
+        { label: 'Équipement de base', price: '+60 €' },
+        { label: 'Équipement complet', price: '+75 €' },
+        { label: 'Assurance semaine', price: '20 €' },
+      ],
+      [
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+        { label: 'Grundausrüstung', price: '+60 €' },
+        { label: 'Komplettausrüstung', price: '+75 €' },
+        { label: 'Versicherung Woche', price: '20 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 2 estudiantes por sesión.',
@@ -574,17 +826,37 @@ export const coursesData: CourseSeed[] = [
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
     minAge: 16,
     price: 260,
-    includes: loc(
-      '4 inmersiones de curso, formación teórica presencial (2 h) y carnet digital.',
-      '4 course dives, classroom theory (2 h) and digital certification card.',
-      '4 plongées de formation, formation théorique en présentiel (2 h) et carte numérique.',
-      '4 Kurs-Tauchgänge, Präsenztheorie (2 Std.) und digitale Karte.',
+    includes: locList(
+      ['4 inmersiones de curso', 'formación teórica presencial (2 h) y carnet digital'],
+      ['4 course dives', 'classroom theory (2 h) and digital certification card'],
+      ['4 plongées de formation', 'formation théorique en présentiel (2 h) et carte numérique'],
+      ['4 Kurs-Tauchgänge', 'Präsenztheorie (2 Std.) und digitale Karte'],
     ),
-    supplements: loc(
-      'Buceo adicional: 40 €. Equipo básico: +40 €. Equipo completo: +50 €. Seguro 2 días: 16 €.',
-      'Additional dive: €40. Basic equipment: +€40. Full equipment: +€50. 2-day insurance: €16.',
-      'Plongée supplémentaire : 40 €. Équipement de base : +40 €. Équipement complet : +50 €. Assurance 2 jours : 16 €.',
-      'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +40 €. Komplettausrüstung: +50 €. Versicherung 2 Tage: 16 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Buceo adicional', price: '40 €' },
+        { label: 'Equipo básico', price: '+40 €' },
+        { label: 'Equipo completo', price: '+50 €' },
+        { label: 'Seguro 2 días', price: '16 €' },
+      ],
+      [
+        { label: 'Additional dive', price: '€40' },
+        { label: 'Basic equipment', price: '+€40' },
+        { label: 'Full equipment', price: '+€50' },
+        { label: '2-day insurance', price: '€16' },
+      ],
+      [
+        { label: 'Plongée supplémentaire', price: '40 €' },
+        { label: 'Équipement de base', price: '+40 €' },
+        { label: 'Équipement complet', price: '+50 €' },
+        { label: 'Assurance 2 jours', price: '16 €' },
+      ],
+      [
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+        { label: 'Grundausrüstung', price: '+40 €' },
+        { label: 'Komplettausrüstung', price: '+50 €' },
+        { label: 'Versicherung 2 Tage', price: '16 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 2 estudiantes por sesión.',
@@ -621,17 +893,49 @@ export const coursesData: CourseSeed[] = [
     duration: loc('5 días', '5 days', '5 jours', '5 Tage'),
     minAge: 16,
     price: 620,
-    includes: loc(
-      '10 inmersiones de curso, equipos y seguro de buceo, formación teórica presencial (4 h) y carnet digital.',
-      '10 course dives, equipment and dive insurance, classroom theory (4 h) and digital certification card.',
-      '10 plongées de formation, équipement et assurance plongée, formation théorique en présentiel (4 h) et carte numérique.',
-      '10 Kurs-Tauchgänge, Ausrüstung und Tauchversicherung, Präsenztheorie (4 Std.) und digitale Karte.',
+    includes: locList(
+      [
+        '10 inmersiones de curso',
+        'equipos y seguro de buceo',
+        'formación teórica presencial (4 h) y carnet digital',
+      ],
+      [
+        '10 course dives',
+        'equipment and dive insurance',
+        'classroom theory (4 h) and digital certification card',
+      ],
+      [
+        '10 plongées de formation',
+        'équipement et assurance plongée',
+        'formation théorique en présentiel (4 h) et carte numérique',
+      ],
+      [
+        '10 Kurs-Tauchgänge',
+        'Ausrüstung und Tauchversicherung',
+        'Präsenztheorie (4 Std.) und digitale Karte',
+      ],
     ),
-    supplements: loc(
-      'Equipo básico: +80 €. Equipo completo: +100 €. Seguro semana: 20 €.',
-      'Basic equipment: +€80. Full equipment: +€100. Weekly insurance: €20.',
-      'Équipement de base : +80 €. Équipement complet : +100 €. Assurance semaine : 20 €.',
-      'Grundausrüstung: +80 €. Komplettausrüstung: +100 €. Versicherung Woche: 20 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Equipo básico', price: '+80 €' },
+        { label: 'Equipo completo', price: '+100 €' },
+        { label: 'Seguro semana', price: '20 €' },
+      ],
+      [
+        { label: 'Basic equipment', price: '+€80' },
+        { label: 'Full equipment', price: '+€100' },
+        { label: 'Weekly insurance', price: '€20' },
+      ],
+      [
+        { label: 'Équipement de base', price: '+80 €' },
+        { label: 'Équipement complet', price: '+100 €' },
+        { label: 'Assurance semaine', price: '20 €' },
+      ],
+      [
+        { label: 'Grundausrüstung', price: '+80 €' },
+        { label: 'Komplettausrüstung', price: '+100 €' },
+        { label: 'Versicherung Woche', price: '20 €' },
+      ],
     ),
     groupDiscount: loc(
       'Máximo 2 estudiantes por sesión.',
@@ -676,17 +980,37 @@ export const courseBundlesData: CourseSeed[] = [
     ),
     minAge: 12,
     price: 350,
-    includes: loc(
-      '3 inmersiones de curso, 2 kits E-learning SSI y carnets digitales.',
-      '3 course dives, 2 SSI e-learning kits and digital certification cards.',
-      '3 plongées de formation, 2 kits e-learning SSI et cartes numériques.',
-      '3 Kurs-Tauchgänge, 2 SSI-E-Learning-Kits und digitale Karten.',
+    includes: locList(
+      ['3 inmersiones de curso', '2 kits E-learning SSI y carnets digitales'],
+      ['3 course dives', '2 SSI e-learning kits and digital certification cards'],
+      ['3 plongées de formation', '2 kits e-learning SSI et cartes numériques'],
+      ['3 Kurs-Tauchgänge', '2 SSI-E-Learning-Kits und digitale Karten'],
     ),
-    supplements: loc(
-      'Buceo adicional: 40 €. Equipo básico: +30 €. Equipo completo: +40 €. Seguro 2 días: 16 €.',
-      'Additional dive: €40. Basic equipment: +€30. Full equipment: +€40. 2-day insurance: €16.',
-      'Plongée supplémentaire : 40 €. Équipement de base : +30 €. Équipement complet : +40 €. Assurance 2 jours : 16 €.',
-      'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +30 €. Komplettausrüstung: +40 €. Versicherung 2 Tage: 16 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Buceo adicional', price: '40 €' },
+        { label: 'Equipo básico', price: '+30 €' },
+        { label: 'Equipo completo', price: '+40 €' },
+        { label: 'Seguro 2 días', price: '16 €' },
+      ],
+      [
+        { label: 'Additional dive', price: '€40' },
+        { label: 'Basic equipment', price: '+€30' },
+        { label: 'Full equipment', price: '+€40' },
+        { label: '2-day insurance', price: '€16' },
+      ],
+      [
+        { label: 'Plongée supplémentaire', price: '40 €' },
+        { label: 'Équipement de base', price: '+30 €' },
+        { label: 'Équipement complet', price: '+40 €' },
+        { label: 'Assurance 2 jours', price: '16 €' },
+      ],
+      [
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+        { label: 'Grundausrüstung', price: '+30 €' },
+        { label: 'Komplettausrüstung', price: '+40 €' },
+        { label: 'Versicherung 2 Tage', price: '16 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 17,
@@ -723,17 +1047,37 @@ export const courseBundlesData: CourseSeed[] = [
     ),
     minAge: 16,
     price: 700,
-    includes: loc(
-      '7 inmersiones de curso, 3 kits E-learning SSI y carnets digitales.',
-      '7 course dives, 3 SSI e-learning kits and digital certification cards.',
-      '7 plongées de formation, 3 kits e-learning SSI et cartes numériques.',
-      '7 Kurs-Tauchgänge, 3 SSI-E-Learning-Kits und digitale Karten.',
+    includes: locList(
+      ['7 inmersiones de curso', '3 kits E-learning SSI y carnets digitales'],
+      ['7 course dives', '3 SSI e-learning kits and digital certification cards'],
+      ['7 plongées de formation', '3 kits e-learning SSI et cartes numériques'],
+      ['7 Kurs-Tauchgänge', '3 SSI-E-Learning-Kits und digitale Karten'],
     ),
-    supplements: loc(
-      'Buceo adicional: 40 €. Equipo básico: +60 €. Equipo completo: +75 €. Seguro semana: 20 €.',
-      'Additional dive: €40. Basic equipment: +€60. Full equipment: +€75. Weekly insurance: €20.',
-      'Plongée supplémentaire : 40 €. Équipement de base : +60 €. Équipement complet : +75 €. Assurance semaine : 20 €.',
-      'Zusätzlicher Tauchgang: 40 €. Grundausrüstung: +60 €. Komplettausrüstung: +75 €. Versicherung Woche: 20 €.',
+    supplements: locSupplements(
+      [
+        { label: 'Buceo adicional', price: '40 €' },
+        { label: 'Equipo básico', price: '+60 €' },
+        { label: 'Equipo completo', price: '+75 €' },
+        { label: 'Seguro semana', price: '20 €' },
+      ],
+      [
+        { label: 'Additional dive', price: '€40' },
+        { label: 'Basic equipment', price: '+€60' },
+        { label: 'Full equipment', price: '+€75' },
+        { label: 'Weekly insurance', price: '€20' },
+      ],
+      [
+        { label: 'Plongée supplémentaire', price: '40 €' },
+        { label: 'Équipement de base', price: '+60 €' },
+        { label: 'Équipement complet', price: '+75 €' },
+        { label: 'Assurance semaine', price: '20 €' },
+      ],
+      [
+        { label: 'Zusätzlicher Tauchgang', price: '40 €' },
+        { label: 'Grundausrüstung', price: '+60 €' },
+        { label: 'Komplettausrüstung', price: '+75 €' },
+        { label: 'Versicherung Woche', price: '20 €' },
+      ],
     ),
     groupDiscount: loc('', '', '', ''),
     order: 18,

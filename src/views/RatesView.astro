@@ -8,7 +8,7 @@ import { ui } from '../i18n/strings'
 // "todos los tarifas en la misma página con opciones y suplemento posible".
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { t } from '../sanity/localize'
+import { t, tList, tSupplements } from '../sanity/localize'
 import { getCourses, getExperiences, getTariffExtras } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
@@ -129,8 +129,29 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
                     {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
                   </td>
                   <td class={styles.cardPrice}>{priceOf(x)}</td>
-                  <td class={styles.cardBody}>{t(x.includes, lang) || emDash}</td>
-                  <td class={styles.cardBody}>{t(x.supplements, lang) || emDash}</td>
+                  <td class={styles.cardBody}>
+                    {tList(x.includes, lang).length ? (
+                      <ul class="ratesList">
+                        {tList(x.includes, lang).map((item) => <li>{item}</li>)}
+                      </ul>
+                    ) : (
+                      emDash
+                    )}
+                  </td>
+                  <td class={styles.cardBody}>
+                    {tSupplements(x.supplements, lang).length ? (
+                      <ul class="ratesSupplementList">
+                        {tSupplements(x.supplements, lang).map((s) => (
+                          <li>
+                            <span class="ratesSupplementLabel">{s.label}</span>
+                            <span class="ratesSupplementPrice">{s.price}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      emDash
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -161,8 +182,29 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
                     {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
                   </td>
                   <td class={styles.cardPrice}>{priceOf(x)}</td>
-                  <td class={styles.cardBody}>{t(x.includes, lang) || emDash}</td>
-                  <td class={styles.cardBody}>{t(x.supplements, lang) || emDash}</td>
+                  <td class={styles.cardBody}>
+                    {tList(x.includes, lang).length ? (
+                      <ul class="ratesList">
+                        {tList(x.includes, lang).map((item) => <li>{item}</li>)}
+                      </ul>
+                    ) : (
+                      emDash
+                    )}
+                  </td>
+                  <td class={styles.cardBody}>
+                    {tSupplements(x.supplements, lang).length ? (
+                      <ul class="ratesSupplementList">
+                        {tSupplements(x.supplements, lang).map((s) => (
+                          <li>
+                            <span class="ratesSupplementLabel">{s.label}</span>
+                            <span class="ratesSupplementPrice">{s.price}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      emDash
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -193,8 +235,29 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
                     {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
                   </td>
                   <td class={styles.cardPrice}>{priceOf(x)}</td>
-                  <td class={styles.cardBody}>{t(x.includes, lang) || emDash}</td>
-                  <td class={styles.cardBody}>{t(x.supplements, lang) || emDash}</td>
+                  <td class={styles.cardBody}>
+                    {tList(x.includes, lang).length ? (
+                      <ul class="ratesList">
+                        {tList(x.includes, lang).map((item) => <li>{item}</li>)}
+                      </ul>
+                    ) : (
+                      emDash
+                    )}
+                  </td>
+                  <td class={styles.cardBody}>
+                    {tSupplements(x.supplements, lang).length ? (
+                      <ul class="ratesSupplementList">
+                        {tSupplements(x.supplements, lang).map((s) => (
+                          <li>
+                            <span class="ratesSupplementLabel">{s.label}</span>
+                            <span class="ratesSupplementPrice">{s.price}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      emDash
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -284,6 +347,38 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     color: var(--color-text-muted);
     margin-top: 4px;
     line-height: 1.5;
+  }
+
+  .ratesList {
+    margin: 0;
+    padding-left: 1.1em;
+  }
+
+  .ratesList li {
+    list-style: disc;
+  }
+
+  .ratesSupplementList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ratesSupplementList li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 0;
+  }
+
+  .ratesSupplementLabel {
+    color: var(--color-text-muted);
+  }
+
+  .ratesSupplementPrice {
+    color: #c97a2b;
+    font-weight: 700;
+    white-space: nowrap;
   }
 
   @media (max-width: 768px) {

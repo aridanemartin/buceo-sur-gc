@@ -2,8 +2,10 @@
 // src/components/CourseCard.astro
 // Shared row-style card used by the Inmersiones, Bautizos, Sidemount and
 // Cursos views. Renders a title, meta badges, body paragraphs (each with an
-// optional label), a price and an optional media block. When both videoUrl and
-// image are present the video wins, matching the Bautizos behaviour.
+// optional label) — as a plain paragraph, a <ul><li> list when `items` is
+// given, or a two-color concept/price list when `supplements` is given — a
+// price and an optional media block. When both videoUrl and image are
+// present the video wins, matching the Bautizos behaviour.
 import rowStyles from '../styles/rowLayout.module.css'
 
 interface Props {
@@ -14,11 +16,22 @@ interface Props {
   agencyLogo?: string | null
   agencyName?: string
   meta?: string[]
-  paragraphs?: Array<{ label?: string; text: string }>
+  paragraphs?: Array<{
+    label?: string
+    text?: string
+    items?: string[]
+    supplements?: Array<{ label: string; price: string }>
+  }>
   price?: string | null
   image?: string | null
   videoUrl?: string | null
   headingLevel?: 2 | 3 | 4
+  // Reserve button: reserveHref points either at the item's direct Bukyapp
+  // product page (reserveExternal true, opens in a new tab) or at the
+  // contact form with a prefilled message (reserveExternal false, same tab).
+  reserveHref?: string | null
+  reserveLabel?: string
+  reserveExternal?: boolean
 }
 
 const {
@@ -34,6 +47,9 @@ const {
   image,
   videoUrl,
   headingLevel = 3,
+  reserveHref = null,
+  reserveLabel = 'Reservar',
+  reserveExternal = false,
 } = Astro.props
 
 // Course category badges read as a depth cue: recreational courses stay
@@ -103,13 +119,50 @@ const Tag = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
         ))}
       </ul>
     ) : null}
-    {paragraphs.map((p) => (
-      <p class={rowStyles.cardBody}>
-        {p.label ? <strong>{p.label}: </strong> : null}
-        {p.text}
-      </p>
-    ))}
-    {price ? <p class={rowStyles.cardPrice}>{price}</p> : null}
+    {paragraphs.map((p) =>
+      p.supplements && p.supplements.length > 0 ? (
+        <div class={rowStyles.cardBody}>
+          {p.label ? <strong>{p.label}</strong> : null}
+          <ul class={rowStyles.supplementList}>
+            {p.supplements.map((s) => (
+              <li>
+                <span class={rowStyles.supplementLabel}>{s.label}</span>
+                <span class={rowStyles.supplementPrice}>{s.price}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : p.items && p.items.length > 0 ? (
+        <div class={rowStyles.cardBody}>
+          {p.label ? <strong>{p.label}: </strong> : null}
+          <ul class={rowStyles.cardList}>
+            {p.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ) : p.text ? (
+        <p class={rowStyles.cardBody}>
+          {p.label ? <strong>{p.label}: </strong> : null}
+          {p.text}
+        </p>
+      ) : null,
+    )}
+    {price || reserveHref ? (
+      <div class={rowStyles.cardFooter}>
+        {price ? <p class={rowStyles.cardPrice}>{price}</p> : null}
+        {reserveHref ? (
+          <a
+            class={rowStyles.reserveButton}
+            href={reserveHref}
+            target={reserveExternal ? '_blank' : undefined}
+            rel={reserveExternal ? 'noopener noreferrer' : undefined}
+          >
+            {reserveLabel}
+          </a>
+        ) : null}
+      </div>
+    ) : null}
   </div>
   {embedUrl ? (
     <div class={rowStyles.rowMedia}>

@@ -4,13 +4,14 @@ import CtaBanner from '../components/CtaBanner.astro'
 import Tabs from '../components/Tabs'
 import { divesPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
-import { ui } from '../i18n/strings'
+import { localePath, withLangParam } from '../i18n/paths'
+import { reserveInterestMessage, ui } from '../i18n/strings'
 // src/views/DivesView.astro
 // Inmersiones page — organisation prose from divesPageContent plus the certified
 // experiences as cards, per docs/2. inmersiones.md.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { t } from '../sanity/localize'
+import { t, tList, tSupplements } from '../sanity/localize'
 import { getExperiences } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import textWithCarousel from '../styles/TextWithCarousel.module.css'
@@ -32,7 +33,6 @@ const labels: Record<
     supplements: string
     conditions: string
     depth: string
-    gridTitle: string
     packageBadge: string
   }
 > = {
@@ -41,7 +41,6 @@ const labels: Record<
     supplements: 'Suplementos / opciones',
     conditions: 'Condiciones',
     depth: 'máx.',
-    gridTitle: 'Inmersiones guiadas',
     packageBadge: 'Bono / Pack',
   },
   en: {
@@ -49,7 +48,6 @@ const labels: Record<
     supplements: 'Supplements / options',
     conditions: 'Conditions',
     depth: 'max',
-    gridTitle: 'Guided dives',
     packageBadge: 'Package',
   },
   fr: {
@@ -57,7 +55,6 @@ const labels: Record<
     supplements: 'Suppléments / options',
     conditions: 'Conditions',
     depth: 'max',
-    gridTitle: 'Plongées encadrées',
     packageBadge: 'Forfait',
   },
   de: {
@@ -65,7 +62,6 @@ const labels: Record<
     supplements: 'Zuschläge / Optionen',
     conditions: 'Bedingungen',
     depth: 'max.',
-    gridTitle: 'Begleitete Tauchgänge',
     packageBadge: 'Paket',
   },
 }
@@ -87,6 +83,13 @@ const ctaTitle: Record<Locale, string> = {
 
 const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
 const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price} €` : '')
+
+// Cards without a Bukyapp reservationLink fall back to the contact form
+// with a prefilled "interested in X" message, opened in the same tab.
+const reserveHrefOf = (x: any) =>
+  x.reservationLink
+    ? withLangParam(x.reservationLink, lang)
+    : `${localePath(lang, 'contact')}?message=${encodeURIComponent(reserveInterestMessage(lang, t(x.title, lang)))}`
 ---
 
 <BaseLayout lang={lang} path="dives" title={`${u.nav.dives} — ${SITE.fullName}`} description={descriptions[lang]}>
@@ -99,14 +102,14 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
       </div>
     </header>
 
-    <!-- Tabbed content: Información | Tarifas -->
+    <!-- Tabbed content: Inmersiones | Información -->
     <Tabs
       client:load
       label={u.nav.dives}
       idPrefix="dives"
       tabs={[
+        { id: 'rates', label: u.dives.ratesTab },
         { id: 'info', label: u.dives.infoTab },
-        { id: 'rates', label: u.nav.rates },
       ]}
     >
       <div slot="info">
@@ -141,8 +144,20 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
         <!-- Refresher -->
         <section class={styles.section}>
           <div class={styles.container}>
-            <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
-            <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
+            <div class={textWithCarousel.grid}>
+              <div class={textWithCarousel.text}>
+                <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
+                <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
+              </div>
+              <img
+                src="/assets/refresh.webp"
+                alt={t(divesPageContent.refresherTitle, lang)}
+                width={1536}
+                height={1024}
+                loading="lazy"
+                class="refresher-image"
+              />
+            </div>
           </div>
         </section>
 
@@ -157,8 +172,20 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
         <!-- Booking -->
         <section class={styles.section}>
           <div class={styles.container}>
-            <h2 class={styles.sectionTitle}>{t(divesPageContent.bookingTitle, lang)}</h2>
-            <p class={styles.bodyText}>{t(divesPageContent.booking, lang)}</p>
+            <div class={textWithCarousel.grid}>
+              <div class={textWithCarousel.text}>
+                <h2 class={styles.sectionTitle}>{t(divesPageContent.bookingTitle, lang)}</h2>
+                <p class={styles.bodyText}>{t(divesPageContent.booking, lang)}</p>
+              </div>
+              <img
+                src="/assets/reservar.webp"
+                alt={t(divesPageContent.bookingTitle, lang)}
+                width={1672}
+                height={941}
+                loading="lazy"
+                class="booking-image"
+              />
+            </div>
           </div>
         </section>
 
@@ -187,7 +214,6 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
         <!-- Certified experiences -->
         <section class={styles.section}>
           <div class={styles.container}>
-            <h2 class={styles.sectionTitle}>{l.gridTitle}</h2>
             <div class={rowStyles.list}>
               {experiences.map((x: any) => (
                 <CourseCard
@@ -195,11 +221,11 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
                   meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
                   paragraphs={[
                     { text: t(x.description, lang) },
-                    ...(t(x.includes, lang)
-                      ? [{ label: l.includes, text: t(x.includes, lang) }]
+                    ...(tList(x.includes, lang).length
+                      ? [{ label: l.includes, items: tList(x.includes, lang) }]
                       : []),
-                    ...(t(x.supplements, lang)
-                      ? [{ label: l.supplements, text: t(x.supplements, lang) }]
+                    ...(tSupplements(x.supplements, lang).length
+                      ? [{ label: l.supplements, supplements: tSupplements(x.supplements, lang) }]
                       : []),
                     ...(t(x.groupDiscount, lang)
                       ? [{ label: l.conditions, text: t(x.groupDiscount, lang) }]
@@ -210,6 +236,9 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
                   videoUrl={x.videoUrl || null}
                   isPackage={x.isPackage}
                   packageLabel={l.packageBadge}
+                  reserveHref={reserveHrefOf(x)}
+                  reserveLabel={u.book}
+                  reserveExternal={!!x.reservationLink}
                 />
               ))}
             </div>
@@ -228,15 +257,36 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
     margin: 0 auto;
   }
 
+  /* Grid rows in TextWithCarousel.module.css default to stretch: giving the
+     image height: 100% (instead of auto, which only sizes to its own aspect
+     ratio) makes it fill the row up to the text column's height, with
+     object-fit cropping instead of distorting. */
   .site-choice-map {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
   }
 
-  .docs-license-image {
+  .docs-license-image,
+  .booking-image,
+  .refresher-image {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
+    object-fit: cover;
+  }
+
+  /* Repaso (refresher): on desktop the 3:2 photo is taller than the text
+     column, so it drives the grid row height and ends up bigger than the
+     text. Absolute positioning takes the image out of grid track sizing,
+     so the text defines the row and the image adapts to its height (cover
+     crops instead of distorting). On mobile the grid stacks, so the image
+     keeps its in-flow size below the text. */
+  @media (min-width: 901px) {
+    .refresher-image {
+      position: absolute;
+      inset: 0;
+    }
   }
 </style>

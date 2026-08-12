@@ -19,6 +19,15 @@ interface ContactFormProps {
 
 export default function ContactForm({ labels }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false)
+  // Cards for courses/baptisms/dives without a direct Bukyapp reservationLink
+  // link here with ?message=..., e.g. "I'm interested in reserving X" — read
+  // once on mount (this is a fresh client:load island per page load, no
+  // client-side routing, so the URL is always current).
+  const [message, setMessage] = useState(() =>
+    typeof window === 'undefined'
+      ? ''
+      : (new URLSearchParams(window.location.search).get('message') ?? ''),
+  )
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -68,6 +77,8 @@ export default function ContactForm({ labels }: ContactFormProps) {
           rows={6}
           required
           placeholder={labels.message}
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
         />
       </label>
 
