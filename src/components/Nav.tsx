@@ -59,6 +59,18 @@ export default function Nav({
     return () => document.removeEventListener('click', close)
   }, [langOpen])
 
+  // Lock body scroll when mobile nav is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
   // Fly the hero logo into the nav's left slot right as the header (fixed on
   // top of the hero) would otherwise start covering it, morphing via the View
   // Transitions API. Runs at every viewport width. The trigger tracks the
