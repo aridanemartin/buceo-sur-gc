@@ -25,11 +25,10 @@ export const centroInfoData = {
     "Nos installations se trouvent à Playa de Arinaga, une petite station balnéaire idéale pour les familles, loin du tourisme de masse, sur la côte est à 15 km de l'aéroport. Nous disposons de 200 m² d'installations confortables : douches d'eau chaude, sanitaires, compresseur, salle de formation et atelier de réparation. Le matériel est bien entretenu, avec un suivi régulier, et renouvelé périodiquement.",
     'Unsere Einrichtungen befinden sich in Playa de Arinaga, einem kleinen, familienfreundlichen Badeort abseits des Massentourismus, an der Ostküste, 15 km vom Flughafen entfernt. Wir verfügen über 200 m² komfortable Räumlichkeiten: Warmwasserduschen, Toiletten, Kompressor, Schulungsraum und Reparaturwerkstatt. Die Ausrüstung ist in gutem Zustand, wird regelmäßig gewartet und periodisch erneuert.',
   ),
-  installationsImages: [
-    '/assets/local.webp',
-    '/assets/local-grupo.webp',
-    '/assets/local-zona-humeda.webp',
-  ],
+  // Installations photos live in Sanity (centroInfo.installationsImages) since
+  // the migration; the local fallback no longer ships duplicate images. The
+  // Home page hides the carousel when the array is empty.
+  installationsImages: [],
   staff: [
     {
       _key: 'staff-yann',
