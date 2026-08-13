@@ -55,6 +55,7 @@ const ogImage =
                 images={(site.images ?? []).map((url) => ({ url, alt: siteName }))}
                 videoUrl={site.youtubeUrl}
                 videoAlt={siteName}
+                videoFirst={site.youtubeFirst}
                 client:visible
               />
             </div>

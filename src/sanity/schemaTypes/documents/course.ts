@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { VideoFieldWarning } from '../../components/VideoFieldWarning'
 
 export const course = defineType({
   name: 'course',
@@ -19,10 +20,17 @@ export const course = defineType({
       options: { list: ['recreational', 'specialty', 'technical', 'professional'] },
     }),
     defineField({
+      name: 'videoUrl',
+      title: 'Vídeo de YouTube',
+      type: 'url',
+      components: { input: VideoFieldWarning },
+    }),
+    defineField({
       name: 'image',
       title: 'Imagen',
       type: 'image',
       options: { accept: 'image/webp' },
+      description: 'Se usa solo si no hay vídeo de YouTube. El vídeo tiene prioridad.',
     }),
     defineField({ name: 'summary', title: 'Resumen', type: 'localeText' }),
     defineField({ name: 'requirements', title: 'Requisitos', type: 'localeList' }),

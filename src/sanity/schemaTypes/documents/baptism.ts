@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { VideoFieldWarning } from '../../components/VideoFieldWarning'
 
 export const baptism = defineType({
   name: 'baptism',
@@ -25,7 +26,12 @@ export const baptism = defineType({
       description:
         'Enlace directo al producto en Bukyapp. Si se deja vacío, el botón "Reservar" envía al formulario de contacto con el mensaje precargado.',
     }),
-    defineField({ name: 'videoUrl', title: 'Vídeo de YouTube', type: 'url' }),
+    defineField({
+      name: 'videoUrl',
+      title: 'Vídeo de YouTube',
+      type: 'url',
+      components: { input: VideoFieldWarning },
+    }),
     defineField({
       name: 'image',
       title: 'Imagen',

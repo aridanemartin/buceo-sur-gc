@@ -1,13 +1,13 @@
 // src/components/GallerySwiper.tsx
 // One-at-a-time photo carousel for a dive site with manual navigation.
-// The optional site video is the first slide: whenever that slide is active the
-// embed mounts and autoplays muted with the player chrome hidden, pausing the
-// carousel until the user swipes away. On other slides a thumbnail is shown
-// that navigates back to the video.
+// The optional site video can appear before or after the photos. Whenever that
+// slide is active the embed mounts and autoplays muted with the player chrome
+// hidden. On other slides a thumbnail navigates back to the video.
 import { useRef, useState } from 'react'
 import type { Swiper as SwiperType } from 'swiper'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { orderGalleryMedia } from '../lib/galleryVideoPosition'
 import { sanityImageUrl } from '../lib/seo'
 import styles from './GallerySwiper.module.css'
 
@@ -24,6 +24,7 @@ interface GallerySwiperProps {
   images: GalleryImage[]
   videoUrl?: string
   videoAlt?: string
+  videoFirst?: boolean
 }
 
 function getYoutubeThumbnail(embedUrl: string): string | null {
@@ -40,7 +41,7 @@ function GallerySlideImage({ url, alt }: GalleryImage) {
   const [loaded, setLoaded] = useState(false)
   const src = sanityImageUrl(url, { width: 1600 })
   return (
-    <div className={styles.slide} style={loaded ? { backgroundImage: `url(${url})` } : undefined}>
+    <div className={styles.slide} style={loaded ? { backgroundImage: `url(${src})` } : undefined}>
       <img
         src={src}
         alt={alt}
@@ -52,17 +53,18 @@ function GallerySlideImage({ url, alt }: GalleryImage) {
   )
 }
 
-export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwiperProps) {
-  // The video is always the first slide, so realIndex 0 == video slide active.
+export default function GallerySwiper({ images, videoUrl, videoAlt, videoFirst }: GallerySwiperProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const swiperRef = useRef<SwiperType | null>(null)
+  const media = orderGalleryMedia(images, videoUrl, videoFirst)
+  const videoIndex = media.findIndex((item) => item.type === 'video')
 
-  const isVideoActive = Boolean(videoUrl) && activeIndex === 0
+  const isVideoActive = videoIndex >= 0 && activeIndex === videoIndex
 
   if (images.length === 0 && !videoUrl) return null
 
   const videoThumbnail = videoUrl ? getYoutubeThumbnail(videoUrl) : null
-  const slideCount = images.length + (videoUrl ? 1 : 0)
+  const slideCount = media.length
   const multiSlide = slideCount > 1
 
   return (
@@ -77,42 +79,41 @@ export default function GallerySwiper({ images, videoUrl, videoAlt }: GallerySwi
       navigation={multiSlide}
       pagination={multiSlide ? { type: 'progressbar' } : false}
     >
-      {videoUrl && (
-        <SwiperSlide>
-          {isVideoActive ? (
-            <iframe
-              className={styles.media}
-              src={`${videoUrl}${videoUrl.includes('?') ? '&' : '?'}autoplay=1&mute=1&controls=0`}
-              title={videoAlt ?? 'Video'}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+      {media.map((item) => (
+        <SwiperSlide key={item.type === 'video' ? item.url : item.item.url}>
+          {item.type === 'video' ? (
+            isVideoActive ? (
+              <iframe
+                className={styles.media}
+                src={`${item.url}${item.url.includes('?') ? '&' : '?'}autoplay=1&mute=1&controls=0`}
+                title={videoAlt ?? 'Video'}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            ) : (
+              <button
+                type="button"
+                className={styles.videoThumbBtn}
+                onClick={() => swiperRef.current?.slideToLoop(videoIndex)}
+                aria-label={videoAlt ?? 'Video'}
+                style={videoThumbnail ? { backgroundImage: `url(${videoThumbnail})` } : undefined}
+              >
+                {videoThumbnail && (
+                  <img
+                    src={videoThumbnail}
+                    alt={videoAlt ?? 'Video'}
+                    loading="lazy"
+                    className={styles.media}
+                  />
+                )}
+                <span className={styles.playIcon} aria-hidden="true">
+                  ▶
+                </span>
+              </button>
+            )
           ) : (
-            <button
-              type="button"
-              className={styles.videoThumbBtn}
-              onClick={() => swiperRef.current?.slideToLoop(0)}
-              aria-label={videoAlt ?? 'Video'}
-              style={videoThumbnail ? { backgroundImage: `url(${videoThumbnail})` } : undefined}
-            >
-              {videoThumbnail && (
-                <img
-                  src={videoThumbnail}
-                  alt={videoAlt ?? 'Video'}
-                  loading="lazy"
-                  className={styles.media}
-                />
-              )}
-              <span className={styles.playIcon} aria-hidden="true">
-                ▶
-              </span>
-            </button>
+            <GallerySlideImage url={item.item.url} alt={item.item.alt} />
           )}
-        </SwiperSlide>
-      )}
-      {images.map((image) => (
-        <SwiperSlide key={image.url}>
-          <GallerySlideImage url={image.url} alt={image.alt} />
         </SwiperSlide>
       ))}
     </Swiper>
