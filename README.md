@@ -1,8 +1,7 @@
 # Buceo Sur Gran Canaria
 
 Astro site with an embedded Sanity Studio (`/admin`), four languages (es/en/fr/de).
-Content is seeded from the project's own documents (`docs/`) and every content section is
-editable via the Sanity CMS.
+Every content section is editable via the Sanity CMS.
 
 ## Architecture
 
@@ -12,10 +11,9 @@ editable via the Sanity CMS.
 - **Field-level i18n**: every translatable field is a `localeString`/`localeText` object
   with `es`/`en`/`fr`/`de` sub-fields. `es` is required; `en`/`fr`/`de` fall back to
   `es` when empty.
-- **Canonical content data** lives in `src/content/data/*.ts`, sourced from the docx
-  documents in `docs/` (which take precedence over any other source). The same data
-  powers both the seed scripts (writing to Sanity) and the build-time fallback, so the
-  site renders full content even before Sanity is configured.
+- **Canonical content data** lives in `src/content/data/*.ts` and is the build-time
+  fallback: the site renders full content even when Sanity is unreachable or a
+  document type hasn't been seeded yet.
 - Routes: `/`, `/dives`, `/baptisms`, `/courses`, `/rates`, `/gallery`, `/sidemount`,
   `/contact`, `/legal/{privacy,cancellation,terms}` — each with `/en/`, `/fr/`, `/de/`
   variants. Spanish is the default locale (no prefix).
@@ -32,28 +30,13 @@ editable via the Sanity CMS.
 Without `.env`, the build still succeeds: the Sanity integration is skipped and an offline
 `sanity:client` shim makes every query fall back to `src/content/data`.
 
-## Seeding content
-
-One-time scripts in `scripts/` populate the Sanity dataset with the canonical content:
-
-```bash
-npm run seed scripts/seed-centro-info.mjs
-npm run seed scripts/seed-certifying-agencies.mjs
-npm run seed scripts/seed-courses.mjs
-npm run seed scripts/seed-experiences.mjs
-npm run seed scripts/seed-dive-sites.mjs
-npm run seed scripts/seed-tariff-extras.mjs
-```
-
 ## Still needed before launch
 
-- **Sanity project**: create it at manage.sanity.io and set the credentials in `.env`
-  (see above), then run the seed scripts.
+- **Sanity project**: create it at manage.sanity.io, set the credentials in `.env` (see
+  above), and add content for each document type via Studio — the canonical data in
+  `src/content/data/*.ts` is the fallback shape to match, not something that auto-seeds.
 - **Real photos/videos** for the Galería dive sites (uploaded via Sanity Studio — the
-  docx documents note the gallery is meant to be updated over time).
-- **Course descriptions**: the Cursos page is seeded from `docs/5. Tarifas.docx` (names,
-  prices, durations, includes, supplements). Refine the marketing copy in Sanity Studio
-  when doc 4 (Cursos) arrives.
+  gallery is meant to be updated over time).
 - **Contact form**: client-side confirmation only (no backend), matching the previous site.
 
 ## Deployment
