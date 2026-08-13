@@ -7,6 +7,7 @@ import type { Locale } from "../i18n/locales";
 import { ui } from "../i18n/strings";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../lib/constants";
+import { sanityImageUrl } from "../lib/seo";
 import { t } from "../sanity/localize";
 import { getCentroInfo } from "../sanity/queries";
 import aboutStyles from "../styles/HomeAbout.module.css";
@@ -37,7 +38,9 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
   lang={lang}
   path=""
   title={uiStrings.home.metaTitle}
-  description={l(info?.intro)}
+  description={uiStrings.home.metaDescription}
+  ogImage={info?.heroImage ?? "/assets/colorful-background.webp"}
+  preloadImage={info?.heroImage ?? "/assets/colorful-background.webp"}
   hasHeroLogo
 >
   <main>
@@ -48,6 +51,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
       aria-label={uiStrings.home.heroLabel}
     >
       <div class={heroStyles.vignette}></div>
+      <h1 class="sr-only">{uiStrings.home.metaTitle}</h1>
       <img
         src="/logo.png"
         alt="Buceo Sur Gran Canaria"
@@ -162,7 +166,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
               <article class={commonStyles.card}>
                 {member.photo && (
                   <img
-                    src={member.photo}
+                    src={sanityImageUrl(member.photo, { width: 200 })}
                     alt={member.name}
                     width={96}
                     height={96}

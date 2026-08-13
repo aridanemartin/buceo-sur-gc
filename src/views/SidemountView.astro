@@ -12,6 +12,7 @@ import { reserveInterestMessage, ui } from '../i18n/strings'
 // the promo video, and the sidemount courses from their dedicated schema.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
+import { sanityImageUrl } from '../lib/seo'
 import { t, tList, tSupplements } from '../sanity/localize'
 import { getSidemountCourses } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
@@ -25,6 +26,10 @@ interface Props {
 const { lang } = Astro.props
 const u = ui[lang]
 const courses = await getSidemountCourses()
+const ogImage =
+  sanityImageUrl(courses.find((c: any) => c.image)?.image, { width: 1200 }) ??
+  sidemountGalleryImages[0] ??
+  SITE.defaultOgImage
 
 const l = (f: any) => t(f, lang)
 const lList = (f: any) => tList(f, lang)
@@ -79,6 +84,7 @@ const cta = {
   path="sidemount"
   title={l(sidemountPageContent.introTitle)}
   description={l(sidemountPageContent.intro)}
+  ogImage={ogImage}
 >
   <main>
     <header class={styles.pageHeader}>

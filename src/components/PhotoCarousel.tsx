@@ -11,6 +11,7 @@ import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
+import { sanityImageUrl } from '../lib/seo'
 import styles from './PhotoCarousel.module.css'
 
 export interface CarouselImage {
@@ -73,7 +74,7 @@ export default function PhotoCarousel({
           <SwiperSlide key={image.url}>
             <img
               className={styles.slide}
-              src={image.url}
+              src={sanityImageUrl(image.url, { width: 1152 })}
               alt={image.alt}
               width={1152}
               height={864}

@@ -6,6 +6,7 @@
 // given, or a two-color concept/price list when `supplements` is given — a
 // price and an optional media block. When both videoUrl and image are
 // present the video wins, matching the Bautizos behaviour.
+import { sanityImageUrl } from '../lib/seo'
 import rowStyles from '../styles/rowLayout.module.css'
 
 interface Props {
@@ -209,7 +210,12 @@ const Tag = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
     </div>
   ) : image ? (
     <div class={rowStyles.rowMedia}>
-      <img class={rowStyles.rowImage} src={image} alt={title} loading="lazy" />
+      <img
+        class={rowStyles.rowImage}
+        src={sanityImageUrl(image, { width: 900 })}
+        alt={title}
+        loading="lazy"
+      />
     </div>
   ) : null}
 </article>

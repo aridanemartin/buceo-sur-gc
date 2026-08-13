@@ -10,6 +10,7 @@ import { ui } from '../i18n/strings'
 // swiper of the site's photos — the optional YouTube video is its own slide.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
+import { sanityImageUrl } from '../lib/seo'
 import { t } from '../sanity/localize'
 import { getDiveSites } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
@@ -23,9 +24,12 @@ const strings = ui[lang]
 const sites = await getDiveSites()
 const introTitle = t(galleryPageContent.introTitle, lang)
 const intro = t(galleryPageContent.intro, lang)
+const ogImage =
+  sanityImageUrl(sites.find((s: any) => s.images?.[0])?.images?.[0], { width: 1200 }) ??
+  SITE.defaultOgImage
 ---
 
-<BaseLayout lang={lang} path="gallery" title={introTitle} description={intro}>
+<BaseLayout lang={lang} path="gallery" title={introTitle} description={intro} ogImage={ogImage}>
   <header class={styles.pageHeader}>
     <div class={styles.pageHeaderInner}>
       <p class={styles.pageEyebrow}>{strings.nav.gallery}</p>

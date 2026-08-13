@@ -6,6 +6,21 @@
   padding: 0;
 }
 
+/* Visually hidden but still announced by screen readers / crawlable by
+   search engines — used for headings that are redundant with a nearby
+   logo/image but still needed for correct document structure. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 :root {
   --color-ocean-900: #012a4a;
   --color-ocean-800: #013a63;

@@ -8,6 +8,7 @@ import { useRef, useState } from 'react'
 import type { Swiper as SwiperType } from 'swiper'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { sanityImageUrl } from '../lib/seo'
 import styles from './GallerySwiper.module.css'
 
 import 'swiper/css'
@@ -37,10 +38,11 @@ function getYoutubeThumbnail(embedUrl: string): string | null {
 // itself has actually loaded, so the backdrop follows the same lazy timing.
 function GallerySlideImage({ url, alt }: GalleryImage) {
   const [loaded, setLoaded] = useState(false)
+  const src = sanityImageUrl(url, { width: 1600 })
   return (
     <div className={styles.slide} style={loaded ? { backgroundImage: `url(${url})` } : undefined}>
       <img
-        src={url}
+        src={src}
         alt={alt}
         loading="lazy"
         className={styles.media}

@@ -11,6 +11,7 @@ import { reserveInterestMessage, ui } from '../i18n/strings'
 // experiences as cards, per docs/2. inmersiones.md.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
+import { sanityImageUrl } from '../lib/seo'
 import { t, tList, tSupplements } from '../sanity/localize'
 import { getDives } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
@@ -25,6 +26,9 @@ const { lang } = Astro.props
 const u = ui[lang]
 
 const experiences = await getDives()
+const ogImage =
+  sanityImageUrl(experiences.find((x: any) => x.image)?.image, { width: 1200 }) ??
+  SITE.defaultOgImage
 
 const labels: Record<
   Locale,
@@ -92,7 +96,7 @@ const reserveHrefOf = (x: any) =>
     : `${localePath(lang, 'contact')}?message=${encodeURIComponent(reserveInterestMessage(lang, t(x.title, lang)))}`
 ---
 
-<BaseLayout lang={lang} path="dives" title={`${u.nav.dives} — ${SITE.fullName}`} description={descriptions[lang]}>
+<BaseLayout lang={lang} path="dives" title={`${u.nav.dives} — ${SITE.fullName}`} description={descriptions[lang]} ogImage={ogImage}>
   <main>
     <header class={styles.pageHeader}>
       <div class={styles.pageHeaderInner}>

@@ -1,11 +1,28 @@
 // astro.config.mjs
 
 import react from '@astrojs/react'
+import sitemap from '@astrojs/sitemap'
 import vercel from '@astrojs/vercel'
 import sanity from '@sanity/astro'
 import { defineConfig } from 'astro/config'
 
-const integrations = [react()]
+const integrations = [
+  react(),
+  sitemap({
+    // Exclude the embedded Sanity Studio — it's a crawlable route (see robots.txt)
+    // but must never appear in the sitemap.
+    filter: (page) => !page.includes('/admin'),
+    i18n: {
+      defaultLocale: 'es',
+      locales: {
+        es: 'es-ES',
+        en: 'en-GB',
+        fr: 'fr-FR',
+        de: 'de-DE',
+      },
+    },
+  }),
+]
 
 // Sanity integration is conditional: only enabled when SANITY_PROJECT_ID is set to a real value.
 // This allows the project to build without Sanity credentials. Once the user creates the Sanity
@@ -58,6 +75,7 @@ export const sanityClient = new Proxy({}, { get: () => throwIfCalled })`
 }
 
 export default defineConfig({
+  site: 'https://buceosur-gc.com',
   adapter: vercel(),
   i18n: {
     locales: ['es', 'en', 'fr', 'de'],

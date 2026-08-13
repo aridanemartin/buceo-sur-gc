@@ -19,6 +19,7 @@ export interface UiStrings {
   home: {
     dondeEstamos: string
     metaTitle: string
+    metaDescription: string
     heroLabel: string
     scrollLabel: string
     whoWeAreEyebrow: string
@@ -98,6 +99,8 @@ export const ui: Record<Locale, UiStrings> = {
     home: {
       dondeEstamos: 'Donde estamos',
       metaTitle: 'Buceo Sur Gran Canaria — Inmersiones en toda la isla',
+      metaDescription:
+        'Centro de buceo familiar en Playa de Arinaga, Gran Canaria. Inmersiones, bautizos, cursos PADI/SSI y sidemount con instructores certificados.',
       heroLabel: 'Portada',
       scrollLabel: 'Ir a la siguiente sección',
       whoWeAreEyebrow: 'Quiénes somos',
@@ -161,6 +164,8 @@ export const ui: Record<Locale, UiStrings> = {
     home: {
       dondeEstamos: 'Where we are',
       metaTitle: 'Buceo Sur Gran Canaria — Dives all over the island',
+      metaDescription:
+        'Family-run dive centre in Playa de Arinaga, Gran Canaria. Guided dives, discover dives, PADI/SSI courses and sidemount with certified instructors.',
       heroLabel: 'Hero',
       scrollLabel: 'Go to the next section',
       whoWeAreEyebrow: 'Who we are',
@@ -224,6 +229,8 @@ export const ui: Record<Locale, UiStrings> = {
     home: {
       dondeEstamos: 'Où nous sommes',
       metaTitle: 'Buceo Sur Gran Canaria — Plongées sur toute l’île',
+      metaDescription:
+        'Centre de plongée familial à Playa de Arinaga, Grande Canarie. Plongées, baptêmes, formations PADI/SSI et sidemount avec instructeurs certifiés.',
       heroLabel: 'Accueil',
       scrollLabel: 'Aller à la section suivante',
       whoWeAreEyebrow: 'Qui sommes-nous',
@@ -287,6 +294,8 @@ export const ui: Record<Locale, UiStrings> = {
     home: {
       dondeEstamos: 'Wo wir sind',
       metaTitle: 'Buceo Sur Gran Canaria — Tauchgänge auf der ganzen Insel',
+      metaDescription:
+        'Familiengeführtes Tauchcenter in Playa de Arinaga, Gran Canaria. Tauchgänge, Schnuppertauchen, PADI/SSI-Kurse und Sidemount mit zertifizierten Ausbildern.',
       heroLabel: 'Startbereich',
       scrollLabel: 'Zum nächsten Abschnitt',
       whoWeAreEyebrow: 'Über uns',

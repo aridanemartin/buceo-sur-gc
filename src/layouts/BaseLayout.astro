@@ -5,6 +5,7 @@ import type { Locale } from '../i18n/locales'
 import { alternateLinks, localePath } from '../i18n/paths'
 import { ui } from '../i18n/strings'
 import { SITE } from '../lib/constants'
+import { OG_LOCALES, absoluteUrl, breadcrumbJsonLd, localBusinessJsonLd } from '../lib/seo'
 import '../styles/global.css'
 
 interface Props {
@@ -13,11 +14,31 @@ interface Props {
   title: string
   description: string
   hasHeroLogo?: boolean
+  /** Page-specific social preview image (local path or absolute CDN URL). Falls back
+   * to SITE.defaultOgImage when omitted, so every page always emits an og:image. */
+  ogImage?: string
+  ogType?: 'website' | 'article'
+  /** Set for the page's LCP image (e.g. a hero) to hint the browser to fetch it first. */
+  preloadImage?: string
 }
 
-const { lang, path, title, description, hasHeroLogo = false } = Astro.props
+const {
+  lang,
+  path,
+  title,
+  description,
+  hasHeroLogo = false,
+  ogImage,
+  ogType = 'website',
+  preloadImage,
+} = Astro.props
 const alternates = alternateLinks(path)
 const t = ui[lang]
+
+const canonicalPath = localePath(lang, path)
+const canonicalUrl = absoluteUrl(canonicalPath)
+const socialImage = absoluteUrl(ogImage ?? SITE.defaultOgImage)
+const isHome = path === ''
 
 const navItems = [
   { label: t.nav.dives, href: localePath(lang, 'dives') },
@@ -28,6 +49,11 @@ const navItems = [
   { label: t.nav.sidemount, href: localePath(lang, 'sidemount') },
   { label: t.nav.contact, href: localePath(lang, 'contact') },
 ]
+
+const jsonLd = [
+  localBusinessJsonLd(),
+  ...(isHome ? [] : [breadcrumbJsonLd(localePath(lang, ''), title, canonicalPath)]),
+]
 ---
 <!doctype html>
 <html lang={lang} data-locale={lang}>
@@ -35,41 +61,81 @@ const navItems = [
     <script is:inline>
       ;(() => {
         const SUPPORTED = ['es', 'en', 'fr', 'de']
+        // Must match astro.config.mjs's i18n.defaultLocale ('es', unprefixed root).
+        const DEFAULT = 'es'
         const COOKIE_NAME = 'bs-locale'
-        const DEFAULT = 'en'
         const current = document.documentElement.dataset.locale
         const cookie = document.cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`))
         if (cookie) return
+
+        // The default locale lives at "/", every other locale at "/<locale>".
+        const pathFor = (locale) => (locale === DEFAULT ? '/' : '/' + locale)
+        const applyLocale = (locale) => {
+          document.cookie = `${COOKIE_NAME}=${locale};path=/;max-age=31536000;SameSite=Lax`
+          if (locale !== current) window.location.replace(pathFor(locale))
+        }
+
         const langs = navigator.languages || [navigator.language]
-        for (const l of langs) {
-          const code = l.slice(0, 2).toLowerCase()
-          const match = SUPPORTED.find((s) => s === code)
-          if (match && match !== current) {
-            document.cookie = `${COOKIE_NAME}=${match};path=/;max-age=31536000;SameSite=Lax`
-            window.location.replace('/' + match)
-            return
-          }
-        }
-        if (current !== DEFAULT) {
-          document.cookie = `${COOKIE_NAME}=${DEFAULT};path=/;max-age=31536000;SameSite=Lax`
-          window.location.replace('/' + DEFAULT)
-        } else {
-          document.cookie = `${COOKIE_NAME}=${current};path=/;max-age=31536000;SameSite=Lax`
-        }
+        const match = langs
+          .map((l) => l.slice(0, 2).toLowerCase())
+          .find((code) => SUPPORTED.includes(code))
+        applyLocale(match || DEFAULT)
       })()
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     {alternates.map((a) => (
-      <link rel="alternate" hreflang={a.locale} href={a.href} />
+      <link rel="alternate" hreflang={a.locale} href={absoluteUrl(a.href)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={alternates.find((a) => a.locale === 'es')?.href} />
+    <link rel="alternate" hreflang="x-default" href={absoluteUrl(alternates.find((a) => a.locale === 'es')?.href ?? '/')} />
     <link rel="icon" href="/favicon.png" type="image/png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.fullName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:locale" content={OG_LOCALES[lang]} />
+    {alternates.filter((a) => a.locale !== lang).map((a) => (
+      <meta property="og:locale:alternate" content={OG_LOCALES[a.locale]} />
+    ))}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    {jsonLd.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
   <body>
     <Nav lang={lang} items={navItems} localeLinks={alternates} bookHref={SITE.bookingUrl} bookLabel={t.book} homeHref={localePath(lang, '')} hasHeroLogo={hasHeroLogo} client:load />

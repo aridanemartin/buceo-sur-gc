@@ -4,6 +4,10 @@
 export const SITE = {
   name: 'Buceo Sur',
   fullName: 'Buceo Sur Gran Canaria',
+  // Production origin (no trailing slash) — used to build absolute canonical/OG/JSON-LD
+  // URLs and mirrored in astro.config.mjs's `site` option for the sitemap integration.
+  url: 'https://buceosur-gc.com',
+  defaultOgImage: '/assets/colorful-background.webp',
   // Base booking link (used for Bautizos, doc 3).
   bookingUrl: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1',
   // Category-scoped booking links (docs 2/5/6): Inmersiones, Tarifas and Galería.
@@ -18,6 +22,13 @@ export const SITE = {
     line1: 'Calle Roger de Lauria, 80',
     line2: '35118 Playa de Arinaga',
     line3: 'Gran Canaria, España',
+    // Structured components for JSON-LD (schema.org PostalAddress) — kept in sync
+    // with the display lines above.
+    streetAddress: 'Calle Roger de Lauria, 80',
+    postalCode: '35118',
+    addressLocality: 'Playa de Arinaga',
+    addressRegion: 'Gran Canaria',
+    addressCountry: 'ES',
   },
   social: {
     facebook: 'https://www.facebook.com/BuceoSurGranCanaria/',

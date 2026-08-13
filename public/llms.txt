@@ -1,0 +1,20 @@
+# Buceo Sur Gran Canaria
+
+> Family-run scuba diving centre in Playa de Arinaga, Gran Canaria, Spain. Officially
+> licensed by the Government of the Canary Islands. Offers guided dives for certified
+> divers, discover-diving baptisms for beginners, PADI/SSI/CMAS certification courses,
+> and sidemount diving courses, in Spanish, English, French and German.
+
+## Pages
+
+- [Home](https://buceosur-gc.com/): centre overview, team, facilities, location.
+- [Dives](https://buceosur-gc.com/dives/): guided dives for certified divers.
+- [Discover diving / Baptisms](https://buceosur-gc.com/baptisms/): first-dive experiences for beginners, no certification required.
+- [Courses](https://buceosur-gc.com/courses/): PADI, SSI and CMAS certification courses.
+- [Sidemount](https://buceosur-gc.com/sidemount/): sidemount configuration courses.
+- [Rates](https://buceosur-gc.com/rates/): pricing for all activities.
+- [Gallery](https://buceosur-gc.com/gallery/): underwater and facility photos/video.
+- [Contact](https://buceosur-gc.com/contact/): address, phone, email, contact form.
+
+Content is also available under the `/en/`, `/fr/` and `/de/` locale prefixes (Spanish
+is the default, unprefixed locale).

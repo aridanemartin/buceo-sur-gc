@@ -10,6 +10,7 @@ import { reserveInterestMessage, ui } from '../i18n/strings'
 // experiences as cards with their YouTube video, per docs/3. Bautizos.md.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
+import { sanityImageUrl } from '../lib/seo'
 import { t, tList, tSupplements } from '../sanity/localize'
 import { getBaptisms } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
@@ -23,6 +24,9 @@ const { lang } = Astro.props
 const u = ui[lang]
 
 const experiences = await getBaptisms()
+const ogImage =
+  sanityImageUrl(experiences.find((x: any) => x.image)?.image, { width: 1200 }) ??
+  SITE.defaultOgImage
 
 const labels: Record<
   Locale,
@@ -96,6 +100,7 @@ const reserveHrefOf = (x: any) =>
   path="baptisms"
   title={`${u.nav.baptisms} — ${SITE.fullName}`}
   description={descriptions[lang]}
+  ogImage={ogImage}
 >
   <main>
     <header class={styles.pageHeader}>
