@@ -9,7 +9,7 @@ import { ui } from '../i18n/strings'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t, tList, tSupplements } from '../sanity/localize'
-import { getCourses, getExperiences, getTariffExtras } from '../sanity/queries'
+import { getBaptisms, getCourses, getDives, getTariffExtras } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -20,8 +20,8 @@ const { lang } = Astro.props
 const u = ui[lang]
 
 const [bautizos, inmersiones, cursos, extras] = await Promise.all([
-  getExperiences('beginner'),
-  getExperiences('certified'),
+  getBaptisms(),
+  getDives(),
   getCourses(),
   getTariffExtras(),
 ])

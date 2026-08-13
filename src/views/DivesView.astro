@@ -12,7 +12,7 @@ import { reserveInterestMessage, ui } from '../i18n/strings'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { t, tList, tSupplements } from '../sanity/localize'
-import { getExperiences } from '../sanity/queries'
+import { getDives } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import textWithCarousel from '../styles/TextWithCarousel.module.css'
 import styles from '../styles/viewCommon.module.css'
@@ -24,7 +24,7 @@ interface Props {
 const { lang } = Astro.props
 const u = ui[lang]
 
-const experiences = await getExperiences('certified')
+const experiences = await getDives()
 
 const labels: Record<
   Locale,
