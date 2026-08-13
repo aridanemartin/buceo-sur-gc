@@ -41,6 +41,10 @@ export interface ExperienceSeed {
   price?: number | null
   includes: LocaleListValue
   supplements: LocaleSupplementListValue
+  // Rendered as the "Requisitos" check-list card (same as courses). Beginner
+  // experiences carry this; `groupDiscount` below holds real group conditions
+  // ("Mínimo 2 participantes…") used only by certified experiences.
+  requirements?: LocaleListValue
   groupDiscount?: LocaleValue
   // Direct link to the bookable product in Bukyapp. Left undefined for
   // experiences Bukyapp doesn't sell online — BaptismsView/DivesView fall
@@ -96,11 +100,31 @@ export const experiencesData: ExperienceSeed[] = [
       [{ label: 'Clip vidéo', price: '25 €' }],
       [{ label: 'Videoclip', price: '25 €' }],
     ),
-    groupDiscount: loc(
-      'Requisitos: más de 12 años, saber nadar, apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones) y no tener vuelo el mismo día.',
-      'Requirements: over 12 years old, able to swim, fit to dive (medical certificate or completed medical questionnaire with no contraindications) and no flight the same day.',
-      'Conditions : plus de 12 ans, savoir nager, apte à plonger (certificat médical ou questionnaire médical rempli sans contre-indication) et ne pas prendre l’avion le jour même.',
-      'Voraussetzungen: über 12 Jahre alt, schwimmfähig, tauglich zum Tauchen (ärztliches Attest oder ausgefüllter medizinischer Fragebogen ohne Gegenanzeigen) und kein Flug am selben Tag.',
+    requirements: locList(
+      [
+        'Más de 12 años',
+        'Saber nadar',
+        'Apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones)',
+        'No tener vuelo el mismo día',
+      ],
+      [
+        'Over 12 years old',
+        'Able to swim',
+        'Fit to dive (medical certificate or completed medical questionnaire with no contraindications)',
+        'No flight the same day',
+      ],
+      [
+        'Plus de 12 ans',
+        'Savoir nager',
+        'Apte à plonger (certificat médical ou questionnaire médical rempli sans contre-indication)',
+        'Ne pas prendre l’avion le jour même',
+      ],
+      [
+        'Über 12 Jahre alt',
+        'Schwimmfähig',
+        'Tauglich zum Tauchen (ärztliches Attest oder ausgefüllter medizinischer Fragebogen ohne Gegenanzeigen)',
+        'Kein Flug am selben Tag',
+      ],
     ),
     reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b1475740d7e94c0efbc158',
     videoUrl: 'https://youtu.be/gGARKaie1_s?si=Du0qrp7Z883ECPks',
@@ -170,11 +194,31 @@ export const experiencesData: ExperienceSeed[] = [
       [{ label: 'Clip vidéo', price: '25 €' }],
       [{ label: 'Videoclip', price: '25 €' }],
     ),
-    groupDiscount: loc(
-      'Requisitos: más de 12 años, saber nadar, apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones) y no tener vuelo el mismo día.',
-      'Requirements: over 12 years old, able to swim, fit to dive (medical certificate or completed medical questionnaire with no contraindications) and no flight the same day.',
-      'Conditions : plus de 12 ans, savoir nager, apte à plonger (certificat médical ou questionnaire médical rempli sans contre-indication) et ne pas prendre l’avion le jour même.',
-      'Voraussetzungen: über 12 Jahre alt, schwimmfähig, tauglich zum Tauchen (ärztliches Attest oder ausgefüllter medizinischer Fragebogen ohne Gegenanzeigen) und kein Flug am selben Tag.',
+    requirements: locList(
+      [
+        'Más de 12 años',
+        'Saber nadar',
+        'Apto para bucear (certificado médico o cuestionario médico cumplimentado sin contraindicaciones)',
+        'No tener vuelo el mismo día',
+      ],
+      [
+        'Over 12 years old',
+        'Able to swim',
+        'Fit to dive (medical certificate or completed medical questionnaire with no contraindications)',
+        'No flight the same day',
+      ],
+      [
+        'Plus de 12 ans',
+        'Savoir nager',
+        'Apte à plonger (certificat médical ou questionnaire médical rempli sans contre-indication)',
+        'Ne pas prendre l’avion le jour même',
+      ],
+      [
+        'Über 12 Jahre alt',
+        'Schwimmfähig',
+        'Tauglich zum Tauchen (ärztliches Attest oder ausgefüllter medizinischer Fragebogen ohne Gegenanzeigen)',
+        'Kein Flug am selben Tag',
+      ],
     ),
     reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b4566e40d7e94c0e14704a',
     videoUrl: 'https://youtu.be/j-qIyqbd0Z8?si=Kow4g7EBo5Uy4Vee',
@@ -224,11 +268,11 @@ export const experiencesData: ExperienceSeed[] = [
         { label: 'Komplettausrüstung (mit Computer)', price: '+15 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Mínimo 2 participantes.',
-      'Minimum 2 participants.',
-      'Minimum 2 participants.',
-      'Mindestens 2 Teilnehmer.',
+    requirements: locList(
+      ['Mínimo 2 participantes'],
+      ['Minimum 2 participants'],
+      ['Minimum 2 participants'],
+      ['Mindestens 2 Teilnehmer'],
     ),
     order: 3,
   },
@@ -546,11 +590,11 @@ export const experiencesData: ExperienceSeed[] = [
         { label: 'Komplettausrüstung (mit Computer)', price: '+25 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Mínimo 2 participantes.',
-      'Minimum 2 participants.',
-      'Minimum 2 participants.',
-      'Mindestens 2 Teilnehmer.',
+    requirements: locList(
+      ['Mínimo 2 participantes'],
+      ['Minimum 2 participants'],
+      ['Minimum 2 participants'],
+      ['Mindestens 2 Teilnehmer'],
     ),
     reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69e90e2b3875045b1ac20e68',
     order: 9,
@@ -599,11 +643,23 @@ export const experiencesData: ExperienceSeed[] = [
       [{ label: 'Plongée supplémentaire (même jour)', price: '+40 €' }],
       [{ label: 'Zusätzlicher Tauchgang (gleicher Tag)', price: '+40 €' }],
     ),
-    groupDiscount: loc(
-      'Máximo 2 buceadores por instructor. Si tu última inmersión fue hace más de un año y has realizado menos de 10 inmersiones, te recomendamos un curso de actualización.',
-      'Maximum 2 divers per instructor. If your last dive was over a year ago and you have fewer than 10 dives, we recommend a refresher course.',
-      'Maximum 2 plongeurs par instructeur. Si votre dernière plongée date de plus d’un an et que vous avez moins de 10 plongées, nous recommandons un cours de remise à niveau.',
-      'Maximal 2 Taucher pro Ausbilder. Wenn Ihr letzter Tauchgang mehr als ein Jahr zurückliegt und Sie weniger als 10 Tauchgänge haben, empfehlen wir einen Auffrischungskurs.',
+    requirements: locList(
+      [
+        'Máximo 2 buceadores por instructor',
+        'Si tu última inmersión fue hace más de un año y has realizado menos de 10 inmersiones, te recomendamos un curso de actualización',
+      ],
+      [
+        'Maximum 2 divers per instructor',
+        'If your last dive was over a year ago and you have fewer than 10 dives, we recommend a refresher course',
+      ],
+      [
+        'Maximum 2 plongeurs par instructeur',
+        'Si votre dernière plongée date de plus d’un an et que vous avez moins de 10 plongées, nous recommandons un cours de remise à niveau',
+      ],
+      [
+        'Maximal 2 Taucher pro Ausbilder',
+        'Wenn Ihr letzter Tauchgang mehr als ein Jahr zurückliegt und Sie weniger als 10 Tauchgänge haben, empfehlen wir einen Auffrischungskurs',
+      ],
     ),
     reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69e8b0339fad86498df4112b',
     order: 10,
@@ -656,11 +712,11 @@ export const experiencesData: ExperienceSeed[] = [
         { label: 'Komplettausrüstung (mit Computer)', price: '+15 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Máximo 2 buceadores por instructor.',
-      'Maximum 2 divers per instructor.',
-      'Maximum 2 plongeurs par instructeur.',
-      'Maximal 2 Taucher pro Ausbilder.',
+    requirements: locList(
+      ['Máximo 2 buceadores por instructor'],
+      ['Maximum 2 divers per instructor'],
+      ['Maximum 2 plongeurs par instructeur'],
+      ['Maximal 2 Taucher pro Ausbilder'],
     ),
     order: 11,
   },
@@ -712,11 +768,11 @@ export const experiencesData: ExperienceSeed[] = [
         { label: 'Komplettausrüstung (mit Computer)', price: '+25 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Mínimo 4 participantes y condiciones meteorológicas muy favorables, con aprobación previa del director técnico.',
-      'Minimum 4 participants and very favourable weather conditions, subject to prior approval of the technical director.',
-      'Minimum 4 participants et conditions météo très favorables, avec approbation préalable du directeur technique.',
-      'Mindestens 4 Teilnehmer und sehr günstige Wetterbedingungen, mit vorheriger Genehmigung des technischen Leiters.',
+    requirements: locList(
+      ['Mínimo 4 participantes y condiciones meteorológicas muy favorables, con aprobación previa del director técnico'],
+      ['Minimum 4 participants and very favourable weather conditions, subject to prior approval of the technical director'],
+      ['Minimum 4 participants et conditions météo très favorables, avec approbation préalable du directeur technique'],
+      ['Mindestens 4 Teilnehmer und sehr günstige Wetterbedingungen, mit vorheriger Genehmigung des technischen Leiters'],
     ),
     order: 12,
   },

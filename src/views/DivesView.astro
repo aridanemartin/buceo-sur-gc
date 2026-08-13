@@ -31,7 +31,7 @@ const labels: Record<
   {
     includes: string
     supplements: string
-    conditions: string
+    requirements: string
     depth: string
     packageBadge: string
   }
@@ -39,28 +39,28 @@ const labels: Record<
   es: {
     includes: 'Incluye',
     supplements: 'Suplementos / opciones',
-    conditions: 'Condiciones',
+    requirements: 'Requisitos',
     depth: 'máx.',
     packageBadge: 'Bono / Pack',
   },
   en: {
     includes: 'Includes',
     supplements: 'Supplements / options',
-    conditions: 'Conditions',
+    requirements: 'Requirements',
     depth: 'max',
     packageBadge: 'Package',
   },
   fr: {
     includes: 'Inclut',
     supplements: 'Suppléments / options',
-    conditions: 'Conditions',
+    requirements: 'Conditions',
     depth: 'max',
     packageBadge: 'Forfait',
   },
   de: {
     includes: 'Inklusive',
     supplements: 'Zuschläge / Optionen',
-    conditions: 'Bedingungen',
+    requirements: 'Voraussetzungen',
     depth: 'max.',
     packageBadge: 'Paket',
   },
@@ -249,8 +249,8 @@ const reserveHrefOf = (x: any) =>
                     ...(tSupplements(x.supplements, lang).length
                       ? [{ label: l.supplements, supplements: tSupplements(x.supplements, lang) }]
                       : []),
-                    ...(t(x.groupDiscount, lang)
-                      ? [{ label: l.conditions, text: t(x.groupDiscount, lang) }]
+                    ...(tList(x.requirements, lang).length
+                      ? [{ label: l.requirements, requirements: tList(x.requirements, lang) }]
                       : []),
                   ]}
                   price={priceOf(x) || null}
