@@ -1,0 +1,309 @@
+---
+// src/components/PriceTable.astro
+// Renders one Tarifas price group two ways from the same data: a <table> for
+// desktop (kept for its native tabular semantics) and a card list for mobile
+// (avoids the horizontal-scroll table that's unreadable on a phone). Only one
+// is visible at a time — toggled by the max-width:768px query below, matching
+// the breakpoint the rest of the site uses.
+import type { Locale } from '../i18n/locales'
+import { t, tList, tSupplements } from '../sanity/localize'
+
+interface Props {
+  lang: Locale
+  col: { product: string; price: string; includes?: string; supplements?: string; unit?: string }
+  emDash: string
+  // 'full' = Producto/Precio/Incluye/Suplementos (Bautizos, Inmersiones, Cursos).
+  // 'extras' = Producto/Precio/Unidad (Extras) — no includes/supplements columns.
+  variant?: 'full' | 'extras'
+  items: any[]
+}
+
+const { lang, col, emDash, variant = 'full', items } = Astro.props
+
+const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : '')
+---
+
+<div class="priceTableWrap">
+  <table class="ratesTable">
+    <thead>
+      <tr>
+        <th scope="col">{col.product}</th>
+        <th scope="col">{col.price}</th>
+        {
+          variant === 'full' ? (
+            <>
+              <th scope="col">{col.includes}</th>
+              <th scope="col">{col.supplements}</th>
+            </>
+          ) : (
+            <th scope="col">{col.unit}</th>
+          )
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        items.map((x) => (
+          <tr>
+            <td class="cardTitle">
+              {t(x.title, lang)}
+              {x.duration && t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
+            </td>
+            <td class="cardPrice">{priceOf(x)}</td>
+            {variant === 'full' ? (
+              <>
+                <td class="cardBody">
+                  {tList(x.includes, lang).length ? (
+                    <ul class="ratesList">
+                      {tList(x.includes, lang).map((item) => <li>{item}</li>)}
+                    </ul>
+                  ) : (
+                    emDash
+                  )}
+                </td>
+                <td class="cardBody">
+                  {tSupplements(x.supplements, lang).length ? (
+                    <ul class="ratesSupplementList">
+                      {tSupplements(x.supplements, lang).map((s) => (
+                        <li>
+                          <span class="ratesSupplementLabel">{s.label}</span>
+                          <span class="ratesSupplementPrice">{s.price}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    emDash
+                  )}
+                </td>
+              </>
+            ) : (
+              <td class="cardBody">{t(x.unit, lang) || emDash}</td>
+            )}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  <div class="rateCards">
+    {
+      items.map((x) => (
+        <article class="rateCard">
+          <div class="rateCardHead">
+            <div>
+              <h3 class="rateCardTitle">{t(x.title, lang)}</h3>
+              {x.duration && t(x.duration, lang) ? <p class="rateCardDuration">{t(x.duration, lang)}</p> : null}
+            </div>
+            <p class="rateCardPrice">{priceOf(x)}</p>
+          </div>
+
+          {variant === 'full' ? (
+            <>
+              {tList(x.includes, lang).length ? (
+                <>
+                  <p class="rateCardLabel">{col.includes}</p>
+                  <ul class="ratesList">
+                    {tList(x.includes, lang).map((item) => <li>{item}</li>)}
+                  </ul>
+                </>
+              ) : null}
+              {tSupplements(x.supplements, lang).length ? (
+                <>
+                  <p class="rateCardLabel">{col.supplements}</p>
+                  <div class="rateCardSupplements">
+                    {tSupplements(x.supplements, lang).map((s) => (
+                      <div class="rateCardSupplementRow">
+                        <span>{s.label}</span>
+                        <b>{s.price}</b>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+            </>
+          ) : (
+            t(x.unit, lang) ? <p class="rateCardUnit">{t(x.unit, lang)}</p> : null
+          )}
+        </article>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .rateCards {
+    display: none;
+  }
+
+  .ratesTable {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+  }
+
+  .ratesTable th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-ocean-400);
+    padding: 10px 16px;
+    border-bottom: 2px solid var(--color-ocean-100);
+    white-space: nowrap;
+  }
+
+  .ratesTable td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(2, 62, 138, 0.08);
+    vertical-align: top;
+  }
+
+  .ratesTable tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .ratesTable td:nth-child(2) {
+    white-space: nowrap;
+  }
+
+  .duration {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .ratesList {
+    margin: 0;
+    padding-left: 1.1em;
+  }
+
+  .ratesList li {
+    list-style: disc;
+  }
+
+  .ratesSupplementList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ratesSupplementList li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 0;
+  }
+
+  .ratesSupplementLabel {
+    color: var(--color-text-muted);
+  }
+
+  .ratesSupplementPrice {
+    color: #c97a2b;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ---------- Mobile: swap the table for a card list ---------- */
+  @media (max-width: 768px) {
+    .ratesTable {
+      display: none;
+    }
+
+    .rateCards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rateCard {
+      background: var(--color-white);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(2, 62, 138, 0.06);
+    }
+
+    .rateCardHead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .rateCardTitle {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      color: var(--color-dark);
+      line-height: 1.3;
+    }
+
+    .rateCardDuration {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      margin-top: 3px;
+    }
+
+    .rateCardPrice {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--color-ocean-700);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rateCardLabel {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-ocean-400);
+      margin: 12px 0 4px;
+    }
+
+    .rateCard .ratesList {
+      padding-left: 1.1em;
+    }
+
+    .rateCard .ratesList li {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 3px;
+    }
+
+    .rateCardSupplements {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rateCardSupplementRow {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+
+    .rateCardSupplementRow span {
+      color: var(--color-text-muted);
+    }
+
+    .rateCardSupplementRow b {
+      color: #c97a2b;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .rateCardUnit {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+    }
+  }
+</style>
