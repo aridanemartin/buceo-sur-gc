@@ -65,7 +65,8 @@ the Vercel project settings.
 
 - `course` — courses (SSI/CMAS/PADI/FSGT), used by `/courses` and `/sidemount` (tagged).
 - `certifyingAgency` — certifying bodies referenced by `course.agency`; can't be deleted while a published course still references it.
-- `experience` — bautizos (beginner) and inmersiones (certified), used by `/baptisms` and `/dives`.
+- `baptism` — bautizos (beginner), used by `/baptisms`.
+- `dive` — inmersiones (certified), used by `/dives`.
 - `diveSite` — gallery sites, used by `/gallery`.
 - `tariffExtra` — standalone priced items (nitrox, bottles, insurance), used by `/rates`.
 - `centroInfo` (singleton) — home page: intro, history, installations, staff, stats, certifications.

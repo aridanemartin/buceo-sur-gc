@@ -26,7 +26,7 @@ if (sanityConfigured) {
 } else {
   // Offline fallback: without the Sanity integration the virtual `sanity:client` module does not
   // exist, which would break the static import in src/sanity/queries.ts. Provide a client that
-  // always throws so every query helper (getCourses, getExperiences, getTariffExtras, ...) falls
+  // always throws so every query helper (getCourses, getBaptisms, getDives, getTariffExtras, ...) falls
   // back to the canonical docx-sourced data in src/content/data.
   integrations.unshift({
     name: 'sanity-client-offline',
