@@ -1,14 +1,17 @@
 ---
 import CtaBanner from '../components/CtaBanner.astro'
+import PriceTable from '../components/PriceTable.astro'
 import type { Locale } from '../i18n/locales'
 import { ui } from '../i18n/strings'
 // src/views/RatesView.astro
 // Tarifas page — aggregates every price source (courses, experiences, tariff
 // extras) into one consolidated pricing page, per docs/5. Tarifas.md:
 // "todos los tarifas en la misma página con opciones y suplemento posible".
+// On mobile (<=768px) the four groups collapse into category tabs and each
+// PriceTable renders as a card list instead of a horizontally-scrolling
+// table — see PriceTable.astro for the per-row markup.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { t, tList, tSupplements } from '../sanity/localize'
 import { getBaptisms, getCourses, getDives, getTariffExtras } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
@@ -48,6 +51,16 @@ const extrasTitle: Record<Locale, string> = {
   en: 'Extras',
   fr: 'Suppléments',
   de: 'Extras',
+}
+
+// Screen-reader-only label for the mobile category-tab group (the tabs
+// themselves are visually hidden above 768px, where all four groups show
+// at once instead).
+const tabsLegend: Record<Locale, string> = {
+  es: 'Filtrar tarifas por categoría',
+  en: 'Filter rates by category',
+  fr: 'Filtrer les tarifs par catégorie',
+  de: 'Tarife nach Kategorie filtern',
 }
 
 const ctaTitle: Record<Locale, string> = {
@@ -93,8 +106,6 @@ const cols: Record<
 const col = cols[lang]
 
 const emDash = '—'
-
-const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : '')
 ---
 
 <BaseLayout lang={lang} path="rates" title={title} description={descriptions[lang]}>
@@ -107,191 +118,65 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
       </div>
     </header>
 
-    <!-- Bautizos -->
-    <section class={styles.section}>
-      <div class={styles.container}>
-        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.baptisms}</h2>
-        <div class={`${styles.card} pricingCard`}>
-          <table class="ratesTable">
-            <thead>
-              <tr>
-                <th scope="col">{col.product}</th>
-                <th scope="col">{col.price}</th>
-                <th scope="col">{col.includes}</th>
-                <th scope="col">{col.supplements}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bautizos.map((x) => (
-                <tr>
-                  <td class={styles.cardTitle}>
-                    {t(x.title, lang)}
-                    {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
-                  </td>
-                  <td class={styles.cardPrice}>{priceOf(x)}</td>
-                  <td class={styles.cardBody}>
-                    {tList(x.includes, lang).length ? (
-                      <ul class="ratesList">
-                        {tList(x.includes, lang).map((item) => <li>{item}</li>)}
-                      </ul>
-                    ) : (
-                      emDash
-                    )}
-                  </td>
-                  <td class={styles.cardBody}>
-                    {tSupplements(x.supplements, lang).length ? (
-                      <ul class="ratesSupplementList">
-                        {tSupplements(x.supplements, lang).map((s) => (
-                          <li>
-                            <span class="ratesSupplementLabel">{s.label}</span>
-                            <span class="ratesSupplementPrice">{s.price}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      emDash
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+    <!-- Mobile category tabs: the four <input>s below are driven by the
+         labels in .ratesTabNav; :has() on .ratesTabsRoot then shows the
+         matching .ratesPanel-*. Above 768px both the inputs and nav are
+         hidden and every panel shows at once (see the <style> block). -->
+    <div class="ratesTabsRoot">
+      <fieldset class="ratesTabFieldset">
+        <legend class="sr-only">{tabsLegend[lang]}</legend>
+        <input type="radio" name="ratesTab" id="tab-bautizos" class="ratesTabInput" checked />
+        <input type="radio" name="ratesTab" id="tab-inmersiones" class="ratesTabInput" />
+        <input type="radio" name="ratesTab" id="tab-cursos" class="ratesTabInput" />
+        <input type="radio" name="ratesTab" id="tab-extras" class="ratesTabInput" />
+        <nav class="ratesTabNav">
+          <label for="tab-bautizos">{u.nav.baptisms}</label>
+          <label for="tab-inmersiones">{u.nav.dives}</label>
+          <label for="tab-cursos">{u.nav.courses}</label>
+          <label for="tab-extras">{extrasTitle[lang]}</label>
+        </nav>
+      </fieldset>
 
-    <!-- Inmersiones -->
-    <section class={styles.sectionAlt}>
-      <div class={styles.container}>
-        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.dives}</h2>
-        <div class={`${styles.card} pricingCard`}>
-          <table class="ratesTable">
-            <thead>
-              <tr>
-                <th scope="col">{col.product}</th>
-                <th scope="col">{col.price}</th>
-                <th scope="col">{col.includes}</th>
-                <th scope="col">{col.supplements}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {inmersiones.map((x) => (
-                <tr>
-                  <td class={styles.cardTitle}>
-                    {t(x.title, lang)}
-                    {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
-                  </td>
-                  <td class={styles.cardPrice}>{priceOf(x)}</td>
-                  <td class={styles.cardBody}>
-                    {tList(x.includes, lang).length ? (
-                      <ul class="ratesList">
-                        {tList(x.includes, lang).map((item) => <li>{item}</li>)}
-                      </ul>
-                    ) : (
-                      emDash
-                    )}
-                  </td>
-                  <td class={styles.cardBody}>
-                    {tSupplements(x.supplements, lang).length ? (
-                      <ul class="ratesSupplementList">
-                        {tSupplements(x.supplements, lang).map((s) => (
-                          <li>
-                            <span class="ratesSupplementLabel">{s.label}</span>
-                            <span class="ratesSupplementPrice">{s.price}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      emDash
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <!-- Bautizos -->
+      <section class={`${styles.section} ratesPanel ratesPanel-bautizos`}>
+        <div class={styles.container}>
+          <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.baptisms}</h2>
+          <div class={`${styles.card} pricingCard`}>
+            <PriceTable lang={lang} col={col} emDash={emDash} items={bautizos} />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Cursos -->
-    <section class={styles.section}>
-      <div class={styles.container}>
-        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.courses}</h2>
-        <div class={`${styles.card} pricingCard`}>
-          <table class="ratesTable">
-            <thead>
-              <tr>
-                <th scope="col">{col.product}</th>
-                <th scope="col">{col.price}</th>
-                <th scope="col">{col.includes}</th>
-                <th scope="col">{col.supplements}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cursos.map((x) => (
-                <tr>
-                  <td class={styles.cardTitle}>
-                    {t(x.title, lang)}
-                    {t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
-                  </td>
-                  <td class={styles.cardPrice}>{priceOf(x)}</td>
-                  <td class={styles.cardBody}>
-                    {tList(x.includes, lang).length ? (
-                      <ul class="ratesList">
-                        {tList(x.includes, lang).map((item) => <li>{item}</li>)}
-                      </ul>
-                    ) : (
-                      emDash
-                    )}
-                  </td>
-                  <td class={styles.cardBody}>
-                    {tSupplements(x.supplements, lang).length ? (
-                      <ul class="ratesSupplementList">
-                        {tSupplements(x.supplements, lang).map((s) => (
-                          <li>
-                            <span class="ratesSupplementLabel">{s.label}</span>
-                            <span class="ratesSupplementPrice">{s.price}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      emDash
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <!-- Inmersiones -->
+      <section class={`${styles.sectionAlt} ratesPanel ratesPanel-inmersiones`}>
+        <div class={styles.container}>
+          <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.dives}</h2>
+          <div class={`${styles.card} pricingCard`}>
+            <PriceTable lang={lang} col={col} emDash={emDash} items={inmersiones} />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Extras -->
-    <section class={styles.sectionAlt}>
-      <div class={styles.container}>
-        <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{extrasTitle[lang]}</h2>
-        <div class={`${styles.card} pricingCard`}>
-          <table class="ratesTable">
-            <thead>
-              <tr>
-                <th scope="col">{col.product}</th>
-                <th scope="col">{col.price}</th>
-                <th scope="col">{col.unit}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {extras.map((x) => (
-                <tr>
-                  <td class={styles.cardTitle}>{t(x.title, lang)}</td>
-                  <td class={styles.cardPrice}>{priceOf(x)}</td>
-                  <td class={styles.cardBody}>{t(x.unit, lang) || emDash}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <!-- Cursos -->
+      <section class={`${styles.section} ratesPanel ratesPanel-cursos`}>
+        <div class={styles.container}>
+          <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.courses}</h2>
+          <div class={`${styles.card} pricingCard`}>
+            <PriceTable lang={lang} col={col} emDash={emDash} items={cursos} />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- Extras -->
+      <section class={`${styles.sectionAlt} ratesPanel ratesPanel-extras`}>
+        <div class={styles.container}>
+          <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{extrasTitle[lang]}</h2>
+          <div class={`${styles.card} pricingCard`}>
+            <PriceTable lang={lang} col={col} emDash={emDash} variant="extras" items={extras} />
+          </div>
+        </div>
+      </section>
+    </div>
 
     <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
   </main>
@@ -307,78 +192,28 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     margin-bottom: 24px;
   }
 
-  .ratesTable {
-    width: 100%;
-    min-width: 640px;
-    border-collapse: collapse;
-  }
-
-  .ratesTable th {
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--color-ocean-400);
-    padding: 10px 16px;
-    border-bottom: 2px solid var(--color-ocean-100);
-    white-space: nowrap;
-  }
-
-  .ratesTable td {
-    padding: 16px;
-    border-bottom: 1px solid rgba(2, 62, 138, 0.08);
-    vertical-align: top;
-  }
-
-  .ratesTable tbody tr:last-child td {
-    border-bottom: none;
-  }
-
-  .ratesTable td:nth-child(2) {
-    white-space: nowrap;
-  }
-
-  .duration {
-    display: block;
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    margin-top: 4px;
-    line-height: 1.5;
-  }
-
-  .ratesList {
-    margin: 0;
-    padding-left: 1.1em;
-  }
-
-  .ratesList li {
-    list-style: disc;
-  }
-
-  .ratesSupplementList {
-    margin: 0;
+  /* Tab controls are inert (and invisible) above 768px, where every
+     .ratesPanel is shown at once — same as the pre-tabs layout. */
+  .ratesTabFieldset {
+    border: 0;
     padding: 0;
-    list-style: none;
+    margin: 0;
   }
 
-  .ratesSupplementList li {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 4px 0;
-  }
-
-  .ratesSupplementLabel {
-    color: var(--color-text-muted);
-  }
-
-  .ratesSupplementPrice {
-    color: #c97a2b;
-    font-weight: 700;
+  .ratesTabInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
     white-space: nowrap;
+    border: 0;
+  }
+
+  .ratesTabNav {
+    display: none;
   }
 
   @media (max-width: 768px) {
@@ -386,9 +221,64 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
       padding: 16px 4px;
     }
 
-    .ratesTable th,
-    .ratesTable td {
-      padding: 12px;
+    .ratesTabNav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--color-white);
+      border-bottom: 1px solid rgba(2, 62, 138, 0.08);
+    }
+
+    .ratesTabNav label {
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: var(--color-ocean-50);
+      color: var(--color-ocean-800);
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .ratesTabsRoot:has(#tab-bautizos:checked) .ratesTabNav label[for='tab-bautizos'],
+    .ratesTabsRoot:has(#tab-inmersiones:checked) .ratesTabNav label[for='tab-inmersiones'],
+    .ratesTabsRoot:has(#tab-cursos:checked) .ratesTabNav label[for='tab-cursos'],
+    .ratesTabsRoot:has(#tab-extras:checked) .ratesTabNav label[for='tab-extras'] {
+      background: var(--color-ocean-700);
+      color: var(--color-white);
+    }
+
+    .ratesTabsRoot:has(#tab-bautizos:focus-visible) .ratesTabNav label[for='tab-bautizos'],
+    .ratesTabsRoot:has(#tab-inmersiones:focus-visible) .ratesTabNav label[for='tab-inmersiones'],
+    .ratesTabsRoot:has(#tab-cursos:focus-visible) .ratesTabNav label[for='tab-cursos'],
+    .ratesTabsRoot:has(#tab-extras:focus-visible) .ratesTabNav label[for='tab-extras'] {
+      outline: 2px solid var(--color-ocean-400);
+      outline-offset: 2px;
+    }
+
+    /* Only the active category's <section> renders; the rest stay in the
+       DOM (content is still crawlable/accessible) but visually hidden. */
+    .ratesPanel {
+      display: none;
+    }
+
+    .ratesTabsRoot:has(#tab-bautizos:checked) .ratesPanel-bautizos,
+    .ratesTabsRoot:has(#tab-inmersiones:checked) .ratesPanel-inmersiones,
+    .ratesTabsRoot:has(#tab-cursos:checked) .ratesPanel-cursos,
+    .ratesTabsRoot:has(#tab-extras:checked) .ratesPanel-extras {
+      display: block;
+    }
+
+    .ratesPanel .pricingCard {
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      padding: 0;
     }
   }
 </style>
