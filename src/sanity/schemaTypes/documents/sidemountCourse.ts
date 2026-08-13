@@ -32,7 +32,6 @@ export const sidemountCourse = defineType({
     defineField({ name: 'price', title: 'Precio (EUR)', type: 'number' }),
     defineField({ name: 'includes', title: 'Incluye', type: 'localeList' }),
     defineField({ name: 'supplements', title: 'Suplementos / opciones', type: 'localeSupplementList' }),
-    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
     defineField({
       name: 'reservationLink',
       title: 'Enlace de reserva (Bukyapp)',

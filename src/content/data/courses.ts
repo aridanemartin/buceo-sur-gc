@@ -45,7 +45,6 @@ export interface CourseSeed {
   price?: number | null
   includes: LocaleListValue
   supplements: LocaleSupplementListValue
-  groupDiscount?: LocaleValue
   // Direct link to the bookable product in Bukyapp. Left undefined for
   // courses Bukyapp doesn't sell online — CoursesView falls back to a
   // contact-form link with a prefilled "interested in X" message.
@@ -110,12 +109,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Zusätzlicher Tauchgang', price: '40 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Máximo 1 instructor por 3 estudiantes.',
-      'Maximum 1 instructor per 3 students.',
-      'Maximum 1 instructeur pour 3 élèves.',
-      'Maximal 1 Ausbilder pro 3 Schüler.',
-    ),
     reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69c27a375595aad4454bc062',
     order: 1,
   },
@@ -173,12 +166,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Videoclip', price: '25 €' },
         { label: 'Zusätzlicher Doppeltauchgang', price: '80 €' },
       ],
-    ),
-    groupDiscount: loc(
-      'Máximo 1 instructor por 3 estudiantes.',
-      'Maximum 1 instructor per 3 students.',
-      'Maximum 1 instructeur pour 3 élèves.',
-      'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
     reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/69b45e24c2395a856d17af85',
     order: 2,
@@ -239,7 +226,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Versicherung', price: '20 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 3,
   },
   {
@@ -297,7 +283,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Komplettausrüstung (mit Computer)', price: '+40 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 4,
   },
   {
@@ -355,7 +340,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Versicherung 1 Tag', price: '8 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 5,
   },
   {
@@ -413,7 +397,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Versicherung 1 Woche', price: '20 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 6,
   },
   {
@@ -471,7 +454,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Versicherung 2 Tage', price: '16 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 7,
   },
   {
@@ -529,7 +511,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Versicherung 2 Tage', price: '16 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 8,
   },
   {
@@ -561,7 +542,6 @@ export const coursesData: CourseSeed[] = [
       ['Übungen ohne Tauchen', 'Rettungsworkshop'],
     ),
     supplements: locSupplements([], [], [], []),
-    groupDiscount: loc('', '', '', ''),
     order: 9,
   },
   // ---------- CMAS Para Principiantes (Ecole de plongée Française) ----------
@@ -632,12 +612,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Zusätzlicher Tauchgang', price: '40 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Máximo 1 instructor por 3 estudiantes.',
-      'Maximum 1 instructor per 3 students.',
-      'Maximum 1 instructeur pour 3 élèves.',
-      'Maximal 1 Ausbilder pro 3 Schüler.',
-    ),
     order: 10,
   },
   {
@@ -706,12 +680,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Videoclip', price: '25 €' },
         { label: 'Zusätzlicher Doppeltauchgang', price: '80 €' },
       ],
-    ),
-    groupDiscount: loc(
-      'Máximo 1 instructor por 3 estudiantes.',
-      'Maximum 1 instructor per 3 students.',
-      'Maximum 1 instructeur pour 3 élèves.',
-      'Maximal 1 Ausbilder pro 3 Schüler.',
     ),
     reservationLink: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1/product/6a312c66a0cc4a3ec72bbc0c',
     order: 11,
@@ -792,12 +760,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Versicherung Woche', price: '20 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Máximo 2 estudiantes por sesión.',
-      'Maximum 2 students per session.',
-      'Maximum 2 élèves par session.',
-      'Maximal 2 Schüler pro Sitzung.',
-    ),
     order: 12,
   },
   {
@@ -858,12 +820,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Komplettausrüstung', price: '+50 €' },
         { label: 'Versicherung 2 Tage', price: '16 €' },
       ],
-    ),
-    groupDiscount: loc(
-      'Máximo 2 estudiantes por sesión.',
-      'Maximum 2 students per session.',
-      'Maximum 2 élèves par session.',
-      'Maximal 2 Schüler pro Sitzung.',
     ),
     order: 13,
   },
@@ -938,12 +894,6 @@ export const coursesData: CourseSeed[] = [
         { label: 'Versicherung Woche', price: '20 €' },
       ],
     ),
-    groupDiscount: loc(
-      'Máximo 2 estudiantes por sesión.',
-      'Maximum 2 students per session.',
-      'Maximum 2 élèves par session.',
-      'Maximal 2 Schüler pro Sitzung.',
-    ),
     order: 14,
   },
 ]
@@ -1013,7 +963,6 @@ export const courseBundlesData: CourseSeed[] = [
         { label: 'Versicherung 2 Tage', price: '16 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 17,
   },
   {
@@ -1080,7 +1029,6 @@ export const courseBundlesData: CourseSeed[] = [
         { label: 'Versicherung Woche', price: '20 €' },
       ],
     ),
-    groupDiscount: loc('', '', '', ''),
     order: 18,
   },
 ]
