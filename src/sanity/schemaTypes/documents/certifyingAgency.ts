@@ -17,7 +17,6 @@ export const certifyingAgency = defineType({
       type: 'image',
       options: { accept: 'image/webp' },
     }),
-    defineField({ name: 'website', title: 'Sitio web', type: 'url' }),
   ],
   preview: {
     select: { title: 'name', media: 'logo' },

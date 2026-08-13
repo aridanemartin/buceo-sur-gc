@@ -50,7 +50,6 @@ export async function getCertifyingAgencies() {
       *[_type == "certifyingAgency"] {
         name,
         "logo": logo.asset->url,
-        website
       }
     `)
     return Array.isArray(data) ? data : []
