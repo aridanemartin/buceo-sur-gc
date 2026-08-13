@@ -30,6 +30,15 @@ const l = (f: any) => t(f, lang)
 const lList = (f: any) => tList(f, lang)
 const lSupplements = (f: any) => tSupplements(f, lang)
 
+// "Requisitos" heading for each course card's requirements block — matches
+// the labels used on the Cursos page.
+const requirementLabels: Record<Locale, string> = {
+  es: 'Requisitos',
+  en: 'Requirements',
+  fr: 'Conditions',
+  de: 'Voraussetzungen',
+}[lang]
+
 // Cards without a Bukyapp reservationLink fall back to the contact form
 // with a prefilled "interested in X" message, opened in the same tab.
 const reserveHrefOf = (c: any) =>
@@ -143,7 +152,7 @@ const cta = {
                 ...(lSupplements(c.supplements).length
                   ? [{ supplements: lSupplements(c.supplements) }]
                   : []),
-                { text: l(c.prerequisites) },
+                { label: requirementLabels, requirements: lList(c.requirements) },
               ]}
               price={c.price ? `${c.price} €` : null}
               image={c.image || null}

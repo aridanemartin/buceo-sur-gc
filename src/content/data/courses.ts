@@ -37,7 +37,8 @@ export interface CourseSeed {
   category: string
   image?: string
   summary: LocaleValue
-  prerequisites: LocaleValue
+  // Rendered as a check-mark list inside its own card, parallel to "includes".
+  requirements: LocaleListValue
   depthLimit?: number | null
   duration: LocaleValue
   minAge?: number | null
@@ -71,11 +72,11 @@ export const coursesData: CourseSeed[] = [
       "Initiation à l'autonomie encadrée, jusqu'à 12 m.",
       'Einstieg in das begleitete autonome Tauchen bis 12 m.',
     ),
-    prerequisites: loc(
-      'Certificado médico o cuestionario médico sin contraindicaciones. No volar el mismo día.',
-      'Medical certificate or medical questionnaire without contraindications. No flying the same day.',
-      'Certificat médical ou questionnaire médical sans contre-indication. Ne pas voler le jour même.',
-      'Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen. Am selben Tag nicht fliegen.',
+    requirements: locList(
+      ['Certificado médico o cuestionario médico sin contraindicaciones', 'No volar el mismo día'],
+      ['Medical certificate or medical questionnaire without contraindications', 'No flying the same day'],
+      ['Certificat médical ou questionnaire médical sans contre-indication', 'Ne pas voler le jour même'],
+      ['Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen', 'Am selben Tag nicht fliegen'],
     ),
     depthLimit: 12,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
@@ -135,11 +136,11 @@ export const coursesData: CourseSeed[] = [
       "La certification de plongée autonome la plus reconnue à l'international, jusqu'à 18 m.",
       'Die international anerkannteste Zertifizierung für selbstständiges Tauchen bis 18 m.',
     ),
-    prerequisites: loc(
-      'Certificado médico o cuestionario médico sin contraindicaciones. No volar el mismo día.',
-      'Medical certificate or medical questionnaire without contraindications. No flying the same day.',
-      'Certificat médical ou questionnaire médical sans contre-indication. Ne pas voler le jour même.',
-      'Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen. Am selben Tag nicht fliegen.',
+    requirements: locList(
+      ['Certificado médico o cuestionario médico sin contraindicaciones', 'No volar el mismo día'],
+      ['Medical certificate or medical questionnaire without contraindications', 'No flying the same day'],
+      ['Certificat médical ou questionnaire médical sans contre-indication', 'Ne pas voler le jour même'],
+      ['Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen', 'Am selben Tag nicht fliegen'],
     ),
     depthLimit: 18,
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
@@ -200,11 +201,11 @@ export const coursesData: CourseSeed[] = [
       "Étendez votre autonomie jusqu'à 30 m en explorant trois spécialités de votre choix.",
       'Erweitern Sie Ihre Tauchtiefe bis 30 m mit drei Spezialgebieten Ihrer Wahl.',
     ),
-    prerequisites: loc(
-      'Certificado médico o cuestionario médico, certificación Open Water y 10 inmersiones registradas.',
-      'Medical certificate or questionnaire, Open Water certification and 10 logged dives.',
-      'Certificat médical ou questionnaire, certification Open Water et 10 plongées enregistrées.',
-      'Ärztliches Attest oder Fragebogen, Open-Water-Zertifizierung und 10 protokollierte Tauchgänge.',
+    requirements: locList(
+      ['Certificado médico o cuestionario médico', 'Certificación Open Water', '10 inmersiones registradas'],
+      ['Medical certificate or questionnaire', 'Open Water certification', '10 logged dives'],
+      ['Certificat médical ou questionnaire', 'Certification Open Water', '10 plongées enregistrées'],
+      ['Ärztliches Attest oder Fragebogen', 'Open-Water-Zertifizierung', '10 protokollierte Tauchgänge'],
     ),
     depthLimit: 30,
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
@@ -258,11 +259,11 @@ export const coursesData: CourseSeed[] = [
       'Trois plongées de formation jusqu’à 40 m sans paliers de décompression.',
       'Drei Kurs-Tauchgänge bis 40 m ohne Dekompressionsstopps.',
     ),
-    prerequisites: loc(
-      'Open Water y 15 inmersiones recomendadas.',
-      'Open Water and 15 dives recommended.',
-      'Open Water et 15 plongées recommandées.',
-      'Open Water und 15 Tauchgänge empfohlen.',
+    requirements: locList(
+      ['Open Water', '15 inmersiones recomendadas'],
+      ['Open Water', '15 dives recommended'],
+      ['Open Water', '15 plongées recommandées'],
+      ['Open Water', '15 Tauchgänge empfohlen'],
     ),
     depthLimit: 40,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
@@ -316,11 +317,11 @@ export const coursesData: CourseSeed[] = [
       "Apprenez à plonger à l'air enrichi à 32 % et élargissez votre marge de sécurité.",
       'Tauchen mit 32 % angereicherter Luft lernen und die Sicherheitsmarge vergrößern.',
     ),
-    prerequisites: loc(
-      'Certificación Open Water.',
-      'Open Water certification.',
-      'Certification Open Water.',
-      'Open-Water-Zertifizierung.',
+    requirements: locList(
+      ['Certificación Open Water'],
+      ['Open Water certification'],
+      ['Certification Open Water'],
+      ['Open-Water-Zertifizierung'],
     ),
     depthLimit: null,
     duration: loc('1 día', '1 day', '1 jour', '1 Tag'),
@@ -374,11 +375,11 @@ export const coursesData: CourseSeed[] = [
       'Quatre plongées de formation jusqu’à 40 m avec gestion de la décompression.',
       'Vier Kurs-Tauchgänge bis 40 m mit Dekompressionsmanagement.',
     ),
-    prerequisites: loc(
-      'Open Water avanzado, 24 inmersiones registradas y especialidad Buceo Profundo.',
-      'Advanced Open Water, 24 logged dives and Deep Diving specialty.',
-      'Open Water avancé, 24 plongées enregistrées et spécialité Plongée profonde.',
-      'Advanced Open Water, 24 protokollierte Tauchgänge und Deep-Diving-Spezialkurs.',
+    requirements: locList(
+      ['Open Water avanzado', '24 inmersiones registradas', 'Especialidad Buceo Profundo'],
+      ['Advanced Open Water', '24 logged dives', 'Deep Diving specialty'],
+      ['Open Water avancé', '24 plongées enregistrées', 'Spécialité Plongée profonde'],
+      ['Advanced Open Water', '24 protokollierte Tauchgänge', 'Deep-Diving-Spezialkurs'],
     ),
     depthLimit: 40,
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
@@ -432,11 +433,11 @@ export const coursesData: CourseSeed[] = [
       'Trois plongées de formation pour maîtriser l’orientation naturelle et au compas.',
       'Drei Kurs-Tauchgänge zur natürlichen und Kompass-Navigation.',
     ),
-    prerequisites: loc(
-      'Certificación Open Water.',
-      'Open Water certification.',
-      'Certification Open Water.',
-      'Open-Water-Zertifizierung.',
+    requirements: locList(
+      ['Certificación Open Water'],
+      ['Open Water certification'],
+      ['Certification Open Water'],
+      ['Open-Water-Zertifizierung'],
     ),
     depthLimit: 40,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
@@ -490,11 +491,11 @@ export const coursesData: CourseSeed[] = [
       'Quatre plongées de formation axées sur la prévention du stress et le sauvetage.',
       'Vier Kurs-Tauchgänge zur Stressprävention und Rettung.',
     ),
-    prerequisites: loc(
-      'Certificación Open Water.',
-      'Open Water certification.',
-      'Certification Open Water.',
-      'Open-Water-Zertifizierung.',
+    requirements: locList(
+      ['Certificación Open Water'],
+      ['Open Water certification'],
+      ['Certification Open Water'],
+      ['Open-Water-Zertifizierung'],
     ),
     depthLimit: null,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
@@ -548,7 +549,7 @@ export const coursesData: CourseSeed[] = [
       'Atelier de sauvetage et de premiers secours sans plongée.',
       'Rettungs- und Erste-Hilfe-Workshop ohne Tauchen.',
     ),
-    prerequisites: loc('Ninguno.', 'None.', 'Aucun.', 'Keine.'),
+    requirements: locList(['Ninguno.'], ['None.'], ['Aucun.'], ['Keine.']),
     depthLimit: null,
     duration: loc('1 día', '1 day', '1 jour', '1 Tag'),
     minAge: 12,
@@ -581,11 +582,11 @@ export const coursesData: CourseSeed[] = [
       'Initiation CMAS encadrée, jusqu’à 12 m. Formations reconnues internationalement par la CMAS.',
       'CMAS-Einstieg unter Aufsicht bis 12 m. International von der CMAS anerkannte Kurse.',
     ),
-    prerequisites: loc(
-      'Certificado médico o cuestionario médico sin contraindicaciones. No volar el mismo día.',
-      'Medical certificate or medical questionnaire without contraindications. No flying the same day.',
-      'Certificat médical ou questionnaire médical sans contre-indication. Ne pas voler le jour même.',
-      'Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen. Am selben Tag nicht fliegen.',
+    requirements: locList(
+      ['Certificado médico o cuestionario médico sin contraindicaciones', 'No volar el mismo día'],
+      ['Medical certificate or medical questionnaire without contraindications', 'No flying the same day'],
+      ['Certificat médical ou questionnaire médical sans contre-indication', 'Ne pas voler le jour même'],
+      ['Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen', 'Am selben Tag nicht fliegen'],
     ),
     depthLimit: 12,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
@@ -656,11 +657,11 @@ export const coursesData: CourseSeed[] = [
       'Première certification CMAS permettant de plonger jusqu’à 20 m encadré.',
       'Erste CMAS-Zertifizierung für begleitetes Tauchen bis 20 m.',
     ),
-    prerequisites: loc(
-      'Certificado médico o cuestionario médico sin contraindicaciones. No volar el mismo día.',
-      'Medical certificate or medical questionnaire without contraindications. No flying the same day.',
-      'Certificat médical ou questionnaire médical sans contre-indication. Ne pas voler le jour même.',
-      'Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen. Am selben Tag nicht fliegen.',
+    requirements: locList(
+      ['Certificado médico o cuestionario médico sin contraindicaciones', 'No volar el mismo día'],
+      ['Medical certificate or medical questionnaire without contraindications', 'No flying the same day'],
+      ['Certificat médical ou questionnaire médical sans contre-indication', 'Ne pas voler le jour même'],
+      ['Ärztliches Attest oder medizinischer Fragebogen ohne Gegenanzeigen', 'Am selben Tag nicht fliegen'],
     ),
     depthLimit: 20,
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
@@ -733,11 +734,11 @@ export const coursesData: CourseSeed[] = [
       'Plongée autonome en binôme ou petit groupe, jusqu’à 20 m.',
       'Selbstständiges Tauchen zu zweit oder in kleiner Gruppe bis 20 m.',
     ),
-    prerequisites: loc(
-      'Nivel 1 (PE20) y 20 inmersiones de experiencia adicionales. Certificado médico obligatorio.',
-      'Level 1 (PE20) plus 20 additional logged dives. Medical certificate required.',
-      'Niveau 1 (PE20) et 20 plongées d’expérience supplémentaires. Certificat médical obligatoire.',
-      'Niveau 1 (PE20) und 20 zusätzliche protokollierte Tauchgänge. Ärztliches Attest erforderlich.',
+    requirements: locList(
+      ['Nivel 1 (PE20)', '20 inmersiones de experiencia adicionales', 'Certificado médico obligatorio'],
+      ['Level 1 (PE20)', '20 additional logged dives', 'Medical certificate required'],
+      ['Niveau 1 (PE20)', '20 plongées d’expérience supplémentaires', 'Certificat médical obligatoire'],
+      ['Niveau 1 (PE20)', '20 zusätzliche protokollierte Tauchgänge', 'Ärztliches Attest erforderlich'],
     ),
     depthLimit: 20,
     duration: loc('3 días', '3 days', '3 jours', '3 Tage'),
@@ -816,11 +817,11 @@ export const coursesData: CourseSeed[] = [
       'Plongées encadrées jusqu’à 40 m, avec formation théorique spécifique.',
       'Begleitete Tauchgänge bis 40 m mit spezifischer Theorieausbildung.',
     ),
-    prerequisites: loc(
-      'Nivel 1 (PE20) y 20 inmersiones de experiencia adicionales. Certificado médico obligatorio.',
-      'Level 1 (PE20) plus 20 additional logged dives. Medical certificate required.',
-      'Niveau 1 (PE20) et 20 plongées d’expérience supplémentaires. Certificat médical obligatoire.',
-      'Niveau 1 (PE20) und 20 zusätzliche protokollierte Tauchgänge. Ärztliches Attest erforderlich.',
+    requirements: locList(
+      ['Nivel 1 (PE20)', '20 inmersiones de experiencia adicionales', 'Certificado médico obligatorio'],
+      ['Level 1 (PE20)', '20 additional logged dives', 'Medical certificate required'],
+      ['Niveau 1 (PE20)', '20 plongées d’expérience supplémentaires', 'Certificat médical obligatoire'],
+      ['Niveau 1 (PE20)', '20 zusätzliche protokollierte Tauchgänge', 'Ärztliches Attest erforderlich'],
     ),
     depthLimit: 40,
     duration: loc('2 días', '2 days', '2 jours', '2 Tage'),
@@ -883,11 +884,11 @@ export const coursesData: CourseSeed[] = [
       'Combine la plongée autonome à 20 m et l’exploration encadrée jusqu’à 40 m.',
       'Kombiniert autonomes Tauchen bis 20 m mit begleiteter Erkundung bis 40 m.',
     ),
-    prerequisites: loc(
-      'Nivel 1 (PE20) y 20 inmersiones de experiencia adicionales. Certificado médico obligatorio.',
-      'Level 1 (PE20) plus 20 additional logged dives. Medical certificate required.',
-      'Niveau 1 (PE20) et 20 plongées d’expérience supplémentaires. Certificat médical obligatoire.',
-      'Niveau 1 (PE20) und 20 zusätzliche protokollierte Tauchgänge. Ärztliches Attest erforderlich.',
+    requirements: locList(
+      ['Nivel 1 (PE20)', '20 inmersiones de experiencia adicionales', 'Certificado médico obligatorio'],
+      ['Level 1 (PE20)', '20 additional logged dives', 'Medical certificate required'],
+      ['Niveau 1 (PE20)', '20 plongées d’expérience supplémentaires', 'Certificat médical obligatoire'],
+      ['Niveau 1 (PE20)', '20 zusätzliche protokollierte Tauchgänge', 'Ärztliches Attest erforderlich'],
     ),
     depthLimit: 40,
     duration: loc('5 días', '5 days', '5 jours', '5 Tage'),
@@ -965,11 +966,11 @@ export const courseBundlesData: CourseSeed[] = [
       'Deux spécialités combinées : Nitrox 32 et Plongée profonde.',
       'Zwei kombinierte Spezialkurse: Nitrox 32 und Tiefe.',
     ),
-    prerequisites: loc(
-      'Certificación Open Water.',
-      'Open Water certification.',
-      'Certification Open Water.',
-      'Open-Water-Zertifizierung.',
+    requirements: locList(
+      ['Certificación Open Water'],
+      ['Open Water certification'],
+      ['Certification Open Water'],
+      ['Open-Water-Zertifizierung'],
     ),
     depthLimit: 40,
     duration: loc(
@@ -1032,11 +1033,11 @@ export const courseBundlesData: CourseSeed[] = [
       'Trois spécialités combinées : Nitrox 32, Plongée profonde et Décompression.',
       'Drei kombinierte Spezialkurse: Nitrox 32, Tiefe und Dekompression.',
     ),
-    prerequisites: loc(
-      'Certificación Open Water.',
-      'Open Water certification.',
-      'Certification Open Water.',
-      'Open-Water-Zertifizierung.',
+    requirements: locList(
+      ['Certificación Open Water'],
+      ['Open Water certification'],
+      ['Certification Open Water'],
+      ['Open-Water-Zertifizierung'],
     ),
     depthLimit: 40,
     duration: loc(

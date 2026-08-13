@@ -25,7 +25,7 @@ export const course = defineType({
       options: { accept: 'image/webp' },
     }),
     defineField({ name: 'summary', title: 'Resumen', type: 'localeText' }),
-    defineField({ name: 'prerequisites', title: 'Requisitos', type: 'localeText' }),
+    defineField({ name: 'requirements', title: 'Requisitos', type: 'localeList' }),
     defineField({ name: 'depthLimit', title: 'Profundidad máxima (m)', type: 'number' }),
     defineField({ name: 'duration', title: 'Duración', type: 'localeString' }),
     defineField({ name: 'minAge', title: 'Edad mínima', type: 'number' }),

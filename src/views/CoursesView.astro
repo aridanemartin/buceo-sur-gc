@@ -73,11 +73,11 @@ const page = {
   },
 }[lang];
 
-const labels: Record<Locale, { includes: string; supplements: string }> = {
-  es: { includes: "Incluye", supplements: "Suplementos / opciones" },
-  en: { includes: "Includes", supplements: "Supplements / options" },
-  fr: { includes: "Inclut", supplements: "Suppléments / options" },
-  de: { includes: "Inklusive", supplements: "Zuschläge / Optionen" },
+const labels: Record<Locale, { includes: string; supplements: string; requirements: string }> = {
+  es: { includes: "Incluye", supplements: "Suplementos / opciones", requirements: "Requisitos" },
+  en: { includes: "Includes", supplements: "Supplements / options", requirements: "Requirements" },
+  fr: { includes: "Inclut", supplements: "Suppléments / options", requirements: "Conditions" },
+  de: { includes: "Inklusive", supplements: "Zuschläge / Optionen", requirements: "Voraussetzungen" },
 }[lang];
 
 const categoryLabels: Record<string, string> = {
@@ -273,7 +273,7 @@ const categorized = categoryOrder
                         ...(lSupplements(c.supplements).length
                           ? [{ label: labels.supplements, supplements: lSupplements(c.supplements) }]
                           : []),
-                        { text: l(c.prerequisites) },
+                        { label: labels.requirements, requirements: lList(c.requirements) },
                       ]}
                       price={c.price ? `${c.price} €` : null}
                       image={c.image || null}
