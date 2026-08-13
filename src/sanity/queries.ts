@@ -1,8 +1,9 @@
 import { sanityClient } from 'sanity:client'
+import { baptismsData } from '../content/data/baptisms'
 import { centroInfoData } from '../content/data/centroInfo'
 import { allCoursesData } from '../content/data/courses'
+import { divesData } from '../content/data/dives'
 import { diveSitesData } from '../content/data/diveSites'
-import { experiencesData } from '../content/data/experiences'
 import { tariffExtrasData } from '../content/data/tariffExtras'
 
 // All query helpers fall back to the canonical docx-sourced data (src/content/data)
@@ -58,17 +59,25 @@ export async function getCertifyingAgencies() {
   }
 }
 
-export async function getExperiences(audience: 'beginner' | 'certified') {
+export async function getBaptisms() {
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "experience" && audience == $audience] | order(order asc) { ..., "image": image.asset->url }`,
-      { audience },
+      `*[_type == "baptism"] | order(order asc) { ..., "image": image.asset->url }`,
     )
-    return Array.isArray(data) && data.length > 0
-      ? data
-      : experiencesData.filter((e) => e.audience === audience)
+    return Array.isArray(data) && data.length > 0 ? data : baptismsData
   } catch {
-    return experiencesData.filter((e) => e.audience === audience)
+    return baptismsData
+  }
+}
+
+export async function getDives() {
+  try {
+    const data = await sanityClient.fetch(
+      `*[_type == "dive"] | order(order asc) { ..., "image": image.asset->url }`,
+    )
+    return Array.isArray(data) && data.length > 0 ? data : divesData
+  } catch {
+    return divesData
   }
 }
 
