@@ -1,8 +1,9 @@
+import { baptism } from './documents/baptism'
 import { centroInfo } from './documents/centroInfo'
 import { certifyingAgency } from './documents/certifyingAgency'
 import { course } from './documents/course'
+import { dive } from './documents/dive'
 import { diveSite } from './documents/diveSite'
-import { experience } from './documents/experience'
 import { sidemountCourse } from './documents/sidemountCourse'
 import { tariffExtra } from './documents/tariffExtra'
 import { localeList } from './objects/localeList'
@@ -22,7 +23,8 @@ export const schemaTypes = [
   certifyingAgency,
   course,
   sidemountCourse,
-  experience,
+  baptism,
+  dive,
   diveSite,
   tariffExtra,
   centroInfo,

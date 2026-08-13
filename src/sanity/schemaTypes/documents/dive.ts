@@ -1,17 +1,11 @@
 import { defineField, defineType } from 'sanity'
 
-export const experience = defineType({
-  name: 'experience',
-  title: 'Experiencia (Bautizo / Inmersión)',
+export const dive = defineType({
+  name: 'dive',
+  title: 'Inmersiones',
   type: 'document',
   fields: [
     defineField({ name: 'title', title: 'Título', type: 'localeString' }),
-    defineField({
-      name: 'audience',
-      title: 'Público',
-      type: 'string',
-      options: { list: ['beginner', 'certified'] },
-    }),
     defineField({
       name: 'isPackage',
       title: '¿Es un bono / pack?',
@@ -28,9 +22,8 @@ export const experience = defineType({
       name: 'requirements',
       title: 'Requisitos',
       type: 'localeList',
-      description: 'Lista de requisitos (bautizos). Se muestra como la misma tarjeta "Requisitos" que en los cursos.',
+      description: 'Lista de requisitos. Se muestra como la misma tarjeta "Requisitos" que en los cursos.',
     }),
-    defineField({ name: 'groupDiscount', title: 'Descuento por grupo', type: 'localeStringOptional' }),
     defineField({
       name: 'reservationLink',
       title: 'Enlace de reserva (Bukyapp)',
@@ -50,11 +43,11 @@ export const experience = defineType({
   ],
   orderings: [{ title: 'Orden', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'title.es', audience: 'audience', duration: 'duration.es', media: 'image' },
-    prepare({ title, audience, duration, media }) {
+    select: { title: 'title.es', duration: 'duration.es', media: 'image' },
+    prepare({ title, duration, media }) {
       return {
         title: title || 'Sin título',
-        subtitle: [audience, duration].filter(Boolean).join(' · '),
+        subtitle: duration || undefined,
         media,
       }
     },
