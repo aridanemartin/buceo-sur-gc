@@ -5,6 +5,15 @@ export const centroInfo = defineType({
   name: 'centroInfo',
   title: 'Información del centro / general',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'ogImages',
+      title: 'Imágenes Open Graph (redes sociales)',
+      description:
+        "Estas imágenes son la vista previa que aparece al compartir un enlace de esta web en WhatsApp, Facebook, Instagram o LinkedIn. Deben subirse en formato JPG (no WEBP — muchas redes sociales no lo muestran correctamente) y con un tamaño recomendado de 1200x630 píxeles. Si no subes una imagen para una página concreta, se usará la 'Imagen OG por defecto'.",
+      options: { collapsible: true, collapsed: false },
+    },
+  ],
   fields: [
     defineField({
       name: 'heroImage',
@@ -87,6 +96,70 @@ export const centroInfo = defineType({
       title: 'Imagen del mapa de acceso',
       type: 'image',
       options: { accept: 'image/webp' },
+    }),
+    defineField({
+      name: 'ogImageDefault',
+      title: 'Imagen OG por defecto',
+      description: 'Se usa en cualquier página que no tenga su propia imagen OG asignada abajo.',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageHome',
+      title: 'Imagen OG — Inicio',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageDives',
+      title: 'Imagen OG — Inmersiones',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageBaptisms',
+      title: 'Imagen OG — Bautizos',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageCourses',
+      title: 'Imagen OG — Cursos',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageRates',
+      title: 'Imagen OG — Tarifas',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageGallery',
+      title: 'Imagen OG — Galería',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageSidemount',
+      title: 'Imagen OG — Sidemount',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
+    }),
+    defineField({
+      name: 'ogImageContact',
+      title: 'Imagen OG — Contacto',
+      type: 'image',
+      fieldset: 'ogImages',
+      options: { accept: 'image/jpeg' },
     }),
   ],
   preview: {

@@ -12,9 +12,9 @@ import { localePath, withLangParam } from "../i18n/paths";
 import { reserveInterestMessage, ui } from "../i18n/strings";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../lib/constants";
-import { sanityImageUrl } from "../lib/seo";
+import { resolveOgImage } from "../lib/seo";
 import { t, tList, tSupplements } from "../sanity/localize";
-import { getCertifyingAgencies, getCourses } from "../sanity/queries";
+import { getCentroInfo, getCertifyingAgencies, getCourses } from "../sanity/queries";
 import filterStyles from "../styles/coursesFilter.module.css";
 import rowStyles from "../styles/rowLayout.module.css";
 import styles from "../styles/viewCommon.module.css";
@@ -26,9 +26,8 @@ interface Props {
 const { lang } = Astro.props;
 const u = ui[lang];
 const courses = await getCourses();
-const ogImage =
-  sanityImageUrl(courses.find((c: any) => c.image)?.image, { width: 1200 }) ??
-  SITE.defaultOgImage;
+const centroInfo = await getCentroInfo();
+const ogImage = resolveOgImage(centroInfo, "courses");
 
 // Cards without a Bukyapp reservationLink fall back to the contact form
 // with a prefilled "interested in X" message, opened in the same tab.

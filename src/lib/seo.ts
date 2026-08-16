@@ -32,6 +32,51 @@ export function sanityImageUrl(
   return `${url}${separator}w=${width}&auto=format&q=${quality}`
 }
 
+/** Route keys that map to a dedicated OG image field on the `centroInfo` Sanity
+ * document (see src/sanity/schemaTypes/documents/centroInfo.ts). 'legal' covers
+ * cancellation/privacy/terms, which share the default rather than getting their own. */
+export type OgImageRoute =
+  | 'home'
+  | 'dives'
+  | 'baptisms'
+  | 'courses'
+  | 'rates'
+  | 'gallery'
+  | 'sidemount'
+  | 'contact'
+  | 'legal'
+
+const OG_IMAGE_FIELD: Record<Exclude<OgImageRoute, 'legal'>, string> = {
+  home: 'ogImageHome',
+  dives: 'ogImageDives',
+  baptisms: 'ogImageBaptisms',
+  courses: 'ogImageCourses',
+  rates: 'ogImageRates',
+  gallery: 'ogImageGallery',
+  sidemount: 'ogImageSidemount',
+  contact: 'ogImageContact',
+}
+
+/** Resolves the og:image/twitter:image for a route: the editor-uploaded image for
+ * that route, falling back to the site-wide default from Sanity, falling back to
+ * the static local asset (SITE.defaultOgImage) if Studio has nothing set yet.
+ * Forces real JPEG output at 1200x630 on Sanity URLs — `options.accept` on the
+ * schema field only restricts the Studio file picker, not what's actually stored,
+ * so this is a defensive re-encode, not just a resize. */
+export function resolveOgImage(
+  centroInfo: Record<string, unknown> | null | undefined,
+  route: OgImageRoute,
+): string {
+  const routeField = route === 'legal' ? undefined : OG_IMAGE_FIELD[route]
+  const raw =
+    (routeField && (centroInfo?.[routeField] as string | undefined)) ||
+    (centroInfo?.ogImageDefault as string | undefined) ||
+    SITE.defaultOgImage
+  if (!raw.includes('cdn.sanity.io')) return raw
+  const separator = raw.includes('?') ? '&' : '?'
+  return `${raw}${separator}w=1200&h=630&fit=crop&fm=jpg&q=80`
+}
+
 /** LocalBusiness JSON-LD, identical on every page (a single business, not per-page
  * entities) — reinforces the Google Business Profile / knowledge-panel signals. */
 export function localBusinessJsonLd() {

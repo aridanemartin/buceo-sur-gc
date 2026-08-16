@@ -1,13 +1,16 @@
 ---
 // src/pages/en/contact.astro
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import { resolveOgImage } from '../../lib/seo'
+import { getCentroInfo } from '../../sanity/queries'
 import ContactView from '../../views/ContactView.astro'
 
 const lang = 'en'
 const title = 'Contact — Buceo Sur Gran Canaria'
 const description =
   'Contact Buceo Sur Gran Canaria: email, phone numbers, address and contact form.'
+const ogImage = resolveOgImage(await getCentroInfo(), 'contact')
 ---
-<BaseLayout lang={lang} path="contact" title={title} description={description}>
+<BaseLayout lang={lang} path="contact" title={title} description={description} ogImage={ogImage}>
   <ContactView lang={lang} />
 </BaseLayout>

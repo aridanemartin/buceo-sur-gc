@@ -7,7 +7,7 @@ import type { Locale } from "../i18n/locales";
 import { ui } from "../i18n/strings";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../lib/constants";
-import { sanityImageUrl } from "../lib/seo";
+import { resolveOgImage, sanityImageUrl } from "../lib/seo";
 import { t } from "../sanity/localize";
 import { getCentroInfo } from "../sanity/queries";
 import aboutStyles from "../styles/HomeAbout.module.css";
@@ -39,7 +39,7 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
   path=""
   title={uiStrings.home.metaTitle}
   description={uiStrings.home.metaDescription}
-  ogImage={info?.heroImage ?? "/assets/colorful-background.webp"}
+  ogImage={resolveOgImage(info, "home")}
   preloadImage={info?.heroImage ?? "/assets/colorful-background.webp"}
   hasHeroLogo
 >

@@ -10,9 +10,9 @@ import { reserveInterestMessage, ui } from '../i18n/strings'
 // experiences as cards with their YouTube video, per docs/3. Bautizos.md.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { sanityImageUrl } from '../lib/seo'
+import { resolveOgImage } from '../lib/seo'
 import { t, tList, tSupplements } from '../sanity/localize'
-import { getBaptisms } from '../sanity/queries'
+import { getBaptisms, getCentroInfo } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import styles from '../styles/viewCommon.module.css'
 
@@ -24,9 +24,8 @@ const { lang } = Astro.props
 const u = ui[lang]
 
 const experiences = await getBaptisms()
-const ogImage =
-  sanityImageUrl(experiences.find((x: any) => x.image)?.image, { width: 1200 }) ??
-  SITE.defaultOgImage
+const centroInfo = await getCentroInfo()
+const ogImage = resolveOgImage(centroInfo, 'baptisms')
 
 const labels: Record<
   Locale,

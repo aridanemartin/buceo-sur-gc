@@ -5,6 +5,8 @@ import { getEntry, render } from 'astro:content'
 // BaseLayout with the localized path `legal/<slug>`.
 import type { Locale } from '../i18n/locales'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import { resolveOgImage } from '../lib/seo'
+import { getCentroInfo } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
 type LegalSlug = 'privacy' | 'cancellation' | 'terms'
@@ -21,6 +23,7 @@ if (!entry) {
   throw new Error(`Legal content entry not found: ${slug}.${lang}`)
 }
 const { Content } = await render(entry)
+const ogImage = resolveOgImage(await getCentroInfo(), 'legal')
 
 const labels = {
   es: {
@@ -41,7 +44,7 @@ const labels = {
   },
 }[lang]
 ---
-<BaseLayout lang={lang} path={`legal/${slug}`} title={entry.data.title} description={labels.description}>
+<BaseLayout lang={lang} path={`legal/${slug}`} title={entry.data.title} description={labels.description} ogImage={ogImage}>
   <div class={styles.pageHeader}>
     <div class={styles.pageHeaderInner}>
       <p class={styles.pageEyebrow}>{labels.eyebrow}</p>

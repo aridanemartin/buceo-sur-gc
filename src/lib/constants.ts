@@ -7,7 +7,10 @@ export const SITE = {
   // Production origin (no trailing slash) — used to build absolute canonical/OG/JSON-LD
   // URLs and mirrored in astro.config.mjs's `site` option for the sitemap integration.
   url: 'https://buceosur-gc.com',
-  defaultOgImage: '/assets/colorful-background.webp',
+  // Kept as a real JPEG (not webp) — this is a last-resort fallback for og:image/
+  // twitter:image when Studio hasn't got a dedicated or default OG image set yet
+  // (see resolveOgImage in lib/seo.ts). Social crawlers often can't render webp.
+  defaultOgImage: '/assets/colorful-background-og.jpg',
   // Base booking link (used for Bautizos, doc 3).
   bookingUrl: 'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1',
   // Category-scoped booking links (docs 2/5/6): Inmersiones, Tarifas and Galería.

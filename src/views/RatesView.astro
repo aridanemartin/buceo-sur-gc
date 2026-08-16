@@ -12,7 +12,8 @@ import { ui } from '../i18n/strings'
 // table — see PriceTable.astro for the per-row markup.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { getBaptisms, getCourses, getDives, getTariffExtras } from '../sanity/queries'
+import { resolveOgImage } from '../lib/seo'
+import { getBaptisms, getCentroInfo, getCourses, getDives, getTariffExtras } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -22,12 +23,14 @@ interface Props {
 const { lang } = Astro.props
 const u = ui[lang]
 
-const [bautizos, inmersiones, cursos, extras] = await Promise.all([
+const [bautizos, inmersiones, cursos, extras, centroInfo] = await Promise.all([
   getBaptisms(),
   getDives(),
   getCourses(),
   getTariffExtras(),
+  getCentroInfo(),
 ])
+const ogImage = resolveOgImage(centroInfo, 'rates')
 
 const title = `${u.nav.rates} — ${SITE.fullName}`
 
@@ -108,7 +111,7 @@ const col = cols[lang]
 const emDash = '—'
 ---
 
-<BaseLayout lang={lang} path="rates" title={title} description={descriptions[lang]}>
+<BaseLayout lang={lang} path="rates" title={title} description={descriptions[lang]} ogImage={ogImage}>
   <main>
     <header class={styles.pageHeader}>
       <div class={styles.pageHeaderInner}>

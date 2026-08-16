@@ -26,6 +26,15 @@ export async function getCentroInfo() {
           "logo": logo.asset->url,
         },
         "mapImage": mapImage.asset->url,
+        "ogImageDefault": ogImageDefault.asset->url,
+        "ogImageHome": ogImageHome.asset->url,
+        "ogImageDives": ogImageDives.asset->url,
+        "ogImageBaptisms": ogImageBaptisms.asset->url,
+        "ogImageCourses": ogImageCourses.asset->url,
+        "ogImageRates": ogImageRates.asset->url,
+        "ogImageGallery": ogImageGallery.asset->url,
+        "ogImageSidemount": ogImageSidemount.asset->url,
+        "ogImageContact": ogImageContact.asset->url,
       }
     `)
     return data ?? centroInfoData
