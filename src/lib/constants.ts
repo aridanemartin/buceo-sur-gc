@@ -17,9 +17,11 @@ export const SITE = {
   bookingUrlDives:
     'https://app.bukyapp.com/front/69b143d3c2395a856df8e4c1?categories=69bc71f9c2395a856d5778ac',
   email: 'buceosur.gc@gmail.com',
+  // `tier` drives the contact-page hierarchy and the JSON-LD `telephone` (primary only).
+  // Anne is the main contact: Yann's number is shown as a visually subordinate card.
   phones: [
-    { label: 'Anne', href: 'tel:+34651352573', display: '+34 651 35 25 73' },
-    { label: 'Yann (instructor)', href: 'tel:+34655989917', display: '+34 655 98 99 17' },
+    { name: 'Anne', tier: 'primary', href: 'tel:+34651352573', display: '+34 651 35 25 73' },
+    { name: 'Yann', tier: 'secondary', href: 'tel:+34655989917', display: '+34 655 98 99 17' },
   ],
   address: {
     line1: 'Calle Roger de Lauria, 80',

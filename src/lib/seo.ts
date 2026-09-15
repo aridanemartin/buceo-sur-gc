@@ -87,7 +87,11 @@ export function localBusinessJsonLd() {
     name: SITE.fullName,
     url: SITE.url,
     image: absoluteUrl(SITE.defaultOgImage),
-    telephone: SITE.phones[0]?.href.replace('tel:', ''),
+    // Publish the main contact (Anne) — never the instructor's secondary number.
+    telephone: (SITE.phones.find((phone) => phone.tier === 'primary') ?? SITE.phones[0])?.href.replace(
+      'tel:',
+      '',
+    ),
     email: SITE.email,
     address: {
       '@type': 'PostalAddress',

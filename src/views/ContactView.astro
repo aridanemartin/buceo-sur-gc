@@ -14,6 +14,10 @@ interface Props {
 
 const { lang } = Astro.props
 
+// Anne is the primary contact; Yann's number renders as a subordinate card.
+const primaryPhone = SITE.phones.find((phone) => phone.tier === 'primary') ?? SITE.phones[0]
+const secondaryPhone = SITE.phones.find((phone) => phone.tier === 'secondary')
+
 const t = {
   es: {
     eyebrow: 'Contacto',
@@ -23,6 +27,10 @@ const t = {
     contactTitle: 'Información de contacto',
     emailLabel: 'Email',
     phonesLabel: 'Teléfonos',
+    primaryBadge: 'Principal',
+    primaryNote: 'reservas y consultas',
+    secondaryBadge: 'Secundario',
+    secondaryRole: 'Instructor · solo temas de formación e inmersiones técnicas',
     addressLabel: 'Dirección',
     socialTitle: 'Síguenos',
     formTitle: 'Envíanos un mensaje',
@@ -45,6 +53,10 @@ const t = {
     contactTitle: 'Contact information',
     emailLabel: 'Email',
     phonesLabel: 'Phones',
+    primaryBadge: 'Primary',
+    primaryNote: 'bookings and enquiries',
+    secondaryBadge: 'Secondary',
+    secondaryRole: 'Instructor · training and technical dives only',
     addressLabel: 'Address',
     socialTitle: 'Follow us',
     formTitle: 'Send us a message',
@@ -67,6 +79,10 @@ const t = {
     contactTitle: 'Coordonnées',
     emailLabel: 'E-mail',
     phonesLabel: 'Téléphones',
+    primaryBadge: 'Principal',
+    primaryNote: 'réservations et renseignements',
+    secondaryBadge: 'Secondaire',
+    secondaryRole: 'Instructeur · uniquement formations et plongées techniques',
     addressLabel: 'Adresse',
     socialTitle: 'Suivez-nous',
     formTitle: 'Envoyez-nous un message',
@@ -89,6 +105,10 @@ const t = {
     contactTitle: 'Kontaktinformationen',
     emailLabel: 'E-Mail',
     phonesLabel: 'Telefon',
+    primaryBadge: 'Primär',
+    primaryNote: 'Buchungen und Anfragen',
+    secondaryBadge: 'Sekundär',
+    secondaryRole: 'Tauchlehrer · nur Ausbildung und technische Tauchgänge',
     addressLabel: 'Adresse',
     socialTitle: 'Folgen Sie uns',
     formTitle: 'Schreiben Sie uns',
@@ -136,16 +156,30 @@ const ctaTitle: Record<Locale, string> = {
 
         <div class="infoBlock">
           <h3 class="infoLabel">{t.phonesLabel}</h3>
-          <ul class="infoList">
-            {SITE.phones.map((phone) => (
-              <li key={phone.href}>
-                <a class="infoValue" href={phone.href}>
-                  {phone.display}
-                </a>
-                <span class="infoNote">{phone.label}</span>
-              </li>
-            ))}
-          </ul>
+          {primaryPhone && (
+            <div class="primaryPhone">
+              <a class="infoValue" href={primaryPhone.href}>
+                {primaryPhone.display}
+              </a>
+              <span class="infoNote">
+                {primaryPhone.name} · {t.primaryNote}
+              </span>
+              <span class="tierBadge">{t.primaryBadge}</span>
+            </div>
+          )}
+
+          {secondaryPhone && (
+            <div class="secondaryCard">
+              <div class="secondaryHead">
+                <span class="secondaryName">{secondaryPhone.name}</span>
+                <span class="tierBadgeMuted">{t.secondaryBadge}</span>
+              </div>
+              <p class="secondaryRole">{t.secondaryRole}</p>
+              <a class="secondaryPhone" href={secondaryPhone.href}>
+                {secondaryPhone.display}
+              </a>
+            </div>
+          )}
         </div>
 
         <div class="infoBlock">
@@ -253,18 +287,11 @@ const ctaTitle: Record<Locale, string> = {
     color: var(--color-ocean-400);
   }
 
-  .infoList {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .infoList li {
+  .primaryPhone {
     display: flex;
     align-items: baseline;
-    gap: 10px;
     flex-wrap: wrap;
+    gap: 10px;
   }
 
   .infoValue {
@@ -281,6 +308,71 @@ const ctaTitle: Record<Locale, string> = {
   .infoNote {
     font-size: 0.8rem;
     color: var(--color-text-muted);
+  }
+
+  .tierBadge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-ocean-700);
+    background: var(--color-ocean-50);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  /* Secondary contact (Yann) — intentionally muted to keep Anne as the main CTA. */
+  .secondaryCard {
+    margin-top: 12px;
+    background: var(--color-sand);
+    border: 1px solid rgba(2, 62, 138, 0.08);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+  }
+
+  .secondaryHead {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+
+  .secondaryName {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--color-text);
+  }
+
+  .tierBadgeMuted {
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    background: rgba(90, 106, 122, 0.12);
+    padding: 2px 9px;
+    border-radius: 100px;
+  }
+
+  .secondaryRole {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+  }
+
+  .secondaryPhone {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(90, 106, 122, 0.4);
+    transition: color var(--transition);
+  }
+
+  .secondaryPhone:hover {
+    color: var(--color-ocean-700);
   }
 
   .address {
