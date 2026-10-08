@@ -40,17 +40,18 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
   title={uiStrings.home.metaTitle}
   description={uiStrings.home.metaDescription}
   ogImage={resolveOgImage(info, "home")}
-  preloadImage={info?.heroImage ?? "/assets/colorful-background.webp"}
+  preloadImage={info?.heroImage ?? "/assets/buzos-top2.webp"}
   hasHeroLogo
 >
   <main>
     <section
       id="inicio"
       class={heroStyles.hero}
-      style={`background-image: url("${info?.heroImage ?? '/assets/colorful-background.webp'}")`}
+      style={`background-image: url("${info?.heroImage ?? '/assets/buzos-top2.webp'}")`}
       aria-label={uiStrings.home.heroLabel}
     >
       <div class={heroStyles.vignette}></div>
+      <div class={heroStyles.gradient}></div>
       <h1 class="sr-only">{uiStrings.home.metaTitle}</h1>
       <img
         src="/logo.png"
