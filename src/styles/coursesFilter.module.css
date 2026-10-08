@@ -1,82 +1,10 @@
-/* Courses page: multi-select category filter + category-grouped list.
-   The filter needs no JavaScript — <details>/<summary> handles the
-   open/close of the dropdown natively, and category selection is read with
-   :has(), same as before. Each chip's checked color reuses the exact
-   depth-scale palette from CourseCard's category badges (light → mid → dark
-   blue for recreational → specialty → technical), so the filter doubles as
-   the legend for the badges in the list below it. */
-
-.filterMenu {
-  position: relative;
-  width: fit-content;
-  /* Pushes the whole menu to the right edge of .container without needing
-     an extra flex wrapper. */
-  margin-left: auto;
-}
-
-.filterToggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 100px;
-  border: 1.5px solid var(--color-ocean-50);
-  background: var(--color-white);
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  list-style: none;
-  user-select: none;
-  transition:
-    background var(--transition),
-    border-color var(--transition),
-    color var(--transition);
-}
-
-.filterToggle::-webkit-details-marker {
-  display: none;
-}
-
-.filterToggle:hover {
-  border-color: var(--color-ocean-200);
-}
-
-.filterToggle:focus-visible {
-  outline: 3px solid var(--color-ocean-200);
-  outline-offset: 2px;
-}
-
-.filterToggleIcon {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-  opacity: 0.6;
-}
-
-.filterToggleChevron {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-  opacity: 0.6;
-  transition: transform var(--transition);
-}
-
-.filterMenu[open] .filterToggleChevron {
-  transform: rotate(180deg);
-}
-
-/* Reads as "a filter is active" once anything other than "Todos" is picked,
-   independent of the open/closed state of the menu. */
-.filterMenu:has(
-    input[value="recreational"]:checked,
-    input[value="specialty"]:checked,
-    input[value="technical"]:checked
-  )
-  .filterToggle {
-  border-color: var(--color-ocean-500);
-  color: var(--color-ocean-700);
-}
+/* Courses page: single-select section pills + section list.
+   The pills need no JavaScript — they are radio inputs, and the checked
+   state drives both their own styling (:has(input:checked)) and which
+   section is visible, via sibling :has() selectors. Exactly one section is
+   shown at a time (beginners / advanced). Each pill's checked colour reuses
+   the depth-scale palette from CourseCard's category badges (light for
+   recreational, mid-blue for the advanced section). */
 
 .srOnly {
   position: absolute;
@@ -90,22 +18,16 @@
   border: 0;
 }
 
-.filterBar {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 20;
+/* Top-of-page switch between categories. */
+.pillBar {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  min-width: 220px;
-  margin: 0;
-  padding: 14px;
-  border: 1px solid rgba(2, 62, 138, 0.08);
-  border-radius: var(--radius-lg);
-  background: var(--color-white);
-  box-shadow: var(--shadow-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  min-inline-size: 0;
+  margin: 0 0 36px;
+  padding: 0;
+  border: 0;
 }
 
 .filterChip {
@@ -164,53 +86,34 @@
   opacity: 1;
 }
 
-.filterChipRecreational:has(input:checked) {
+.filterChip[data-tone="recreational"]:has(input:checked) {
   background: var(--color-ocean-100);
   border-color: var(--color-ocean-100);
   color: var(--color-ocean-900);
 }
 
-.filterChipSpecialty:has(input:checked) {
+.filterChip[data-tone="specialty"]:has(input:checked) {
   background: var(--color-ocean-500);
   border-color: var(--color-ocean-500);
   color: var(--color-white);
 }
 
-.filterChipTechnical:has(input:checked) {
+.filterChip[data-tone="technical"]:has(input:checked) {
   background: var(--color-ocean-900);
   border-color: var(--color-ocean-900);
   color: var(--color-white);
 }
 
-.filterChipAll:has(input:checked) {
-  background: var(--color-ocean-700);
-  border-color: var(--color-ocean-700);
-  color: var(--color-white);
-}
-
-/* Category-ordered list: replaces the old per-agency sections. Each group
-   is a lightweight heading (tinted to match its badge) over the shared
-   row list — agencies now interleave within a category, told apart by the
-   small logo CourseCard already prints on each row. */
+/* Category-ordered list: each group is a lightweight heading (tinted to
+   match its badge), optionally followed by an informational description,
+   over the shared row list — agencies interleave within a category, told
+   apart by the small logo CourseCard prints on each row. */
 .courseGroups {
   margin-top: 8px;
 }
 
-/* Margins for the course lists under each category heading */
-.courseList {
-  margin-top: 24px;
-}
-
-.courseList {
-  margin-top: 24px;
-}
-
 .categoryGroup {
-  padding-top: 48px;
-}
-
-.categoryGroup:first-of-type {
-  padding-top: 28px;
+  padding-top: 0;
 }
 
 .categoryHeading {
@@ -252,58 +155,54 @@
   color: var(--color-ocean-900);
 }
 
-/* Single-select radios: picking a category hides the other two groups.
-   Comma inside :has() is an OR, so "checked" on either sibling category
-   hides this one — still zero JS. When "all" is checked, none of these
-   three conditions match, so every group shows. .filterMenu (the <details>)
-   is the actual sibling of .courseGroups now — :has() still reaches the
-   radios regardless of how deep the <fieldset> nests them inside it. */
-.filterMenu:has(input[value="specialty"]:checked, input[value="technical"]:checked)
-  ~ .courseGroups [data-category="recreational"] {
+/* Informational description printed under a category heading, above its
+   cards. */
+.sectionNote {
+  margin-top: 20px;
+  padding-bottom: 2rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.sectionNote p + p {
+  margin-top: 12px;
+}
+
+.sectionNoteLead {
+  color: var(--color-dark);
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+/* Margins for the course lists under each category heading/description. */
+.courseList {
+  margin-top: 24px;
+}
+
+/* Single-select radios: picking a section hides the other one — still zero
+   JS. .pillBar is the sibling of .courseGroups, and :has() reaches the radios
+   no matter how deep they nest in the <fieldset>. One section is always
+   checked, so exactly one shows. */
+.pillBar:has(input[value="beginners"]:checked)
+  ~ .courseGroups [data-section="advanced"] {
   display: none;
 }
 
-.filterMenu:has(input[value="recreational"]:checked, input[value="technical"]:checked)
-  ~ .courseGroups [data-category="specialty"] {
-  display: none;
-}
-
-.filterMenu:has(input[value="recreational"]:checked, input[value="specialty"]:checked)
-  ~ .courseGroups [data-category="technical"] {
+.pillBar:has(input[value="advanced"]:checked)
+  ~ .courseGroups [data-section="beginners"] {
   display: none;
 }
 
 @media (max-width: 600px) {
-  /* Centered and borderless on mobile — the desktop version (bordered pill,
-     pinned right) only makes sense next to the wide course list; on a
-     narrow screen it reads better as a plain, centered label. */
-  .filterMenu {
-    margin: 0 auto;
+  .pillBar {
+    gap: 8px;
   }
 
-  .filterToggle {
-    border-color: transparent;
-    background: transparent;
-    padding: 10px 8px;
-  }
-
-  .filterToggle:hover {
-    border-color: transparent;
-  }
-
-  .filterMenu:has(
-      input[value="recreational"]:checked,
-      input[value="specialty"]:checked,
-      input[value="technical"]:checked
-    )
-    .filterToggle {
-    border-color: transparent;
-  }
-
-  .filterBar {
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: calc(100vw - 48px);
+  .filterChip {
+    padding: 8px 14px 8px 12px;
+    font-size: 0.8rem;
   }
 }

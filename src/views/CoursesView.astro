@@ -106,23 +106,12 @@ const categoryLabels: Record<string, string> = {
   },
 }[lang];
 
+// Accessible name of the pill group; the pills themselves carry the labels.
 const filterCopy = {
-  es: {
-    label: "Filtrar por modalidad",
-    all: "Todos",
-  },
-  en: {
-    label: "Filter by type",
-    all: "All",
-  },
-  fr: {
-    label: "Filtrer par type",
-    all: "Tous",
-  },
-  de: {
-    label: "Nach Kursart filtern",
-    all: "Alle",
-  },
+  es: { label: "Filtrar por modalidad" },
+  en: { label: "Filter by type" },
+  fr: { label: "Filtrer par type" },
+  de: { label: "Nach Kursart filtern" },
 }[lang];
 
 const cta = {
@@ -140,32 +129,114 @@ const cta = {
   },
 }[lang];
 
-// Fixed taxonomy, shallow to deep — matches the depth-scale badge colors
-// used on each CourseCard (light → mid → dark blue).
-const categoryOrder = ["recreational", "specialty", "technical"] as const;
-
-const categoryIcon: Record<string, string> = {
-  recreational: "/assets/icons/recreational.webp",
-  specialty: "/assets/icons/specialty.webp",
-  technical: "/assets/icons/technical.webp",
+// Long-form informational copy shown around the course groups. Kept inline
+// (like `page`/`labels`/`cta` above) because it is specific to this page.
+// `intro` sits at the top of the page, before the beginner (recreational)
+// courses; `specialties` sits before the advanced/specialty courses.
+const introParagraphs: Record<Locale, string[]> = {
+  es: [
+    "Proponemos formaciones de las 2 mayores escuelas internacionales (SSI y CMAS/ANMP), que te darán titulaciones reconocidas en el mundo entero. Ambas siguen las normativas europeas y la diferencia está en el material digital que te proporcionan para la parte teórica del aprendizaje.",
+    "Sin embargo, creemos que la parte más importante del aprendizaje está en el agua, y que tus habilidades siempre serán más importantes que el logo de tu tarjeta.",
+    "Impartimos clase todo el año, siempre en grupos reducidos: de 1 a 3 alumnos máximo por instructor.",
+  ],
+  en: [
+    "We offer training from the two largest international schools (SSI and CMAS/ANMP), which award qualifications recognised all over the world. Both follow European standards, and the difference lies in the digital materials they provide for the theoretical part of your learning.",
+    "However, we believe the most important part of learning happens in the water, and that your skills will always matter more than the logo on your card.",
+    "We teach all year round, always in small groups: 1 to 3 students maximum per instructor.",
+  ],
+  fr: [
+    "Nous proposons des formations des deux plus grandes écoles internationales (SSI et CMAS/ANMP), qui vous délivreront des certifications reconnues dans le monde entier. Toutes deux suivent les normes européennes, et la différence réside dans le matériel pédagogique numérique qu'elles fournissent pour la partie théorique de l'apprentissage.",
+    "Cependant, nous sommes convaincus que la partie la plus importante de l'apprentissage se fait dans l'eau, et que vos compétences compteront toujours plus que le logo de votre carte.",
+    "Nous enseignons toute l'année, toujours en petits groupes : de 1 à 3 élèves maximum par instructeur.",
+  ],
+  de: [
+    "Wir bieten Ausbildungen der zwei größten internationalen Tauchschulen (SSI und CMAS/ANMP) an, die dir weltweit anerkannte Zertifizierungen verleihen. Beide folgen den europäischen Richtlinien, und der Unterschied liegt im digitalen Material, das sie für den theoretischen Teil der Ausbildung bereitstellen.",
+    "Wir sind jedoch überzeugt, dass der wichtigste Teil des Lernens im Wasser stattfindet und dass deine Fähigkeiten immer wichtiger sein werden als das Logo auf deiner Karte.",
+    "Wir unterrichten das ganze Jahr über, immer in kleinen Gruppen: maximal 1 bis 3 Schüler pro Ausbilder.",
+  ],
 };
 
-const categoryVariant: Record<string, string> = {
-  recreational: filterStyles.filterChipRecreational,
-  specialty: filterStyles.filterChipSpecialty,
-  technical: filterStyles.filterChipTechnical,
+const specialtyParagraphs: Record<Locale, string[]> = {
+  es: [
+    "Una selección de especialidades deliberadamente limitada.",
+    "Hemos optado intencionalmente por limitar nuestra gama de especialidades y reconocemos que vamos en contra de las tendencias de la industria del buceo y de las principales agencias de formación.",
+    "Creemos que la mejora de las habilidades de un buceador se logra, con mayor frecuencia, acumulando experiencias de buceo diversas, en lugar de simplemente obtener certificaciones y tarjetas.",
+    "Nuestro enfoque se basa siempre en «qué formación es realmente útil para tu progreso, según tu nivel de habilidad y tus objetivos», en lugar de «cuáles son las oportunidades de venta».",
+    "Los consejos de tu instructor sobre el lastre, la posición corporal o el uso de válvulas de purga suelen ser tan efectivos como la formación especializada en control de flotabilidad.",
+    "No, no necesitas una especialidad de buceo en pecios para bucear en pecios adecuados a tu nivel de habilidad. Si acabas de comprar un ordenador de buceo, lee el manual del fabricante y repasa tu curso de aguas abiertas; no necesitas realizar el curso de especialidad de ordenador. En resumen, ofrecemos las especialidades que consideramos verdaderamente útiles y relevantes; esta es nuestra «libre voluntad» basada en nuestra experiencia. No somos vendedores de kits.",
+  ],
+  en: [
+    "A deliberately limited selection of specialties.",
+    "We have intentionally chosen to limit our range of specialties, and we recognise that we are going against the trends in the diving industry and among the major training agencies.",
+    "We believe a diver's skills improve most often by accumulating diverse diving experiences, rather than simply collecting certifications and cards.",
+    "Our approach is always based on “which training is genuinely useful for your progress, given your skill level and your goals”, rather than on “what are the sales opportunities”.",
+    "Your instructor's advice on weighting, body position or dump-valve use is often just as effective as specialist buoyancy-control training.",
+    "No, you don't need a wreck-diving specialty to dive wrecks suited to your skill level. If you have just bought a dive computer, read the manufacturer's manual and review your open water course; you don't need to take the computer specialty course. In short, we offer the specialties we consider truly useful and relevant; this is our “free will” based on our experience. We are not kit sellers.",
+  ],
+  fr: [
+    "Une sélection de spécialités délibérément limitée.",
+    "Nous avons délibérément choisi de limiter notre gamme de spécialités, et nous reconnaissons aller à l'encontre des tendances de l'industrie de la plongée et des principales agences de formation.",
+    "Nous pensons que l'amélioration des compétences d'un plongeur passe le plus souvent par l'accumulation d'expériences de plongée variées, plutôt que par la simple obtention de certifications et de cartes.",
+    "Notre approche repose toujours sur « quelle formation est réellement utile à votre progression, selon votre niveau et vos objectifs », plutôt que sur « quelles sont les opportunités de vente ».",
+    "Les conseils de votre instructeur sur le lestage, la position du corps ou l'utilisation des purges sont souvent aussi efficaces qu'une formation spécialisée en contrôle de flottabilité.",
+    "Non, vous n'avez pas besoin d'une spécialité plongée sur épaves pour plonger sur des épaves adaptées à votre niveau. Si vous venez d'acheter un ordinateur de plongée, lisez le manuel du fabricant et révisez votre cours en eau libre ; vous n'avez pas besoin de suivre le cours de spécialité ordinateur. En résumé, nous proposons les spécialités que nous jugeons réellement utiles et pertinentes ; c'est notre « libre arbitre » fondé sur notre expérience. Nous ne sommes pas vendeurs de packages.",
+  ],
+  de: [
+    "Eine bewusst begrenzte Auswahl an Spezialkursen.",
+    "Wir haben uns bewusst dafür entschieden, unser Angebot an Spezialkursen zu begrenzen, und uns ist klar, dass wir damit gegen den Trend in der Tauchindustrie und bei den großen Ausbildungsorganisationen handeln.",
+    "Wir sind davon überzeugt, dass sich die Fähigkeiten eines Tauchers meist durch vielfältige Tauch-Erfahrungen verbessern, statt durch das bloße Sammeln von Zertifizierungen und Karten.",
+    "Unser Ansatz orientiert sich immer an der Frage „Welche Ausbildung ist wirklich nützlich für deinen Fortschritt, gemessen an deinem Können und deinen Zielen?“ statt an der Frage „Wo gibt es Verkaufschancen?“",
+    "Die Tipps deines Ausbilders zu Blei, Körperhaltung oder dem Umgang mit Auslassventilen sind oft genauso wirksam wie ein spezieller Kurs zur Tarierungskontrolle.",
+    "Nein, du brauchst keinen Wracktauch-Spezialkurs, um an Wracks zu tauchen, die deinem Können entsprechen. Wenn du gerade einen Tauchcomputer gekauft hast, lies das Handbuch des Herstellers und wiederhole deinen Open-Water-Kurs; du musst nicht den Spezialkurs für Tauchcomputer belegen. Kurz gesagt: Wir bieten die Spezialkurse an, die wir für wirklich sinnvoll und relevant halten; das ist unser „freier Wille“, der auf unserer Erfahrung beruht. Wir sind keine Verkäufer von Paketen.",
+  ],
 };
 
-// Courses arrive from getCourses() already sorted by their Sanity `order`.
-// Grouping by category (instead of by agency) reorders the page while
-// keeping that relative order intact within each group.
-const categorized = categoryOrder
-  .map((category) => ({
-    category,
-    label: categoryLabels[category],
-    items: courses.filter((c: any) => c.category === category),
+// The page splits courses into two audiences: beginners and advanced.
+// Each section has its own pill, a title (icon + rule, same as the old
+// per-category headings), an informational description and its cards. The
+// advanced section merges the specialty and technical tracks; every card
+// still carries its own track badge.
+const sectionDefinitions = [
+  {
+    key: "beginners",
+    tone: "recreational",
+    icon: "/assets/icons/recreational.webp",
+    categories: ["recreational"],
+    label: {
+      es: "Formación para principiantes",
+      en: "Beginner courses",
+      fr: "Formations pour débutants",
+      de: "Kurse für Anfänger",
+    }[lang],
+    note: { paragraphs: introParagraphs[lang] },
+  },
+  {
+    key: "advanced",
+    tone: "specialty",
+    icon: "/assets/icons/specialty.webp",
+    categories: ["specialty", "technical"],
+    label: {
+      es: "Formación avanzada y especializada",
+      en: "Advanced & specialty courses",
+      fr: "Formations avancées et spécialisées",
+      de: "Fortgeschrittenen- und Spezialkurse",
+    }[lang],
+    note: { paragraphs: specialtyParagraphs[lang], lead: true },
+  },
+];
+
+// Courses arrive from getCourses() already sorted by their Sanity `order`;
+// filtering into sections keeps that relative order within each one.
+const sections = sectionDefinitions
+  .map((section) => ({
+    ...section,
+    items: courses.filter((c: any) => section.categories.includes(c.category)),
   }))
-  .filter((group) => group.items.length > 0);
+  .filter((section) => section.items.length > 0);
+
+// No "all" option: the pills reveal one section at a time, so the first
+// available section is selected on load.
+const defaultSection = sections[0]?.key ?? "beginners";
 ---
 
 <BaseLayout
@@ -186,83 +257,66 @@ const categorized = categoryOrder
 
     <section class={styles.section}>
       <div class={styles.container}>
-        <details class={filterStyles.filterMenu}>
-          <summary class={filterStyles.filterToggle}>
-            <svg
-              class={filterStyles.filterToggleIcon}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <polygon points="4 4 20 4 14 12.5 14 19 10 21 10 12.5 4 4" />
-            </svg>
-            {filterCopy.label}
-            <svg
-              class={filterStyles.filterToggleChevron}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </summary>
-          <fieldset class={filterStyles.filterBar}>
-            <legend class={filterStyles.srOnly}>{filterCopy.label}</legend>
-            <label class={`${filterStyles.filterChip} ${filterStyles.filterChipAll}`}>
-              <input type="radio" name="category" value="all" checked />
-              {filterCopy.all}
-            </label>
-            {
-              categorized.map((group) => (
-                <label
-                  class={`${filterStyles.filterChip} ${categoryVariant[group.category]}`}
-                >
-                  <input type="radio" name="category" value={group.category} />
-                  <span
-                    class={filterStyles.filterChipIcon}
-                    style={`--icon: url(${categoryIcon[group.category]})`}
-                    aria-hidden="true"
-                  />
-                  {group.label}
-                </label>
-              ))
-            }
-          </fieldset>
-        </details>
+        <fieldset class={filterStyles.pillBar}>
+          <legend class={filterStyles.srOnly}>{filterCopy.label}</legend>
+          {
+            sections.map((section) => (
+              <label class={filterStyles.filterChip} data-tone={section.tone}>
+                <input
+                  type="radio"
+                  name="section"
+                  value={section.key}
+                  checked={section.key === defaultSection}
+                />
+                <span
+                  class={filterStyles.filterChipIcon}
+                  style={`--icon: url(${section.icon})`}
+                  aria-hidden="true"
+                />
+                {section.label}
+              </label>
+            ))
+          }
+        </fieldset>
 
         <div class={filterStyles.courseGroups}>
           {
-            categorized.map((group) => (
+            sections.map((section) => (
               <section
                 class={filterStyles.categoryGroup}
-                data-category={group.category}
+                data-section={section.key}
               >
                 <h2
                   class={filterStyles.categoryHeading}
-                  data-tone={group.category}
+                  data-tone={section.tone}
                 >
                   <span
                     class={filterStyles.categoryHeadingIcon}
-                    style={`--icon: url(${categoryIcon[group.category]})`}
+                    style={`--icon: url(${section.icon})`}
                     aria-hidden="true"
                   />
-                  {group.label}
+                  {section.label}
                 </h2>
+                <div class={filterStyles.sectionNote}>
+                  {section.note.paragraphs.map((paragraph, index) => (
+                    <p
+                      class={
+                        index === 0 && section.note.lead
+                          ? filterStyles.sectionNoteLead
+                          : undefined
+                      }
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
                 <div class={`${rowStyles.list} ${filterStyles.courseList}`}>
-                  {group.items.map((c: any) => (
+                  {section.items.map((c: any) => (
                     <CourseCard
                       title={l(c.title)}
                       category={{
-                        key: group.category,
-                        label: group.label,
+                        key: c.category,
+                        label: categoryLabels[c.category],
                       }}
                       agencyLogo={agencyByName.get(c.agency)?.logo ?? null}
                       agencyName={c.agency}
