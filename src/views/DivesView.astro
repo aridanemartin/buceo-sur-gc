@@ -105,14 +105,14 @@ const reserveHrefOf = (x: any) =>
       </div>
     </header>
 
-    <!-- Tabbed content: Inmersiones | Información -->
+    <!-- Tabbed content: Información | Inmersiones -->
     <Tabs
       client:load
       label={u.nav.dives}
       idPrefix="dives"
       tabs={[
-        { id: 'rates', label: u.dives.ratesTab },
         { id: 'info', label: u.dives.infoTab },
+        { id: 'rates', label: u.dives.ratesTab },
       ]}
     >
       <div slot="info">
