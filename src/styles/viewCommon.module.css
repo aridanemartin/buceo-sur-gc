@@ -2,7 +2,15 @@
 
 .pageHeader {
   padding: 120px 24px 56px;
-  background: linear-gradient(160deg, var(--color-ocean-900) 0%, var(--color-ocean-700) 100%);
+  background-color: var(--color-ocean-900);
+  /* Smaller page heroes reuse the home hero photo (Sanity "Imagen de hero",
+     exposed as --page-header-image on <body> by BaseLayout), with the same
+     overlay treatment as the footer CTA but lighter so the image reads through. */
+  background-image:
+    linear-gradient(160deg, rgba(1, 42, 74, 0.8) 0%, rgba(2, 62, 138, 1) 100%),
+    var(--page-header-image, url("/assets/buzos-top2.webp"));
+  background-size: cover;
+  background-position: center;
   color: var(--color-white);
   text-align: center;
 }

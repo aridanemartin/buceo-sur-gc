@@ -35,7 +35,8 @@ export const centroInfo = defineType({
     defineField({
       name: 'heroImage',
       title: 'Imagen de hero',
-      description: 'Se usa como imagen de portada en la página de inicio debajo del logo',
+      description:
+        'Se usa como imagen de portada en la página de inicio (debajo del logo) y como fondo de la cabecera del resto de páginas.',
       type: 'image',
       options: { accept: 'image/webp' },
       components: { input: WebPFieldWarning },
