@@ -1,5 +1,7 @@
 import { defineField, defineType } from 'sanity'
+import { ImagesFieldWarning } from '../../components/ImagesFieldWarning'
 import { StatsFieldExample } from '../../components/StatsFieldExample'
+import { WebPFieldWarning } from '../../components/WebPFieldWarning'
 
 export const centroInfo = defineType({
   name: 'centroInfo',
@@ -21,6 +23,7 @@ export const centroInfo = defineType({
       description: 'Se usa como imagen de portada en la página de inicio debajo del logo',
       type: 'image',
       options: { accept: 'image/webp' },
+      components: { input: WebPFieldWarning },
     }),
     defineField({ name: 'intro', title: 'Introducción', type: 'localeText' }),
     defineField({ name: 'history', title: 'Historia / zona de buceo', type: 'localeText' }),
@@ -30,6 +33,7 @@ export const centroInfo = defineType({
       title: 'Fotos de las instalaciones',
       type: 'array',
       of: [{ type: 'image', options: { accept: 'image/webp' } }],
+      components: { input: ImagesFieldWarning },
     }),
     defineField({
       name: 'staff',
@@ -50,6 +54,7 @@ export const centroInfo = defineType({
               title: 'Foto',
               type: 'image',
               options: { accept: 'image/webp' },
+              components: { input: WebPFieldWarning },
             }),
           ],
         },
@@ -86,6 +91,7 @@ export const centroInfo = defineType({
               title: 'Logo',
               type: 'image',
               options: { accept: 'image/webp' },
+              components: { input: WebPFieldWarning },
             }),
           ],
         },
@@ -96,6 +102,7 @@ export const centroInfo = defineType({
       title: 'Imagen del mapa de acceso',
       type: 'image',
       options: { accept: 'image/webp' },
+      components: { input: WebPFieldWarning },
     }),
     defineField({
       name: 'ogImageDefault',

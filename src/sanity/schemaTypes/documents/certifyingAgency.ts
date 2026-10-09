@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { WebPFieldWarning } from '../../components/WebPFieldWarning'
 
 export const certifyingAgency = defineType({
   name: 'certifyingAgency',
@@ -16,6 +17,7 @@ export const certifyingAgency = defineType({
       title: 'Logo',
       type: 'image',
       options: { accept: 'image/webp' },
+      components: { input: WebPFieldWarning },
     }),
   ],
   preview: {

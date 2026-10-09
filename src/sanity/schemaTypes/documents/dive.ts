@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { VideoFieldWarning } from '../../components/VideoFieldWarning'
+import { WebPFieldWarning } from '../../components/WebPFieldWarning'
 
 export const dive = defineType({
   name: 'dive',
@@ -43,6 +44,7 @@ export const dive = defineType({
       title: 'Imagen',
       type: 'image',
       options: { accept: 'image/webp' },
+      components: { input: WebPFieldWarning },
       description: 'Se usa solo si no hay vídeo de YouTube. El vídeo tiene prioridad.',
     }),
     defineField({ name: 'order', title: 'Orden', type: 'number' }),

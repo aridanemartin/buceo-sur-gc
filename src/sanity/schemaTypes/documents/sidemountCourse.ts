@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { WebPFieldWarning } from '../../components/WebPFieldWarning'
 
 export const sidemountCourse = defineType({
   name: 'sidemountCourse',
@@ -23,6 +24,7 @@ export const sidemountCourse = defineType({
       title: 'Imagen',
       type: 'image',
       options: { accept: 'image/webp' },
+      components: { input: WebPFieldWarning },
     }),
     defineField({ name: 'summary', title: 'Resumen', type: 'localeText' }),
     defineField({ name: 'requirements', title: 'Requisitos', type: 'localeList' }),

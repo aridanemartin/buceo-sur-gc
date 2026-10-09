@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { VideoFieldWarning } from '../../components/VideoFieldWarning'
+import { WebPFieldWarning } from '../../components/WebPFieldWarning'
 
 export const course = defineType({
   name: 'course',
@@ -30,6 +31,7 @@ export const course = defineType({
       title: 'Imagen',
       type: 'image',
       options: { accept: 'image/webp' },
+      components: { input: WebPFieldWarning },
       description: 'Se usa solo si no hay vídeo de YouTube. El vídeo tiene prioridad.',
     }),
     defineField({ name: 'summary', title: 'Resumen', type: 'localeText' }),
