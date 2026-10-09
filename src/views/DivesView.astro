@@ -29,6 +29,11 @@ const experiences = await getDives()
 const centroInfo = await getCentroInfo()
 const ogImage = resolveOgImage(centroInfo, 'dives')
 
+// Feature flag (`centroInfo.hideDivesTab`): hide the Inmersiones tab. When it is
+// hidden the Información tab is hidden too, and its content renders directly as
+// plain sections (Tabs drops the tab strip when it only has one tab).
+const hideDivesTab = centroInfo?.hideDivesTab === true
+
 const labels: Record<
   Locale,
   {
@@ -110,10 +115,14 @@ const reserveHrefOf = (x: any) =>
       client:load
       label={u.nav.dives}
       idPrefix="dives"
-      tabs={[
-        { id: 'info', label: u.dives.infoTab },
-        { id: 'rates', label: u.dives.ratesTab },
-      ]}
+      tabs={
+        hideDivesTab
+          ? [{ id: 'info', label: u.dives.infoTab }]
+          : [
+              { id: 'info', label: u.dives.infoTab },
+              { id: 'rates', label: u.dives.ratesTab },
+            ]
+      }
     >
       <div slot="info">
         <!-- Intro -->
@@ -235,41 +244,43 @@ const reserveHrefOf = (x: any) =>
         </section>
       </div>
 
-      <div slot="rates">
-        <!-- Certified experiences -->
-        <section class={styles.section}>
-          <div class={styles.container}>
-            <div class={rowStyles.list}>
-              {experiences.map((x: any) => (
-                <CourseCard
-                  title={t(x.title, lang)}
-                  meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
-                  paragraphs={[
-                    { text: t(x.description, lang) },
-                    ...(tList(x.includes, lang).length
-                      ? [{ label: l.includes, items: tList(x.includes, lang) }]
-                      : []),
-                    ...(tSupplements(x.supplements, lang).length
-                      ? [{ label: l.supplements, supplements: tSupplements(x.supplements, lang) }]
-                      : []),
-                    ...(tList(x.requirements, lang).length
-                      ? [{ label: l.requirements, requirements: tList(x.requirements, lang) }]
-                      : []),
-                  ]}
-                  price={priceOf(x) || null}
-                  image={x.image || null}
-                  videoUrl={x.videoUrl || null}
-                  isPackage={x.isPackage}
-                  packageLabel={l.packageBadge}
-                  reserveHref={reserveHrefOf(x)}
-                  reserveLabel={u.book}
-                  reserveExternal={!!x.reservationLink}
-                />
-              ))}
+      {!hideDivesTab && (
+        <div slot="rates">
+          <!-- Certified experiences -->
+          <section class={styles.section}>
+            <div class={styles.container}>
+              <div class={rowStyles.list}>
+                {experiences.map((x: any) => (
+                  <CourseCard
+                    title={t(x.title, lang)}
+                    meta={[t(x.duration, lang), depthBadge(x.depthLimit)].filter((v) => v)}
+                    paragraphs={[
+                      { text: t(x.description, lang) },
+                      ...(tList(x.includes, lang).length
+                        ? [{ label: l.includes, items: tList(x.includes, lang) }]
+                        : []),
+                      ...(tSupplements(x.supplements, lang).length
+                        ? [{ label: l.supplements, supplements: tSupplements(x.supplements, lang) }]
+                        : []),
+                      ...(tList(x.requirements, lang).length
+                        ? [{ label: l.requirements, requirements: tList(x.requirements, lang) }]
+                        : []),
+                    ]}
+                    price={priceOf(x) || null}
+                    image={x.image || null}
+                    videoUrl={x.videoUrl || null}
+                    isPackage={x.isPackage}
+                    packageLabel={l.packageBadge}
+                    reserveHref={reserveHrefOf(x)}
+                    reserveLabel={u.book}
+                    reserveExternal={!!x.reservationLink}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
-      </div>
+          </section>
+        </div>
+      )}
     </Tabs>
 
     <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />

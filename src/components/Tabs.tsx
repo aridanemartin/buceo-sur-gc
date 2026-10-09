@@ -24,6 +24,11 @@ export default function Tabs({ tabs, label, idPrefix = 'tabs', ...slots }: TabsP
   const [activeId, setActiveId] = useState(tabs[0]?.id ?? '')
   const activeIndex = Math.max(0, tabs.findIndex((t) => t.id === activeId))
 
+  // A single tab (e.g. when the Inmersiones tab is hidden) renders as plain
+  // content: no tab strip, and the panel loses its tabpanel ARIA semantics
+  // since there is no tablist to be labelled by.
+  const withTabList = tabs.length > 1
+
   const tabId = (id: string) => `${idPrefix}-tab-${id}`
   const panelId = (id: string) => `${idPrefix}-panel-${id}`
 
@@ -56,33 +61,35 @@ export default function Tabs({ tabs, label, idPrefix = 'tabs', ...slots }: TabsP
 
   return (
     <div className={styles.tabs}>
-      <div role="tablist" aria-label={label} className={styles.tablist}>
-        {tabs.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            id={tabId(t.id)}
-            role="tab"
-            aria-selected={activeId === t.id}
-            aria-controls={panelId(t.id)}
-            tabIndex={activeId === t.id ? 0 : -1}
-            className={activeId === t.id ? `${styles.tab} ${styles.tabActive}` : styles.tab}
-            onClick={() => setActiveId(t.id)}
-            onKeyDown={onKeyDown}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      {withTabList && (
+        <div role="tablist" aria-label={label} className={styles.tablist}>
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              id={tabId(t.id)}
+              role="tab"
+              aria-selected={activeId === t.id}
+              aria-controls={panelId(t.id)}
+              tabIndex={activeId === t.id ? 0 : -1}
+              className={activeId === t.id ? `${styles.tab} ${styles.tabActive}` : styles.tab}
+              onClick={() => setActiveId(t.id)}
+              onKeyDown={onKeyDown}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
       {tabs.map((t) => (
         <div
           key={t.id}
           id={panelId(t.id)}
-          role="tabpanel"
-          aria-labelledby={tabId(t.id)}
+          role={withTabList ? 'tabpanel' : undefined}
+          aria-labelledby={withTabList ? tabId(t.id) : undefined}
           className={styles.panel}
           hidden={activeId !== t.id}
-          tabIndex={0}
+          tabIndex={withTabList ? 0 : undefined}
         >
           {slots[t.id]}
         </div>

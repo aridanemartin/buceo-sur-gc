@@ -9,6 +9,12 @@ export const centroInfo = defineType({
   type: 'document',
   fieldsets: [
     {
+      name: 'webOptions',
+      title: 'Opciones de la web',
+      description: 'Ajustes globales que cambian el comportamiento de la web.',
+      options: { collapsible: true, collapsed: false },
+    },
+    {
       name: 'ogImages',
       title: 'Imágenes Open Graph (redes sociales)',
       description:
@@ -17,6 +23,15 @@ export const centroInfo = defineType({
     },
   ],
   fields: [
+    defineField({
+      name: 'hideDivesTab',
+      title: 'Ocultar pestaña "Inmersiones"',
+      description:
+        'Actívalo para ocultar la pestaña "Inmersiones" de la página de Inmersiones. Al ocultarla, la pestaña "Información" también desaparece y su contenido se muestra directamente, sin pestañas.',
+      type: 'boolean',
+      initialValue: false,
+      fieldset: 'webOptions',
+    }),
     defineField({
       name: 'heroImage',
       title: 'Imagen de hero',
