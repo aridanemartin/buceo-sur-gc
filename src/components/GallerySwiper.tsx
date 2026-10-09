@@ -9,6 +9,7 @@ import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { orderGalleryMedia } from '../lib/galleryVideoPosition'
 import { sanityImageUrl } from '../lib/seo'
+import { getYoutubeThumbnail, toYoutubeEmbedUrl } from '../lib/youtube'
 import styles from './GallerySwiper.module.css'
 
 import 'swiper/css'
@@ -25,11 +26,6 @@ interface GallerySwiperProps {
   videoUrl?: string
   videoAlt?: string
   videoFirst?: boolean
-}
-
-function getYoutubeThumbnail(embedUrl: string): string | null {
-  const match = embedUrl.match(/embed\/([a-zA-Z0-9_-]+)/)
-  return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null
 }
 
 // The blurred backdrop (.slide::before) reads its image from this div's own
@@ -85,7 +81,10 @@ export default function GallerySwiper({ images, videoUrl, videoAlt, videoFirst }
             isVideoActive ? (
               <iframe
                 className={styles.media}
-                src={`${item.url}${item.url.includes('?') ? '&' : '?'}autoplay=1&mute=1&controls=0`}
+                src={
+                  toYoutubeEmbedUrl(item.url, { autoplay: '1', mute: '1', controls: '0' }) ??
+                  item.url
+                }
                 title={videoAlt ?? 'Video'}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen

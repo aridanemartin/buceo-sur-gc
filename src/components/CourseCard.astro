@@ -7,6 +7,7 @@
 // price and an optional media block. When both videoUrl and image are
 // present the video wins, matching the Bautizos behaviour.
 import { sanityImageUrl } from '../lib/seo'
+import { toYoutubeEmbedUrl } from '../lib/youtube'
 import rowStyles from '../styles/rowLayout.module.css'
 
 interface Props {
@@ -74,15 +75,12 @@ const categoryIcon: Record<string, string> = {
   technical: '/assets/icons/technical.webp',
 }
 
-// Converts youtu.be / youtube.com watch or embed links into privacy-enhanced
-// youtube-nocookie embeds with the player chrome hidden. Deliberately NOT
-// autoplayed: pages that list several videos would load them all at once —
-// the user clicks the placeholder to play each one.
+// Converts any YouTube link (youtu.be, watch?v=, embed, shorts) into a
+// privacy-enhanced youtube-nocookie embed with the player chrome hidden.
+// Deliberately NOT autoplayed: pages that list several videos would load them
+// all at once — the user clicks the placeholder to play each one.
 // https://www.youtube-nocookie.com/embed/VIDEO_ID?controls=0
-const m = videoUrl
-  ? videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([A-Za-z0-9_-]{11})/)
-  : null
-const embedUrl = m ? `https://www.youtube-nocookie.com/embed/${m[1]}?controls=0` : null
+const embedUrl = toYoutubeEmbedUrl(videoUrl, { controls: '0' })
 
 const Tag = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
 ---

@@ -13,6 +13,7 @@ import { reserveInterestMessage, ui } from '../i18n/strings'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { resolveOgImage } from '../lib/seo'
+import { toYoutubeEmbedUrl } from '../lib/youtube'
 import { t, tList, tSupplements } from '../sanity/localize'
 import { getCentroInfo, getSidemountCourses } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
@@ -55,12 +56,12 @@ const terrainImages = sidemountGalleryImages.map((url) => ({ url, alt: u.sidemou
 // into a privacy-enhanced youtube-nocookie embed URL that autoplays once
 // ready. `mute=1` is required for browsers to allow autoplay at all, and
 // `controls=0` hides the player chrome for a clean, silent background video.
-function toEmbedUrl(url: string): string {
-  const match = url.match(/(?:youtu\.be\/|watch\?v=)([\w-]{6,})/)
-  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}?autoplay=1&mute=1&controls=0` : url
-}
-
-const videoEmbedUrl = toEmbedUrl(sidemountPageContent.videoUrl)
+const videoEmbedUrl =
+  toYoutubeEmbedUrl(sidemountPageContent.videoUrl, {
+    autoplay: '1',
+    mute: '1',
+    controls: '0',
+  }) ?? sidemountPageContent.videoUrl
 
 const cta = {
   es: {
