@@ -1,3 +1,4 @@
+import { SITE } from '../lib/constants'
 import type { Locale } from './locales'
 
 export interface UiStrings {
@@ -65,9 +66,16 @@ export interface UiStrings {
   }
 }
 
-// Message pre-filled into the contact form's textarea when a course/baptism/
-// dive has no direct Bukyapp reservationLink — the "Reservar" button on its
-// card falls back to /contact?message=... instead of an external booking URL.
+// Subject/body pre-filled into the visitor's mail client when a course/baptism/
+// dive has no direct Bukyapp reservationLink — the "Reservar" button on its card
+// falls back to a mailto: to SITE.email instead of an external booking URL.
+const reserveInterestSubjects: Record<Locale, (title: string) => string> = {
+  es: (title) => `Reserva: ${title}`,
+  en: (title) => `Booking: ${title}`,
+  fr: (title) => `Réservation : ${title}`,
+  de: (title) => `Buchung: ${title}`,
+}
+
 const reserveInterestMessages: Record<Locale, (title: string) => string> = {
   es: (title) => `Estoy interesado/a en reservar ${title}.`,
   en: (title) => `I'm interested in reserving ${title}.`,
@@ -75,8 +83,10 @@ const reserveInterestMessages: Record<Locale, (title: string) => string> = {
   de: (title) => `Ich interessiere mich für die Buchung von ${title}.`,
 }
 
-export function reserveInterestMessage(lang: Locale, title: string): string {
-  return reserveInterestMessages[lang](title)
+export function reserveInterestMailto(lang: Locale, title: string): string {
+  const subject = encodeURIComponent(reserveInterestSubjects[lang](title))
+  const body = encodeURIComponent(reserveInterestMessages[lang](title))
+  return `mailto:${SITE.email}?subject=${subject}&body=${body}`
 }
 
 export const ui: Record<Locale, UiStrings> = {

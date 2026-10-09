@@ -5,8 +5,8 @@ import PhotoCarousel from '../components/PhotoCarousel.tsx'
 import { sidemountPageContent } from '../content/data/pageContent'
 import { sidemountGalleryImages } from '../content/data/sidemountGallery'
 import type { Locale } from '../i18n/locales'
-import { localePath, withLangParam } from '../i18n/paths'
-import { reserveInterestMessage, ui } from '../i18n/strings'
+import { withLangParam } from '../i18n/paths'
+import { reserveInterestMailto, ui } from '../i18n/strings'
 // src/views/SidemountView.astro
 // Sidemount intro (canonical copy from src/content/data/pageContent.ts),
 // the promo video, and the sidemount courses from their dedicated schema.
@@ -43,12 +43,10 @@ const requirementLabels: Record<Locale, string> = {
   de: 'Voraussetzungen',
 }[lang]
 
-// Cards without a Bukyapp reservationLink fall back to the contact form
-// with a prefilled "interested in X" message, opened in the same tab.
+// Cards without a Bukyapp reservationLink fall back to a mailto: with a
+// prefilled "interested in X" subject and body.
 const reserveHrefOf = (c: any) =>
-  c.reservationLink
-    ? withLangParam(c.reservationLink, lang)
-    : `${localePath(lang, 'contact')}?message=${encodeURIComponent(reserveInterestMessage(lang, l(c.title)))}`
+  c.reservationLink ? withLangParam(c.reservationLink, lang) : reserveInterestMailto(lang, l(c.title))
 
 const terrainImages = sidemountGalleryImages.map((url) => ({ url, alt: u.sidemount.alt }))
 

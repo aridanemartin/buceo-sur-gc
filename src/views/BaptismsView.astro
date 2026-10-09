@@ -3,8 +3,8 @@ import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import { baptismsPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
-import { localePath, withLangParam } from '../i18n/paths'
-import { reserveInterestMessage, ui } from '../i18n/strings'
+import { withLangParam } from '../i18n/paths'
+import { reserveInterestMailto, ui } from '../i18n/strings'
 // src/views/BaptismsView.astro
 // Bautizos page — intro prose from baptismsPageContent plus the beginner
 // experiences as cards with their YouTube video, per docs/3. Bautizos.md.
@@ -86,12 +86,12 @@ const ctaTitle: Record<Locale, string> = {
 const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
 const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price} €` : '')
 
-// Cards without a Bukyapp reservationLink fall back to the contact form
-// with a prefilled "interested in X" message, opened in the same tab.
+// Cards without a Bukyapp reservationLink fall back to a mailto: with a
+// prefilled "interested in X" subject and body.
 const reserveHrefOf = (x: any) =>
   x.reservationLink
     ? withLangParam(x.reservationLink, lang)
-    : `${localePath(lang, 'contact')}?message=${encodeURIComponent(reserveInterestMessage(lang, t(x.title, lang)))}`
+    : reserveInterestMailto(lang, t(x.title, lang))
 ---
 
 <BaseLayout

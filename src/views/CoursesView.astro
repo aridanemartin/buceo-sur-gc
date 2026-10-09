@@ -8,8 +8,8 @@ import type { Locale } from "../i18n/locales";
 // multi-select toggle for that same category. Agencies are no longer
 // split into separate sections — each course row already carries its own
 // agency logo via CourseCard.
-import { localePath, withLangParam } from "../i18n/paths";
-import { reserveInterestMessage, ui } from "../i18n/strings";
+import { withLangParam } from "../i18n/paths";
+import { reserveInterestMailto, ui } from "../i18n/strings";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../lib/constants";
 import { resolveOgImage } from "../lib/seo";
@@ -29,12 +29,12 @@ const courses = await getCourses();
 const centroInfo = await getCentroInfo();
 const ogImage = resolveOgImage(centroInfo, "courses");
 
-// Cards without a Bukyapp reservationLink fall back to the contact form
-// with a prefilled "interested in X" message, opened in the same tab.
+// Cards without a Bukyapp reservationLink fall back to a mailto: with a
+// prefilled "interested in X" subject and body.
 const reserveHrefOf = (c: any) =>
   c.reservationLink
     ? withLangParam(c.reservationLink, lang)
-    : `${localePath(lang, "contact")}?message=${encodeURIComponent(reserveInterestMessage(lang, l(c.title)))}`;
+    : reserveInterestMailto(lang, l(c.title));
 const agencies = await getCertifyingAgencies();
 const agencyByName = new Map(agencies.map((a: any) => [a.name, a]));
 
