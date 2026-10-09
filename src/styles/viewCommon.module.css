@@ -40,6 +40,13 @@
   background: var(--color-white);
 }
 
+/* Section with the top padding removed — used when the preceding section
+   already provides the vertical rhythm. */
+.sectionNoTop {
+  padding: 0 24px var(--section-py);
+  background: var(--color-white);
+}
+
 .sectionAlt {
   padding: var(--section-py) 24px;
   background: var(--color-sand);

@@ -6,6 +6,7 @@ import CtaBanner from '../components/CtaBanner.astro'
 // ContactForm React island (client-side submitted-state only, no backend).
 import type { Locale } from '../i18n/locales'
 import { SITE } from '../lib/constants'
+import mapStyles from '../styles/MapEmbed.module.css'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -17,6 +18,11 @@ const { lang } = Astro.props
 // Anne is the primary contact; Yann's number renders as a subordinate card.
 const primaryPhone = SITE.phones.find((phone) => phone.tier === 'primary') ?? SITE.phones[0]
 const secondaryPhone = SITE.phones.find((phone) => phone.tier === 'secondary')
+
+// Embedded Google map of the dive centre, shown below the contact details.
+const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
+  `Buceo Sur Gran Canaria, ${SITE.address.line1}, ${SITE.address.line2}, ${SITE.address.line3}`,
+)}&z=15&output=embed&hl=${lang}`
 
 const t = {
   es: {
@@ -33,6 +39,7 @@ const t = {
     secondaryRole: 'Instructor · solo temas de formación e inmersiones técnicas',
     addressLabel: 'Dirección',
     socialTitle: 'Síguenos',
+    mapTitle: 'Donde estamos',
     formTitle: 'Envíanos un mensaje',
     formNote: `También puedes escribirnos directamente a ${SITE.email}.`,
     form: {
@@ -59,6 +66,7 @@ const t = {
     secondaryRole: 'Instructor · training and technical dives only',
     addressLabel: 'Address',
     socialTitle: 'Follow us',
+    mapTitle: 'Where we are',
     formTitle: 'Send us a message',
     formNote: `You can also write to us directly at ${SITE.email}.`,
     form: {
@@ -85,6 +93,7 @@ const t = {
     secondaryRole: 'Instructeur · uniquement formations et plongées techniques',
     addressLabel: 'Adresse',
     socialTitle: 'Suivez-nous',
+    mapTitle: 'Où nous sommes',
     formTitle: 'Envoyez-nous un message',
     formNote: `Vous pouvez également nous écrire directement à ${SITE.email}.`,
     form: {
@@ -111,6 +120,7 @@ const t = {
     secondaryRole: 'Tauchlehrer · nur Ausbildung und technische Tauchgänge',
     addressLabel: 'Adresse',
     socialTitle: 'Folgen Sie uns',
+    mapTitle: 'Wo wir sind',
     formTitle: 'Schreiben Sie uns',
     formNote: `Sie können uns auch direkt schreiben an ${SITE.email}.`,
     form: {
@@ -260,6 +270,22 @@ const ctaTitle: Record<Locale, string> = {
         <p class={styles.bodyText}>{t.formNote}</p>
         <ContactForm labels={t.form} client:load />
       </div>
+    </div>
+  </div>
+</section>
+
+<section class={styles.section}>
+  <div class={styles.container}>
+    <h2 class={styles.sectionTitle}>{t.mapTitle}</h2>
+    <div class={mapStyles.mapWrapper}>
+      <iframe
+        src={mapSrc}
+        title={`Buceo Sur Gran Canaria — ${t.mapTitle}`}
+        width="100%"
+        height="400"
+        loading="lazy"
+        allow-fullScreen
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 </section>

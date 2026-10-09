@@ -3,8 +3,8 @@
   background: var(--color-white);
 }
 
-.sectionFlush {
-  padding: 0 24px var(--section-py);
+.statsSection {
+  padding: var(--section-py) 0;
   background: var(--color-white);
 }
 

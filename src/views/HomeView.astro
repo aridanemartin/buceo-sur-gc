@@ -11,7 +11,6 @@ import { resolveOgImage, sanityImageUrl } from "../lib/seo";
 import { t } from "../sanity/localize";
 import { getCentroInfo } from "../sanity/queries";
 import aboutStyles from "../styles/HomeAbout.module.css";
-import dondeEstamos from "../styles/HomeDondeEstamos.module.css";
 import textWithCarousel from "../styles/TextWithCarousel.module.css";
 import commonStyles from "../styles/viewCommon.module.css";
 
@@ -23,9 +22,6 @@ const { lang } = Astro.props;
 const info = await getCentroInfo();
 const l = (f: any) => t(f, lang);
 const uiStrings = ui[lang];
-const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
-  `Buceo Sur Gran Canaria, ${SITE.address.line1}, ${SITE.address.line2}, ${SITE.address.line3}`,
-)}&z=15&output=embed&hl=${lang}`;
 const instalacionesImages = (info?.installationsImages ?? []).map(
   (url: string) => ({
     url,
@@ -157,7 +153,23 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
       </div>
     </section>
 
-    <section id="equipo" class={commonStyles.section}>
+    <section
+      class={aboutStyles.statsSection}
+      aria-label={uiStrings.home.statsLabel}
+    >
+      <div class={aboutStyles.stats}>
+        {
+          (info?.stats ?? []).map((stat: any) => (
+            <div class={aboutStyles.stat}>
+              <span class={aboutStyles.statValue}>{stat.value}</span>
+              <span class={aboutStyles.statLabel}>{l(stat.label)}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="equipo" class={commonStyles.sectionNoTop}>
       <div class={commonStyles.container}>
         <p class={commonStyles.sectionEyebrow}>{uiStrings.home.aboutEyebrow}</p>
         <h2 class={commonStyles.sectionTitle}>{uiStrings.home.teamTitle}</h2>
@@ -187,42 +199,10 @@ const instalacionesImages = (info?.installationsImages ?? []).map(
       </div>
     </section>
 
-    <section
-      class={`${aboutStyles.section} ${aboutStyles.sectionFlush}`}
-      aria-label={uiStrings.home.statsLabel}
-    >
-      <div class={aboutStyles.stats}>
-        {
-          (info?.stats ?? []).map((stat: any) => (
-            <div class={aboutStyles.stat}>
-              <span class={aboutStyles.statValue}>{stat.value}</span>
-              <span class={aboutStyles.statLabel}>{l(stat.label)}</span>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
     <CtaBanner
       lang={lang}
       href={SITE.bookingUrl}
       title={uiStrings.home.ctaTitle}
     />
-
-    <section id="donde-estamos" class={commonStyles.section}>
-      <div class={commonStyles.container}>
-        <h2 class={commonStyles.sectionTitle}>{uiStrings.home.dondeEstamos}</h2>
-        <div class={dondeEstamos.mapWrapper}>
-          <iframe
-            src={mapSrc}
-            title={`Buceo Sur Gran Canaria — ${uiStrings.home.dondeEstamos}`}
-            width="100%"
-            height="400"
-            loading="lazy"
-            allow-fullScreen
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-    </section>
   </main>
 </BaseLayout>
