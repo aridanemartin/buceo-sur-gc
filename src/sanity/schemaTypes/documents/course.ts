@@ -18,7 +18,7 @@ export const course = defineType({
       name: 'category',
       title: 'Categoría',
       type: 'string',
-      options: { list: ['recreational', 'specialty', 'technical', 'professional'] },
+      options: { list: ['recreational', 'specialty', 'technical'] },
     }),
     defineField({
       name: 'videoUrl',
