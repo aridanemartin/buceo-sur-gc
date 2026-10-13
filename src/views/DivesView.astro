@@ -2,18 +2,17 @@
 import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import Tabs from '../components/Tabs'
-import { divesPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
 import { withLangParam } from '../i18n/paths'
-import { reserveInterestMailto, ui } from '../i18n/strings'
+import { reserveInterestMailtoFrom } from '../i18n/strings'
 // src/views/DivesView.astro
-// Inmersiones page — organisation prose from divesPageContent plus the certified
+// Inmersiones page — organisation prose from the divesPage singleton plus the certified
 // experiences as cards, per docs/2. inmersiones.md.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { resolveOgImage } from '../lib/seo'
 import { t, tList, tSupplements } from '../sanity/localize'
-import { getCentroInfo, getDives } from '../sanity/queries'
+import { getCentroInfo, getDives, getPageTexts, getUi } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import textWithCarousel from '../styles/TextWithCarousel.module.css'
 import styles from '../styles/viewCommon.module.css'
@@ -23,7 +22,7 @@ interface Props {
 }
 
 const { lang } = Astro.props
-const u = ui[lang]
+const u = await getUi(lang)
 
 const experiences = await getDives()
 const centroInfo = await getCentroInfo()
@@ -34,59 +33,14 @@ const ogImage = resolveOgImage(centroInfo, 'dives')
 // plain sections (Tabs drops the tab strip when it only has one tab).
 const hideDivesTab = centroInfo?.hideDivesTab === true
 
-const labels: Record<
-  Locale,
-  {
-    includes: string
-    supplements: string
-    requirements: string
-    depth: string
-    packageBadge: string
-  }
-> = {
-  es: {
-    includes: 'Incluye',
-    supplements: 'Suplementos / opciones',
-    requirements: 'Requisitos',
-    depth: 'máx.',
-    packageBadge: 'Bono / Pack',
-  },
-  en: {
-    includes: 'Includes',
-    supplements: 'Supplements / options',
-    requirements: 'Requirements',
-    depth: 'max',
-    packageBadge: 'Package',
-  },
-  fr: {
-    includes: 'Inclut',
-    supplements: 'Suppléments / options',
-    requirements: 'Conditions',
-    depth: 'max',
-    packageBadge: 'Forfait',
-  },
-  de: {
-    includes: 'Inklusive',
-    supplements: 'Zuschläge / Optionen',
-    requirements: 'Voraussetzungen',
-    depth: 'max.',
-    packageBadge: 'Paket',
-  },
-}
-const l = labels[lang]
+const page = await getPageTexts('divesPage', lang)
+const l = u.cardLabels
 
 const descriptions: Record<Locale, string> = {
   es: 'Inmersiones guiadas para buceadores certificados en Gran Canaria: organización, horarios, requisitos y tarifas.',
   en: 'Guided dives for certified divers in Gran Canaria: organisation, schedules, requirements and prices.',
   fr: 'Plongées encadrées pour plongeurs certifiés à Grande Canarie : organisation, horaires, conditions et tarifs.',
   de: 'Begleitete Tauchgänge für zertifizierte Taucher auf Gran Canaria: Organisation, Zeiten, Voraussetzungen und Preise.',
-}
-
-const ctaTitle: Record<Locale, string> = {
-  es: '¿Listo para tu próxima inmersión?',
-  en: 'Ready for your next dive?',
-  fr: 'Prêt pour votre prochaine plongée ?',
-  de: 'Bereit für deinen nächsten Tauchgang?',
 }
 
 const depthBadge = (n: number | null | undefined): string => (n ? `${l.depth} ${n} m` : '')
@@ -97,7 +51,7 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
 const reserveHrefOf = (x: any) =>
   x.reservationLink
     ? withLangParam(x.reservationLink, lang)
-    : reserveInterestMailto(lang, t(x.title, lang))
+    : reserveInterestMailtoFrom(u, t(x.title, lang))
 ---
 
 <BaseLayout lang={lang} path="dives" title={`${u.nav.dives} — ${SITE.fullName}`} description={descriptions[lang]} ogImage={ogImage}>
@@ -105,8 +59,8 @@ const reserveHrefOf = (x: any) =>
     <header class={styles.pageHeader}>
       <div class={styles.pageHeaderInner}>
         <p class={styles.pageEyebrow}>{SITE.fullName}</p>
-        <h1 class={styles.pageTitle}>{t(divesPageContent.introTitle, lang)}</h1>
-        <p class={styles.pageSubtitle}>{t(divesPageContent.introSubtitle, lang)}</p>
+        <h1 class={styles.pageTitle}>{page.introTitle}</h1>
+        <p class={styles.pageSubtitle}>{page.introSubtitle}</p>
       </div>
     </header>
 
@@ -117,10 +71,10 @@ const reserveHrefOf = (x: any) =>
       idPrefix="dives"
       tabs={
         hideDivesTab
-          ? [{ id: 'info', label: u.dives.infoTab }]
+          ? [{ id: 'info', label: page.infoTab }]
           : [
-              { id: 'info', label: u.dives.infoTab },
-              { id: 'rates', label: u.dives.ratesTab },
+              { id: 'info', label: page.infoTab },
+              { id: 'rates', label: page.ratesTab },
             ]
       }
     >
@@ -129,7 +83,7 @@ const reserveHrefOf = (x: any) =>
         <section class={styles.section}>
           <div class={styles.container}>
             <p class={styles.sectionEyebrow}>{u.nav.dives}</p>
-            <p class={styles.bodyText}>{t(divesPageContent.intro, lang)}</p>
+            <p class={styles.bodyText}>{page.intro}</p>
           </div>
         </section>
 
@@ -138,13 +92,13 @@ const reserveHrefOf = (x: any) =>
           <div class={`${styles.container} site-choice-body`}>
             <div class={textWithCarousel.grid}>
               <div class={textWithCarousel.text}>
-                <h2 class={styles.sectionTitle}>{t(divesPageContent.siteChoiceTitle, lang)}</h2>
-                <p class={styles.bodyText}>{t(divesPageContent.siteChoice, lang)}</p>
+                <h2 class={styles.sectionTitle}>{page.siteChoiceTitle}</h2>
+                <p class={styles.bodyText}>{page.siteChoice}</p>
               </div>
               <figure class="imageFrame">
                 <img
                   src="/assets/maps/mapa.sitio.buceo.isla.webp"
-                  alt={t(divesPageContent.siteChoiceTitle, lang)}
+                  alt={page.siteChoiceTitle}
                   width={800}
                   height={717}
                   loading="lazy"
@@ -160,13 +114,13 @@ const reserveHrefOf = (x: any) =>
           <div class={styles.container}>
             <div class={`${textWithCarousel.grid} image-left`}>
               <div class={textWithCarousel.text}>
-                <h2 class={styles.sectionTitle}>{t(divesPageContent.refresherTitle, lang)}</h2>
-                <p class={styles.bodyText}>{t(divesPageContent.refresher, lang)}</p>
+                <h2 class={styles.sectionTitle}>{page.refresherTitle}</h2>
+                <p class={styles.bodyText}>{page.refresher}</p>
               </div>
               <figure class="imageFrame">
                 <img
                   src="/assets/refresh.webp"
-                  alt={t(divesPageContent.refresherTitle, lang)}
+                  alt={page.refresherTitle}
                   width={1536}
                   height={1024}
                   loading="lazy"
@@ -182,13 +136,13 @@ const reserveHrefOf = (x: any) =>
           <div class={styles.container}>
             <div class={textWithCarousel.grid}>
               <div class={textWithCarousel.text}>
-                <h2 class={styles.sectionTitle}>{t(divesPageContent.scheduleTitle, lang)}</h2>
-                <p class={styles.bodyText}>{t(divesPageContent.schedule, lang)}</p>
+                <h2 class={styles.sectionTitle}>{page.scheduleTitle}</h2>
+                <p class={styles.bodyText}>{page.schedule}</p>
               </div>
               <figure class="imageFrame">
                 <img
                   src="/assets/calendar-dive.webp"
-                  alt={t(divesPageContent.scheduleTitle, lang)}
+                  alt={page.scheduleTitle}
                   width={1536}
                   height={1024}
                   loading="lazy"
@@ -204,13 +158,13 @@ const reserveHrefOf = (x: any) =>
           <div class={styles.container}>
             <div class={`${textWithCarousel.grid} image-left`}>
               <div class={textWithCarousel.text}>
-                <h2 class={styles.sectionTitle}>{t(divesPageContent.bookingTitle, lang)}</h2>
-                <p class={styles.bodyText}>{t(divesPageContent.booking, lang)}</p>
+                <h2 class={styles.sectionTitle}>{page.bookingTitle}</h2>
+                <p class={styles.bodyText}>{page.booking}</p>
               </div>
               <figure class="imageFrame">
                 <img
                   src="/assets/reservar.webp"
-                  alt={t(divesPageContent.bookingTitle, lang)}
+                  alt={page.bookingTitle}
                   width={1672}
                   height={941}
                   loading="lazy"
@@ -226,13 +180,13 @@ const reserveHrefOf = (x: any) =>
           <div class={styles.container}>
             <div class={textWithCarousel.grid}>
               <div class={textWithCarousel.text}>
-                <h2 class={styles.sectionTitle}>{t(divesPageContent.docsTitle, lang)}</h2>
-                <p class={styles.bodyText}>{t(divesPageContent.docs, lang)}</p>
+                <h2 class={styles.sectionTitle}>{page.docsTitle}</h2>
+                <p class={styles.bodyText}>{page.docs}</p>
               </div>
               <figure class="imageFrame">
                 <img
                   src="/assets/documentation/scuba-license.webp"
-                  alt={t(divesPageContent.docsTitle, lang)}
+                  alt={page.docsTitle}
                   width={1000}
                   height={532}
                   loading="lazy"
@@ -283,7 +237,7 @@ const reserveHrefOf = (x: any) =>
       )}
     </Tabs>
 
-    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={page.ctaTitle} />
   </main>
 </BaseLayout>
 

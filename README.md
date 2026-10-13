@@ -46,10 +46,26 @@ the Vercel project settings.
 
 ## Sanity content model
 
-- `course` — courses (SSI/CMAS/PADI/FSGT), used by `/courses` and `/sidemount` (tagged).
-- `certifyingAgency` — certifying bodies referenced by `course.agency`; can't be deleted while a published course still references it.
-- `baptism` — bautizos (beginner), used by `/baptisms`.
-- `dive` — inmersiones (certified), used by `/dives`.
-- `diveSite` — gallery sites, used by `/gallery`.
-- `tariffExtra` — standalone priced items (nitrox, bottles, insurance), used by `/rates`.
-- `centroInfo` (singleton) — home page: intro, history, installations, staff, stats, certifications.
+The Studio (`/admin`) has two areas. Schemas live in matching folders under `src/sanity/schemaTypes/`.
+
+### Páginas web (`pages/`): the texts of each page
+
+There is one singleton per page, and each document's `_id` equals its type name. Singletons can be edited and published, but not created, duplicated or deleted.
+
+- `siteSettings`: global texts, i.e. the nav, footer, booking banner, product-card labels and the prefilled contact message (`{item}` placeholder).
+- `centroInfo`: home page. It holds the intro, history, installations, staff, stats and certifications, the `homeTexts` headings, and the OG images for every page.
+- `divesPage`, `baptismsPage`, `coursesPage`, `ratesPage`, `sidemountPage`, `galleryPage`, `contactPage`: each page's headings, paragraphs, labels and booking-banner title.
+
+The canonical copy is in `src/content/data/pageTexts.ts`, which has the same shape as the documents. The frontend merges the Sanity document over it field by field (`src/sanity/pageTexts.ts`), so a missing document or an empty field shows the current copy instead of a blank. `scripts/seed-pages.mjs` creates any missing singletons from that file. It never overwrites existing content.
+
+Some text stays in code on purpose: meta titles and descriptions, aria labels, contact details and booking URLs (`src/lib/constants.ts`), and the legal page bodies (`src/content/legal`).
+
+### Productos (`products/`): the catalogue
+
+- `course`: courses (SSI/CMAS/PADI/FSGT), used by `/courses`.
+- `sidemountCourse`: sidemount courses, used by `/sidemount`.
+- `certifyingAgency`: certifying bodies referenced by `course.agency`. An agency can't be deleted while a published course still references it.
+- `baptism`: bautizos (beginner), used by `/baptisms`.
+- `dive`: inmersiones (certified), used by `/dives`.
+- `diveSite`: gallery sites, used by `/gallery`.
+- `tariffExtra`: standalone priced items (nitrox, bottles, insurance), used by `/rates`.

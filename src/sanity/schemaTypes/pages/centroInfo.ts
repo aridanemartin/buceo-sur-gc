@@ -2,10 +2,11 @@ import { defineField, defineType } from 'sanity'
 import { ImagesFieldWarning } from '../../components/ImagesFieldWarning'
 import { StatsFieldExample } from '../../components/StatsFieldExample'
 import { WebPFieldWarning } from '../../components/WebPFieldWarning'
+import { group, str } from './fields'
 
 export const centroInfo = defineType({
   name: 'centroInfo',
-  title: 'Información del centro / general',
+  title: 'Página: Inicio (información del centro)',
   type: 'document',
   fieldsets: [
     {
@@ -120,6 +121,21 @@ export const centroInfo = defineType({
       options: { accept: 'image/webp' },
       components: { input: WebPFieldWarning },
     }),
+    group(
+      'homeTexts',
+      'Títulos y antetítulos de la página de inicio',
+      [
+        str('whoWeAreEyebrow', '«Quiénes somos» — antetítulo'),
+        str('aboutTitle', '«Quiénes somos» — título'),
+        str('videoCaption', 'Pie del vídeo'),
+        str('facilitiesEyebrow', 'Instalaciones — antetítulo'),
+        str('facilitiesTitle', 'Instalaciones — título'),
+        str('aboutEyebrow', 'Equipo — antetítulo'),
+        str('teamTitle', 'Equipo — título'),
+        str('ctaTitle', 'Título del banner de reserva'),
+      ],
+      'Los textos largos (introducción, historia, instalaciones) están arriba.',
+    ),
     defineField({
       name: 'ogImageDefault',
       title: 'Imagen OG por defecto',
@@ -188,7 +204,7 @@ export const centroInfo = defineType({
   preview: {
     select: { intro: 'intro.es' },
     prepare({ intro }) {
-      return { title: 'Información del centro / general', subtitle: intro }
+      return { title: 'Inicio (información del centro)', subtitle: intro }
     },
   },
 })

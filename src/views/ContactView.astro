@@ -5,6 +5,7 @@ import CtaBanner from '../components/CtaBanner.astro'
 // Enquiries go through the mailto/phone links — there is no on-page form.
 import type { Locale } from '../i18n/locales'
 import { SITE } from '../lib/constants'
+import { getPageTexts } from '../sanity/queries'
 import mapStyles from '../styles/MapEmbed.module.css'
 import styles from '../styles/viewCommon.module.css'
 
@@ -23,72 +24,7 @@ const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
   `Buceo Sur Gran Canaria, ${SITE.address.line1}, ${SITE.address.line2}, ${SITE.address.line3}`,
 )}&z=15&output=embed&hl=${lang}`
 
-const t = {
-  es: {
-    eyebrow: 'Contacto',
-    title: 'Ponte en contacto con nosotros',
-    subtitle:
-      '¿Tienes alguna duda sobre inmersiones, bautizos o cursos? Escríbenos o llámanos, estaremos encantados de ayudarte.',
-    contactTitle: 'Información de contacto',
-    emailLabel: 'Email',
-    phonesLabel: 'Teléfonos',
-    primaryNote: 'reservas y consultas',
-    secondaryRole: 'Instructor · solo temas de formación e inmersiones técnicas',
-    addressLabel: 'Dirección',
-    socialTitle: 'Síguenos',
-    mapTitle: 'Donde estamos',
-  },
-  en: {
-    eyebrow: 'Contact',
-    title: 'Get in touch with us',
-    subtitle:
-      'Any questions about dives, discover scuba diving or courses? Write to us or call us — we will be happy to help.',
-    contactTitle: 'Contact information',
-    emailLabel: 'Email',
-    phonesLabel: 'Phones',
-    primaryNote: 'bookings and enquiries',
-    secondaryRole: 'Instructor · training and technical dives only',
-    addressLabel: 'Address',
-    socialTitle: 'Follow us',
-    mapTitle: 'Where we are',
-  },
-  fr: {
-    eyebrow: 'Contact',
-    title: 'Contactez-nous',
-    subtitle:
-      'Une question sur les plongées, les baptêmes ou les formations ? Écrivez-nous ou appelez-nous, nous serons ravis de vous aider.',
-    contactTitle: 'Coordonnées',
-    emailLabel: 'E-mail',
-    phonesLabel: 'Téléphones',
-    primaryNote: 'réservations et renseignements',
-    secondaryRole: 'Instructeur · uniquement formations et plongées techniques',
-    addressLabel: 'Adresse',
-    socialTitle: 'Suivez-nous',
-    mapTitle: 'Où nous sommes',
-  },
-  de: {
-    eyebrow: 'Kontakt',
-    title: 'Kontaktieren Sie uns',
-    subtitle:
-      'Fragen zu Tauchgängen, Schnuppertauchen oder Kursen? Schreiben Sie uns oder rufen Sie uns an – wir helfen Ihnen gerne.',
-    contactTitle: 'Kontaktinformationen',
-    emailLabel: 'E-Mail',
-    phonesLabel: 'Telefon',
-    primaryNote: 'Buchungen und Anfragen',
-    secondaryRole: 'Tauchlehrer · nur Ausbildung und technische Tauchgänge',
-    addressLabel: 'Adresse',
-    socialTitle: 'Folgen Sie uns',
-    mapTitle: 'Wo wir sind',
-  },
-}[lang]
-
-const ctaTitle: Record<Locale, string> = {
-  es: '¿Listo para reservar tu próxima inmersión?',
-  en: 'Ready to book your next dive?',
-  fr: 'Prêt à réserver votre prochaine plongée ?',
-  de: 'Bereit, deinen nächsten Tauchgang zu buchen?',
-}
-
+const t = await getPageTexts('contactPage', lang)
 ---
 <div class={styles.pageHeader}>
   <div class={styles.pageHeaderInner}>
@@ -226,7 +162,7 @@ const ctaTitle: Record<Locale, string> = {
   </div>
 </section>
 
-<CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
+<CtaBanner lang={lang} href={SITE.bookingUrlDives} title={t.ctaTitle} />
 
 <style>
   /* margin-top replaces the spacing the removed two-column .grid wrapper gave. */

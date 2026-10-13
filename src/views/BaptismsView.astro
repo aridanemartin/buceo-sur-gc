@@ -1,18 +1,17 @@
 ---
 import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
-import { baptismsPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
 import { withLangParam } from '../i18n/paths'
-import { reserveInterestMailto, ui } from '../i18n/strings'
+import { reserveInterestMailtoFrom } from '../i18n/strings'
 // src/views/BaptismsView.astro
-// Bautizos page — intro prose from baptismsPageContent plus the beginner
+// Bautizos page — intro prose from the baptismsPage singleton plus the beginner
 // experiences as cards with their YouTube video, per docs/3. Bautizos.md.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { resolveOgImage } from '../lib/seo'
 import { t, tList, tSupplements } from '../sanity/localize'
-import { getBaptisms, getCentroInfo } from '../sanity/queries'
+import { getBaptisms, getCentroInfo, getPageTexts, getUi } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import styles from '../styles/viewCommon.module.css'
 
@@ -21,60 +20,20 @@ interface Props {
 }
 
 const { lang } = Astro.props
-const u = ui[lang]
+const u = await getUi(lang)
 
 const experiences = await getBaptisms()
 const centroInfo = await getCentroInfo()
 const ogImage = resolveOgImage(centroInfo, 'baptisms')
 
-const labels: Record<
-  Locale,
-  {
-    includes: string
-    supplements: string
-    requirements: string
-    depth: string
-  }
-> = {
-  es: {
-    includes: 'Incluye',
-    supplements: 'Suplementos / opciones',
-    requirements: 'Requisitos',
-    depth: 'máx.',
-  },
-  en: {
-    includes: 'Includes',
-    supplements: 'Supplements / options',
-    requirements: 'Requirements',
-    depth: 'max',
-  },
-  fr: {
-    includes: 'Inclut',
-    supplements: 'Suppléments / options',
-    requirements: 'Conditions',
-    depth: 'max',
-  },
-  de: {
-    includes: 'Inklusive',
-    supplements: 'Zuschläge / Optionen',
-    requirements: 'Voraussetzungen',
-    depth: 'max.',
-  },
-}
-const l = labels[lang]
+const page = await getPageTexts('baptismsPage', lang)
+const l = u.cardLabels
 
 const descriptions: Record<Locale, string> = {
   es: 'Bautizos de buceo para principiantes sin certificación en Gran Canaria: dos tipos de iniciación con instructor.',
   en: 'Discover scuba diving for beginners without certification in Gran Canaria: two initiation options with an instructor.',
   fr: 'Baptêmes de plongée pour débutants sans certification à Grande Canarie : deux types d’initiation avec instructeur.',
   de: 'Schnuppertauchen für Anfänger ohne Zertifizierung auf Gran Canaria: zwei Einführungsoptionen mit Ausbilder.',
-}
-
-const ctaTitle: Record<Locale, string> = {
-  es: '¿Listo para descubrir el mundo submarino?',
-  en: 'Ready to discover the underwater world?',
-  fr: 'Prêt à découvrir le monde sous-marin ?',
-  de: 'Bereit, die Unterwasserwelt zu entdecken?',
 }
 
 // Converts youtu.be / youtube.com watch or embed links into privacy-enhanced
@@ -91,7 +50,7 @@ const priceOf = (x: { price?: number | null }): string => (x.price ? `${x.price}
 const reserveHrefOf = (x: any) =>
   x.reservationLink
     ? withLangParam(x.reservationLink, lang)
-    : reserveInterestMailto(lang, t(x.title, lang))
+    : reserveInterestMailtoFrom(u, t(x.title, lang))
 ---
 
 <BaseLayout
@@ -106,9 +65,9 @@ const reserveHrefOf = (x: any) =>
       <div class={styles.pageHeaderInner}>
         <p class={styles.pageEyebrow}>{SITE.fullName}</p>
         <h1 class={styles.pageTitle}>
-          {t(baptismsPageContent.introTitle, lang)}
+          {page.introTitle}
         </h1>
-        <p class={styles.pageSubtitle}>{t(baptismsPageContent.intro, lang)}</p>
+        <p class={styles.pageSubtitle}>{page.intro}</p>
       </div>
     </header>
 
@@ -147,7 +106,7 @@ const reserveHrefOf = (x: any) =>
     <CtaBanner
       lang={lang}
       href={SITE.bookingUrl}
-      title={ctaTitle[lang]}
+      title={page.ctaTitle}
     />
   </main>
 </BaseLayout>

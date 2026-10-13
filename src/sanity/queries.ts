@@ -4,7 +4,11 @@ import { centroInfoData } from '../content/data/centroInfo'
 import { allCoursesData } from '../content/data/courses'
 import { divesData } from '../content/data/dives'
 import { diveSitesData } from '../content/data/diveSites'
+import { homeTexts, pageTextsByType } from '../content/data/pageTexts'
 import { tariffExtrasData } from '../content/data/tariffExtras'
+import type { Locale } from '../i18n/locales'
+import { ui } from '../i18n/strings'
+import { mergeTexts, resolveTexts } from './pageTexts'
 
 // All query helpers fall back to the canonical docx-sourced data (src/content/data)
 // when Sanity is not configured, unreachable, OR the dataset is still empty (not yet
@@ -122,4 +126,49 @@ export async function getSidemountCourses() {
   } catch {
     return []
   }
+}
+
+// --- Page texts ("Páginas web" singletons) --------------------------------
+// Each singleton's _id is its type name. The Sanity document is merged leaf by
+// leaf over the canonical fallback (src/content/data/pageTexts.ts), so a
+// missing document or an empty field keeps today's copy instead of a blank.
+
+type PageType = keyof typeof pageTextsByType
+
+// Every page renders the layout, footer and banner, which all read
+// siteSettings: memoize per build so it is fetched once, not ~150 times.
+// In dev there is no cache, so Studio edits show up on reload.
+const pageDocCache = new Map<PageType, Promise<unknown>>()
+
+function fetchPageDoc(type: PageType): Promise<unknown> {
+  const load = async () => {
+    try {
+      return await sanityClient.fetch(`*[_id == $id][0]`, { id: type })
+    } catch {
+      return null
+    }
+  }
+  if (!import.meta.env.PROD) return load()
+  if (!pageDocCache.has(type)) pageDocCache.set(type, load())
+  return pageDocCache.get(type)!
+}
+
+/** The texts of one page singleton, resolved to plain strings for `lang`. */
+export async function getPageTexts<K extends PageType>(type: K, lang: Locale) {
+  const data = await fetchPageDoc(type)
+  return resolveTexts(mergeTexts(pageTextsByType[type], data), lang)
+}
+
+/**
+ * Shared UI strings for `lang`: the "Textos globales" singleton (nav, footer,
+ * booking banner, card labels…) on top of the code-only strings (a11y labels).
+ */
+export async function getUi(lang: Locale) {
+  const site = await getPageTexts('siteSettings', lang)
+  return { ...ui[lang], ...site }
+}
+
+/** Home headings stored on the centroInfo document (field `homeTexts`). */
+export function getHomeTexts(info: { homeTexts?: unknown } | null | undefined, lang: Locale) {
+  return resolveTexts(mergeTexts(homeTexts, info?.homeTexts), lang)
 }

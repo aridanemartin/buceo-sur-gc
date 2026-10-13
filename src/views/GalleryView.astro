@@ -1,9 +1,7 @@
 ---
 import CtaBanner from '../components/CtaBanner.astro'
 import GallerySwiper from '../components/GallerySwiper.tsx'
-import { galleryPageContent } from '../content/data/pageContent'
 import type { Locale } from '../i18n/locales'
-import { ui } from '../i18n/strings'
 // src/views/GalleryView.astro
 // Galería page: intro copy, then one section per dive site with meta pills
 // (depth range + level), localized description and a one-image-at-a-time
@@ -12,7 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { resolveOgImage } from '../lib/seo'
 import { t } from '../sanity/localize'
-import { getCentroInfo, getDiveSites } from '../sanity/queries'
+import { getCentroInfo, getDiveSites, getPageTexts, getUi } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -20,10 +18,9 @@ interface Props {
 }
 
 const { lang } = Astro.props
-const strings = ui[lang]
+const strings = await getUi(lang)
 const sites = await getDiveSites()
-const introTitle = t(galleryPageContent.introTitle, lang)
-const intro = t(galleryPageContent.intro, lang)
+const { introTitle, intro } = await getPageTexts('galleryPage', lang)
 const centroInfo = await getCentroInfo()
 const ogImage = resolveOgImage(centroInfo, 'gallery')
 ---

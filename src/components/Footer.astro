@@ -1,8 +1,8 @@
 ---
 import type { Locale } from '../i18n/locales'
 import { localePath } from '../i18n/paths'
-import { ui } from '../i18n/strings'
 import { SITE } from '../lib/constants'
+import { getUi } from '../sanity/queries'
 // src/components/Footer.astro
 import styles from './Footer.module.css'
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { lang } = Astro.props
-const t = ui[lang]
+const t = await getUi(lang)
 ---
 <footer class={styles.footer}>
   <div class={styles.container}>

@@ -2,7 +2,6 @@
 import CtaBanner from '../components/CtaBanner.astro'
 import PriceTable from '../components/PriceTable.astro'
 import type { Locale } from '../i18n/locales'
-import { ui } from '../i18n/strings'
 // src/views/RatesView.astro
 // Tarifas page — aggregates every price source (courses, experiences, tariff
 // extras) into one consolidated pricing page, per docs/5. Tarifas.md:
@@ -13,7 +12,7 @@ import { ui } from '../i18n/strings'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { resolveOgImage } from '../lib/seo'
-import { getBaptisms, getCentroInfo, getCourses, getDives, getTariffExtras } from '../sanity/queries'
+import { getBaptisms, getCentroInfo, getCourses, getDives, getPageTexts, getTariffExtras, getUi } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -21,7 +20,7 @@ interface Props {
 }
 
 const { lang } = Astro.props
-const u = ui[lang]
+const u = await getUi(lang)
 
 const [bautizos, inmersiones, cursos, extras, centroInfo] = await Promise.all([
   getBaptisms(),
@@ -41,20 +40,7 @@ const descriptions: Record<Locale, string> = {
   de: 'Alle Preise für Schnuppertauchen, Kurse, Tauchgänge und Extras an einem Ort.',
 }
 
-const subtitles: Record<Locale, string> = {
-  es: 'Consulta la tarifa completa de nuestras actividades: bautizos, inmersiones guiadas, cursos y suplementos.',
-  en: 'Browse the full rate card for our activities: discover dives, guided dives, courses and extras.',
-  fr: 'Consultez l’ensemble de nos tarifs : baptêmes, plongées encadrées, formations et suppléments.',
-  de: 'Alle Tarife im Überblick: Schnuppertauchen, begleitete Tauchgänge, Kurse und Zusatzleistungen.',
-}
-
-// No shared i18n key exists for this section label, so it is kept local to the view.
-const extrasTitle: Record<Locale, string> = {
-  es: 'Extras',
-  en: 'Extras',
-  fr: 'Suppléments',
-  de: 'Extras',
-}
+const page = await getPageTexts('ratesPage', lang)
 
 // Screen-reader-only label for the mobile category-tab group (the tabs
 // themselves are visually hidden above 768px, where all four groups show
@@ -66,12 +52,6 @@ const tabsLegend: Record<Locale, string> = {
   de: 'Tarife nach Kategorie filtern',
 }
 
-const ctaTitle: Record<Locale, string> = {
-  es: '¿Listo para tu próxima inmersión?',
-  en: 'Ready for your next dive?',
-  fr: 'Prêt pour votre prochaine plongée ?',
-  de: 'Bereit für deinen nächsten Tauchgang?',
-}
 
 const cols: Record<
   Locale,
@@ -117,7 +97,7 @@ const emDash = '—'
       <div class={styles.pageHeaderInner}>
         <p class={styles.pageEyebrow}>{SITE.fullName}</p>
         <h1 class={styles.pageTitle}>{u.nav.rates}</h1>
-        <p class={styles.pageSubtitle}>{subtitles[lang]}</p>
+        <p class={styles.pageSubtitle}>{page.subtitle}</p>
       </div>
     </header>
 
@@ -136,7 +116,7 @@ const emDash = '—'
           <label for="tab-bautizos">{u.nav.baptisms}</label>
           <label for="tab-inmersiones">{u.nav.dives}</label>
           <label for="tab-cursos">{u.nav.courses}</label>
-          <label for="tab-extras">{extrasTitle[lang]}</label>
+          <label for="tab-extras">{page.extrasTitle}</label>
         </nav>
       </fieldset>
 
@@ -173,7 +153,7 @@ const emDash = '—'
       <!-- Extras -->
       <section class={`${styles.sectionAlt} ratesPanel ratesPanel-extras`}>
         <div class={styles.container}>
-          <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{extrasTitle[lang]}</h2>
+          <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{page.extrasTitle}</h2>
           <div class={`${styles.card} pricingCard`}>
             <PriceTable lang={lang} col={col} emDash={emDash} variant="extras" items={extras} />
           </div>
@@ -181,7 +161,7 @@ const emDash = '—'
       </section>
     </div>
 
-    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={ctaTitle[lang]} />
+    <CtaBanner lang={lang} href={SITE.bookingUrlDives} title={page.ctaTitle} />
   </main>
 </BaseLayout>
 

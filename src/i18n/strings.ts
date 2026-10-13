@@ -1,4 +1,6 @@
-import { SITE } from '../lib/constants'
+// Explicit .ts extension: also loaded by scripts/seed-pages.mjs (Node type stripping).
+import { SITE } from '../lib/constants.ts'
+import { fillTemplate } from '../sanity/pageTexts.ts'
 import type { Locale } from './locales'
 
 export interface UiStrings {
@@ -69,14 +71,14 @@ export interface UiStrings {
 // Subject/body pre-filled into the visitor's mail client when a course/baptism/
 // dive has no direct Bukyapp reservationLink — the "Reservar" button on its card
 // falls back to a mailto: to SITE.email instead of an external booking URL.
-const reserveInterestSubjects: Record<Locale, (title: string) => string> = {
+export const reserveInterestSubjects: Record<Locale, (title: string) => string> = {
   es: (title) => `Reserva: ${title}`,
   en: (title) => `Booking: ${title}`,
   fr: (title) => `Réservation : ${title}`,
   de: (title) => `Buchung: ${title}`,
 }
 
-const reserveInterestMessages: Record<Locale, (title: string) => string> = {
+export const reserveInterestMessages: Record<Locale, (title: string) => string> = {
   es: (title) => `Estoy interesado/a en reservar ${title}.`,
   en: (title) => `I'm interested in reserving ${title}.`,
   fr: (title) => `Je suis intéressé(e) par la réservation de ${title}.`,
@@ -84,9 +86,26 @@ const reserveInterestMessages: Record<Locale, (title: string) => string> = {
 }
 
 export function reserveInterestMailto(lang: Locale, title: string): string {
-  const subject = encodeURIComponent(reserveInterestSubjects[lang](title))
-  const body = encodeURIComponent(reserveInterestMessages[lang](title))
-  return `mailto:${SITE.email}?subject=${subject}&body=${body}`
+  return reserveMailto(reserveInterestSubjects[lang](title), reserveInterestMessages[lang](title))
+}
+
+/**
+ * Same mailto, built from the editable templates in the "Textos globales"
+ * singleton (see getUi), where "{item}" stands for the product title.
+ */
+export function reserveInterestMailtoFrom(
+  templates: { reserveInterestSubject: string; reserveInterest: string },
+  title: string,
+): string {
+  return reserveMailto(
+    fillTemplate(templates.reserveInterestSubject, { item: title }),
+    fillTemplate(templates.reserveInterest, { item: title }),
+  )
+}
+
+/** mailto: link to the centre with an already-filled subject and body. */
+export function reserveMailto(subject: string, body: string): string {
+  return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 }
 
 export const ui: Record<Locale, UiStrings> = {

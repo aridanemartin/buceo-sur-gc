@@ -6,7 +6,7 @@
 // Kept deliberately minimal: CTA title + button + one brief note explaining the
 // user will be redirected to the reservation page, over a photo background.
 import type { Locale } from '../i18n/locales'
-import { ui } from '../i18n/strings'
+import { getUi } from '../sanity/queries'
 import styles from '../styles/viewCommon.module.css'
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { lang, href, title } = Astro.props
-const u = ui[lang]
+const u = await getUi(lang)
 ---
 <a class={styles.ctaBanner} href={href} target="_blank" rel="noopener noreferrer">
   <div class={styles.ctaBannerInner}>

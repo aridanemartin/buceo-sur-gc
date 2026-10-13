@@ -2,7 +2,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { createProtectedDeleteAction } from './src/sanity/actions/protectDeleteWhenReferenced'
 import { StudioLayout } from './src/sanity/components/StudioLayout'
-import { schemaTypes } from './src/sanity/schemaTypes'
+import { SINGLETON_TYPES, schemaTypes } from './src/sanity/schemaTypes'
 import { structure } from './src/sanity/structure'
 
 // NOTE: this config is bundled into the client-side Studio (loaded in the browser at /admin),
@@ -14,14 +14,25 @@ export default defineConfig({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
   plugins: [structureTool({ structure })],
-  schema: { types: schemaTypes },
+  schema: {
+    types: schemaTypes,
+    // Page singletons are opened from "Páginas web" only — never created anew.
+    templates: (templates) => templates.filter(({ schemaType }) => !SINGLETON_TYPES.has(schemaType)),
+  },
   studio: { components: { layout: StudioLayout } },
   document: {
-    actions: (prev, context) =>
-      context.schemaType === 'certifyingAgency'
+    actions: (prev, context) => {
+      // Page singletons can be edited and published, but not duplicated or deleted.
+      if (SINGLETON_TYPES.has(context.schemaType)) {
+        return prev.filter(
+          ({ action }) => action && ['publish', 'discardChanges', 'restore'].includes(action),
+        )
+      }
+      return context.schemaType === 'certifyingAgency'
         ? prev.map((action) =>
             action.action === 'delete' ? createProtectedDeleteAction(action) : action,
           )
-        : prev,
+        : prev
+    },
   },
 })

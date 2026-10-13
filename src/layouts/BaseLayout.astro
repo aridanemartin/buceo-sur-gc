@@ -3,10 +3,9 @@ import Footer from '../components/Footer.astro'
 import Nav from '../components/Nav'
 import type { Locale } from '../i18n/locales'
 import { alternateLinks, localePath } from '../i18n/paths'
-import { ui } from '../i18n/strings'
 import { SITE } from '../lib/constants'
 import { OG_LOCALES, absoluteUrl, breadcrumbJsonLd, localBusinessJsonLd } from '../lib/seo'
-import { getCentroInfo } from '../sanity/queries'
+import { getCentroInfo, getUi } from '../sanity/queries'
 import '../styles/global.css'
 
 interface Props {
@@ -34,7 +33,7 @@ const {
   preloadImage,
 } = Astro.props
 const alternates = alternateLinks(path)
-const t = ui[lang]
+const t = await getUi(lang)
 
 // The home hero photo (Sanity "Imagen de hero") doubles as the background of the
 // smaller page-header bands on every inner page. Expose it once here as a CSS

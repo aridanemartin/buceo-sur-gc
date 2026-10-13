@@ -6,16 +6,16 @@ import { sidemountPageContent } from '../content/data/pageContent'
 import { sidemountGalleryImages } from '../content/data/sidemountGallery'
 import type { Locale } from '../i18n/locales'
 import { withLangParam } from '../i18n/paths'
-import { reserveInterestMailto, ui } from '../i18n/strings'
+import { reserveInterestMailtoFrom } from '../i18n/strings'
 // src/views/SidemountView.astro
-// Sidemount intro (canonical copy from src/content/data/pageContent.ts),
+// Sidemount intro (texts from the sidemountPage singleton),
 // the promo video, and the sidemount courses from their dedicated schema.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { resolveOgImage } from '../lib/seo'
 import { toYoutubeEmbedUrl } from '../lib/youtube'
 import { t, tList, tSupplements } from '../sanity/localize'
-import { getCentroInfo, getSidemountCourses } from '../sanity/queries'
+import { getCentroInfo, getPageTexts, getSidemountCourses, getUi } from '../sanity/queries'
 import rowStyles from '../styles/rowLayout.module.css'
 import textWithCarousel from '../styles/TextWithCarousel.module.css'
 import styles from '../styles/viewCommon.module.css'
@@ -25,7 +25,8 @@ interface Props {
 }
 
 const { lang } = Astro.props
-const u = ui[lang]
+const u = await getUi(lang)
+const page = await getPageTexts('sidemountPage', lang)
 const courses = await getSidemountCourses()
 const centroInfo = await getCentroInfo()
 const ogImage = resolveOgImage(centroInfo, 'sidemount')
@@ -34,19 +35,10 @@ const l = (f: any) => t(f, lang)
 const lList = (f: any) => tList(f, lang)
 const lSupplements = (f: any) => tSupplements(f, lang)
 
-// "Requisitos" heading for each course card's requirements block — matches
-// the labels used on the Cursos page.
-const requirementLabels: Record<Locale, string> = {
-  es: 'Requisitos',
-  en: 'Requirements',
-  fr: 'Conditions',
-  de: 'Voraussetzungen',
-}[lang]
-
 // Cards without a Bukyapp reservationLink fall back to a mailto: with a
 // prefilled "interested in X" subject and body.
 const reserveHrefOf = (c: any) =>
-  c.reservationLink ? withLangParam(c.reservationLink, lang) : reserveInterestMailto(lang, l(c.title))
+  c.reservationLink ? withLangParam(c.reservationLink, lang) : reserveInterestMailtoFrom(u, l(c.title))
 
 const terrainImages = sidemountGalleryImages.map((url) => ({ url, alt: u.sidemount.alt }))
 
@@ -60,35 +52,20 @@ const videoEmbedUrl =
     mute: '1',
     controls: '0',
   }) ?? sidemountPageContent.videoUrl
-
-const cta = {
-  es: {
-    title: 'Reserva tu bautismo Sidemount',
-  },
-  en: {
-    title: 'Book your Sidemount discover dive',
-  },
-  fr: {
-    title: 'Réservez votre baptême Sidemount',
-  },
-  de: {
-    title: 'Buchen Sie Ihr Sidemount-Schnuppertauchen',
-  },
-}[lang]
 ---
 <BaseLayout
   lang={lang}
   path="sidemount"
-  title={l(sidemountPageContent.introTitle)}
-  description={l(sidemountPageContent.intro)}
+  title={page.introTitle}
+  description={page.intro}
   ogImage={ogImage}
 >
   <main>
     <header class={styles.pageHeader}>
       <div class={styles.pageHeaderInner}>
-        <p class={styles.pageEyebrow}>Sidemount</p>
-        <h1 class={styles.pageTitle}>{l(sidemountPageContent.introTitle)}</h1>
-        <p class={styles.pageSubtitle}>{l(sidemountPageContent.motto)}</p>
+        <p class={styles.pageEyebrow}>{page.eyebrow}</p>
+        <h1 class={styles.pageTitle}>{page.introTitle}</h1>
+        <p class={styles.pageSubtitle}>{page.motto}</p>
       </div>
     </header>
 
@@ -97,12 +74,12 @@ const cta = {
         <div class={textWithCarousel.grid}>
           <div class={textWithCarousel.text}>
             <h2 class={styles.sectionTitle}>{u.nav.sidemount}</h2>
-            <p class={styles.bodyText}>{l(sidemountPageContent.intro)}</p>
+            <p class={styles.bodyText}>{page.intro}</p>
           </div>
           <div class={styles.videoWrapper}>
             <iframe
               src={videoEmbedUrl}
-              title={l(sidemountPageContent.introTitle)}
+              title={page.introTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               loading="lazy"
@@ -114,11 +91,11 @@ const cta = {
 
     <section class={styles.sectionAlt}>
       <div class={`${styles.container} sidemount-body`}>
-        <p class={styles.sectionEyebrow}>Sidemount</p>
+        <p class={styles.sectionEyebrow}>{page.eyebrow}</p>
         <div class={textWithCarousel.grid}>
           <div class={textWithCarousel.text}>
-            <h2 class={styles.sectionTitle}>{l(sidemountPageContent.terrainTitle)}</h2>
-            <p class={styles.bodyText}>{l(sidemountPageContent.terrain)}</p>
+            <h2 class={styles.sectionTitle}>{page.terrainTitle}</h2>
+            <p class={styles.bodyText}>{page.terrain}</p>
           </div>
           <PhotoCarousel
             images={terrainImages}
@@ -133,10 +110,10 @@ const cta = {
     <section class={styles.section} id="cursos">
       <div class={`${styles.container} sidemount-body`}>
         <p class={styles.sectionEyebrow}>{u.nav.courses}</p>
-        <h2 class={styles.sectionTitle}>{l(sidemountPageContent.courseTitle)}</h2>
+        <h2 class={styles.sectionTitle}>{page.courseTitle}</h2>
         <ul class={styles.list}>
-          <li>{l(sidemountPageContent.courseRequirementsTitle)}: {l(sidemountPageContent.courseRequirements)}</li>
-          <li>{l(sidemountPageContent.courseIncludesTitle)}: {l(sidemountPageContent.courseIncludes)}</li>
+          <li>{page.courseRequirementsTitle}: {page.courseRequirements}</li>
+          <li>{page.courseIncludesTitle}: {page.courseIncludes}</li>
         </ul>
 
         <div class={rowStyles.list}>
@@ -155,7 +132,7 @@ const cta = {
                 ...(lSupplements(c.supplements).length
                   ? [{ supplements: lSupplements(c.supplements) }]
                   : []),
-                { label: requirementLabels, requirements: lList(c.requirements) },
+                { label: u.cardLabels.requirements, requirements: lList(c.requirements) },
               ]}
               price={c.price ? `${c.price} €` : null}
               image={c.image || null}
@@ -168,7 +145,7 @@ const cta = {
       </div>
     </section>
 
-    <CtaBanner lang={lang} href={SITE.bookingUrl} title={cta.title} />
+    <CtaBanner lang={lang} href={SITE.bookingUrl} title={page.ctaTitle} />
   </main>
 </BaseLayout>
 
