@@ -10,7 +10,14 @@ import { t, tList, tSupplements } from '../sanity/localize'
 
 interface Props {
   lang: Locale
-  col: { product: string; price: string; includes?: string; supplements?: string; unit?: string }
+  col: {
+    product: string
+    price: string
+    includes?: string
+    supplements?: string
+    unit?: string
+    requirements?: string
+  }
   emDash: string
   // 'full' = Producto/Precio/Incluye/Suplementos (Bautizos, Inmersiones, Cursos).
   // 'extras' = Producto/Precio/Unidad (Extras) — no includes/supplements columns.
@@ -21,6 +28,11 @@ interface Props {
 const { lang, col, emDash, variant = 'full', items } = Astro.props
 
 const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : '')
+
+// Requirements are shown under each product (not as a column, which would
+// squeeze the others): a full-width strip on desktop, a boxed block on mobile.
+const requirementsOf = (x: any): string[] => (variant === 'full' ? tList(x.requirements, lang) : [])
+const columnCount = variant === 'full' ? 4 : 3
 ---
 
 <div class="priceTableWrap">
@@ -44,7 +56,8 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
     <tbody>
       {
         items.map((x) => (
-          <tr>
+          <>
+          <tr class={requirementsOf(x).length ? 'hasRequirements' : undefined}>
             <td class="cardTitle">
               {t(x.title, lang)}
               {x.duration && t(x.duration, lang) ? <small class="duration">{t(x.duration, lang)}</small> : null}
@@ -80,6 +93,19 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
               <td class="cardBody">{t(x.unit, lang) || emDash}</td>
             )}
           </tr>
+          {requirementsOf(x).length ? (
+            <tr class="requirementsRow">
+              <td colspan={columnCount}>
+                <div class="requirements">
+                  <span class="requirementsLabel">{col.requirements}</span>
+                  <ul class="requirementsList">
+                    {requirementsOf(x).map((item) => <li>{item}</li>)}
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          ) : null}
+          </>
         ))
       }
     </tbody>
@@ -124,6 +150,15 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
           ) : (
             t(x.unit, lang) ? <p class="rateCardUnit">{t(x.unit, lang)}</p> : null
           )}
+
+          {requirementsOf(x).length ? (
+            <div class="rateCardRequirements">
+              <p class="rateCardLabel">{col.requirements}</p>
+              <ul class="requirementsList">
+                {requirementsOf(x).map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          ) : null}
         </article>
       ))
     }
@@ -161,6 +196,66 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
 
   .ratesTable tbody tr:last-child td {
     border-bottom: none;
+  }
+
+  /* A product row followed by its requirements strip reads as one block. */
+  .ratesTable tr.hasRequirements td {
+    border-bottom: none;
+    padding-bottom: 8px;
+  }
+
+  .requirementsRow td {
+    padding: 0 16px 16px;
+  }
+
+  .requirements {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 16px;
+    padding: 10px 14px;
+    background: color-mix(in srgb, var(--color-ocean-50) 35%, white);
+    border-left: 3px solid var(--color-ocean-100);
+    border-radius: var(--radius-sm, 6px);
+  }
+
+  .requirementsLabel {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-ocean-400);
+  }
+
+  /* Items flow inline and wrap; long ones simply break onto the next line. */
+  .requirementsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .requirementsList li {
+    position: relative;
+    padding-left: 14px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .requirementsList li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-ocean-400);
   }
 
   .ratesTable td:nth-child(2) {
@@ -298,6 +393,24 @@ const priceOf = (x: { price?: number | null }) => (x.price ? `${x.price} €` : 
       color: #c97a2b;
       font-weight: 700;
       white-space: nowrap;
+    }
+
+    .rateCardRequirements {
+      margin-top: 12px;
+      padding: 4px 12px 10px;
+      background: color-mix(in srgb, var(--color-ocean-50) 35%, white);
+      border-left: 3px solid var(--color-ocean-100);
+      border-radius: var(--radius-sm, 6px);
+    }
+
+    .rateCardRequirements .rateCardLabel {
+      margin-top: 8px;
+    }
+
+    /* Stacked on a phone: one requirement per line. */
+    .rateCardRequirements .requirementsList {
+      flex-direction: column;
+      gap: 3px;
     }
 
     .rateCardUnit {

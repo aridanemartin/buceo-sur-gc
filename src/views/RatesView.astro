@@ -94,7 +94,8 @@ const cols: Record<
     unit: 'Einheit',
   },
 }
-const col = cols[lang]
+// "Requisitos" reuses the product-card label from Textos globales.
+const col = { ...cols[lang], requirements: u.cardLabels.requirements }
 
 const emDash = '—'
 ---
