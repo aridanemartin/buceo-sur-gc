@@ -42,6 +42,14 @@ const descriptions: Record<Locale, string> = {
 
 const page = await getPageTexts('ratesPage', lang)
 
+// Optional description under each category heading: one paragraph per line,
+// nothing rendered when it is empty.
+const paragraphsOf = (text: string): string[] =>
+  text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+
 // Screen-reader-only label for the mobile category-tab group (the tabs
 // themselves are visually hidden above 768px, where all four groups show
 // at once instead).
@@ -124,6 +132,11 @@ const emDash = '—'
       <section class={`${styles.section} ratesPanel ratesPanel-bautizos`}>
         <div class={styles.container}>
           <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.baptisms}</h2>
+          {paragraphsOf(page.baptismsDescription).length > 0 && (
+            <div class="ratesSectionIntro">
+              {paragraphsOf(page.baptismsDescription).map((p) => <p class={styles.bodyText}>{p}</p>)}
+            </div>
+          )}
           <div class={`${styles.card} pricingCard`}>
             <PriceTable lang={lang} col={col} emDash={emDash} items={bautizos} />
           </div>
@@ -134,6 +147,11 @@ const emDash = '—'
       <section class={`${styles.sectionAlt} ratesPanel ratesPanel-inmersiones`}>
         <div class={styles.container}>
           <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.dives}</h2>
+          {paragraphsOf(page.divesDescription).length > 0 && (
+            <div class="ratesSectionIntro">
+              {paragraphsOf(page.divesDescription).map((p) => <p class={styles.bodyText}>{p}</p>)}
+            </div>
+          )}
           <div class={`${styles.card} pricingCard`}>
             <PriceTable lang={lang} col={col} emDash={emDash} items={inmersiones} />
           </div>
@@ -144,6 +162,11 @@ const emDash = '—'
       <section class={`${styles.section} ratesPanel ratesPanel-cursos`}>
         <div class={styles.container}>
           <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{u.nav.courses}</h2>
+          {paragraphsOf(page.coursesDescription).length > 0 && (
+            <div class="ratesSectionIntro">
+              {paragraphsOf(page.coursesDescription).map((p) => <p class={styles.bodyText}>{p}</p>)}
+            </div>
+          )}
           <div class={`${styles.card} pricingCard`}>
             <PriceTable lang={lang} col={col} emDash={emDash} items={cursos} />
           </div>
@@ -154,6 +177,11 @@ const emDash = '—'
       <section class={`${styles.sectionAlt} ratesPanel ratesPanel-extras`}>
         <div class={styles.container}>
           <h2 class={`${styles.sectionTitle} ratesSectionTitle`}>{page.extrasTitle}</h2>
+          {paragraphsOf(page.extrasDescription).length > 0 && (
+            <div class="ratesSectionIntro">
+              {paragraphsOf(page.extrasDescription).map((p) => <p class={styles.bodyText}>{p}</p>)}
+            </div>
+          )}
           <div class={`${styles.card} pricingCard`}>
             <PriceTable lang={lang} col={col} emDash={emDash} variant="extras" items={extras} />
           </div>
@@ -173,6 +201,20 @@ const emDash = '—'
 
   .ratesSectionTitle {
     margin-bottom: 24px;
+  }
+
+  /* Category description: sits between the heading and the price table. */
+  .ratesSectionIntro {
+    max-width: 75ch;
+    margin: -8px 0 24px;
+  }
+
+  .ratesSectionIntro p {
+    margin: 0;
+  }
+
+  .ratesSectionIntro p + p {
+    margin-top: 8px;
   }
 
   /* Tab controls are inert (and invisible) above 768px, where every

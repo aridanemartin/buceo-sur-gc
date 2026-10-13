@@ -15,7 +15,7 @@
 // Run: node --env-file=.env scripts/seed-pages.mjs [--apply]
 import { createClient } from '@sanity/client'
 import { readFileSync } from 'node:fs'
-import { homeTexts, pageTextsByType } from '../src/content/data/pageTexts.ts'
+import { homeTexts, pageTextsByType, seedOnlyTexts } from '../src/content/data/pageTexts.ts'
 
 const apply = process.argv.includes('--apply')
 const dataset = process.env.SANITY_DATASET ?? 'production'
@@ -104,6 +104,13 @@ const byId = new Map(docs.map((d) => [d._id, d]))
 const tx = client.transaction()
 let changes = 0
 
+// An all-empty locale value (an optional field with no initial copy) is never
+// written: leaving the field unset is what "empty" means in the Studio.
+const isEmptyLeaf = (v) =>
+  v && typeof v === 'object' && 'es' in v && Object.values(v).every((x) => x === '')
+const withoutEmpty = (texts) =>
+  Object.fromEntries(Object.entries(texts).filter(([, v]) => !isEmptyLeaf(v)))
+
 // Adds every top-level field of `fallback` that `doc` does not have yet.
 async function addMissingFields(id, doc, fallback) {
   const missing = Object.keys(fallback).filter((k) => doc[k] === undefined)
@@ -115,7 +122,9 @@ async function addMissingFields(id, doc, fallback) {
   changes++
 }
 
-for (const [type, texts] of Object.entries(pageTextsByType)) {
+for (const [type, fallback] of Object.entries(pageTextsByType)) {
+  // Optional fields get their initial copy from seedOnlyTexts.
+  const texts = withoutEmpty({ ...fallback, ...(seedOnlyTexts[type] ?? {}) })
   const existing = [type, `drafts.${type}`].filter((id) => byId.has(id))
   if (!existing.length) {
     console.log(`[create] ${type}`)

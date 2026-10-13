@@ -1,7 +1,7 @@
 import { localeList } from './objects/localeList'
 import { localeSupplementList } from './objects/localeSupplementList'
 import { localeString } from './objects/localeString'
-import { localeText } from './objects/localeText'
+import { localeText, localeTextOptional } from './objects/localeText'
 import { supplementItem } from './objects/supplementItem'
 import { textMediaSection } from './objects/textMediaSection'
 import { baptismsPage } from './pages/baptismsPage'
@@ -24,6 +24,7 @@ import { tariffExtra } from './products/tariffExtra'
 export const objectTypes = [
   localeString,
   localeText,
+  localeTextOptional,
   localeList,
   supplementItem,
   localeSupplementList,

@@ -14,6 +14,10 @@ export const str = (name: string, title: string, extra: Extra = {}) =>
 export const txt = (name: string, title: string, extra: Extra = {}) =>
   defineField({ name, title, type: 'localeText', ...extra })
 
+/** Long localized text that may stay empty (hidden on the site when blank). */
+export const optTxt = (name: string, title: string, extra: Extra = {}) =>
+  defineField({ name, title, type: 'localeTextOptional', ...extra })
+
 /** A list of paragraphs; editors can add, remove and reorder them. */
 export const paragraphs = (name: string, title: string, extra: Extra = {}) =>
   defineField({ name, title, type: 'array', of: [{ type: 'localeText' }], ...extra })

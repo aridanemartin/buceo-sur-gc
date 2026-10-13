@@ -32,6 +32,7 @@ import {
 import { sidemountGalleryImages } from './sidemountGallery.ts'
 
 const uiTree = transpose(ui)
+const empty = { es: '', en: '', fr: '', de: '' }
 const same = (text: string) => ({ es: text, en: text, fr: text, de: text })
 const perLocale = (fn: (l: 'es' | 'en' | 'fr' | 'de') => string) =>
   ({ es: fn('es'), en: fn('en'), fr: fn('fr'), de: fn('de') })
@@ -160,6 +161,13 @@ export const coursesPageTexts = {
 export const ratesPageTexts = {
   subtitle: transpose(ratesSubtitleByLocale),
   extrasTitle: transpose(ratesExtrasTitleByLocale),
+  // Optional text under each category heading (one paragraph per line). No
+  // code fallback: an editor emptying it in the Studio hides it. The initial
+  // copy is written to Sanity once, from `seedOnlyTexts` below.
+  baptismsDescription: empty,
+  divesDescription: empty,
+  coursesDescription: empty,
+  extrasDescription: empty,
   ctaTitle: transpose(ratesCtaTitleByLocale),
 }
 
@@ -196,6 +204,28 @@ export const galleryPageTexts = {
 export const contactPageTexts = {
   ...transpose(contactTextsByLocale),
   ctaTitle: transpose(contactCtaTitleByLocale),
+}
+
+/**
+ * Initial values for optional fields, written by scripts/seed-pages.mjs when
+ * missing but never used as a rendering fallback. (An editor who empties one
+ * should not re-run the seed, or it comes back.)
+ */
+export const seedOnlyTexts = {
+  ratesPage: {
+    baptismsDescription: {
+      es: 'Para principiantes sin certificación.',
+      en: 'For beginners without certification.',
+      fr: 'Pour débutants sans certification.',
+      de: 'Für Anfänger ohne Zertifizierung.',
+    },
+    divesDescription: {
+      es: 'Nivel mínimo: Open Water o Nivel 1 CMAS (con validación en aguas abiertas). En el caso de Scuba diver 12 o Nivel 1 obtenido en piscina sin experiencia en el medio natural: consúltenos.\nRequisitos: Certificado médico o cuestionario médico, carnet de buceo, seguro de buceo',
+      en: 'Minimum level: Open Water or CMAS Level 1 (with open-water validation). For Scuba Diver 12 or a Level 1 obtained in a pool with no experience in open water: please contact us.\nRequirements: Medical certificate or medical questionnaire, diving card, dive insurance',
+      fr: 'Niveau minimum : Open Water ou Niveau 1 CMAS (avec validation en milieu naturel). Pour les Scuba Diver 12 ou Niveau 1 obtenu en piscine sans expérience en milieu naturel : consultez-nous.\nConditions : Certificat médical ou questionnaire médical, carte de plongée, assurance plongée',
+      de: 'Mindestniveau: Open Water oder CMAS Level 1 (mit Validierung im Freiwasser). Bei Scuba Diver 12 oder einem im Schwimmbad erworbenen Level 1 ohne Erfahrung im Freiwasser: Bitte kontaktieren Sie uns.\nVoraussetzungen: Ärztliches Attest oder medizinischer Fragebogen, Tauchausweis, Tauchversicherung',
+    },
+  },
 }
 
 /** Sanity singleton type → fallback texts (also what scripts/seed-pages.mjs writes). */
