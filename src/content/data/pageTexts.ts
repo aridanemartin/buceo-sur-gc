@@ -220,10 +220,10 @@ export const seedOnlyTexts = {
       de: 'Für Anfänger ohne Zertifizierung.',
     },
     divesDescription: {
-      es: 'Nivel mínimo: Open Water o Nivel 1 CMAS (con validación en aguas abiertas). En el caso de Scuba diver 12 o Nivel 1 obtenido en piscina sin experiencia en el medio natural: consúltenos.\nRequisitos: Certificado médico o cuestionario médico, carnet de buceo, seguro de buceo',
-      en: 'Minimum level: Open Water or CMAS Level 1 (with open-water validation). For Scuba Diver 12 or a Level 1 obtained in a pool with no experience in open water: please contact us.\nRequirements: Medical certificate or medical questionnaire, diving card, dive insurance',
-      fr: 'Niveau minimum : Open Water ou Niveau 1 CMAS (avec validation en milieu naturel). Pour les Scuba Diver 12 ou Niveau 1 obtenu en piscine sans expérience en milieu naturel : consultez-nous.\nConditions : Certificat médical ou questionnaire médical, carte de plongée, assurance plongée',
-      de: 'Mindestniveau: Open Water oder CMAS Level 1 (mit Validierung im Freiwasser). Bei Scuba Diver 12 oder einem im Schwimmbad erworbenen Level 1 ohne Erfahrung im Freiwasser: Bitte kontaktieren Sie uns.\nVoraussetzungen: Ärztliches Attest oder medizinischer Fragebogen, Tauchausweis, Tauchversicherung',
+      es: 'El nivel mínimo requerido es Open Water o Nivel 1 CMAS con validación en aguas abiertas. Si dispone de la certificación Scuba Diver 12 o de un Nivel 1 obtenido en piscina y no tiene experiencia en el medio natural, consúltenos. Es necesario presentar un certificado médico o cuestionario médico, el carnet de buceo y un seguro de buceo.',
+      en: 'The minimum level required is Open Water or CMAS Level 1 with open-water validation. If you hold the Scuba Diver 12 certification or a Level 1 obtained in a pool and have no experience in open water, please contact us. You will need to present a medical certificate or medical questionnaire, your diving card and dive insurance.',
+      fr: 'Le niveau minimum requis est Open Water ou Niveau 1 CMAS avec validation en milieu naturel. Si vous disposez de la certification Scuba Diver 12 ou d’un Niveau 1 obtenu en piscine et n’avez pas d’expérience en milieu naturel, consultez-nous. Vous devez présenter un certificat médical ou un questionnaire médical, votre carte de plongée et une assurance plongée.',
+      de: 'Das erforderliche Mindestniveau ist Open Water oder CMAS Level 1 mit Validierung im Freiwasser. Wenn Sie die Zertifizierung Scuba Diver 12 oder ein im Schwimmbad erworbenes Level 1 besitzen und keine Erfahrung im Freiwasser haben, kontaktieren Sie uns bitte. Erforderlich sind ein ärztliches Attest oder ein medizinischer Fragebogen, Ihr Tauchausweis und eine Tauchversicherung.',
     },
   },
 }
