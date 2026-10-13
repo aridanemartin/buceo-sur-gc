@@ -53,10 +53,12 @@ The Studio (`/admin`) has two areas. Schemas live in matching folders under `src
 There is one singleton per page, and each document's `_id` equals its type name. Singletons can be edited and published, but not created, duplicated or deleted.
 
 - `siteSettings`: global texts, i.e. the nav, footer, booking banner, product-card labels and the prefilled contact message (`{item}` placeholder).
-- `centroInfo`: home page. It holds the intro, history, installations, staff, stats and certifications, the `homeTexts` headings, and the OG images for every page.
+- `centroInfo`: home page. It holds the section headings, intro, history, installations, staff, stats and certifications, the OG images for every page, and site options such as `hideDivesTab`.
 - `divesPage`, `baptismsPage`, `coursesPage`, `ratesPage`, `sidemountPage`, `galleryPage`, `contactPage`: each page's headings, paragraphs, labels and booking-banner title.
 
-The canonical copy is in `src/content/data/pageTexts.ts`, which has the same shape as the documents. The frontend merges the Sanity document over it field by field (`src/sanity/pageTexts.ts`), so a missing document or an empty field shows the current copy instead of a blank. `scripts/seed-pages.mjs` creates any missing singletons from that file. It never overwrites existing content.
+Text + image blocks (Dives info tab, Sidemount) are `textMediaSection` cards in a page's **Secciones** tab, in website order. Each card holds an eyebrow, title, text and its image, carousel or YouTube video. Editors can't add, remove or reorder cards. The view finds each card by its fixed `key`. The home page (`centroInfo`) has one tab per website section instead.
+
+The canonical copy is in `src/content/data/pageTexts.ts`, which has the same shape as the documents. The frontend merges the Sanity document over it field by field (`src/sanity/pageTexts.ts`), so a missing document or an empty field shows the current copy instead of a blank. `scripts/seed-pages.mjs` creates any missing singletons from that file and fills in fields that are missing, uploading section images from `public/`. It never overwrites existing content.
 
 Some text stays in code on purpose: meta titles and descriptions, aria labels, contact details and booking URLs (`src/lib/constants.ts`), and the legal page bodies (`src/content/legal`).
 

@@ -58,14 +58,30 @@ export function transpose(byLocale: Record<Lang, unknown>): any {
 
 /**
  * Overlays a Sanity document onto the fallback tree. Only keys present in the
- * fallback are considered. A leaf is taken from Sanity when its `es` value is
- * filled in (es is required in the Studio); an array is taken from Sanity when
- * it has at least one filled-in item. Otherwise the fallback wins.
+ * fallback are considered:
+ *   - a locale leaf is taken from Sanity when its `es` value is filled in (es is
+ *     required in the Studio);
+ *   - a plain value (image URL, width…) is taken when Sanity has one;
+ *   - page sections (arrays of objects with a `key`) are matched by key, so each
+ *     block keeps its place and merges field by field;
+ *   - any other array (paragraphs, carousel photos) is taken from Sanity when it
+ *     has at least one filled-in item.
+ * Otherwise the fallback wins.
  */
 export function mergeTexts<T>(fallback: T, data: unknown): T {
   if (isLocaleLeaf(fallback)) return (hasText(data) ? data : fallback) as T
+  if (typeof fallback === 'string' || typeof fallback === 'number') {
+    return (typeof data === typeof fallback && data !== '' ? data : fallback) as T
+  }
   if (Array.isArray(fallback)) {
-    return (Array.isArray(data) && data.some(hasText) ? data.filter(hasText) : fallback) as T
+    const items = Array.isArray(data) ? data : []
+    if (fallback.every((item) => isPlainObject(item) && typeof item.key === 'string')) {
+      return fallback.map((item) =>
+        mergeTexts(item, items.find((d) => isPlainObject(d) && d.key === item.key)),
+      ) as T
+    }
+    const filled = items.filter((d) => hasText(d) || (typeof d === 'string' && d !== ''))
+    return (filled.length ? filled : fallback) as T
   }
   if (isPlainObject(fallback)) {
     const source = isPlainObject(data) ? data : {}

@@ -1,29 +1,28 @@
 import { defineType } from 'sanity'
-import { section, str, txt } from './fields'
+import { sectionsField } from '../objects/textMediaSection'
+import { str, txt } from './fields'
 
 export const sidemountPage = defineType({
   name: 'sidemountPage',
   title: 'Página: Sidemount',
   type: 'document',
-  fieldsets: [
-    section('header', 'Cabecera'),
-    section('intro', 'Introducción'),
-    section('terrain', 'Gran Canaria, terreno de juego'),
-    section('course', 'Curso'),
+  groups: [
+    { name: 'header', title: 'Cabecera' },
+    { name: 'sections', title: 'Secciones', default: true },
+    { name: 'course', title: 'Curso' },
+    { name: 'cta', title: 'Banner' },
   ],
   fields: [
-    str('eyebrow', 'Antetítulo', { fieldset: 'header' }),
-    str('introTitle', 'Título', { fieldset: 'header' }),
-    str('motto', 'Lema', { fieldset: 'header' }),
-    txt('intro', 'Texto', { fieldset: 'intro' }),
-    str('terrainTitle', 'Título', { fieldset: 'terrain' }),
-    txt('terrain', 'Texto', { fieldset: 'terrain' }),
-    str('courseTitle', 'Título', { fieldset: 'course' }),
-    str('courseRequirementsTitle', 'Requisitos — etiqueta', { fieldset: 'course' }),
-    txt('courseRequirements', 'Requisitos — texto', { fieldset: 'course' }),
-    str('courseIncludesTitle', 'Incluido — etiqueta', { fieldset: 'course' }),
-    txt('courseIncludes', 'Incluido — texto', { fieldset: 'course' }),
-    str('ctaTitle', 'Título del banner de reserva'),
+    str('eyebrow', 'Antetítulo', { group: 'header' }),
+    str('introTitle', 'Título', { group: 'header' }),
+    str('motto', 'Lema', { group: 'header' }),
+    sectionsField(),
+    str('courseTitle', 'Título', { group: 'course' }),
+    str('courseRequirementsTitle', 'Requisitos — etiqueta', { group: 'course' }),
+    txt('courseRequirements', 'Requisitos — texto', { group: 'course' }),
+    str('courseIncludesTitle', 'Incluido — etiqueta', { group: 'course' }),
+    txt('courseIncludes', 'Incluido — texto', { group: 'course' }),
+    str('ctaTitle', 'Título del banner de reserva', { group: 'cta' }),
   ],
   preview: { prepare: () => ({ title: 'Sidemount' }) },
 })

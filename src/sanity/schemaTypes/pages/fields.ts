@@ -4,7 +4,7 @@ import { defineField } from 'sanity'
 // fallback shape in src/content/data/pageTexts.ts — the frontend merges the
 // two leaf by leaf (src/sanity/pageTexts.ts).
 
-type Extra = { description?: string; fieldset?: string }
+type Extra = { description?: string; fieldset?: string; group?: string }
 
 /** Short localized text: titles, labels, buttons. */
 export const str = (name: string, title: string, extra: Extra = {}) =>

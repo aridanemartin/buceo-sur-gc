@@ -143,7 +143,19 @@ const pageDocCache = new Map<PageType, Promise<unknown>>()
 function fetchPageDoc(type: PageType): Promise<unknown> {
   const load = async () => {
     try {
-      return await sanityClient.fetch(`*[_id == $id][0]`, { id: type })
+      return await sanityClient.fetch(
+        `*[_id == $id][0] {
+          ...,
+          sections[] {
+            ...,
+            "image": image.asset->url,
+            "imageWidth": image.asset->metadata.dimensions.width,
+            "imageHeight": image.asset->metadata.dimensions.height,
+            "images": images[].asset->url,
+          },
+        }`,
+        { id: type },
+      )
     } catch {
       return null
     }
@@ -168,7 +180,7 @@ export async function getUi(lang: Locale) {
   return { ...ui[lang], ...site }
 }
 
-/** Home headings stored on the centroInfo document (field `homeTexts`). */
-export function getHomeTexts(info: { homeTexts?: unknown } | null | undefined, lang: Locale) {
-  return resolveTexts(mergeTexts(homeTexts, info?.homeTexts), lang)
+/** Home section headings, stored as top-level fields of the centroInfo document. */
+export function getHomeTexts(info: unknown, lang: Locale) {
+  return resolveTexts(mergeTexts(homeTexts, info), lang)
 }

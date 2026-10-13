@@ -3,6 +3,7 @@ import { localeSupplementList } from './objects/localeSupplementList'
 import { localeString } from './objects/localeString'
 import { localeText } from './objects/localeText'
 import { supplementItem } from './objects/supplementItem'
+import { textMediaSection } from './objects/textMediaSection'
 import { baptismsPage } from './pages/baptismsPage'
 import { centroInfo } from './pages/centroInfo'
 import { contactPage } from './pages/contactPage'
@@ -20,7 +21,14 @@ import { diveSite } from './products/diveSite'
 import { sidemountCourse } from './products/sidemountCourse'
 import { tariffExtra } from './products/tariffExtra'
 
-export const objectTypes = [localeString, localeText, localeList, supplementItem, localeSupplementList]
+export const objectTypes = [
+  localeString,
+  localeText,
+  localeList,
+  supplementItem,
+  localeSupplementList,
+  textMediaSection,
+]
 
 // "Productos": the catalogue. Many documents per type.
 export const productTypes = [

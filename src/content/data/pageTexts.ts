@@ -29,6 +29,7 @@ import {
   galleryPageContent,
   sidemountPageContent,
 } from './pageContent.ts'
+import { sidemountGalleryImages } from './sidemountGallery.ts'
 
 const uiTree = transpose(ui)
 const same = (text: string) => ({ es: text, en: text, fr: text, de: text })
@@ -49,7 +50,7 @@ export const siteSettingsTexts = {
   reserveInterest: perLocale((l) => reserveInterestMessages[l]('{item}')),
 }
 
-// Stored on the existing centroInfo singleton (field `homeTexts`).
+// Stored as top-level fields of the existing centroInfo singleton.
 export const homeTexts = {
   whoWeAreEyebrow: uiTree.home.whoWeAreEyebrow,
   aboutTitle: same('Buceo Sur Gran Canaria'),
@@ -61,22 +62,53 @@ export const homeTexts = {
   ctaTitle: uiTree.home.ctaTitle,
 }
 
+// A "text + image" block (Studio: textMediaSection). `key` ties it to its slot
+// in the view; `media` decides which media input the Studio shows.
+type Media = 'none' | 'image' | 'carousel' | 'video'
+const section = (key: string, media: Media, fields: Record<string, unknown>) => ({
+  key,
+  media,
+  ...fields,
+})
+const image = (src: string, width: number, height: number) => ({
+  image: src,
+  imageWidth: width,
+  imageHeight: height,
+})
+
 export const divesPageTexts = {
   introTitle: divesPageContent.introTitle,
   introSubtitle: divesPageContent.introSubtitle,
   infoTab: uiTree.dives.infoTab,
   ratesTab: uiTree.dives.ratesTab,
-  intro: divesPageContent.intro,
-  siteChoiceTitle: divesPageContent.siteChoiceTitle,
-  siteChoice: divesPageContent.siteChoice,
-  refresherTitle: divesPageContent.refresherTitle,
-  refresher: divesPageContent.refresher,
-  scheduleTitle: divesPageContent.scheduleTitle,
-  schedule: divesPageContent.schedule,
-  bookingTitle: divesPageContent.bookingTitle,
-  booking: divesPageContent.booking,
-  docsTitle: divesPageContent.docsTitle,
-  docs: divesPageContent.docs,
+  sections: [
+    section('intro', 'none', { eyebrow: uiTree.nav.dives, body: divesPageContent.intro }),
+    section('siteChoice', 'image', {
+      title: divesPageContent.siteChoiceTitle,
+      body: divesPageContent.siteChoice,
+      ...image('/assets/maps/mapa.sitio.buceo.isla.webp', 800, 717),
+    }),
+    section('refresher', 'image', {
+      title: divesPageContent.refresherTitle,
+      body: divesPageContent.refresher,
+      ...image('/assets/refresh.webp', 1536, 1024),
+    }),
+    section('schedule', 'image', {
+      title: divesPageContent.scheduleTitle,
+      body: divesPageContent.schedule,
+      ...image('/assets/calendar-dive.webp', 1536, 1024),
+    }),
+    section('booking', 'image', {
+      title: divesPageContent.bookingTitle,
+      body: divesPageContent.booking,
+      ...image('/assets/reservar.webp', 1672, 941),
+    }),
+    section('docs', 'image', {
+      title: divesPageContent.docsTitle,
+      body: divesPageContent.docs,
+      ...image('/assets/documentation/scuba-license.webp', 1000, 532),
+    }),
+  ],
   ctaTitle: transpose(divesCtaTitleByLocale),
 }
 
@@ -135,9 +167,19 @@ export const sidemountPageTexts = {
   eyebrow: same('Sidemount'),
   introTitle: sidemountPageContent.introTitle,
   motto: sidemountPageContent.motto,
-  intro: sidemountPageContent.intro,
-  terrainTitle: sidemountPageContent.terrainTitle,
-  terrain: sidemountPageContent.terrain,
+  sections: [
+    section('intro', 'video', {
+      title: uiTree.nav.sidemount,
+      body: sidemountPageContent.intro,
+      videoUrl: sidemountPageContent.videoUrl,
+    }),
+    section('terrain', 'carousel', {
+      eyebrow: same('Sidemount'),
+      title: sidemountPageContent.terrainTitle,
+      body: sidemountPageContent.terrain,
+      images: sidemountGalleryImages,
+    }),
+  ],
   courseTitle: sidemountPageContent.courseTitle,
   courseRequirementsTitle: sidemountPageContent.courseRequirementsTitle,
   courseRequirements: sidemountPageContent.courseRequirements,

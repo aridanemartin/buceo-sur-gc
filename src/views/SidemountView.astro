@@ -2,8 +2,6 @@
 import CourseCard from '../components/CourseCard.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import PhotoCarousel from '../components/PhotoCarousel.tsx'
-import { sidemountPageContent } from '../content/data/pageContent'
-import { sidemountGalleryImages } from '../content/data/sidemountGallery'
 import type { Locale } from '../i18n/locales'
 import { withLangParam } from '../i18n/paths'
 import { reserveInterestMailtoFrom } from '../i18n/strings'
@@ -12,7 +10,7 @@ import { reserveInterestMailtoFrom } from '../i18n/strings'
 // the promo video, and the sidemount courses from their dedicated schema.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { resolveOgImage } from '../lib/seo'
+import { resolveOgImage, sanityImageUrl } from '../lib/seo'
 import { toYoutubeEmbedUrl } from '../lib/youtube'
 import { t, tList, tSupplements } from '../sanity/localize'
 import { getCentroInfo, getPageTexts, getSidemountCourses, getUi } from '../sanity/queries'
@@ -27,6 +25,8 @@ interface Props {
 const { lang } = Astro.props
 const u = await getUi(lang)
 const page = await getPageTexts('sidemountPage', lang)
+// The text + media blocks (Studio: "Secciones"), looked up by their fixed key.
+const sec = Object.fromEntries(page.sections.map((s) => [s.key, s]))
 const courses = await getSidemountCourses()
 const centroInfo = await getCentroInfo()
 const ogImage = resolveOgImage(centroInfo, 'sidemount')
@@ -40,24 +40,24 @@ const lSupplements = (f: any) => tSupplements(f, lang)
 const reserveHrefOf = (c: any) =>
   c.reservationLink ? withLangParam(c.reservationLink, lang) : reserveInterestMailtoFrom(u, l(c.title))
 
-const terrainImages = sidemountGalleryImages.map((url) => ({ url, alt: u.sidemount.alt }))
+const terrainImages = sec.terrain.images.map((url) => ({ url: sanityImageUrl(url), alt: u.sidemount.alt }))
 
 // Converts https://youtu.be/<id> or https://www.youtube.com/watch?v=<id>
 // into a privacy-enhanced youtube-nocookie embed URL that autoplays once
 // ready. `mute=1` is required for browsers to allow autoplay at all, and
 // `controls=0` hides the player chrome for a clean, silent background video.
 const videoEmbedUrl =
-  toYoutubeEmbedUrl(sidemountPageContent.videoUrl, {
+  toYoutubeEmbedUrl(sec.intro.videoUrl, {
     autoplay: '1',
     mute: '1',
     controls: '0',
-  }) ?? sidemountPageContent.videoUrl
+  }) ?? sec.intro.videoUrl
 ---
 <BaseLayout
   lang={lang}
   path="sidemount"
   title={page.introTitle}
-  description={page.intro}
+  description={sec.intro.body}
   ogImage={ogImage}
 >
   <main>
@@ -73,8 +73,8 @@ const videoEmbedUrl =
       <div class={`${styles.container} sidemount-body`}>
         <div class={textWithCarousel.grid}>
           <div class={textWithCarousel.text}>
-            <h2 class={styles.sectionTitle}>{u.nav.sidemount}</h2>
-            <p class={styles.bodyText}>{page.intro}</p>
+            <h2 class={styles.sectionTitle}>{sec.intro.title}</h2>
+            <p class={styles.bodyText}>{sec.intro.body}</p>
           </div>
           <div class={styles.videoWrapper}>
             <iframe
@@ -91,11 +91,11 @@ const videoEmbedUrl =
 
     <section class={styles.sectionAlt}>
       <div class={`${styles.container} sidemount-body`}>
-        <p class={styles.sectionEyebrow}>{page.eyebrow}</p>
+        <p class={styles.sectionEyebrow}>{sec.terrain.eyebrow}</p>
         <div class={textWithCarousel.grid}>
           <div class={textWithCarousel.text}>
-            <h2 class={styles.sectionTitle}>{page.terrainTitle}</h2>
-            <p class={styles.bodyText}>{page.terrain}</p>
+            <h2 class={styles.sectionTitle}>{sec.terrain.title}</h2>
+            <p class={styles.bodyText}>{sec.terrain.body}</p>
           </div>
           <PhotoCarousel
             images={terrainImages}
