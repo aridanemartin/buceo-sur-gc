@@ -30,7 +30,8 @@ export const dive = defineType({
       name: 'requirements',
       title: 'Requisitos',
       type: 'localeList',
-      description: 'Lista de requisitos. Se muestra como la misma tarjeta "Requisitos" que en los cursos.',
+      description:
+        'Lista de requisitos. Si no hay ninguno, déjala vacía (no escribas «Ninguno»): así no se muestra la caja de requisitos. Se muestra como la misma tarjeta "Requisitos" que en los cursos.',
     }),
     defineField({
       name: 'reservationLink',

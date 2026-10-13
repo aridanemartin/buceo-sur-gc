@@ -35,7 +35,12 @@ export const course = defineType({
       description: 'Se usa solo si no hay vídeo de YouTube. El vídeo tiene prioridad.',
     }),
     defineField({ name: 'summary', title: 'Resumen', type: 'localeText' }),
-    defineField({ name: 'requirements', title: 'Requisitos', type: 'localeList' }),
+    defineField({
+      name: 'requirements',
+      title: 'Requisitos',
+      type: 'localeList',
+      description: 'Lista de requisitos. Si no hay ninguno, déjala vacía (no escribas «Ninguno»): así no se muestra la caja de requisitos.',
+    }),
     defineField({ name: 'depthLimit', title: 'Profundidad máxima (m)', type: 'number' }),
     defineField({ name: 'duration', title: 'Duración', type: 'localeString' }),
     defineField({ name: 'minAge', title: 'Edad mínima', type: 'number' }),
