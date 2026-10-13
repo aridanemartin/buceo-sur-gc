@@ -10,7 +10,7 @@ import { reserveInterestMailtoFrom } from '../i18n/strings'
 // the promo video, and the sidemount courses from their dedicated schema.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
-import { resolveOgImage, sanityImageUrl } from '../lib/seo'
+import { resolveOgImage } from '../lib/seo'
 import { toYoutubeEmbedUrl } from '../lib/youtube'
 import { t, tList, tSupplements } from '../sanity/localize'
 import { getCentroInfo, getPageTexts, getSidemountCourses, getUi } from '../sanity/queries'
@@ -40,7 +40,7 @@ const lSupplements = (f: any) => tSupplements(f, lang)
 const reserveHrefOf = (c: any) =>
   c.reservationLink ? withLangParam(c.reservationLink, lang) : reserveInterestMailtoFrom(u, l(c.title))
 
-const terrainImages = sec.terrain.images.map((url) => ({ url: sanityImageUrl(url), alt: u.sidemount.alt }))
+const terrainImages = sec.terrain.images.map((url) => ({ url, alt: u.sidemount.alt }))
 
 // Converts https://youtu.be/<id> or https://www.youtube.com/watch?v=<id>
 // into a privacy-enhanced youtube-nocookie embed URL that autoplays once

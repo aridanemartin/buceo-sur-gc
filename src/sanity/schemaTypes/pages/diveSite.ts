@@ -3,7 +3,7 @@ import { ImagesFieldWarning } from '../../components/ImagesFieldWarning'
 
 export const diveSite = defineType({
   name: 'diveSite',
-  title: 'Galería (Puntos de inmersión)',
+  title: 'Punto de inmersión (Galería)',
   type: 'document',
   fields: [
     defineField({ name: 'name', title: 'Nombre', type: 'localeString' }),

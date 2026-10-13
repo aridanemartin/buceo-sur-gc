@@ -8,6 +8,7 @@ import { baptismsPage } from './pages/baptismsPage'
 import { centroInfo } from './pages/centroInfo'
 import { contactPage } from './pages/contactPage'
 import { coursesPage } from './pages/coursesPage'
+import { diveSite } from './pages/diveSite'
 import { divesPage } from './pages/divesPage'
 import { galleryPage } from './pages/galleryPage'
 import { ratesPage } from './pages/ratesPage'
@@ -17,7 +18,6 @@ import { baptism } from './products/baptism'
 import { certifyingAgency } from './products/certifyingAgency'
 import { course } from './products/course'
 import { dive } from './products/dive'
-import { diveSite } from './products/diveSite'
 import { sidemountCourse } from './products/sidemountCourse'
 import { tariffExtra } from './products/tariffExtra'
 
@@ -38,7 +38,6 @@ export const productTypes = [
   baptism,
   dive,
   tariffExtra,
-  diveSite,
   certifyingAgency,
 ]
 
@@ -56,6 +55,10 @@ export const pageTypes = [
   contactPage,
 ]
 
+// Page content that is a list rather than a singleton: the Galería page's dive
+// sites. Shown inside "Páginas web → Galería", not under "Productos".
+export const pageListTypes = [diveSite]
+
 export const SINGLETON_TYPES: ReadonlySet<string> = new Set(pageTypes.map((type) => type.name))
 
-export const schemaTypes = [...objectTypes, ...productTypes, ...pageTypes]
+export const schemaTypes = [...objectTypes, ...productTypes, ...pageTypes, ...pageListTypes]

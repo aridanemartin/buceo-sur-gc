@@ -53,6 +53,7 @@ The Studio (`/admin`) has two areas. Schemas live in matching folders under `src
 There is one singleton per page, and each document's `_id` equals its type name. Singletons can be edited and published, but not created, duplicated or deleted.
 
 - `siteSettings`: global texts, i.e. the nav, footer, booking banner, product-card labels and the prefilled contact message (`{item}` placeholder).
+- `galleryPage` + `diveSite`: under **Galería**, the page texts and the dive sites it lists (`diveSite` is a regular document list, ordered by `order`).
 - `centroInfo`: home page. It holds the section headings, intro, history, installations, staff, stats and certifications, the OG images for every page, and site options such as `hideDivesTab`.
 - `divesPage`, `baptismsPage`, `coursesPage`, `ratesPage`, `sidemountPage`, `galleryPage`, `contactPage`: each page's headings, paragraphs, labels and booking-banner title.
 
@@ -69,5 +70,4 @@ Some text stays in code on purpose: meta titles and descriptions, aria labels, c
 - `certifyingAgency`: certifying bodies referenced by `course.agency`. An agency can't be deleted while a published course still references it.
 - `baptism`: bautizos (beginner), used by `/baptisms`.
 - `dive`: inmersiones (certified), used by `/dives`.
-- `diveSite`: gallery sites, used by `/gallery`.
 - `tariffExtra`: standalone priced items (nitrox, bottles, insurance), used by `/rates`.

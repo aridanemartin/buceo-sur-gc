@@ -18,6 +18,7 @@ const pageTitles: Record<string, string> = {
 //  - "Páginas web": the texts of each page, one singleton document per page
 //    (document _id === type name, so there is never a second copy).
 //  - "Productos": the catalogue that the pages list (courses, dives, …).
+//    Gallery dive sites are page content, so they live under "Galería".
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Contenido')
@@ -28,12 +29,32 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title('Páginas web')
             .items(
-              pageTypes.map((type) =>
-                S.listItem()
-                  .title(pageTitles[type.name] ?? type.title ?? type.name)
-                  .id(type.name)
-                  .child(S.document().schemaType(type.name).documentId(type.name)),
-              ),
+              pageTypes.map((type) => {
+                const title = pageTitles[type.name] ?? type.title ?? type.name
+                const singleton = S.document().schemaType(type.name).documentId(type.name)
+                // Galería: its texts plus the dive sites the page lists.
+                if (type.name === 'galleryPage') {
+                  return S.listItem()
+                    .title(title)
+                    .id(type.name)
+                    .child(
+                      S.list()
+                        .title(title)
+                        .items([
+                          S.listItem().title('Textos de la página').id('galleryTexts').child(singleton),
+                          S.listItem()
+                            .title('Puntos de inmersión')
+                            .schemaType('diveSite')
+                            .child(
+                              S.documentTypeList('diveSite')
+                                .title('Puntos de inmersión')
+                                .defaultOrdering([{ field: 'order', direction: 'asc' }]),
+                            ),
+                        ]),
+                    )
+                }
+                return S.listItem().title(title).id(type.name).child(singleton)
+              }),
             ),
         ),
       S.divider(),
