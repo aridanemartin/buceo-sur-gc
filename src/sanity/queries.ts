@@ -128,7 +128,7 @@ export async function getSidemountCourses() {
   }
 }
 
-// --- Page texts ("Páginas web" singletons) --------------------------------
+// --- Page texts ("Contenido" singletons) --------------------------------
 // Each singleton's _id is its type name. The Sanity document is merged leaf by
 // leaf over the canonical fallback (src/content/data/pageTexts.ts), so a
 // missing document or an empty field keeps today's copy instead of a blank.

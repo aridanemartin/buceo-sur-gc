@@ -1,4 +1,4 @@
-// Canonical fallback for the page-content singletons in Sanity ("Páginas web").
+// Canonical fallback for the page-content singletons in Sanity ("Contenido").
 // Each export has exactly the shape of its Sanity document (see
 // src/sanity/schemaTypes/pages): every leaf is a `{ es, en, fr, de }` object.
 // The texts are not duplicated here — they are transposed from the existing

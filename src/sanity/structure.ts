@@ -1,7 +1,7 @@
 import type { StructureResolver } from 'sanity/structure'
 import { pageTypes, productTypes } from './schemaTypes'
 
-// Sidebar title for each "Páginas web" singleton (defaults to the schema title).
+// Sidebar title for each "Contenido" singleton (defaults to the schema title).
 const pageTitles: Record<string, string> = {
   siteSettings: 'Textos globales (menú, pie, banner)',
   centroInfo: 'Inicio (información del centro)',
@@ -15,21 +15,22 @@ const pageTitles: Record<string, string> = {
 }
 
 // Two clearly separated areas:
-//  - "Páginas web": the texts of each page, one singleton document per page
+//  - "Contenido": the texts of each page, one singleton document per page
 //    (document _id === type name, so there is never a second copy).
 //  - "Productos": the catalogue that the pages list (courses, dives, …).
-//    Gallery dive sites are page content, so they live under "Galería".
+//    Gallery dive sites are page content, so they live under "Galería"; the
+//    certifying agencies are also listed under "Contenido".
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Contenido')
+    .title('Buceo Sur')
     .items([
       S.listItem()
-        .title('Páginas web')
+        .title('Contenido')
         .child(
           S.list()
-            .title('Páginas web')
-            .items(
-              pageTypes.map((type) => {
+            .title('Contenido')
+            .items([
+              ...pageTypes.map((type) => {
                 const title = pageTitles[type.name] ?? type.title ?? type.name
                 const singleton = S.document().schemaType(type.name).documentId(type.name)
                 // Galería: its texts plus the dive sites the page lists.
@@ -55,7 +56,9 @@ export const structure: StructureResolver = (S) =>
                 }
                 return S.listItem().title(title).id(type.name).child(singleton)
               }),
-            ),
+              S.divider(),
+              S.documentTypeListItem('certifyingAgency').title('Entidades certificadoras'),
+            ]),
         ),
       S.divider(),
       S.listItem()

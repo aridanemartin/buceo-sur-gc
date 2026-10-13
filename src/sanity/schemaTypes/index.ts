@@ -6,6 +6,7 @@ import { supplementItem } from './objects/supplementItem'
 import { textMediaSection } from './objects/textMediaSection'
 import { baptismsPage } from './pages/baptismsPage'
 import { centroInfo } from './pages/centroInfo'
+import { certifyingAgency } from './pages/certifyingAgency'
 import { contactPage } from './pages/contactPage'
 import { coursesPage } from './pages/coursesPage'
 import { diveSite } from './pages/diveSite'
@@ -15,7 +16,6 @@ import { ratesPage } from './pages/ratesPage'
 import { sidemountPage } from './pages/sidemountPage'
 import { siteSettings } from './pages/siteSettings'
 import { baptism } from './products/baptism'
-import { certifyingAgency } from './products/certifyingAgency'
 import { course } from './products/course'
 import { dive } from './products/dive'
 import { sidemountCourse } from './products/sidemountCourse'
@@ -38,10 +38,9 @@ export const productTypes = [
   baptism,
   dive,
   tariffExtra,
-  certifyingAgency,
 ]
 
-// "Páginas web": one singleton per page (document _id === type name), in the
+// "Contenido": one singleton per page (document _id === type name), in the
 // order they appear in the Studio sidebar.
 export const pageTypes = [
   siteSettings,
@@ -55,9 +54,10 @@ export const pageTypes = [
   contactPage,
 ]
 
-// Page content that is a list rather than a singleton: the Galería page's dive
-// sites. Shown inside "Páginas web → Galería", not under "Productos".
-export const pageListTypes = [diveSite]
+// Content that is a list rather than a singleton, also shown under "Contenido":
+// the Galería page's dive sites (inside "Galería") and the certifying agencies
+// that courses reference.
+export const pageListTypes = [diveSite, certifyingAgency]
 
 export const SINGLETON_TYPES: ReadonlySet<string> = new Set(pageTypes.map((type) => type.name))
 

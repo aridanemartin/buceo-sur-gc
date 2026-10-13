@@ -1,4 +1,4 @@
-// Seeds the "Páginas web" singletons from the canonical page copy in
+// Seeds the "Contenido" singletons from the canonical page copy in
 // src/content/data/pageTexts.ts, so the Studio starts with exactly the texts
 // and images the site shows today.
 //

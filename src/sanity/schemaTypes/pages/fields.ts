@@ -1,6 +1,6 @@
 import { defineField } from 'sanity'
 
-// Field builders for the "Páginas web" singletons. Field names must match the
+// Field builders for the "Contenido" singletons. Field names must match the
 // fallback shape in src/content/data/pageTexts.ts — the frontend merges the
 // two leaf by leaf (src/sanity/pageTexts.ts).
 

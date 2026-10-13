@@ -16,7 +16,7 @@ export default defineConfig({
   plugins: [structureTool({ structure })],
   schema: {
     types: schemaTypes,
-    // Page singletons are opened from "Páginas web" only — never created anew.
+    // Page singletons are opened from "Contenido" only — never created anew.
     templates: (templates) => templates.filter(({ schemaType }) => !SINGLETON_TYPES.has(schemaType)),
   },
   studio: { components: { layout: StudioLayout } },
