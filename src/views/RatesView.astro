@@ -6,9 +6,8 @@ import type { Locale } from '../i18n/locales'
 // Tarifas page — aggregates every price source (courses, experiences, tariff
 // extras) into one consolidated pricing page, per docs/5. Tarifas.md:
 // "todos los tarifas en la misma página con opciones y suplemento posible".
-// On mobile (<=768px) the four groups collapse into category tabs and each
-// PriceTable renders as a card list instead of a horizontally-scrolling
-// table — see PriceTable.astro for the per-row markup.
+// The four groups sit behind category tabs and each PriceTable renders as a
+// single-column card list — see PriceTable.astro for the per-row markup.
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { SITE } from '../lib/constants'
 import { resolveOgImage } from '../lib/seo'
@@ -110,10 +109,9 @@ const emDash = '—'
       </div>
     </header>
 
-    <!-- Mobile category tabs: the four <input>s below are driven by the
-         labels in .ratesTabNav; :has() on .ratesTabsRoot then shows the
-         matching .ratesPanel-*. Above 768px both the inputs and nav are
-         hidden and every panel shows at once (see the <style> block). -->
+    <!-- Category tabs: the four <input>s below are driven by the labels in
+         .ratesTabNav; :has() on .ratesTabsRoot then shows the matching
+         .ratesPanel-*. Same layout at every width (see the <style> block). -->
     <div class="ratesTabsRoot">
       <fieldset class="ratesTabFieldset">
         <legend class="sr-only">{tabsLegend[lang]}</legend>
@@ -195,6 +193,16 @@ const emDash = '—'
 </BaseLayout>
 
 <style>
+  /* Single reading column shared by the pills and every panel, so cards
+     don't stretch across a wide screen. */
+  .ratesTabsRoot {
+    --rates-column: 720px;
+  }
+
+  .ratesPanel > div {
+    max-width: var(--rates-column);
+  }
+
   .pricingCard {
     padding: 20px 8px;
     overflow-x: auto;
@@ -218,8 +226,6 @@ const emDash = '—'
     margin-top: 8px;
   }
 
-  /* Tab controls are inert (and invisible) above 768px, where every
-     .ratesPanel is shown at once — same as the pre-tabs layout. */
   .ratesTabFieldset {
     border: 0;
     padding: 0;
@@ -239,72 +245,64 @@ const emDash = '—'
   }
 
   .ratesTabNav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px max(16px, calc((100% - var(--rates-column)) / 2));
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--color-white);
+    border-bottom: 1px solid rgba(2, 62, 138, 0.08);
+  }
+
+  .ratesTabNav label {
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 100px;
+    background: var(--color-ocean-50);
+    color: var(--color-ocean-800);
+    transition: background var(--transition), color var(--transition);
+  }
+
+  .ratesTabsRoot:has(#tab-bautizos:checked) .ratesTabNav label[for='tab-bautizos'],
+  .ratesTabsRoot:has(#tab-inmersiones:checked) .ratesTabNav label[for='tab-inmersiones'],
+  .ratesTabsRoot:has(#tab-cursos:checked) .ratesTabNav label[for='tab-cursos'],
+  .ratesTabsRoot:has(#tab-extras:checked) .ratesTabNav label[for='tab-extras'] {
+    background: var(--color-ocean-700);
+    color: var(--color-white);
+  }
+
+  .ratesTabsRoot:has(#tab-bautizos:focus-visible) .ratesTabNav label[for='tab-bautizos'],
+  .ratesTabsRoot:has(#tab-inmersiones:focus-visible) .ratesTabNav label[for='tab-inmersiones'],
+  .ratesTabsRoot:has(#tab-cursos:focus-visible) .ratesTabNav label[for='tab-cursos'],
+  .ratesTabsRoot:has(#tab-extras:focus-visible) .ratesTabNav label[for='tab-extras'] {
+    outline: 2px solid var(--color-ocean-400);
+    outline-offset: 2px;
+  }
+
+  /* Only the active category's <section> renders; the rest stay in the
+     DOM (content is still crawlable/accessible) but visually hidden. */
+  .ratesPanel {
     display: none;
   }
 
-  @media (max-width: 768px) {
-    .pricingCard {
-      padding: 16px 4px;
-    }
+  .ratesTabsRoot:has(#tab-bautizos:checked) .ratesPanel-bautizos,
+  .ratesTabsRoot:has(#tab-inmersiones:checked) .ratesPanel-inmersiones,
+  .ratesTabsRoot:has(#tab-cursos:checked) .ratesPanel-cursos,
+  .ratesTabsRoot:has(#tab-extras:checked) .ratesPanel-extras {
+    display: block;
+  }
 
-    .ratesTabNav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      background: var(--color-white);
-      border-bottom: 1px solid rgba(2, 62, 138, 0.08);
-    }
-
-    .ratesTabNav label {
-      cursor: pointer;
-      white-space: nowrap;
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 8px 16px;
-      border-radius: 100px;
-      background: var(--color-ocean-50);
-      color: var(--color-ocean-800);
-      transition: background var(--transition), color var(--transition);
-    }
-
-    .ratesTabsRoot:has(#tab-bautizos:checked) .ratesTabNav label[for='tab-bautizos'],
-    .ratesTabsRoot:has(#tab-inmersiones:checked) .ratesTabNav label[for='tab-inmersiones'],
-    .ratesTabsRoot:has(#tab-cursos:checked) .ratesTabNav label[for='tab-cursos'],
-    .ratesTabsRoot:has(#tab-extras:checked) .ratesTabNav label[for='tab-extras'] {
-      background: var(--color-ocean-700);
-      color: var(--color-white);
-    }
-
-    .ratesTabsRoot:has(#tab-bautizos:focus-visible) .ratesTabNav label[for='tab-bautizos'],
-    .ratesTabsRoot:has(#tab-inmersiones:focus-visible) .ratesTabNav label[for='tab-inmersiones'],
-    .ratesTabsRoot:has(#tab-cursos:focus-visible) .ratesTabNav label[for='tab-cursos'],
-    .ratesTabsRoot:has(#tab-extras:focus-visible) .ratesTabNav label[for='tab-extras'] {
-      outline: 2px solid var(--color-ocean-400);
-      outline-offset: 2px;
-    }
-
-    /* Only the active category's <section> renders; the rest stay in the
-       DOM (content is still crawlable/accessible) but visually hidden. */
-    .ratesPanel {
-      display: none;
-    }
-
-    .ratesTabsRoot:has(#tab-bautizos:checked) .ratesPanel-bautizos,
-    .ratesTabsRoot:has(#tab-inmersiones:checked) .ratesPanel-inmersiones,
-    .ratesTabsRoot:has(#tab-cursos:checked) .ratesPanel-cursos,
-    .ratesTabsRoot:has(#tab-extras:checked) .ratesPanel-extras {
-      display: block;
-    }
-
-    .ratesPanel .pricingCard {
-      background: transparent;
-      box-shadow: none;
-      border: none;
-      padding: 0;
-    }
+  /* Cards carry their own surface, so drop the wrapping card at every width. */
+  .ratesPanel .pricingCard {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    overflow: visible;
   }
 </style>
