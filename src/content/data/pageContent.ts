@@ -8,7 +8,7 @@ export const divesPageContent = {
   introTitle: loc(
     'Buceo en Gran Canaria con Buceo Sur',
     'Diving in Gran Canaria with Buceo Sur',
-    'Plongée à Grande Canarie avec Buceo Sur',
+    'Plongée à Gran Canaria avec Buceo Sur',
     'Tauchen auf Gran Canaria mit Buceo Sur',
   ),
   introSubtitle: loc(
@@ -20,7 +20,7 @@ export const divesPageContent = {
   intro: loc(
     'Gran Canaria ofrece buceo todo el año, aguas templadas, fondos volcánicos, pecios hundidos y una biodiversidad sorprendente, ideal para principiantes y buceadores certificados. Nuestro centro está ubicado cerca del área marina protegida «El Cabrón», nuestro lugar de buceo favorito, pero buceamos por toda la isla para ofrecer una experiencia diversa adaptada a las condiciones climáticas del día. Ofrecemos atención personalizada y siempre organizamos nuestras inmersiones en grupos reducidos.',
     'Gran Canaria offers year-round diving, temperate waters, volcanic bottoms, sunken wrecks and surprising biodiversity, ideal for beginners and certified divers. Our centre is located near the protected marine area “El Cabrón”, our favourite dive spot, but we dive all over the island to offer a diverse experience adapted to the day’s weather conditions. We offer personal attention and always organise our dives in small groups.',
-    'Grande Canarie offre une plongée toute l’année, des eaux tempérées, des fonds volcaniques, des épaves englouties et une biodiversité surprenante, idéale pour les débutants et les plongeurs certifiés. Notre centre est situé près de l’aire marine protégée « El Cabrón », notre site de plongée préféré, mais nous plongeons sur toute l’île pour offrir une expérience variée adaptée aux conditions climatiques du jour. Nous offrons une attention personnalisée et organisons toujours nos plongées en petits groupes.',
+    'Gran Canaria offre une plongée toute l’année, des eaux tempérées, des fonds volcaniques, des épaves englouties et une biodiversité surprenante, idéale pour les débutants et les plongeurs certifiés. Notre centre est situé près de l’aire marine protégée « El Cabrón », notre site de plongée préféré, mais nous plongeons sur toute l’île pour offrir une expérience variée adaptée aux conditions climatiques du jour. Nous offrons une attention personnalisée et organisons toujours nos plongées en petits groupes.',
     'Gran Canaria bietet ganzjährig Tauchen, gemäßigte Gewässer, vulkanische Böden, gesunkene Wracks und eine überraschende Artenvielfalt, ideal für Anfänger und zertifizierte Taucher. Unser Zentrum liegt nahe des Meeresschutzgebiets „El Cabrón“, unserem Lieblingstauchplatz, aber wir tauchen auf der ganzen Insel, um ein vielfältiges Erlebnis zu bieten, das an die Wetterbedingungen des Tages angepasst ist. Wir bieten persönliche Betreuung und organisieren unsere Tauchgänge immer in kleinen Gruppen.',
   ),
   siteChoiceTitle: loc(
@@ -117,13 +117,13 @@ export const sidemountPageContent = {
   terrainTitle: loc(
     'Gran Canaria, «terreno de juego» ideal',
     'Gran Canaria, the ideal playground',
-    'Grande Canarie, un « terrain de jeu » idéal',
+    'Gran Canaria, un « terrain de jeu » idéal',
     'Gran Canaria, der ideale Spielplatz',
   ),
   terrain: loc(
     'Los fondos marinos de Gran Canaria, con sus numerosos pecios hundidos y sus relieves torturados por el volcanismo, ofrecen un espacio lúdico e ideal para el aprendizaje y la práctica del buceo en sidemount. Buceamos en toda la isla y encontrarás cuevas, túneles, arcos y chimeneas, así como pecios con penetración. Juntarás técnica, diversión y seguridad.',
     'Gran Canaria’s seabed, with its many sunken wrecks and reliefs sculpted by volcanism, offers a playful and ideal space for learning and practising sidemount diving. We dive all over the island and you will find caves, tunnels, arches and chimneys, as well as penetrable wrecks. You will combine technique, fun and safety.',
-    'Les fonds marins de Grande Canarie, avec leurs nombreuses épaves englouties et leurs reliefs tourmentés par le volcanisme, offrent un espace ludique et idéal pour l’apprentissage et la pratique de la plongée en sidemount. Nous plongeons sur toute l’île et vous trouverez grottes, tunnels, arches et cheminées, ainsi que des épaves pénétrables. Vous allierez technique, plaisir et sécurité.',
+    'Les fonds marins de Gran Canaria, avec leurs nombreuses épaves englouties et leurs reliefs tourmentés par le volcanisme, offrent un espace ludique et idéal pour l’apprentissage et la pratique de la plongée en sidemount. Nous plongeons sur toute l’île et vous trouverez grottes, tunnels, arches et cheminées, ainsi que des épaves pénétrables. Vous allierez technique, plaisir et sécurité.',
     'Der Meeresboden Gran Canarias mit seinen vielen gesunkenen Wracks und den vom Vulkanismus geformten Reliefs bietet einen spielerischen und idealen Raum zum Lernen und Üben des Sidemount-Tauchens. Wir tauchen auf der ganzen Insel und Sie finden Höhlen, Tunnel, Bögen und Schornsteine sowie begehbare Wracks. Sie verbinden Technik, Spaß und Sicherheit.',
   ),
   videoUrl: 'https://youtu.be/VcV43eZU-GA?si=V9Qxb7fbtL5_eLYo',
@@ -153,7 +153,7 @@ export const galleryPageContent = {
   introTitle: loc(
     'Imágenes de los sitios de buceo en Gran Canaria',
     'Images of the dive sites in Gran Canaria',
-    'Images des sites de plongée à Grande Canarie',
+    'Images des sites de plongée à Gran Canaria',
     'Bilder der Tauchplätze auf Gran Canaria',
   ),
   intro: loc(

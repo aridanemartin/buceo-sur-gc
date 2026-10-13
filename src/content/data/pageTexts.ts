@@ -130,14 +130,14 @@ export const coursesPageTexts = {
   subtitle: {
     es: 'Cursos {agencies} para todos los niveles en Gran Canaria.',
     en: '{agencies} courses for all levels in Gran Canaria.',
-    fr: 'Formations {agencies} pour tous les niveaux à Grande Canarie.',
+    fr: 'Formations {agencies} pour tous les niveaux à Gran Canaria.',
     de: '{agencies} Kurse für alle Level auf Gran Canaria.',
   },
   // Used when there are no courses (and therefore no agencies) to list.
   subtitleNoAgencies: {
     es: 'Cursos de buceo para todos los niveles en Gran Canaria.',
     en: 'Diving courses for all levels in Gran Canaria.',
-    fr: 'Formations de plongée pour tous les niveaux à Grande Canarie.',
+    fr: 'Formations de plongée pour tous les niveaux à Gran Canaria.',
     de: 'Tauchkurse für alle Level auf Gran Canaria.',
   },
   beginnersTitle: {

@@ -83,7 +83,7 @@ export const diveSitesData: DiveSiteSeed[] = [
     description: loc(
       'Todos los niveles entre 10 y 18 m. Un pequeño pueblo de pescadores en la zona más auténtica de Gran Canaria. A los gourmets les encanta comer en el puerto después de las inmersiones. Es el segundo sitio favorito de los buceadores residentes, muy popular entre los fotógrafos. Es famoso por su enorme banco de barracudas y sus angelotes.',
       'All levels between 10 and 18 m. A small fishing village in the most authentic part of Gran Canaria. Food lovers enjoy eating at the harbour after their dives. It is the second favourite site of resident divers and very popular with photographers. It is famous for its huge school of barracudas and its angel sharks.',
-      'Tous les niveaux entre 10 et 18 m. Un petit village de pêcheurs dans la zone la plus authentique de Grande Canarie. Les gourmets adorent manger au port après les plongées. C’est le deuxième site favori des plongeurs résidents, très prisé des photographes. Il est célèbre pour son énorme banc de barracudas et ses anges de mer.',
+      'Tous les niveaux entre 10 et 18 m. Un petit village de pêcheurs dans la zone la plus authentique de Gran Canaria. Les gourmets adorent manger au port après les plongées. C’est le deuxième site favori des plongeurs résidents, très prisé des photographes. Il est célèbre pour son énorme banc de barracudas et ses anges de mer.',
       'Alle Levels zwischen 10 und 18 m. Ein kleines Fischerdorf in der authentischsten Gegend Gran Canarias. Feinschmecker lieben das Essen im Hafen nach den Tauchgängen. Es ist der zweitbeliebteste Ort der ansässigen Taucher und bei Fotografen sehr beliebt. Berühmt für seinen riesigen Barrakuda-Schwarm und seine Engelhaie.',
     ),
     images: [],

@@ -259,7 +259,7 @@ export const ui: Record<Locale, UiStrings> = {
       dondeEstamos: 'Où nous sommes',
       metaTitle: 'Buceo Sur Gran Canaria — Plongées sur toute l’île',
       metaDescription:
-        'Centre de plongée familial à Playa de Arinaga, Grande Canarie. Plongées, baptêmes, formations PADI/SSI et sidemount avec instructeurs certifiés.',
+        'Centre de plongée familial à Playa de Arinaga, Gran Canaria. Plongées, baptêmes, formations PADI/SSI et sidemount avec instructeurs certifiés.',
       heroLabel: 'Accueil',
       scrollLabel: 'Aller à la section suivante',
       whoWeAreEyebrow: 'Qui sommes-nous',
