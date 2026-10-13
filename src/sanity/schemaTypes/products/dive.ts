@@ -14,7 +14,13 @@ export const dive = defineType({
       type: 'boolean',
       initialValue: false,
     }),
-    defineField({ name: 'description', title: 'Descripción', type: 'localeText' }),
+    defineField({
+      name: 'description',
+      title: 'Descripción',
+      type: 'localeText',
+      description:
+        'Se muestra en la tarjeta de la página de Inmersiones. No aparece en la página de Tarifas, que solo muestra el título, el precio, «Incluye» y los suplementos.',
+    }),
     defineField({ name: 'duration', title: 'Duración', type: 'localeString' }),
     defineField({ name: 'depthLimit', title: 'Profundidad máxima (m)', type: 'number' }),
     defineField({ name: 'price', title: 'Precio (EUR)', type: 'number' }),
